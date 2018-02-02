@@ -3,12 +3,22 @@ Introduction
 
 Self aware network structure.
 
+
+Nodes
+-----
+
 Nodes are 3D printed, composed of two parts:
 
 ![Half of a node](half_node.jpg)
 ![Node](node.jpg)
 
+Parametric design (Fusion 360): http://a360.co/2BTdbKg
+
 Inside of each node there is a tiny microcontroller.
+
+
+Edges
+-----
 
 Edges are composed of RG58 cables inside metal tubes, connected to BNC
 connectors:

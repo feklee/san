@@ -6,14 +6,14 @@ Self aware network structure.
 Nodes are 3D printed, composed of two parts:
 
 ![Half of a node](half_node.jpg)
-![Node](node.png)
+![Node](node.jpg)
 
 Inside of each node there is a tiny microcontroller.
 
 Edges are composed of RG58 cables inside metal tubes, connected to BNC
 connectors:
 
-![Edge](edge.png)
+![Edge](edge.jpg)
 
 
 License

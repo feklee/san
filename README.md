@@ -1,7 +1,7 @@
 Introduction
 ============
 
-Self aware network structure.
+Self aware network structure. It understands its own topology.
 
 
 Nodes

@@ -16,10 +16,8 @@ void flashLed() {
 }
 
 void loop() {
-  char c;
-
   if (Serial1.available()) {
-    c = Serial1.read();
+    char c = Serial1.read();
     Serial.print(c);
     flashLed();
     delay(100);

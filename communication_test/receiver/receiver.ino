@@ -1,26 +1,26 @@
-// Tested with Digispark @16.5/16/8 Mhz
+// Tested with Teensy 3.2
 
-#include <SoftSerial.h>
-#include <TinyPinChange.h>
-
-const uint8_t ledPin = 1;
-const uint8_t txRxPin = 0;
-
-SoftSerial mySerial(txRxPin, txRxPin); // RX, TX
+const uint8_t ledPin = 13;
 
 void setup() {
-  mySerial.begin(4800);
-  mySerial.rxMode();
+  Serial.begin(9600);
+  Serial1.begin(4800);
   pinMode(ledPin, OUTPUT);
   digitalWrite(ledPin, HIGH);
 }
 
+void flashLed() {
+  digitalWrite(ledPin, HIGH);
+  delay(100);
+  digitalWrite(ledPin, LOW);
+}
+
 void loop() {
-  if (mySerial.available()) {
-    mySerial.read();
-    digitalWrite(ledPin, HIGH);
-    delay(100);
-    digitalWrite(ledPin, LOW);
+  char c;
+
+  if (Serial1.available()) {
+    c = Serial1.read();
+    Serial.print(c);
+    flashLed();
   }
-  delay(300);
 }

@@ -1,24 +1,31 @@
-// Tested with Digispark @16.5/16/8 Mhz
+// Tested with Digispark as follows.
+
+// Digispark (16 Mhz - No USB): Receiver gets garbage characters.
+
+// Digispark (8 Mhz - No USB): Receiver gets garbage characters.
 
 #include <SoftSerial.h>
 #include <TinyPinChange.h>
 
 const uint8_t ledPin = 1;
-const uint8_t txRxPin = 0;
+const uint8_t rxPin = 0;
+const uint8_t txPin = 2;
 
-SoftSerial mySerial(txRxPin, txRxPin); // RX, TX
+SoftSerial mySerial(rxPin, txPin); // RX, TX
 
 void setup() {
   mySerial.begin(4800);
-  mySerial.txMode();
   pinMode(ledPin, OUTPUT);
+}
+
+void flashLed() {
+  digitalWrite(ledPin, HIGH);
+  delay(100);
+  digitalWrite(ledPin, LOW);
 }
 
 void loop() {
   mySerial.write("Hi!");
-  digitalWrite(ledPin, HIGH);
-  delay(100);
-  digitalWrite(ledPin, LOW);
-  delay(100);
-  digitalWrite(ledPin, HIGH);
+  flashLed();
+  delay(1000);
 }

@@ -25,7 +25,7 @@ void flashLed() {
 }
 
 void loop() {
-  mySerial.write("Hi!");
+  mySerial.write("Hi!\n");
   flashLed();
   delay(1000);
 }

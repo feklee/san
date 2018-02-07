@@ -22,5 +22,6 @@ void loop() {
     c = Serial1.read();
     Serial.print(c);
     flashLed();
+    delay(100);
   }
 }

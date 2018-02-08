@@ -6,12 +6,18 @@
 const uint8_t ledPin = 1;
 const uint8_t receivePin = 4;
 const uint8_t sendPin = 0;
+const char id = 'a';
 const int maxBufferSize = 8;
 char buffer[maxBufferSize];
 int bufferSize = 0;
 
 SoftSerial receiveSerial(receivePin, receivePin);
 SoftSerial sendSerial(sendPin, sendPin);
+
+void initBuffer() {
+  buffer[0] = id;
+  bufferSize = 1;
+}
 
 void setup() {
   receiveSerial.begin(4800);
@@ -20,6 +26,7 @@ void setup() {
   sendSerial.txMode();
   receiveSerial.listen();
   pinMode(ledPin, OUTPUT);
+  initBuffer();
 }
 
 void flashLed() {
@@ -33,7 +40,7 @@ void flushBuffer() {
   for (int i = 0; i < bufferSize; i ++) {
     sendSerial.write(buffer[i]);
   }
-  bufferSize = 0;
+  initBuffer();
 }
 
 void appendToBuffer(char c) {

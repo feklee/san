@@ -5,6 +5,7 @@
 
 const uint8_t ledPin = 1;
 const uint8_t sendPin = 0;
+const char id = 'b';
 
 SoftSerial sendSerial(sendPin, sendPin);
 
@@ -22,7 +23,8 @@ void flashLed() {
 }
 
 void loop() {
-  sendSerial.write("Hi!\n");
+  char buffer[] = {id, '.', '\n'};
+  sendSerial.write(buffer);
   flashLed();
   delay(1000);
 }

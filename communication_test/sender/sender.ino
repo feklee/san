@@ -16,8 +16,9 @@ void setup() {
 
 void flashLed() {
   digitalWrite(ledPin, HIGH);
-  delay(100);
+  delay(50);
   digitalWrite(ledPin, LOW);
+  delay(50);
 }
 
 void loop() {

@@ -11,8 +11,9 @@ void setup() {
 
 void flashLed() {
   digitalWrite(ledPin, HIGH);
-  delay(100);
+  delay(50);
   digitalWrite(ledPin, LOW);
+  delay(50);
 }
 
 void loop() {
@@ -20,6 +21,5 @@ void loop() {
     char c = Serial1.read();
     Serial.print(c);
     flashLed();
-    delay(100);
   }
 }

@@ -4,58 +4,102 @@
 #include <TinyPinChange.h>
 
 const uint8_t ledPin = 1;
-const uint8_t receivePin = 4;
-const uint8_t sendPin = 0;
-const char id = 'a';
-const int maxBufferSize = 8;
-char buffer[maxBufferSize];
-int bufferSize = 0;
+const uint8_t portPins[] = {0, 4};
+const char nodeId = 'a';
+const unsigned long timeSlotDuration = 500; // ms
+const unsigned long graceTime = 5; // time for other node to switch to receive
 
-SoftSerial receiveSerial(receivePin, receivePin);
-SoftSerial sendSerial(sendPin, sendPin);
+unsigned long endOfTimeSlot; // ms
 
-void initBuffer() {
-  buffer[0] = id;
-  bufferSize = 1;
+struct neighbor_t {
+  char nodeId;
+  byte sourcePort; // port on the neighbor that leads to here (0 - 3)
+  boolean isParent;
+};
+
+neighbor_t neighbors[1]; // sorted by port
+
+SoftSerial port0(portPins[0], portPins[0]);
+SoftSerial port1(portPins[1], portPins[1]);
+
+void scheduleEndOfTimeSlot(unsigned long startTime) {
+  endOfTimeSlot = startTime + timeSlotDuration;
 }
 
 void setup() {
-  receiveSerial.begin(4800);
-  receiveSerial.rxMode();
-  sendSerial.begin(4800);
-  sendSerial.txMode();
-  receiveSerial.listen();
+  port0.begin(4800);
+  port1.begin(4800);
   pinMode(ledPin, OUTPUT);
-  initBuffer();
+  scheduleEndOfTimeSlot(millis());
 }
 
 void flashLed() {
   digitalWrite(ledPin, HIGH);
-  delay(50);
+  delay(25);
   digitalWrite(ledPin, LOW);
-  delay(50);
+  delay(25);
 }
 
-void flushBuffer() {
-  for (int i = 0; i < bufferSize; i ++) {
-    sendSerial.write(buffer[i]);
+void sendReqToIdentify() {
+  port1.listen();
+  port1.txMode();
+  char buffer[] = {'?', nodeId, 1, '\n', '\0'}; // line break for easy debugging
+  port1.write(buffer);
+}
+
+boolean startsIdentification(char c) {
+  return c == '!';
+}
+
+char receiveNextChar() {
+  while (true) {
+    if (port1.available()) {
+      return port1.read();
+    }
   }
-  initBuffer();
 }
 
-void appendToBuffer(char c) {
-  buffer[bufferSize] = c;
-  bufferSize ++;
-  bufferSize %= maxBufferSize;
+byte digitFromChar(char c) {
+  return c - 48;
+}
+
+void readIdentification() {
+  neighbor_t &neighbor = neighbors[1];
+  neighbor.nodeId = receiveNextChar();
+  neighbor.sourcePort = digitFromChar(receiveNextChar());
+}
+
+void giveOtherSideTimeToGetReady() {
+  delay(graceTime);
+}
+
+void waitForIdentification() {
+  int i = 0;
+  port1.rxMode();
+  while (true) {
+    if (port1.available()) {
+      char c = port1.read();
+      if (startsIdentification(c)) {
+        readIdentification();
+        return;
+      }
+    }
+  }
+}
+
+void waitForEndOfTimeSlot() {
+  while (millis() < endOfTimeSlot) {
+    delay(1);
+  }
 }
 
 void loop() {
-  if (receiveSerial.available()) {
-    char c = receiveSerial.read();
-    appendToBuffer(c);
-    if (c == '\n') { // end of package received?
-      flushBuffer();
-      flashLed();
-    }
-  }
+  giveOtherSideTimeToGetReady();
+  sendReqToIdentify();
+  flashLed();
+  waitForEndOfTimeSlot();
+
+  scheduleEndOfTimeSlot(endOfTimeSlot);
+  waitForIdentification();
+  waitForEndOfTimeSlot();
 }

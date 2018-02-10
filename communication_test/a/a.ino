@@ -6,10 +6,11 @@
 const uint8_t ledPin = 1;
 const uint8_t portPins[] = {0, 4};
 const char nodeId = 'a';
-const unsigned long timeSlotDuration = 500; // ms
-const unsigned long graceTime = 5; // time for other node to switch to receive
+const unsigned long timeSlotDuration = 2000; // ms
+const unsigned long graceTime = 100; // time for other node to switch to receive
+const int portsCount = 2;
 
-unsigned long endOfTimeSlot; // ms
+unsigned long endOfTimeSlot = 0; // ms
 
 struct neighbor_t {
   char nodeId;
@@ -19,32 +20,31 @@ struct neighbor_t {
 
 neighbor_t neighbors[1]; // sorted by port
 
-SoftSerial port0(portPins[0], portPins[0]);
-SoftSerial port1(portPins[1], portPins[1]);
-
-void scheduleEndOfTimeSlot(unsigned long startTime) {
-  endOfTimeSlot = startTime + timeSlotDuration;
-}
+SoftSerial ports[] = {
+  SoftSerial(portPins[0], portPins[0]),
+  SoftSerial(portPins[1], portPins[1])
+};
 
 void setup() {
-  port0.begin(4800);
-  port1.begin(4800);
+  for (int i = 0; i < portsCount; i ++) {
+    ports[i].begin(4800);
+  }
   pinMode(ledPin, OUTPUT);
-  scheduleEndOfTimeSlot(millis());
 }
 
 void flashLed() {
   digitalWrite(ledPin, HIGH);
-  delay(25);
+  delay(50);
   digitalWrite(ledPin, LOW);
-  delay(25);
+  delay(50);
 }
 
-void sendReqToIdentify() {
-  port1.listen();
-  port1.txMode();
-  char buffer[] = {'?', nodeId, 1, '\n', '\0'}; // line break for easy debugging
-  port1.write(buffer);
+void sendRequest() {
+  ports[1].listen();
+  ports[1].txMode();
+  char buffer[] = {'?', nodeId, '1', '\n', '\0'}; // line break for easy debugging
+  ports[1].write(buffer);
+  ports[1].rxMode();
 }
 
 boolean startsIdentification(char c) {
@@ -52,21 +52,41 @@ boolean startsIdentification(char c) {
 }
 
 char receiveNextChar() {
-  while (true) {
-    if (port1.available()) {
-      return port1.read();
+  while (millis() < endOfTimeSlot) {
+    if (ports[1].available()) {
+      return ports[1].read();
     }
   }
+  return 0;
 }
 
 byte digitFromChar(char c) {
   return c - 48;
 }
 
+boolean readPayload(char *payload, int expectedPayloadLength) {
+  for (int i = 0; i < expectedPayloadLength; i ++) {
+    char c = receiveNextChar();
+    if (c == 0) {
+      return false;
+    }
+    *payload = c;
+    payload ++;
+  }
+  return true;
+}
+
 void readIdentification() {
+  char payload[3];
+  boolean payloadIsComplete = readPayload(payload, 3);
+
+  if (!payloadIsComplete) {
+    return;
+  }
+
   neighbor_t &neighbor = neighbors[1];
-  neighbor.nodeId = receiveNextChar();
-  neighbor.sourcePort = digitFromChar(receiveNextChar());
+  neighbor.nodeId = payload[0];
+  neighbor.sourcePort = digitFromChar(payload[1]);
 }
 
 void giveOtherSideTimeToGetReady() {
@@ -74,11 +94,9 @@ void giveOtherSideTimeToGetReady() {
 }
 
 void waitForIdentification() {
-  int i = 0;
-  port1.rxMode();
-  while (true) {
-    if (port1.available()) {
-      char c = port1.read();
+  while (millis() < endOfTimeSlot) {
+    if (ports[1].available()) {
+      char c = ports[1].read();
       if (startsIdentification(c)) {
         readIdentification();
         return;
@@ -93,13 +111,23 @@ void waitForEndOfTimeSlot() {
   }
 }
 
+void openNextTimeSlot() {
+  if (endOfTimeSlot == 0) {
+    endOfTimeSlot = millis() + timeSlotDuration;
+  } else {
+    endOfTimeSlot += timeSlotDuration;
+  }
+}
+
 void loop() {
+  openNextTimeSlot();
   giveOtherSideTimeToGetReady();
-  sendReqToIdentify();
-  flashLed();
+  sendRequest();
   waitForEndOfTimeSlot();
 
-  scheduleEndOfTimeSlot(endOfTimeSlot);
+  openNextTimeSlot();
+  flashLed();
+  flashLed();
   waitForIdentification();
   waitForEndOfTimeSlot();
 }

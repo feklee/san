@@ -6,7 +6,6 @@
 
 const uint8_t ledPin = 1;
 const char nodeId = 'a';
-const unsigned long graceTime = 100; // time for other node to switch to receive
 const int portsCount = 2;
 
 struct neighbor_t {
@@ -34,11 +33,11 @@ void sendRequest() {
   san.ports[1]->rxMode();
 }
 
-boolean startsIdentification(char c) {
+boolean startsReply(char c) {
   return c == '!';
 }
 
-void readIdentification() {
+void readReply() {
   char payload[3];
   boolean payloadIsComplete = san.readPayload(payload, 3);
 
@@ -51,16 +50,12 @@ void readIdentification() {
   neighbor.sourcePort = san.digitFromChar(payload[1]);
 }
 
-void giveOtherSideTimeToGetReady() {
-  delay(graceTime);
-}
-
-void waitForIdentification() {
+void waitForReply() {
   while (!san.timeSlotHasEnded()) {
     if (san.ports[1]->available()) {
       char c = san.ports[1]->read();
-      if (startsIdentification(c)) {
-        readIdentification();
+      if (startsReply(c)) {
+        readReply();
         return;
       }
     }
@@ -69,13 +64,13 @@ void waitForIdentification() {
 
 void loop() {
   san.openNextTimeSlot();
-  giveOtherSideTimeToGetReady();
+  san.giveOtherSideTimeToGetReady();
   sendRequest();
   san.waitForEndOfTimeSlot();
 
   san.openNextTimeSlot();
   san.flashLed();
   san.flashLed();
-  waitForIdentification();
+  waitForReply();
   san.waitForEndOfTimeSlot();
 }

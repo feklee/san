@@ -2,14 +2,12 @@
 
 #include <SoftSerial.h>
 #include <TinyPinChange.h>
+#include <San.h>
 
 const uint8_t ledPin = 1;
 const uint8_t portPins[] = {0};
 const char nodeId = 'b';
-const unsigned long timeSlotDuration = 2000; // ms
 const unsigned long graceTime = 100; // time for other node to switch to receive
-
-unsigned long endOfTimeSlot; // ms
 
 struct neighbor_t {
   char nodeId;
@@ -19,39 +17,15 @@ struct neighbor_t {
 
 neighbor_t neighbors[1]; // sorted by port
 
-SoftSerial port0(portPins[0], portPins[0]);
+San san;
 
-boolean startsReqToIdentify(char c) {
+boolean startsRequest(char c) {
   return c == '?';
 }
 
-char receiveNextChar() {
-  while (true) {
-    if (port0.available()) {
-      return port0.read();
-    }
-  }
-}
-
-byte digitFromChar(char c) {
-  return c - 48;
-}
-
-boolean readPayload(char *payload, int expectedPayloadLength) {
-  for (int i = 0; i < expectedPayloadLength; i ++) {
-    char c = receiveNextChar();
-    if (c == 0) {
-      return false;
-    }
-    *payload = c;
-    payload ++;
-  }
-  return true;
-}
-
-void readReqToIdentify() {
+void readRequest() {
   char payload[2];
-  boolean payloadIsComplete = readPayload(payload, 3);
+  boolean payloadIsComplete = san.readPayload(payload, 3);
 
   return;
 
@@ -61,26 +35,11 @@ void readReqToIdentify() {
 
   neighbor_t &neighbor = neighbors[0];
   neighbor.nodeId = payload[0];
-  neighbor.sourcePort = digitFromChar(payload[1]);
+  neighbor.sourcePort = san.digitFromChar(payload[1]);
 }
 
 void syncTimeSlotToParent() {
-  endOfTimeSlot = millis() - graceTime + timeSlotDuration;
-}
-
-void flashLed() {
-  digitalWrite(ledPin, HIGH);
-  delay(25);
-  digitalWrite(ledPin, LOW);
-  delay(25);
-}
-
-void openNextTimeSlot() {
-  if (endOfTimeSlot == 0) {
-    endOfTimeSlot = millis() + timeSlotDuration;
-  } else {
-    endOfTimeSlot += timeSlotDuration;
-  }
+  san.openTimeSlotStartingAt(millis() - graceTime);
 }
 
 // Later:
@@ -90,35 +49,29 @@ void openNextTimeSlot() {
 // * Cycle through ports.
 void waitForRequestAndSyncTimeSlot() {
   int i = 0;
-  port0.rxMode();
+  san.ports[0]->rxMode();
   while (true) {
-    if (port0.available()) {
-      char c = port0.read();
-      if (startsReqToIdentify(c)) {
+    if (san.ports[0]->available()) {
+      char c = san.ports[0]->read();
+      if (startsRequest(c)) {
         syncTimeSlotToParent();
-        readReqToIdentify();
+        readRequest();
         return;
       }
     }
   }
 }
 
-void waitForEndOfTimeSlot() {
-  while (millis() < endOfTimeSlot) {
-    delay(1);
-  }
-}
-
-void sendIdentification() {
-  port0.txMode();
+void sendReply() {
+  san.ports[0]->txMode();
   char buffer[] = {'!', nodeId, '0', '\n', '\0'}; // line break for easy debugging
-  port0.write(buffer);
+  san.ports[0]->write(buffer);
 }
 
 void setup() {
-  port0.begin(4800);
+  san.ports[0]->begin(4800);
   pinMode(ledPin, OUTPUT);
-  flashLed();
+  san.flashLed();
 }
 
 void giveOtherSideTimeToGetReady() {
@@ -127,12 +80,12 @@ void giveOtherSideTimeToGetReady() {
 
 void loop() {
   waitForRequestAndSyncTimeSlot();
-  waitForEndOfTimeSlot();
+  san.waitForEndOfTimeSlot();
 
-  openNextTimeSlot();
-  flashLed();
-  flashLed();
+  san.openNextTimeSlot();
+  san.flashLed();
+  san.flashLed();
   giveOtherSideTimeToGetReady();
-  sendIdentification();
-  waitForEndOfTimeSlot();
+  sendReply();
+  san.waitForEndOfTimeSlot();
 }

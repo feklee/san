@@ -33,6 +33,10 @@ void San::openNextTimeSlot() {
   }
 }
 
+void San::openTimeSlotStartingAt(unsigned long time) {
+  endOfTimeSlot_ = time + timeSlotDuration_;
+}
+
 char San::receiveNextChar() {
   while (timeSlotHasEnded()) {
     if (ports[1]->available()) {
@@ -56,4 +60,8 @@ boolean San::readPayload(char *payload, int expectedPayloadLength) {
     payload ++;
   }
   return true;
+}
+
+void San::giveOtherSideTimeToGetReady() {
+  delay(graceTime_);
 }

@@ -8,6 +8,8 @@ class San {
   const uint8_t ledPin_ = 1;
   unsigned long endOfTimeSlot_ = 0; // ms
   const unsigned long timeSlotDuration_ = 2000; // ms
+  const unsigned long graceTime_ =
+    100; // time for other node to switch to receive / ms
   uint8_t portPins_[2];
 
   char receiveNextChar(); 
@@ -23,6 +25,8 @@ public:
   boolean timeSlotHasEnded();
   void waitForEndOfTimeSlot();
   void openNextTimeSlot();
+  void openTimeSlotStartingAt(unsigned long);
+  void giveOtherSideTimeToGetReady();
 };
 
 #endif

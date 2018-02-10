@@ -2,6 +2,7 @@
 
 #include <SoftSerial.h>
 #include <TinyPinChange.h>
+#include <San.h>
 
 const uint8_t ledPin = 1;
 const uint8_t portPins[] = {0, 4};
@@ -18,25 +19,20 @@ struct neighbor_t {
   boolean isParent;
 };
 
-neighbor_t neighbors[1]; // sorted by port
+neighbor_t neighbors[2]; // sorted by port
 
 SoftSerial ports[] = {
   SoftSerial(portPins[0], portPins[0]),
   SoftSerial(portPins[1], portPins[1])
 };
 
+San san;
+
 void setup() {
   for (int i = 0; i < portsCount; i ++) {
     ports[i].begin(4800);
   }
   pinMode(ledPin, OUTPUT);
-}
-
-void flashLed() {
-  digitalWrite(ledPin, HIGH);
-  delay(50);
-  digitalWrite(ledPin, LOW);
-  delay(50);
 }
 
 void sendRequest() {
@@ -126,8 +122,8 @@ void loop() {
   waitForEndOfTimeSlot();
 
   openNextTimeSlot();
-  flashLed();
-  flashLed();
+  san.flashLed();
+  san.flashLed();
   waitForIdentification();
   waitForEndOfTimeSlot();
 }

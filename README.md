@@ -14,7 +14,8 @@ Nodes are 3D printed, composed of two parts:
 
 Parametric design (Fusion 360): http://a360.co/2BTdbKg
 
-Inside of each node there is a tiny microcontroller.
+Inside of each node there is a tiny microcontroller, a Digispark clone
+(ATtiny85).
 
 
 Edges

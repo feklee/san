@@ -2,7 +2,6 @@
 
 #include <SoftSerial.h>
 #include <TinyPinChange.h>
-#include <San.h>
 #include <EEPROM.h> // Library may need to be copied:
                     // https://digistump.com/board/index.php?topic=1132.0
 #include "Port.h"
@@ -24,7 +23,12 @@ struct neighbor_t {
 
 neighbor_t neighbors[portsCount]; // sorted by port
 
-San san;
+void flashLed() {
+  digitalWrite(ledPin, HIGH);
+  delay(50);
+  digitalWrite(ledPin, LOW);
+  delay(50);
+}
 
 boolean isRoot() {
   return nodeId == 'a';
@@ -94,7 +98,7 @@ void setup() {
     ports[i]->serial->begin(4800);
   }
   pinMode(ledPin, OUTPUT);
-  san.flashLed();
+  flashLed();
 }
 
 void sendRequest(Port *port) {
@@ -107,11 +111,11 @@ void sendRequest(Port *port) {
 
 void waitForParent(Port *port) {
   waitForRequestAndSyncTimeSlot(port);
+  flashLed();
+  flashLed();
   waitForEndOfTimeSlot();
 
   openNextTimeSlot();
-  san.flashLed();
-  san.flashLed();
   giveOtherSideTimeToGetReady();
   sendReply(port);
   waitForEndOfTimeSlot();
@@ -150,10 +154,10 @@ void askForChild(Port *port) {
   openNextTimeSlot();
   giveOtherSideTimeToGetReady();
   sendRequest(port);
+  flashLed();
   waitForEndOfTimeSlot();
 
   openNextTimeSlot();
-  san.flashLed();
   waitForReply(port);
   waitForEndOfTimeSlot();
 }

@@ -3,9 +3,11 @@
 #include <SoftSerial.h>
 #include <TinyPinChange.h>
 #include <San.h>
+#include <EEPROM.h> // Library may need to be copied:
+                    // https://digistump.com/board/index.php?topic=1132.0
 
 const uint8_t ledPin = 1;
-const char nodeId = 'a';
+char nodeId;
 const int portsCount = 2;
 
 struct neighbor_t {
@@ -19,6 +21,7 @@ neighbor_t neighbors[2]; // sorted by port
 San san;
 
 void setup() {
+  nodeId = EEPROM.read(0);
   for (int i = 0; i < portsCount; i ++) {
     san.ports[i]->begin(4800);
   }

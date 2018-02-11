@@ -3,10 +3,12 @@
 #include <SoftSerial.h>
 #include <TinyPinChange.h>
 #include <San.h>
+#include <EEPROM.h> // Library may need to be copied:
+                    // https://digistump.com/board/index.php?topic=1132.0
 
 const uint8_t ledPin = 1;
 const uint8_t portPins[] = {0};
-const char nodeId = 'b';
+char nodeId;
 const unsigned long graceTime = 100; // time for other node to switch to receive
 
 struct neighbor_t {
@@ -69,6 +71,7 @@ void sendReply() {
 }
 
 void setup() {
+  nodeId = EEPROM.read(0);
   san.ports[0]->begin(4800);
   pinMode(ledPin, OUTPUT);
   san.flashLed();

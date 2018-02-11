@@ -76,17 +76,17 @@ void waitForRequestAndSyncTimeSlot(Port *port) {
 
 void sendReply(Port *port) {
   port->serial->txMode();
-  char buffer[] = {'!', nodeId, '0', '\n', '\0'}; // line break for easy debugging
+  char buffer[] = {'!', nodeId, port->id, '\n', '\0'}; // line break for easy debugging
   port->serial->write(buffer);
 }
 
 void setup() {
-  for (int i = 0; i < portsCount; i ++) {
-    ports[i] = new Port(portPins[i]);
+  for (uint8_t i = 0; i < portsCount; i ++) {
+    ports[i] = new Port(portPins[i], i);
   }
 
   for (int i = 0; i < portsCount; i ++) {
-    ports[i]->next = ports[(i - 1 % 4)];
+    ports[i]->next = ports[(portsCount + i - 1) % portsCount];
   }
 
   nodeId = EEPROM.read(0);
@@ -117,26 +117,54 @@ void waitForParent(Port *port) {
   waitForEndOfTimeSlot();
 }
 
-void loop() {
-  waitForParent(ports[0]);
+boolean startsReply(char c) {
+  return c == '!';
+}
 
-  openNextTimeSlot();
-  waitForEndOfTimeSlot();
+void readReply(Port *port) {
+  char payload[3];
+  boolean payloadIsComplete = port->readPayload(payload, 3);
 
-  openNextTimeSlot();
-  waitForEndOfTimeSlot();
-
-#if 0
-  Port *port = ports[0];
-
-  if (!isRoot()) {
-    while (true) {
-      waitForParent(port); // do this each for max. T = 2 × t
-      port = port->next;
-    }
+  if (!payloadIsComplete) {
+    return;
   }
 
-  if (isRoot()) {
+  neighbor_t &neighbor = neighbors[1];
+  neighbor.nodeId = payload[0];
+  neighbor.sourcePort = port->digitFromChar(payload[1]);
+}
+
+void waitForReply(Port *port) {
+  while (!timeSlotHasEnded()) {
+    if (port->serial->available()) {
+      char c = port->serial->read();
+      if (startsReply(c)) {
+        readReply(port);
+        return;
+      }
+    }
+  }
+}
+
+void askForChild(Port *port) {
+  openNextTimeSlot();
+  giveOtherSideTimeToGetReady();
+  sendRequest(port);
+  waitForEndOfTimeSlot();
+
+  openNextTimeSlot();
+  san.flashLed();
+  waitForReply(port);
+  waitForEndOfTimeSlot();
+}
+
+void loop() {
+  static Port *port = ports[0];
+
+  if (!isRoot()) {
+    waitForParent(port);
+    port = port->next;
+  } else {
     // forward data packages to external controller, without waiting (but back
     // communication eventually is also needed - make root send packages too,
     // give it ID '*'). Maybe root communicate with network on pin 0, and on two
@@ -144,9 +172,8 @@ void loop() {
     // Raspi or a Teensy.
   }
 
-  for (int i = 0; i < 3; i ++) {
-//    queryChild(port);
+  for (uint8_t i = 0 ; i < portsCount - 1; i ++) {
+    askForChild(port);
     port = port->next;
   }
-#endif
 }

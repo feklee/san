@@ -26,6 +26,10 @@ char charFromDigit(uint8_t digit) {
   return digit + 48;
 }
 
+OtherNode nodeFromPayload(char payload[2]) {
+  return OtherNode(payload[0], digitFromChar(payload[1]));
+}
+
 void flashLed() {
   digitalWrite(ledPin, HIGH);
   delay(50);
@@ -41,6 +45,13 @@ boolean startsRequest(char c) {
   return c == '?';
 }
 
+OtherNode I(Port *port) {
+  OtherNode I;
+  I.nodeId = nodeId;
+  I.portNumber = port->number;
+  return I;
+}
+
 boolean readRequest(Port *port) {
   const uint8_t payloadSize = 3;
   char payload[payloadSize];
@@ -50,8 +61,15 @@ boolean readRequest(Port *port) {
     return false;
   }
 
-  port->neighbor.nodeId = payload[0];
-  port->neighbor.portNumber = digitFromChar(payload[1]);
+  OtherNode otherNode;
+  otherNode = nodeFromPayload(payload);
+
+  if (!otherNodeIsMyNeighbor(port, otherNode)) {
+    port->neighbor = otherNode;
+    Pair newPair(I(port), otherNode);
+    enqueueNewPair(newPair);
+  }
+
   port->connectsToParent = true;
 
   return true;
@@ -86,15 +104,14 @@ void waitForRequestAndSyncTimeSlot(Port *port) {
 void sendResponse(Port *port) {
   OtherNode &parent = port->neighbor;
 
-  // fixme: enqueue current neighbors
-  // fixme: send from queue
+  Pair pair = dequeueNewPair();
 
   port->serial->txMode();
   char buffer[] = {'!',
-                   parent.nodeId,
-                   charFromDigit(parent.portNumber),
-                   nodeId,
-                   charFromDigit(port->number),
+                   pair.firstNode.nodeId,
+                   charFromDigit(pair.firstNode.portNumber),
+                   pair.secondNode.nodeId,
+                   charFromDigit(pair.secondNode.portNumber),
                    '\n', // line break for easy debugging
                    '\0'};
   port->serial->write(buffer);
@@ -153,6 +170,10 @@ boolean secondNodeIsMyNeighbor(Port *port, Pair pair) {
   return pair.secondNode == port->neighbor;
 }
 
+boolean otherNodeIsMyNeighbor(Port *port, OtherNode otherNode) {
+  return otherNode == port->neighbor;
+}
+
 boolean pairIsNotNew(Port *port, Pair pair) {
   if (firstNodeIsI(pair) && secondNodeIsMyNeighbor(port, pair)) {
     return true;
@@ -176,10 +197,8 @@ void readResponse(Port *port) {
   }
 
   Pair pair;
-  pair.firstNode.nodeId = payload[0];
-  pair.firstNode.portNumber = payload[1];
-  pair.secondNode.nodeId = payload[2];
-  pair.secondNode.portNumber = payload[3];
+  pair.firstNode = nodeFromPayload(payload);
+  pair.secondNode = nodeFromPayload(payload + 2);
 
   if (pairIsNotNew(port, pair)) {
     return;

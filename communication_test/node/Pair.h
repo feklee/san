@@ -6,8 +6,11 @@
 
 class Pair {
  public:
+  Pair(OtherNode = emptyOtherNode, OtherNode = emptyOtherNode);
   OtherNode firstNode;
   OtherNode secondNode;
 };
+
+const Pair emptyPair;
 
 #endif

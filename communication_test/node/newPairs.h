@@ -4,7 +4,7 @@
 #include "Arduino.h"
 #include "Pair.h"
 
-void enqueueNewPair(Pair pair);
-boolean dequeueNewPair(Pair &pair);
+void enqueueNewPair(Pair);
+Pair dequeueNewPair();
 
 #endif

@@ -1,5 +1,8 @@
 #include "timeslot.h"
 
+// fixme: make all values configurable in a `config.h', also the flashing, and
+// make it possibly dependent on presence of DEBUG.
+
 static unsigned long endOfTimeSlot = 0; // ms
 static const unsigned long timeSlotDuration = 2000; // ms
 static const unsigned long graceTime =

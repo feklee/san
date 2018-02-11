@@ -5,10 +5,13 @@
 
 class OtherNode {
  public:
-  char nodeId = ' ';
-  uint8_t portNumber = 0; // port that other node connects with
+  OtherNode(char = ' ', uint8_t = 0);
+  char nodeId;
+  uint8_t portNumber; // port that other node connects with
   boolean operator==(const OtherNode &);
   boolean operator!=(const OtherNode &);
 };
+
+const OtherNode emptyOtherNode;
 
 #endif

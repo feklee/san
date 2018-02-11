@@ -25,13 +25,13 @@ void enqueueNewPair(Pair pair) {
   }
 }
 
-boolean dequeueNewPair(Pair &pair) {
+Pair dequeueNewPair() {
   if (length == 0) {
-    return false;
+    return emptyPair;
   }
 
-  pair = buffer[first];
+  Pair pair = buffer[first];
   incrementPosition(first);
   decrementLength();
-  return true;
+  return pair;
 }

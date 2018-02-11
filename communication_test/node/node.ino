@@ -83,8 +83,11 @@ void waitForRequestAndSyncTimeSlot(Port *port) {
   }
 }
 
-void sendReply(Port *port) {
+void sendResponse(Port *port) {
   OtherNode &parent = port->neighbor;
+
+  // fixme: enqueue current neighbors
+  // fixme: send from queue
 
   port->serial->txMode();
   char buffer[] = {'!',
@@ -134,11 +137,11 @@ void waitForParent(Port *port) {
 
   openNextTimeSlot();
   giveOtherSideTimeToGetReady();
-  sendReply(port);
+  sendResponse(port);
   waitForEndOfTimeSlot();
 }
 
-boolean startsReply(char c) {
+boolean startsResponse(char c) {
   return c == '!';
 }
 
@@ -163,7 +166,7 @@ void storeAsChild(Port *port, OtherNode &neighbor) {
   port->connectsToParent = false;
 }
 
-void readReply(Port *port) {
+void readResponse(Port *port) {
   const uint8_t payloadSize = 5;
   char payload[payloadSize];
   boolean payloadIsComplete = port->readPayload(payload, payloadSize);
@@ -182,19 +185,19 @@ void readReply(Port *port) {
     return;
   }
 
+  enqueueNewPair(pair);
+
   if (firstNodeIsI(pair)) {
     storeAsChild(port, pair.secondNode);
   }
-
-  enqueueNewPair(pair);
 }
 
-void waitForReply(Port *port) {
+void waitForResponse(Port *port) {
   while (!timeSlotHasEnded()) {
     if (port->serial->available()) {
       char c = port->serial->read();
-      if (startsReply(c)) {
-        readReply(port);
+      if (startsResponse(c)) {
+        readResponse(port);
         return;
       }
     }
@@ -209,7 +212,7 @@ void askForChild(Port *port) {
   waitForEndOfTimeSlot();
 
   openNextTimeSlot();
-  waitForReply(port);
+  waitForResponse(port);
   waitForEndOfTimeSlot();
 }
 

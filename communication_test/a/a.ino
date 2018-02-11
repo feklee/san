@@ -26,6 +26,7 @@ void setup() {
     san.ports[i]->begin(4800);
   }
   pinMode(ledPin, OUTPUT);
+  san.flashLed();
 }
 
 void sendRequest() {

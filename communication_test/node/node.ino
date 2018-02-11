@@ -9,19 +9,27 @@
 
 const uint8_t ledPin = 1;
 const uint8_t portPins[] = {0, 4};
-char nodeId;
-const int portsCount = 2;
+uint8_t nodeId;
+const uint8_t portsCount = 2;
 const unsigned long graceTime = 100; // time for other node to switch to receive
 
 Port *ports[portsCount];
 
 struct neighbor_t {
   char nodeId;
-  byte sourcePort; // port on the neighbor that leads to here (0 - 3)
+  uint8_t sourcePort; // port on the neighbor that leads to here (0 - 3)
   boolean isParent;
 };
 
 neighbor_t neighbors[portsCount]; // sorted by port
+
+uint8_t digitFromChar(char c) {
+  return c - 48;
+}
+
+char charFromDigit(uint8_t digit) {
+  return digit + 48;
+}
 
 void flashLed() {
   digitalWrite(ledPin, HIGH);
@@ -50,7 +58,7 @@ void readRequest(Port *port) {
 
   neighbor_t &neighbor = neighbors[0];
   neighbor.nodeId = payload[0];
-  neighbor.sourcePort = port->digitFromChar(payload[1]);
+  neighbor.sourcePort = digitFromChar(payload[1]);
 }
 
 void syncTimeSlotToParent() {
@@ -63,7 +71,7 @@ void syncTimeSlotToParent() {
 //
 // * Cycle through ports.
 void waitForRequestAndSyncTimeSlot(Port *port) {
-  int i = 0;
+  uint8_t i = 0;
   port->serial->listen();
   port->serial->rxMode();
   while (true) {
@@ -80,7 +88,11 @@ void waitForRequestAndSyncTimeSlot(Port *port) {
 
 void sendReply(Port *port) {
   port->serial->txMode();
-  char buffer[] = {'!', nodeId, port->id, '\n', '\0'}; // line break for easy debugging
+  char buffer[] = {'!',
+                   nodeId,
+                   charFromDigit(port->id),
+                   '\n', // line break for easy debugging
+                   '\0'};
   port->serial->write(buffer);
 }
 
@@ -89,12 +101,12 @@ void setup() {
     ports[i] = new Port(portPins[i], i);
   }
 
-  for (int i = 0; i < portsCount; i ++) {
+  for (uint8_t i = 0; i < portsCount; i ++) {
     ports[i]->next = ports[(portsCount + i - 1) % portsCount];
   }
 
   nodeId = EEPROM.read(0);
-  for (int i = 0; i < portsCount; i ++) {
+  for (uint8_t i = 0; i < portsCount; i ++) {
     ports[i]->serial->begin(4800);
   }
   pinMode(ledPin, OUTPUT);
@@ -104,7 +116,11 @@ void setup() {
 void sendRequest(Port *port) {
   port->serial->listen();
   port->serial->txMode();
-  char buffer[] = {'?', nodeId, '1', '\n', '\0'}; // line break for easy debugging
+  char buffer[] = {'?',
+                   nodeId,
+                   charFromDigit(port->id),
+                   '\n', // line break for easy debugging
+                   '\0'};
   port->serial->write(buffer);
   port->serial->rxMode();
 }
@@ -135,7 +151,7 @@ void readReply(Port *port) {
 
   neighbor_t &neighbor = neighbors[1];
   neighbor.nodeId = payload[0];
-  neighbor.sourcePort = port->digitFromChar(payload[1]);
+  neighbor.sourcePort = digitFromChar(payload[1]);
 }
 
 void waitForReply(Port *port) {

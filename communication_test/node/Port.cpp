@@ -15,10 +15,6 @@ char Port::receiveNextChar() {
   return 0;
 }
 
-byte Port::digitFromChar(char c) {
-  return c - 48;
-}
-
 boolean Port::readPayload(char *payload, int expectedPayloadLength) {
   for (int i = 0; i < expectedPayloadLength; i ++) {
     char c = receiveNextChar();

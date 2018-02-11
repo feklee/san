@@ -11,7 +11,6 @@ class Port {
   SoftSerial *serial;
   uint8_t id;
   char receiveNextChar();
-  byte digitFromChar(char);
   boolean readPayload(char *, int);
 };
 

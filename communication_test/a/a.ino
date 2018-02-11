@@ -5,10 +5,14 @@
 #include <San.h>
 #include <EEPROM.h> // Library may need to be copied:
                     // https://digistump.com/board/index.php?topic=1132.0
+#include "Port.h"
+#include "timeslot.h"
 
 const uint8_t ledPin = 1;
 char nodeId;
 const int portsCount = 2;
+const uint8_t portPins[] = {0, 4};
+Port *ports[portsCount];
 
 struct neighbor_t {
   char nodeId;
@@ -21,29 +25,37 @@ neighbor_t neighbors[2]; // sorted by port
 San san;
 
 void setup() {
+  for (int i = 0; i < portsCount; i ++) {
+    ports[i] = new Port(portPins[i]);
+  }
+
+  for (int i = 0; i < portsCount; i ++) {
+    ports[i]->next = ports[(i - 1 % 4)];
+  }
+
   nodeId = EEPROM.read(0);
   for (int i = 0; i < portsCount; i ++) {
-    san.ports[i]->begin(4800);
+    ports[i]->serial->begin(4800);
   }
   pinMode(ledPin, OUTPUT);
   san.flashLed();
 }
 
-void sendRequest() {
-  san.ports[1]->listen();
-  san.ports[1]->txMode();
+void sendRequest(Port *port) {
+  port->serial->listen();
+  port->serial->txMode();
   char buffer[] = {'?', nodeId, '1', '\n', '\0'}; // line break for easy debugging
-  san.ports[1]->write(buffer);
-  san.ports[1]->rxMode();
+  port->serial->write(buffer);
+  port->serial->rxMode();
 }
 
 boolean startsReply(char c) {
   return c == '!';
 }
 
-void readReply() {
+void readReply(Port *port) {
   char payload[3];
-  boolean payloadIsComplete = san.readPayload(payload, 3);
+  boolean payloadIsComplete = port->readPayload(payload, 3);
 
   if (!payloadIsComplete) {
     return;
@@ -51,15 +63,15 @@ void readReply() {
 
   neighbor_t &neighbor = neighbors[1];
   neighbor.nodeId = payload[0];
-  neighbor.sourcePort = san.digitFromChar(payload[1]);
+  neighbor.sourcePort = port->digitFromChar(payload[1]);
 }
 
-void waitForReply() {
-  while (!san.timeSlotHasEnded()) {
-    if (san.ports[1]->available()) {
-      char c = san.ports[1]->read();
+void waitForReply(Port *port) {
+  while (!timeSlotHasEnded()) {
+    if (port->serial->available()) {
+      char c = port->serial->read();
       if (startsReply(c)) {
-        readReply();
+        readReply(port);
         return;
       }
     }
@@ -67,14 +79,16 @@ void waitForReply() {
 }
 
 void loop() {
-  san.openNextTimeSlot();
-  san.giveOtherSideTimeToGetReady();
-  sendRequest();
-  san.waitForEndOfTimeSlot();
+  Port *port = ports[1];
 
-  san.openNextTimeSlot();
+  openNextTimeSlot();
+  giveOtherSideTimeToGetReady();
+  sendRequest(port);
+  waitForEndOfTimeSlot();
+
+  openNextTimeSlot();
   san.flashLed();
   san.flashLed();
-  waitForReply();
-  san.waitForEndOfTimeSlot();
+  waitForReply(port);
+  waitForEndOfTimeSlot();
 }

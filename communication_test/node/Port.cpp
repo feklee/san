@@ -7,7 +7,7 @@ Port::Port(uint8_t pin, uint8_t number) {
 }
 
 char Port::receiveNextChar() {
-  while (timeSlotHasEnded()) {
+  while (!timeSlotHasEnded()) {
     if (serial->available()) {
       return serial->read();
     }

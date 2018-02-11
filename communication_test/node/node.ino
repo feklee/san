@@ -6,6 +6,9 @@
                     // https://digistump.com/board/index.php?topic=1132.0
 #include "Port.h"
 #include "timeslot.h"
+#include "OtherNode.h"
+#include "Pair.h"
+#include "newPairs.h"
 
 const uint8_t ledPin = 1;
 const uint8_t portPins[] = {0, 4};
@@ -38,24 +41,27 @@ boolean startsRequest(char c) {
   return c == '?';
 }
 
-void readRequest(Port *port) {
-  char payload[3];
-  boolean payloadIsComplete = port->readPayload(payload, 3);
+boolean readRequest(Port *port) {
+  const uint8_t payloadSize = 3;
+  char payload[payloadSize];
+  boolean payloadIsComplete = port->readPayload(payload, payloadSize);
 
   if (!payloadIsComplete) {
-    return;
+    return false;
   }
 
   port->neighbor.nodeId = payload[0];
-  port->neighbor.sourcePortNumber = digitFromChar(payload[1]);
+  port->neighbor.portNumber = digitFromChar(payload[1]);
   port->connectsToParent = true;
+
+  return true;
 }
 
 void syncTimeSlotToParent() {
   openTimeSlotStartingAt(millis() - graceTime);
 }
 
-// Later:
+// fixme, later:
 //
 // * Maybe cap time for one entire period of time slots (one second e.g.).
 //
@@ -69,16 +75,21 @@ void waitForRequestAndSyncTimeSlot(Port *port) {
       char c = port->serial->read();
       if (startsRequest(c)) {
         syncTimeSlotToParent();
-        readRequest(port);
-        return;
+        if (readRequest(port)) {
+          return;
+        }
       }
     }
   }
 }
 
 void sendReply(Port *port) {
+  OtherNode &parent = port->neighbor;
+
   port->serial->txMode();
   char buffer[] = {'!',
+                   parent.nodeId,
+                   charFromDigit(parent.portNumber),
                    nodeId,
                    charFromDigit(port->number),
                    '\n', // line break for easy debugging
@@ -131,22 +142,51 @@ boolean startsReply(char c) {
   return c == '!';
 }
 
+boolean firstNodeIsI(Pair pair) {
+  return pair.firstNode.nodeId == nodeId;
+}
+
+boolean secondNodeIsMyNeighbor(Port *port, Pair pair) {
+  return pair.secondNode == port->neighbor;
+}
+
+boolean pairIsNotNew(Port *port, Pair pair) {
+  if (firstNodeIsI(pair) && secondNodeIsMyNeighbor(port, pair)) {
+    return true;
+  }
+
+  return false;
+}
+
+void storeAsChild(Port *port, OtherNode &neighbor) {
+  port->neighbor = neighbor;
+  port->connectsToParent = false;
+}
+
 void readReply(Port *port) {
-  char payload[3];
-  boolean payloadIsComplete = port->readPayload(payload, 3);
+  const uint8_t payloadSize = 5;
+  char payload[payloadSize];
+  boolean payloadIsComplete = port->readPayload(payload, payloadSize);
 
   if (!payloadIsComplete) {
     return;
   }
 
-  Neighbor neighbor;
-  neighbor.nodeId = payload[0];
-  neighbor.sourcePortNumber = payload[1];
-  if (!(neighbor == port->neighbor)) {
-    port->neighbor = neighbor;
-    // fixme: pass this change on
+  Pair pair;
+  pair.firstNode.nodeId = payload[0];
+  pair.firstNode.portNumber = payload[1];
+  pair.secondNode.nodeId = payload[2];
+  pair.secondNode.portNumber = payload[3];
+
+  if (pairIsNotNew(port, pair)) {
+    return;
   }
-  port->connectsToParent = false;
+
+  if (firstNodeIsI(pair)) {
+    storeAsChild(port, pair.secondNode);
+  }
+
+  enqueueNewPair(pair);
 }
 
 void waitForReply(Port *port) {
@@ -177,7 +217,8 @@ void loop() {
   static Port *port = ports[0];
 
   if (!isRoot()) {
-    waitForParent(port);
+    waitForParent(port); // fixme: wait for one time slot more than an entire
+                         // period, then try another pin
     port = port->next;
   } else {
     // Idea for root node: Forward data packages to external controller, without

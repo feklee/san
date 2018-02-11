@@ -2,7 +2,7 @@
 #define Port_h
 
 #include "Arduino.h"
-#include "Neighbor.h"
+#include "OtherNode.h"
 #include <SoftSerial.h>
 
 class Port {
@@ -11,7 +11,7 @@ class Port {
   Port *next;
   SoftSerial *serial;
   uint8_t number;
-  Neighbor neighbor;
+  OtherNode neighbor;
   boolean connectsToParent = false;
   char receiveNextChar();
   boolean readPayload(char *, int);

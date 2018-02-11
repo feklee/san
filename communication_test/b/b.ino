@@ -120,6 +120,12 @@ void waitForParent(Port *port) {
 void loop() {
   waitForParent(ports[0]);
 
+  openNextTimeSlot();
+  waitForEndOfTimeSlot();
+
+  openNextTimeSlot();
+  waitForEndOfTimeSlot();
+
 #if 0
   Port *port = ports[0];
 

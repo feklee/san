@@ -30,7 +30,7 @@ void setup() {
   }
 
   for (int i = 0; i < portsCount; i ++) {
-    ports[i]->next = ports[(i - 1 % 4)];
+    ports[i]->next = ports[(portsCount + i - 1) % portsCount];
   }
 
   nodeId = EEPROM.read(0);
@@ -78,9 +78,7 @@ void waitForReply(Port *port) {
   }
 }
 
-void loop() {
-  Port *port = ports[1];
-
+void askForChild(Port *port) {
   openNextTimeSlot();
   giveOtherSideTimeToGetReady();
   sendRequest(port);
@@ -91,4 +89,10 @@ void loop() {
   san.flashLed();
   waitForReply(port);
   waitForEndOfTimeSlot();
+}
+
+void loop() {
+  static Port *port = ports[0];
+  askForChild(port);
+  port = port->next;
 }

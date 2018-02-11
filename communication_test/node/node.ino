@@ -15,14 +15,6 @@ const unsigned long graceTime = 100; // time for other node to switch to receive
 
 Port *ports[portsCount];
 
-struct neighbor_t {
-  char nodeId;
-  uint8_t sourcePort; // port on the neighbor that leads to here (0 - 3)
-  boolean isParent;
-};
-
-neighbor_t neighbors[portsCount]; // sorted by port
-
 uint8_t digitFromChar(char c) {
   return c - 48;
 }
@@ -50,15 +42,13 @@ void readRequest(Port *port) {
   char payload[3];
   boolean payloadIsComplete = port->readPayload(payload, 3);
 
-  return;
-
   if (!payloadIsComplete) {
     return;
   }
 
-  neighbor_t &neighbor = neighbors[0];
-  neighbor.nodeId = payload[0];
-  neighbor.sourcePort = digitFromChar(payload[1]);
+  port->neighbor.nodeId = payload[0];
+  port->neighbor.sourcePortNumber = digitFromChar(payload[1]);
+  port->connectsToParent = true;
 }
 
 void syncTimeSlotToParent() {
@@ -90,7 +80,7 @@ void sendReply(Port *port) {
   port->serial->txMode();
   char buffer[] = {'!',
                    nodeId,
-                   charFromDigit(port->id),
+                   charFromDigit(port->number),
                    '\n', // line break for easy debugging
                    '\0'};
   port->serial->write(buffer);
@@ -118,7 +108,7 @@ void sendRequest(Port *port) {
   port->serial->txMode();
   char buffer[] = {'?',
                    nodeId,
-                   charFromDigit(port->id),
+                   charFromDigit(port->number),
                    '\n', // line break for easy debugging
                    '\0'};
   port->serial->write(buffer);
@@ -149,9 +139,14 @@ void readReply(Port *port) {
     return;
   }
 
-  neighbor_t &neighbor = neighbors[1];
+  Neighbor neighbor;
   neighbor.nodeId = payload[0];
-  neighbor.sourcePort = digitFromChar(payload[1]);
+  neighbor.sourcePortNumber = payload[1];
+  if (!(neighbor == port->neighbor)) {
+    port->neighbor = neighbor;
+    // fixme: pass this change on
+  }
+  port->connectsToParent = false;
 }
 
 void waitForReply(Port *port) {
@@ -185,11 +180,11 @@ void loop() {
     waitForParent(port);
     port = port->next;
   } else {
-    // forward data packages to external controller, without waiting (but back
-    // communication eventually is also needed - make root send packages too,
-    // give it ID '*'). Maybe root communicate with network on pin 0, and on two
-    // other pins it communicates full duplex with something outside such as a
-    // Raspi or a Teensy.
+    // Idea for root node: Forward data packages to external controller, without
+    // waiting (but back-communication eventually is also needed - make root
+    // send packages too, give it ID '*'). Maybe root communicate with network
+    // on pin 0, and on two other pins it communicates full duplex with
+    // something outside such as a Raspi or a Teensy.
   }
 
   for (uint8_t i = 0 ; i < portsCount - 1; i ++) {

@@ -1,9 +1,9 @@
 #include "Port.h"
 #include "timeslot.h"
 
-Port::Port(uint8_t pin, uint8_t id) {
+Port::Port(uint8_t pin, uint8_t number) {
   serial = new SoftSerial(pin, pin);
-  this->id = id;
+  this->number = number;
 }
 
 char Port::receiveNextChar() {

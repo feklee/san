@@ -238,6 +238,10 @@ void askForChild(Port *port) {
 void loop() {
   static Port *port = ports[0];
 
+  // fixme: Currently does not realize when not connected to root anymore, and
+  // vice versa. So data is not resend. => Maybe clear neighbor after each
+  // failed attempt searching for a parent.
+
   if (!isRoot()) {
     waitForParent(port); // fixme: wait for one time slot more than an entire
                          // period, then try another pin

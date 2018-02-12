@@ -52,6 +52,33 @@ OtherNode I(Port *port) {
   return I;
 }
 
+void storeAsParent(Port *port, OtherNode otherNode) {
+  boolean neighborIsNew = !otherNodeIsMyNeighbor(port, otherNode);
+  if (neighborIsNew) {
+    port->neighbor = otherNode;
+    Pair newPair(otherNode, I(port));
+    enqueueNewPair(newPair);
+  }
+  port->connectsToParent = true;
+}
+
+void storeAsChild(Port *port, OtherNode otherNode) {
+  boolean neighborIsNew = !otherNodeIsMyNeighbor(port, otherNode);
+  if (neighborIsNew) {
+    port->neighbor = otherNode;
+  }
+  port->connectsToParent = false;
+}
+
+void removeChild(Port *port) {
+  if (!port->neighbor.isEmpty()) {
+    storeAsChild(port, emptyOtherNode);
+    Pair newPair(I(port), emptyOtherNode);
+    enqueueNewPair(newPair);
+  }
+  port->connectsToParent = true;
+}
+
 boolean readRequest(Port *port) {
   const uint8_t payloadSize = 3;
   char payload[payloadSize];
@@ -64,13 +91,7 @@ boolean readRequest(Port *port) {
   OtherNode otherNode;
   otherNode = nodeFromPayload(payload);
 
-  if (!otherNodeIsMyNeighbor(port, otherNode)) {
-    port->neighbor = otherNode;
-    Pair newPair(I(port), otherNode);
-    enqueueNewPair(newPair);
-  }
-
-  port->connectsToParent = true;
+  storeAsParent(port, otherNode);
 
   return true;
 }
@@ -174,53 +195,41 @@ boolean otherNodeIsMyNeighbor(Port *port, OtherNode otherNode) {
   return otherNode == port->neighbor;
 }
 
-boolean pairIsNotNew(Port *port, Pair pair) {
-  if (firstNodeIsI(pair) && secondNodeIsMyNeighbor(port, pair)) {
-    return true;
-  }
-
-  return false;
+boolean pairIsNew(Port *port, Pair pair) {
+  return !firstNodeIsI(pair) || !secondNodeIsMyNeighbor(port, pair);
 }
 
-void storeAsChild(Port *port, OtherNode &neighbor) {
-  port->neighbor = neighbor;
-  port->connectsToParent = false;
-}
-
-void readResponse(Port *port) {
+boolean readResponse(Port *port) {
   const uint8_t payloadSize = 5;
   char payload[payloadSize];
   boolean payloadIsComplete = port->readPayload(payload, payloadSize);
 
   if (!payloadIsComplete) {
-    return;
+    return false;
   }
 
-  Pair pair;
-  pair.firstNode = nodeFromPayload(payload);
-  pair.secondNode = nodeFromPayload(payload + 2);
+  Pair pair(nodeFromPayload(payload), nodeFromPayload(payload + 2));
 
-  if (pairIsNotNew(port, pair)) {
-    return;
+  if (pairIsNew(port, pair)) {
+    enqueueNewPair(pair);
+    if (firstNodeIsI(pair)) {
+      storeAsChild(port, pair.secondNode);
+    }
   }
 
-  enqueueNewPair(pair);
-
-  if (firstNodeIsI(pair)) {
-    storeAsChild(port, pair.secondNode);
-  }
+  return true;
 }
 
-void waitForResponse(Port *port) {
+bool waitForResponse(Port *port) {
   while (!timeSlotHasEnded()) {
     if (port->serial->available()) {
       char c = port->serial->read();
       if (startsResponse(c)) {
-        readResponse(port);
-        return;
+        return readResponse(port);
       }
     }
   }
+  return false;
 }
 
 void askForChild(Port *port) {
@@ -231,7 +240,10 @@ void askForChild(Port *port) {
   waitForEndOfTimeSlot();
 
   openNextTimeSlot();
-  waitForResponse(port);
+  boolean responseHasBeenReceived = waitForResponse(port);
+  if (!responseHasBeenReceived) {
+    removeChild(port);
+  }
   waitForEndOfTimeSlot();
 }
 

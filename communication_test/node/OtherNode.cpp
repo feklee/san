@@ -11,3 +11,7 @@ boolean OtherNode::operator==(const OtherNode &rhs) {
 boolean OtherNode::operator!=(const OtherNode &rhs) {
   return !(*this == rhs);
 }
+ 
+boolean OtherNode::isEmpty() {
+  return *this == emptyOtherNode;
+}

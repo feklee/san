@@ -10,6 +10,7 @@ class OtherNode {
   uint8_t portNumber; // port that other node connects with
   boolean operator==(const OtherNode &);
   boolean operator!=(const OtherNode &);
+  boolean isEmpty();
 };
 
 const OtherNode emptyOtherNode;

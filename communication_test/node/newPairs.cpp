@@ -1,13 +1,13 @@
 #include "newPairs.h"
+#include "config.h"
 
-static const uint8_t bufferSize = 10;
 static uint8_t first = 0;
 static uint8_t last = 0;
 static uint8_t length = 0;
-static Pair buffer[bufferSize];
+static Pair buffer[pairBufferSize];
 
 static void incrementPosition(uint8_t &position) {
-  position = (position + 1) % bufferSize;
+  position = (position + 1) % pairBufferSize;
 }
 
 static void decrementLength() {
@@ -18,7 +18,7 @@ void enqueueNewPair(Pair pair) {
   buffer[last] = pair;
   incrementPosition(last);
 
-  if (length < bufferSize) {
+  if (length < pairBufferSize) {
     length ++;
   } else {
     incrementPosition(first);

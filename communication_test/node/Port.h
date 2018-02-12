@@ -13,6 +13,7 @@ class Port {
   uint8_t number;
   OtherNode neighbor;
   boolean neighborIsParent = false;
+  boolean neighborClosesLoop = false;
   char receiveNextChar();
   boolean readPayload(char *, int);
 };

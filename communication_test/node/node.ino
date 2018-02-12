@@ -59,12 +59,14 @@ void storeAsParent(Port *port, OtherNode otherNode) {
   port->neighborIsParent = true;
 }
 
-void storeAsChild(Port *port, OtherNode otherNode) {
+void storeAsChild(Port *port, OtherNode otherNode,
+                  boolean otherNodeClosesLoop = false) {
   boolean neighborIsNew = !otherNodeIsMyNeighbor(port, otherNode);
   if (neighborIsNew) {
     port->neighbor = otherNode;
   }
   port->neighborIsParent = false;
+  port->neighborClosesLoop = otherNodeClosesLoop;
 }
 
 void removeChild(Port *port) {
@@ -144,18 +146,19 @@ void sendResponse(Port *port) {
 }
 
 void setup() {
+  nodeId = EEPROM.read(0);
+
+//  randomSeed(nodeId);
+
   for (uint8_t i = 0; i < portsCount; i ++) {
     ports[i] = new Port(portPins[i], i);
+    ports[i]->serial->begin(4800);
   }
 
   for (uint8_t i = 0; i < portsCount; i ++) {
     ports[i]->next = ports[(portsCount + i - 1) % portsCount];
   }
 
-  nodeId = EEPROM.read(0);
-  for (uint8_t i = 0; i < portsCount; i ++) {
-    ports[i]->serial->begin(4800);
-  }
   pinMode(ledPin, OUTPUT);
   flashLed();
 }
@@ -178,7 +181,6 @@ boolean waitForParentAndSyncTimeSlot(Port *port) {
     removeParent(port);
     return false;
   }
-
   flashLed();
   flashLed();
   waitForEndOfTimeSlot();
@@ -192,7 +194,9 @@ boolean waitForParentAndSyncTimeSlot(Port *port) {
 }
 
 boolean startsResponse(char c) {
-  return c == '!';
+  const char fromChild = '!';
+  const char fromChildThatClosesLoop = '%';
+  return c == fromChild || c == fromChildThatClosesLoop;
 }
 
 boolean firstNodeIsI(Pair pair) {
@@ -211,7 +215,7 @@ boolean pairIsNew(Port *port, Pair pair) {
   return !firstNodeIsI(pair) || !secondNodeIsMyNeighbor(port, pair);
 }
 
-boolean readResponse(Port *port) {
+boolean readResponse(Port *port, boolean childClosesLoop) {
   const uint8_t payloadSize = 6;
   char payload[payloadSize];
   boolean payloadIsComplete = port->readPayload(payload, payloadSize);
@@ -225,7 +229,7 @@ boolean readResponse(Port *port) {
   if (pairIsNew(port, pair)) {
     enqueueNewPair(pair);
     if (firstNodeIsI(pair)) {
-      storeAsChild(port, pair.secondNode);
+      storeAsChild(port, pair.secondNode, childClosesLoop);
     }
   }
 
@@ -237,7 +241,7 @@ bool waitForResponse(Port *port) {
     if (port->serial->available()) {
       char c = port->serial->read();
       if (startsResponse(c)) {
-        if (readResponse(port)) {
+        if (readResponse(port, c == '%')) {
           return true;
         }
       }
@@ -261,17 +265,43 @@ void askForChild(Port *port) {
   waitForEndOfTimeSlot();
 }
 
+// Check if on the other side there is another parent asking for a child. Then
+// there is a loop.
+void checkForLoop(Port *port) {
+  boolean loopFound = false;
+
+  openNextTimeSlot();
+  port->serial->listen();
+  port->serial->rxMode();
+  openOverlappingCycle();
+  while (!timeSlotHasEnded()) {
+    if (port->serial->available()) {
+      char c = port->serial->read();
+      if (startsRequest(c)) {
+        if (readRequest(port)) {
+          loopFound = true;
+          port->neighborClosesLoop = true;
+        }
+      }
+    }
+  }
+  waitForEndOfTimeSlot();
+
+  openNextTimeSlot();
+  giveOtherSideTimeToGetReady();
+  sendResponse(port);
+  waitForEndOfTimeSlot();
+}
+
 void loop() {
   static Port *port = ports[0];
-
-  // fixme: Currently does not realize when not connected to root anymore, and
-  // vice versa. So data is not resend. => Maybe clear neighbor after each
-  // failed attempt searching for a parent.
 
   if (!isRoot()) {
     waitForParentAndSyncTimeSlot(port);
     port = port->next;
   } else {
+    askForChild(port);
+    port = port->next;
     // Idea for root node: Forward data packages to external controller, without
     // waiting (but back-communication eventually is also needed - make root
     // send packages too, give it ID '*'). Maybe root communicate with network
@@ -280,7 +310,11 @@ void loop() {
   }
 
   for (uint8_t i = 0 ; i < portsCount - 1; i ++) {
-    askForChild(port);
+//    if (random(2)) {
+//      askForChild(port);
+//    } else {
+      checkForLoop(port);
+//    }
     port = port->next;
   }
 }

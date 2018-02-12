@@ -10,6 +10,7 @@ const uint8_t portsCount = 2;
 const uint8_t portPins[portsCount] = {0, 4};
 const unsigned long graceTime = 100; // time for other node to switch to receive
 const unsigned long timeSlotDuration = 500; // ms
+const uint8_t pairBufferSize = 2; // fixme: increase
 
 #ifdef DEBUG
 const boolean flashLedIsEnabled = true; // takes time

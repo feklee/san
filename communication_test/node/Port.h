@@ -12,7 +12,7 @@ class Port {
   SoftSerial *serial;
   uint8_t number;
   OtherNode neighbor;
-  boolean connectsToParent = false;
+  boolean neighborIsParent = false;
   char receiveNextChar();
   boolean readPayload(char *, int);
 };

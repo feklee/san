@@ -1,12 +1,8 @@
 #include "timeslot.h"
-
-// fixme: make all values configurable in a `config.h', also the flashing, and
-// make it possibly dependent on presence of DEBUG.
+#include "config.h"
 
 static unsigned long endOfTimeSlot = 0; // ms
-static const unsigned long timeSlotDuration = 2000; // ms
-static const unsigned long graceTime =
-  100; // time for other node to switch to receive / ms
+static unsigned long endOfOverlappingCycle = 0; // ms
 
 void openNextTimeSlot() {
   if (endOfTimeSlot == 0) {
@@ -32,4 +28,15 @@ void waitForEndOfTimeSlot() {
   while (millis() < endOfTimeSlot) {
     delay(1);
   }
+}
+
+void openOverlappingCycle() {
+  const unsigned long timeForPortCommunication = 2 * timeSlotDuration;
+  const unsigned long cycleDuration = portsCount * timeForPortCommunication;
+  const unsigned long padding = timeSlotDuration;
+  endOfOverlappingCycle = millis() + cycleDuration + padding;
+}
+
+boolean overlappingCycleHasEnded() {
+  return millis() >= endOfOverlappingCycle;
 }

@@ -4,19 +4,16 @@
 #include <TinyPinChange.h>
 #include <EEPROM.h> // Library may need to be copied:
                     // https://digistump.com/board/index.php?topic=1132.0
+#include "config.h"
 #include "Port.h"
 #include "timeslot.h"
 #include "OtherNode.h"
 #include "Pair.h"
 #include "newPairs.h"
 
-const uint8_t ledPin = 1;
-const uint8_t portPins[] = {0, 4};
-uint8_t nodeId;
-const uint8_t portsCount = 2;
-const unsigned long graceTime = 100; // time for other node to switch to receive
-
-Port *ports[portsCount];
+static uint8_t nodeId;
+static Port *ports[portsCount];
+static char debugChar = ' '; // Can be used to indicate status during debugging
 
 uint8_t digitFromChar(char c) {
   return c - 48;
@@ -59,7 +56,7 @@ void storeAsParent(Port *port, OtherNode otherNode) {
     Pair newPair(otherNode, I(port));
     enqueueNewPair(newPair);
   }
-  port->connectsToParent = true;
+  port->neighborIsParent = true;
 }
 
 void storeAsChild(Port *port, OtherNode otherNode) {
@@ -67,7 +64,7 @@ void storeAsChild(Port *port, OtherNode otherNode) {
   if (neighborIsNew) {
     port->neighbor = otherNode;
   }
-  port->connectsToParent = false;
+  port->neighborIsParent = false;
 }
 
 void removeChild(Port *port) {
@@ -76,7 +73,12 @@ void removeChild(Port *port) {
     Pair newPair(I(port), emptyOtherNode);
     enqueueNewPair(newPair);
   }
-  port->connectsToParent = true;
+}
+
+void removeParent(Port *port) {
+  if (!port->neighbor.isEmpty()) {
+    port->neighbor = emptyOtherNode; // don't queue as we're disconnected
+  }
 }
 
 boolean readRequest(Port *port) {
@@ -105,21 +107,23 @@ void syncTimeSlotToParent() {
 // * Maybe cap time for one entire period of time slots (one second e.g.).
 //
 // * Cycle through ports.
-void waitForRequestAndSyncTimeSlot(Port *port) {
+boolean waitForRequestAndSyncTimeSlot(Port *port) {
   uint8_t i = 0;
   port->serial->listen();
   port->serial->rxMode();
-  while (true) {
+  openOverlappingCycle();
+  while (!overlappingCycleHasEnded()) {
     if (port->serial->available()) {
       char c = port->serial->read();
       if (startsRequest(c)) {
         syncTimeSlotToParent();
         if (readRequest(port)) {
-          return;
+          return true;
         }
       }
     }
   }
+  return false;
 }
 
 void sendResponse(Port *port) {
@@ -133,6 +137,7 @@ void sendResponse(Port *port) {
                    charFromDigit(pair.firstNode.portNumber),
                    pair.secondNode.nodeId,
                    charFromDigit(pair.secondNode.portNumber),
+                   debugChar,
                    '\n', // line break for easy debugging
                    '\0'};
   port->serial->write(buffer);
@@ -167,8 +172,13 @@ void sendRequest(Port *port) {
   port->serial->rxMode();
 }
 
-void waitForParent(Port *port) {
-  waitForRequestAndSyncTimeSlot(port);
+boolean waitForParentAndSyncTimeSlot(Port *port) {
+  boolean requestWasReceived = waitForRequestAndSyncTimeSlot(port);
+  if (!requestWasReceived) {
+    removeParent(port);
+    return false;
+  }
+
   flashLed();
   flashLed();
   waitForEndOfTimeSlot();
@@ -177,6 +187,8 @@ void waitForParent(Port *port) {
   giveOtherSideTimeToGetReady();
   sendResponse(port);
   waitForEndOfTimeSlot();
+
+  return true;
 }
 
 boolean startsResponse(char c) {
@@ -200,7 +212,7 @@ boolean pairIsNew(Port *port, Pair pair) {
 }
 
 boolean readResponse(Port *port) {
-  const uint8_t payloadSize = 5;
+  const uint8_t payloadSize = 6;
   char payload[payloadSize];
   boolean payloadIsComplete = port->readPayload(payload, payloadSize);
 
@@ -225,7 +237,9 @@ bool waitForResponse(Port *port) {
     if (port->serial->available()) {
       char c = port->serial->read();
       if (startsResponse(c)) {
-        return readResponse(port);
+        if (readResponse(port)) {
+          return true;
+        }
       }
     }
   }
@@ -255,8 +269,7 @@ void loop() {
   // failed attempt searching for a parent.
 
   if (!isRoot()) {
-    waitForParent(port); // fixme: wait for one time slot more than an entire
-                         // period, then try another pin
+    waitForParentAndSyncTimeSlot(port);
     port = port->next;
   } else {
     // Idea for root node: Forward data packages to external controller, without

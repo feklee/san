@@ -20,6 +20,8 @@ void loop() {
   if (Serial1.available()) {
     char c = Serial1.read();
     Serial.print(c);
-    flashLed();
+    if (c == '\n') {
+      flashLed();
+    }
   }
 }

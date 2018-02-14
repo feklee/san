@@ -12,8 +12,12 @@ class Port {
   SoftSerial *serial;
   uint8_t number;
   OtherNode neighbor;
-  boolean neighborIsParent = false;
+  boolean neighborIsParent = false; // fixme: better one type with three
+                                    // possible values (parent, child,
+                                    // closesLoop)
   boolean neighborClosesLoop = false;
+  boolean neighborScheduledLoopCheck = false;
+  boolean noResponseLastTime = false;
   char receiveNextChar();
   boolean readPayload(char *, int);
 };

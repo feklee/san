@@ -15,30 +15,41 @@ static uint8_t nodeId;
 static Port *ports[portsCount];
 static char debugChar = ' '; // Can be used to indicate status during debugging
 
-uint8_t digitFromChar(char c) {
+static long randx;
+
+static inline void setRandomSeed(long x) {
+  randx = x;
+}
+
+// Including the Arduino random library makes the code too big.
+static inline int randomNumber() {
+  return ((int)((randx = randx * 1103515245L + 12345) >> 16) & 077777);
+}
+
+static inline uint8_t digitFromChar(char c) {
   return c - 48;
 }
 
-char charFromDigit(uint8_t digit) {
+static inline char charFromDigit(uint8_t digit) {
   return digit + 48;
 }
 
-OtherNode nodeFromPayload(char payload[2]) {
+static inline OtherNode nodeFromPayload(char payload[2]) {
   return OtherNode(payload[0], digitFromChar(payload[1]));
 }
 
-void flashLed() {
+static void flashLed() {
   digitalWrite(ledPin, HIGH);
   delay(50);
   digitalWrite(ledPin, LOW);
   delay(50);
 }
 
-boolean isRoot() {
+static inline boolean isRoot() {
   return nodeId == 'a';
 }
 
-boolean startsRequest(char c) {
+static inline boolean startsRequest(char c) {
   return c == '?';
 }
 
@@ -49,7 +60,7 @@ OtherNode I(Port *port) {
   return I;
 }
 
-void storeAsParent(Port *port, OtherNode otherNode) {
+static void storeAsParent(Port *port, OtherNode otherNode) {
   boolean neighborIsNew = !otherNodeIsMyNeighbor(port, otherNode);
   if (neighborIsNew) {
     port->neighbor = otherNode;
@@ -59,8 +70,8 @@ void storeAsParent(Port *port, OtherNode otherNode) {
   port->neighborIsParent = true;
 }
 
-void storeAsChild(Port *port, OtherNode otherNode,
-                  boolean otherNodeClosesLoop = false) {
+static void storeAsChild(Port *port, OtherNode otherNode,
+                         boolean otherNodeClosesLoop = false) {
   boolean neighborIsNew = !otherNodeIsMyNeighbor(port, otherNode);
   if (neighborIsNew) {
     port->neighbor = otherNode;
@@ -69,7 +80,7 @@ void storeAsChild(Port *port, OtherNode otherNode,
   port->neighborClosesLoop = otherNodeClosesLoop;
 }
 
-void removeChild(Port *port) {
+static void removeChild(Port *port) {
   if (!port->neighbor.isEmpty()) {
     storeAsChild(port, emptyOtherNode);
     Pair newPair(I(port), emptyOtherNode);
@@ -77,13 +88,13 @@ void removeChild(Port *port) {
   }
 }
 
-void removeParent(Port *port) {
+static void removeParent(Port *port) {
   if (!port->neighbor.isEmpty()) {
     port->neighbor = emptyOtherNode; // don't queue as we're disconnected
   }
 }
 
-boolean readRequest(Port *port) {
+static boolean readRequest(Port *port) {
   const uint8_t payloadSize = 3;
   char payload[payloadSize];
   boolean payloadIsComplete = port->readPayload(payload, payloadSize);
@@ -100,16 +111,12 @@ boolean readRequest(Port *port) {
   return true;
 }
 
-void syncTimeSlotToParent() {
+static void syncTimeSlotToParent() {
   openTimeSlotStartingAt(millis() - graceTime);
 }
 
-// fixme, later:
-//
-// * Maybe cap time for one entire period of time slots (one second e.g.).
-//
-// * Cycle through ports.
-boolean waitForRequestAndSyncTimeSlot(Port *port) {
+static boolean waitForRequestAndSyncTime(Port *port,
+                                         boolean doSyncTime = true) {
   uint8_t i = 0;
   port->serial->listen();
   port->serial->rxMode();
@@ -118,8 +125,12 @@ boolean waitForRequestAndSyncTimeSlot(Port *port) {
     if (port->serial->available()) {
       char c = port->serial->read();
       if (startsRequest(c)) {
-        syncTimeSlotToParent();
+        if (doSyncTime) {
+          syncTimeSlotToParent();
+        }
         if (readRequest(port)) {
+          Pair fixme(port->neighbor, I(port));
+          enqueueNewPair(fixme);
           return true;
         }
       }
@@ -128,42 +139,28 @@ boolean waitForRequestAndSyncTimeSlot(Port *port) {
   return false;
 }
 
-void sendResponse(Port *port) {
+static void sendResponse(Port *port) {
   OtherNode &parent = port->neighbor;
 
   Pair pair = dequeueNewPair();
 
-  port->serial->txMode();
   char buffer[] = {'!',
                    pair.firstNode.nodeId,
                    charFromDigit(pair.firstNode.portNumber),
                    pair.secondNode.nodeId,
                    charFromDigit(pair.secondNode.portNumber),
+                   ' ', // fixme: maybe turn into loop closing
+                                        // thingy, but even that doesn't seem
+                                        // necessary (info already stored in
+                                        // node)
                    debugChar,
                    '\n', // line break for easy debugging
                    '\0'};
+  port->serial->txMode();
   port->serial->write(buffer);
 }
 
-void setup() {
-  nodeId = EEPROM.read(0);
-
-//  randomSeed(nodeId);
-
-  for (uint8_t i = 0; i < portsCount; i ++) {
-    ports[i] = new Port(portPins[i], i);
-    ports[i]->serial->begin(4800);
-  }
-
-  for (uint8_t i = 0; i < portsCount; i ++) {
-    ports[i]->next = ports[(portsCount + i - 1) % portsCount];
-  }
-
-  pinMode(ledPin, OUTPUT);
-  flashLed();
-}
-
-void sendRequest(Port *port) {
+static void sendRequest(Port *port) {
   port->serial->listen();
   port->serial->txMode();
   char buffer[] = {'?',
@@ -175,8 +172,8 @@ void sendRequest(Port *port) {
   port->serial->rxMode();
 }
 
-boolean waitForParentAndSyncTimeSlot(Port *port) {
-  boolean requestWasReceived = waitForRequestAndSyncTimeSlot(port);
+static boolean waitForParentAndSyncTime(Port *port) {
+  boolean requestWasReceived = waitForRequestAndSyncTime(port);
   if (!requestWasReceived) {
     removeParent(port);
     return false;
@@ -193,30 +190,38 @@ boolean waitForParentAndSyncTimeSlot(Port *port) {
   return true;
 }
 
-boolean startsResponse(char c) {
+static Port *findParentAndSyncTime(Port *startPort) {
+  static Port *port = startPort;
+  while (!waitForParentAndSyncTime(port)) {
+    port = port->next;
+  }
+  return port;
+}
+
+static boolean startsResponse(char c) {
   const char fromChild = '!';
   const char fromChildThatClosesLoop = '%';
   return c == fromChild || c == fromChildThatClosesLoop;
 }
 
-boolean firstNodeIsI(Pair pair) {
+static boolean firstNodeIsI(Pair pair) {
   return pair.firstNode.nodeId == nodeId;
 }
 
-boolean secondNodeIsMyNeighbor(Port *port, Pair pair) {
+static boolean secondNodeIsMyNeighbor(Port *port, Pair pair) {
   return pair.secondNode == port->neighbor;
 }
 
-boolean otherNodeIsMyNeighbor(Port *port, OtherNode otherNode) {
+static boolean otherNodeIsMyNeighbor(Port *port, OtherNode otherNode) {
   return otherNode == port->neighbor;
 }
 
-boolean pairIsNew(Port *port, Pair pair) {
+static boolean pairIsNew(Port *port, Pair pair) {
   return !firstNodeIsI(pair) || !secondNodeIsMyNeighbor(port, pair);
 }
 
-boolean readResponse(Port *port, boolean childClosesLoop) {
-  const uint8_t payloadSize = 6;
+static boolean readResponse(Port *port, boolean childClosesLoop) {
+  const uint8_t payloadSize = 7;
   char payload[payloadSize];
   boolean payloadIsComplete = port->readPayload(payload, payloadSize);
 
@@ -236,7 +241,7 @@ boolean readResponse(Port *port, boolean childClosesLoop) {
   return true;
 }
 
-bool waitForResponse(Port *port) {
+static bool waitForResponse(Port *port) {
   while (!timeSlotHasEnded()) {
     if (port->serial->available()) {
       char c = port->serial->read();
@@ -250,7 +255,15 @@ bool waitForResponse(Port *port) {
   return false;
 }
 
-void askForChild(Port *port) {
+static void deleteChildIfAgainNoResponse(Port *port,
+                                         boolean responseHasBeenReceived) {
+  if (!responseHasBeenReceived && port->noResponseLastTime) {
+    removeChild(port);
+  }
+  port->noResponseLastTime = !responseHasBeenReceived;
+}
+
+static void askForChild(Port *port) {
   openNextTimeSlot();
   giveOtherSideTimeToGetReady();
   sendRequest(port);
@@ -259,46 +272,91 @@ void askForChild(Port *port) {
 
   openNextTimeSlot();
   boolean responseHasBeenReceived = waitForResponse(port);
-  if (!responseHasBeenReceived) {
-    removeChild(port);
-  }
+  deleteChildIfAgainNoResponse(port, responseHasBeenReceived);
   waitForEndOfTimeSlot();
 }
 
 // Check if on the other side there is another parent asking for a child. Then
 // there is a loop.
-void checkForLoop(Port *port) {
-  boolean loopFound = false;
+static void checkIfThereIsALoop(Port *port) {
+  boolean requestWasReceived = waitForRequestAndSyncTime(port, false); // fixme: maybe rename without sync time, or put that in separate variable
 
-  openNextTimeSlot();
-  port->serial->listen();
-  port->serial->rxMode();
-  openOverlappingCycle();
-  while (!timeSlotHasEnded()) {
-    if (port->serial->available()) {
-      char c = port->serial->read();
-      if (startsRequest(c)) {
-        if (readRequest(port)) {
-          loopFound = true;
-          port->neighborClosesLoop = true;
-        }
-      }
-    }
+  if (!requestWasReceived) {
+    removeParent(port);
+    port->neighborClosesLoop = false;
+    return;
   }
-  waitForEndOfTimeSlot();
+  port->neighborClosesLoop = true;
+}
 
-  openNextTimeSlot();
-  giveOtherSideTimeToGetReady();
-  sendResponse(port);
-  waitForEndOfTimeSlot();
+void setup() {
+  nodeId = EEPROM.read(0);
+
+  setRandomSeed(nodeId);
+
+  for (uint8_t i = 0; i < portsCount; i ++) {
+    ports[i] = new Port(portPins[i], i);
+    ports[i]->serial->begin(4800);
+  }
+
+  for (uint8_t i = 0; i < portsCount; i ++) {
+    ports[i]->next = ports[(portsCount + i - 1) % portsCount];
+  }
+
+  pinMode(ledPin, OUTPUT);
+  flashLed();
+}
+
+void resetResponseStatus() {
+  for (uint8_t i = 0; i < portsCount; i ++) {
+    ports[i]->noResponseLastTime = false;
+  }
 }
 
 void loop() {
   static Port *port = ports[0];
+  static boolean loopCheckIsScheduled = false;
+  Port *portWithParent;
+  static uint8_t loopChecks = 0; // fixme
+
+  // fixme: try at slower communication, then without blinking
 
   if (!isRoot()) {
-    waitForParentAndSyncTimeSlot(port);
-    port = port->next;
+    if (loopCheckIsScheduled) {
+      loopCheckIsScheduled = false; // no more than one loop check in a row, to
+                                    // allow replying to parent at least every
+                                    // other time (loop check block replies to
+                                    // parent for one cycle)
+    } else {
+      if (nodeId == 'c') { // fixme
+        loopCheckIsScheduled = false; // fixme: for c
+      } else {
+        loopCheckIsScheduled = true;
+      }
+//      loopCheckIsScheduled = true;
+//      loopCheckIsScheduled = randomNumber() % 10 < 1;
+    }
+
+    portWithParent = findParentAndSyncTime(port);
+    port = portWithParent->next;
+
+    if (loopCheckIsScheduled) {
+    // fixme: portNumber = randomNumber() % (portsCount - 1)
+/*    for (uint8_t i = 0 ; i < portsCount - 1; i ++) { // fixme: skipPorts
+      port = port->next;
+    }*/
+      loopChecks ++;
+//      debugChar = charFromDigit(loopChecks % 10); // fixme
+      resetResponseStatus(); // because no responses recorded this cycle
+      enqueueNewPair(Pair(OtherNode('X', 9), I(port))); // fixme
+      checkIfThereIsALoop(port);
+      port = portWithParent;
+    } else {
+      for (uint8_t i = 0 ; i < portsCount - 1; i ++) {
+        askForChild(port);
+        port = port->next;
+      }
+    }
   } else {
     askForChild(port);
     port = port->next;
@@ -307,14 +365,5 @@ void loop() {
     // send packages too, give it ID '*'). Maybe root communicate with network
     // on pin 0, and on two other pins it communicates full duplex with
     // something outside such as a Raspi or a Teensy.
-  }
-
-  for (uint8_t i = 0 ; i < portsCount - 1; i ++) {
-//    if (random(2)) {
-//      askForChild(port);
-//    } else {
-      checkForLoop(port);
-//    }
-    port = port->next;
   }
 }

@@ -284,8 +284,12 @@ static void askForChild(Port *port) {
 static void checkIfThereIsALoop(Port *port) {
   boolean requestWasReceived = waitForRequestAndSyncTime(port, false); // fixme: maybe rename without sync time, or put that in separate variable
 
-  if (!requestWasReceived) {
-    removeNeighbor(port);
+  if (!requestWasReceived) { // fixme: may be wrong answer if parent is doing something! => neighbor report may turn on and off randomly, from time to time
+    if (!port->neighbor.isEmpty()) {
+      removeNeighbor(port);
+      Pair newPair(port->neighbor, I(port));
+      enqueueNewPair(newPair);
+    }
     return;
   }
   port->neighborType = closesLoop; // fixme: do that assignment when reading

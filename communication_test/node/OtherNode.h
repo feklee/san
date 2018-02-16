@@ -4,7 +4,7 @@
 #include "Arduino.h"
 
 class OtherNode {
- public:
+public:
   OtherNode(char = '_', uint8_t = 0);
   char nodeId;
   uint8_t portNumber; // port that other node connects with

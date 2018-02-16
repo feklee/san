@@ -5,7 +5,7 @@
 #include "OtherNode.h"
 
 class Pair {
- public:
+public:
   Pair(OtherNode = emptyOtherNode, OtherNode = emptyOtherNode);
   OtherNode firstNode;
   OtherNode secondNode;

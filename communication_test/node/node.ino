@@ -67,30 +67,36 @@ static void storeAsParent(Port *port, OtherNode otherNode) {
     Pair newPair(otherNode, I(port));
     enqueueNewPair(newPair);
   }
-  port->neighborIsParent = true;
+  port->neighborType = parent;
 }
 
-static void storeAsChild(Port *port, OtherNode otherNode,
-                         boolean otherNodeClosesLoop = false) {
+static void storeAsChild( // fixme: rename
+  Port *port, OtherNode otherNode,
+  boolean otherNodeClosesLoop = false) {
   boolean neighborIsNew = !otherNodeIsMyNeighbor(port, otherNode);
   if (neighborIsNew) {
     port->neighbor = otherNode;
   }
-  port->neighborIsParent = false;
-  port->neighborClosesLoop = otherNodeClosesLoop;
+  port->neighborType = otherNodeClosesLoop ? closesLoop : child;
+}
+
+static void removeNeighbor(Port *port) {
+  port->neighbor = emptyOtherNode;
+  port->neighborType = none;
 }
 
 static void removeChild(Port *port) {
   if (!port->neighbor.isEmpty()) {
-    storeAsChild(port, emptyOtherNode);
-    Pair newPair(I(port), emptyOtherNode);
+    removeNeighbor(port);
+    Pair newPair(I(port), port->neighbor);
     enqueueNewPair(newPair);
   }
 }
 
 static void removeParent(Port *port) {
   if (!port->neighbor.isEmpty()) {
-    port->neighbor = emptyOtherNode; // don't queue as we're disconnected
+    removeNeighbor(port);
+    // don't queue as we're disconnected
   }
 }
 
@@ -148,9 +154,9 @@ static void sendResponse(Port *port) {
                    pair.secondNode.nodeId,
                    charFromDigit(pair.secondNode.portNumber),
                    ' ', // fixme: maybe turn into loop closing
-                                        // thingy, but even that doesn't seem
-                                        // necessary (info already stored in
-                                        // node)
+                        // thingy, but even that doesn't seem
+                        // necessary (info already stored in
+                        // node)
                    debugChar,
                    '\n', // line break for easy debugging
                    '\0'};
@@ -274,17 +280,16 @@ static void askForChild(Port *port) {
   waitForEndOfTimeSlot();
 }
 
-// Check if on the other side there is another parent asking for a child. Then
-// there is a loop.
+// Check if the other node is asking for a child. Then there is a loop.
 static void checkIfThereIsALoop(Port *port) {
   boolean requestWasReceived = waitForRequestAndSyncTime(port, false); // fixme: maybe rename without sync time, or put that in separate variable
 
   if (!requestWasReceived) {
-    removeParent(port);
-    port->neighborClosesLoop = false;
+    removeNeighbor(port);
     return;
   }
-  port->neighborClosesLoop = true;
+  port->neighborType = closesLoop; // fixme: do that assignment when reading
+                                   // request
 }
 
 void setup() {

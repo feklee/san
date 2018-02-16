@@ -97,7 +97,7 @@ static void removeParent(Port *port) {
 static boolean readRequest(Port *port) {
   const uint8_t payloadSize = 3;
   char payload[payloadSize];
-  boolean payloadIsComplete = port->readPayload(payload, payloadSize);
+  boolean payloadIsComplete = port->readPayload(payload, payloadSize, false);
 
   if (!payloadIsComplete) {
     return false;
@@ -129,8 +129,6 @@ static boolean waitForRequestAndSyncTime(Port *port,
           syncTimeSlotToParent();
         }
         if (readRequest(port)) {
-          Pair fixme(port->neighbor, I(port));
-          enqueueNewPair(fixme);
           return true;
         }
       }
@@ -346,9 +344,7 @@ void loop() {
       port = port->next;
     }*/
       loopChecks ++;
-//      debugChar = charFromDigit(loopChecks % 10); // fixme
       resetResponseStatus(); // because no responses recorded this cycle
-      enqueueNewPair(Pair(OtherNode('X', 9), I(port))); // fixme
       checkIfThereIsALoop(port);
       port = portWithParent;
     } else {

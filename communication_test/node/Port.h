@@ -18,8 +18,8 @@ class Port {
   boolean neighborClosesLoop = false;
   boolean neighborScheduledLoopCheck = false;
   boolean noResponseLastTime = false;
-  char receiveNextChar();
-  boolean readPayload(char *, int);
+  char receiveNextChar(boolean = true);
+  boolean readPayload(char *, int, boolean = true);
 };
 
 #endif

@@ -6,18 +6,27 @@ Port::Port(uint8_t pin, uint8_t number) {
   this->number = number;
 }
 
-char Port::receiveNextChar() {
-  while (!timeSlotHasEnded()) {
-    if (serial->available()) {
-      return serial->read();
+char Port::receiveNextChar(boolean fixmeTimeSlot) {
+  if (fixmeTimeSlot) {
+    while (!timeSlotHasEnded()) {
+      if (serial->available()) {
+        return serial->read();
+      }
+    }
+  } else {
+    while (!overlappingCycleHasEnded()) {
+      if (serial->available()) {
+        return serial->read();
+      }
     }
   }
   return 0;
 }
 
-boolean Port::readPayload(char *payload, int expectedPayloadLength) {
+boolean Port::readPayload(char *payload, int expectedPayloadLength,
+                          boolean fixmeTimeSlot) {
   for (int i = 0; i < expectedPayloadLength; i ++) {
-    char c = receiveNextChar();
+    char c = receiveNextChar(fixmeTimeSlot);
     if (c == 0) {
       return false;
     }

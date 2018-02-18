@@ -3,7 +3,9 @@
 
 #include "Arduino.h"
 #include "OtherNode.h"
-#include <SoftSerial.h>
+
+// <https://github.com/nickstedman/SoftwareSerialWithHalfDuplex>:
+#include <SoftwareSerialWithHalfDuplex.h>
 
 enum neighborType {
   parent, child, closesLoop, none
@@ -13,7 +15,7 @@ class Port {
 public:
   Port(uint8_t, uint8_t);
   Port *next;
-  SoftSerial *serial;
+  SoftwareSerialWithHalfDuplex *serial;
   uint8_t number;
 
   OtherNode neighbor;

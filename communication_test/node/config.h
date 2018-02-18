@@ -5,9 +5,9 @@
 
 #define DEBUG
 
-const uint8_t ledPin = 1;
+const uint8_t ledPin = 13;
 const uint8_t portsCount = 2;
-const uint8_t portPins[portsCount] = {0, 4};
+const uint8_t portPins[portsCount] = {3, 2};
 const unsigned long graceTime = 100; // time for other node to switch to receive
 const unsigned long timeSlotDuration = 500; // ms
 const uint8_t pairBufferSize = 10;

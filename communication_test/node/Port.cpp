@@ -2,7 +2,7 @@
 #include "timeslot.h"
 
 Port::Port(uint8_t pin, uint8_t number) {
-  serial = new SoftSerial(pin, pin);
+  serial = new SoftwareSerialWithHalfDuplex(pin, pin, false, false);
   this->number = number;
 }
 

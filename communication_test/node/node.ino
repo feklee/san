@@ -1,7 +1,5 @@
-// Tested with Digispark as "Digispark (16 Mhz - No USB)"
+// Tested with Arduino Pro Mini
 
-#include <SoftSerial.h>
-#include <TinyPinChange.h>
 #include <EEPROM.h> // Library may need to be copied:
                     // https://digistump.com/board/index.php?topic=1132.0
 #include "config.h"
@@ -125,7 +123,6 @@ static boolean waitForRequestAndSyncTime(Port *port,
                                          boolean doSyncTime = true) {
   uint8_t i = 0;
   port->serial->listen();
-  port->serial->rxMode();
   openOverlappingCycle();
   while (!overlappingCycleHasEnded()) {
     if (port->serial->available()) {
@@ -160,20 +157,17 @@ static void sendResponse(Port *port) {
                    debugChar,
                    '\n', // line break for easy debugging
                    '\0'};
-  port->serial->txMode();
   port->serial->write(buffer);
 }
 
 static void sendRequest(Port *port) {
   port->serial->listen();
-  port->serial->txMode();
   char buffer[] = {'?',
                    nodeId,
                    charFromDigit(port->number),
                    '\n', // line break for easy debugging
                    '\0'};
   port->serial->write(buffer);
-  port->serial->rxMode();
 }
 
 static boolean waitForParentAndSyncTime(Port *port) {
@@ -329,6 +323,7 @@ void loop() {
   // fixme: try at slower communication, then without blinking
 
   if (!isRoot()) {
+#if 1
     if (loopCheckIsScheduled) {
       loopCheckIsScheduled = false; // no more than one loop check in a row, to
                                     // allow replying to parent at least every
@@ -343,6 +338,9 @@ void loop() {
 //      loopCheckIsScheduled = true;
 //      loopCheckIsScheduled = randomNumber() % 10 < 1;
     }
+#else
+    loopCheckIsScheduled = false;
+#endif
 
     portWithParent = findParentAndSyncTime(port);
     port = portWithParent->next;

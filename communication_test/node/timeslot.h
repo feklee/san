@@ -8,7 +8,9 @@ void openTimeSlotStartingAt(unsigned long);
 void giveOtherSideTimeToGetReady();
 boolean timeSlotHasEnded();
 void waitForEndOfTimeSlot();
-void openOverlappingCycle();
+void startOverlappingCycle();
 boolean overlappingCycleHasEnded();
+void startCycleWithNextTimeSlot();
+void waitForEndOfCycle();
 
 #endif

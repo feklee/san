@@ -43,8 +43,8 @@ static void flashLed() {
   delay(50);
 }
 
-static inline boolean isRoot() {
-  return nodeId == 'a';
+static inline boolean iAmRoot() {
+  return nodeId == '*';
 }
 
 static inline boolean startsRequest(char c) {
@@ -123,7 +123,7 @@ static boolean waitForRequestAndSyncTime(Port *port,
                                          boolean doSyncTime = true) {
   uint8_t i = 0;
   port->serial->listen();
-  openOverlappingCycle();
+  startOverlappingCycle();
   while (!overlappingCycleHasEnded()) {
     if (port->serial->available()) {
       char c = port->serial->read();
@@ -306,6 +306,10 @@ void setup() {
 
   pinMode(ledPin, OUTPUT);
   flashLed();
+
+  if (iAmRoot()) {
+    Serial.begin(9600);
+  }
 }
 
 void resetResponseStatus() {
@@ -314,59 +318,73 @@ void resetResponseStatus() {
   }
 }
 
-void loop() {
+void rootLoop() {
+  static Port *port = ports[0];
+
+  startCycleWithNextTimeSlot();
+  askForChild(port);
+
+  Pair pair = dequeueNewPair();
+  char buffer[] = {
+    pair.firstNode.nodeId,
+    charFromDigit(pair.firstNode.portNumber),
+    pair.secondNode.nodeId,
+    charFromDigit(pair.secondNode.portNumber),
+    '\0'
+  };
+
+  Serial.println(buffer);
+
+  waitForEndOfCycle();
+}
+
+void nonRootLoop() {
   static Port *port = ports[0];
   static boolean loopCheckIsScheduled = false;
   Port *portWithParent;
   static uint8_t loopChecks = 0; // fixme
 
-  // fixme: try at slower communication, then without blinking
-
-  if (!isRoot()) {
-#if 1
-    if (loopCheckIsScheduled) {
-      loopCheckIsScheduled = false; // no more than one loop check in a row, to
-                                    // allow replying to parent at least every
-                                    // other time (loop check block replies to
-                                    // parent for one cycle)
+#if 0
+  if (loopCheckIsScheduled) {
+    loopCheckIsScheduled = false; // no more than one loop check in a row, to
+                                  // allow replying to parent at least every
+                                  // other time (loop check block replies to
+                                  // parent for one cycle)
+  } else {
+    if (nodeId == 'c' || nodeId == 'a') { // fixme
+      loopCheckIsScheduled = false; // fixme: for c
     } else {
-      if (nodeId == 'c') { // fixme
-        loopCheckIsScheduled = false; // fixme: for c
-      } else {
-        loopCheckIsScheduled = true;
-      }
+      loopCheckIsScheduled = true;
+    }
 //      loopCheckIsScheduled = true;
 //      loopCheckIsScheduled = randomNumber() % 10 < 1;
-    }
-#else
-    loopCheckIsScheduled = false;
+  }
 #endif
 
-    portWithParent = findParentAndSyncTime(port);
-    port = portWithParent->next;
+  portWithParent = findParentAndSyncTime(port);
+  port = portWithParent->next;
 
-    if (loopCheckIsScheduled) {
+  if (loopCheckIsScheduled) {
     // fixme: portNumber = randomNumber() % (portsCount - 1)
 /*    for (uint8_t i = 0 ; i < portsCount - 1; i ++) { // fixme: skipPorts
       port = port->next;
     }*/
-      loopChecks ++;
-      resetResponseStatus(); // because no responses recorded this cycle
-      checkIfThereIsALoop(port);
-      port = portWithParent;
-    } else {
-      for (uint8_t i = 0 ; i < portsCount - 1; i ++) {
-        askForChild(port);
-        port = port->next;
-      }
-    }
+    loopChecks ++;
+    resetResponseStatus(); // because no responses recorded this cycle
+    checkIfThereIsALoop(port);
+    port = portWithParent;
   } else {
-    askForChild(port);
-    port = port->next;
-    // Idea for root node: Forward data packages to external controller, without
-    // waiting (but back-communication eventually is also needed - make root
-    // send packages too, give it ID '*'). Maybe root communicate with network
-    // on pin 0, and on two other pins it communicates full duplex with
-    // something outside such as a Raspi or a Teensy.
+    for (uint8_t i = 0 ; i < portsCount - 1; i ++) {
+      askForChild(port);
+      port = port->next;
+    }
+  }
+}
+
+void loop() {
+  if (iAmRoot()) {
+    rootLoop();
+  } else {
+    nonRootLoop();
   }
 }

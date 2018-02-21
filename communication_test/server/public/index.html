@@ -1,0 +1,215 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>STM</title>
+    <link rel="stylesheet" href="bower_components/reset-css/reset.css" />
+    <link rel="stylesheet"
+          href="bower_components/source-sans-pro/source-sans-pro.css" />
+    <link rel="stylesheet"
+          href="bower_components/source-code-pro/source-code-pro.css" />
+    <link rel="stylesheet" href="stylesheets/index.css" />
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+  </head>
+
+  <body>
+    <form>
+      <div class="log"><ul class="log"></ul></div>
+      <fieldset>
+        <label>&gt;</label><input name="mode-chain-json" autocomplete="off"
+                                  autofocus />
+      </fieldset>
+      <input type="submit">
+      <div class="toolbar">
+        <button class="stop">Stop</button>
+      </div>
+    </form>
+    <main>
+      <iframe></iframe>
+      <ul>
+        <li>Mode: <span class="mode-name">N/A</span></li>
+        <li>Bias voltage: <span class="bias-voltage">0</span> mV</li>
+        <li>Current signal: <span class="current-signal">0</span> V</li>
+      </ul>
+      <section class="approach">
+        <h1>Approach</h1>
+        <figure>
+          <svg>
+            <defs>
+              <clipPath id="approach-clip-area">
+                <rect />
+              </clipPath>
+            </defs>
+            <g class="horizontal axis"></g>
+            <g class="z axis"></g>
+            <g class="current-signal axis"></g>
+            <g class="main" clip-path="url(#approach-clip-area)">
+              <rect width="100%" height="100%" />
+              <g class="zoomable"></g>
+            </g>
+          </svg>
+          <figcaption>
+            <ul>
+              <li class="current-signal">
+                Current signal (V)
+              </li>
+              <li class="z">
+                Piezo position (0–0xffff)
+              </li>
+              <li>
+                Horizontal:
+                <input type="radio" name="approach-horizontal"
+                       id="approach-horizontal-time" value="time" checked
+                       /><label
+                            for="approach-horizontal-time">Time (µs)</label>
+                <input type="radio" name="approach-horizontal"
+                       id="approach-horizontal-index" value="index"
+                       /><label
+                            for="approach-horizontal-index">Index</label>
+              </li>
+              <li>
+                Stretch:
+                <input class="stretch-factor" type="range"
+                       min="0.5" max="25" step="0.5" value="1"></input>
+              </li>
+              <li>
+                <button class="fit-width">Fit width</button>
+              </li>
+              <li class="position">
+                (<span class="horizontal">0</span>,
+                <span class="current-signal">0.0</span>,
+                <span class="z">0</span>)
+              </li>
+            </ul>
+          </figcaption>
+        </figure>
+        <ul>
+          <li>
+            Peak coarse approach signal:
+            <span class="peak-coarse-approach-signal">0</span> V
+          </li>
+          <li>
+            Peak fine approach signal:
+            <span class="peak-fine-approach-signal">0</span> V
+          </li>
+        </ul>
+      </section>
+      <section class="scan">
+        <h1>Scan</h1>
+        <figure>
+          <svg>
+            <defs>
+              <clipPath id="scan-clip-area">
+                <rect />
+              </clipPath>
+            </defs>
+            <g class="horizontal axis"></g>
+            <g class="z axis"></g>
+            <g class="current-signal axis"></g>
+            <g class="main" clip-path="url(#scan-clip-area)">
+              <rect width="100%" height="100%" />
+              <g class="zoomable"></g>
+            </g>
+          </svg>
+          <figcaption>
+            <ul>
+              <li class="current-signal">
+                Current signal (V)
+              </li>
+              <li class="z">
+                Piezo position (0–0xffff)
+              </li>
+              <li>
+                Horizontal:
+                <input type="radio" name="scan-horizontal"
+                       id="scan-horizontal-time" value="time" checked
+                       /><label
+                            for="scan-horizontal-time">Time (µs)</label>
+                <input type="radio" name="scan-horizontal"
+                       id="scan-horizontal-index" value="index"
+                       /><label
+                            for="scan-horizontal-index">Index</label>
+              </li>
+              <li>
+                Stretch:
+                <input class="stretch-factor" type="range"
+                       min="0.5" max="25" step="0.5" value="1"></input>
+              </li>
+              <li>
+                <button class="fit-width">Fit width</button>
+              </li>
+              <li class="position">
+                (<span class="horizontal">0</span>,
+                <span class="current-signal">0.0</span>,
+                <span class="z">0</span>)
+              </li>
+            </ul>
+          </figcaption>
+        </figure>
+        <ul>
+          <li>
+            Scan duration: <span class="scan-duration">0</span> s
+          </li>
+        </ul>
+      </section>
+      <section class="retract">
+        <h1>Retract</h1>
+        <figure>
+          <svg>
+            <defs>
+              <clipPath id="retract-clip-area">
+                <rect x="0" y="0" width="200" height="100" />
+              </clipPath>
+            </defs>
+            <g class="horizontal axis"></g>
+            <g class="z axis"></g>
+            <g class="current-signal axis"></g>
+            <g class="main" clip-path="url(#retract-clip-area)">
+              <rect width="100%" height="100%" />
+              <g class="zoomable"></g>
+            </g>
+          </svg>
+          <figcaption>
+            <ul>
+              <li class="current-signal">
+                Current signal (V)
+              </li>
+              <li class="z">
+                Piezo position (0–0xffff)
+              </li>
+              <li>
+                Horizontal:
+                <input type="radio" name="retract-horizontal"
+                       id="retract-horizontal-time" value="time" checked
+                       /><label
+                            for="retract-horizontal-time">Time (µs)</label>
+                <input type="radio" name="retract-horizontal"
+                       id="retract-horizontal-index" value="index"
+                       /><label
+                            for="retract-horizontal-index">Index</label>
+              </li>
+              <li>
+                Stretch:
+                <input class="stretch-factor" type="range"
+                       min="0.5" max="25" step="0.5" value="1"></input>
+              </li>
+              <li>
+                <button class="fit-width">Fit width</button>
+              </li>
+              <li class="position">
+                (<span class="horizontal">0</span>,
+                <span class="current-signal">0.0</span>,
+                <span class="z">0</span>)
+              </li>
+            </ul>
+          </figcaption>
+        </figure>
+      </section>
+    </main>
+
+    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/requirejs/require.js"></script>
+    <script src="config.js"></script>
+  </body>
+</html>

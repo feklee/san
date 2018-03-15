@@ -30,7 +30,8 @@ Steps
     ![Crimped contact pin](step_3.jpg)
  
  4. Place the cable into the pipe, with contact pins and connectors at both
-    ends. Trim the center wire to adapt to the length of the pipe.
+    ends. Trim the center wire to adapt to the length of the pipe. Finally,
+    crimp the other contact pin.
     
     ![Components sticking out of pipe](step_4.jpg)
 

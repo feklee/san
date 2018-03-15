@@ -11,7 +11,7 @@ Material
   
   * 2 x RG59 BNC 3 piece crimp coaxial connector
   
-  * Aluminium pipe, 7 mm outer diameter, 0.5 mm wall thickness, 100 mm length
+  * Aluminum pipe, 7 mm outer diameter, 0.5 mm wall thickness, 100 mm length
 
 
 Steps

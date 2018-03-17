@@ -1,6 +1,6 @@
 // Interface to microcontroller, for measuring and controlling the hardware
 
-/*jslint node: true, es6: true, maxlen: 80 */
+/*jslint node: true, maxlen: 80 */
 
 "use strict";
 

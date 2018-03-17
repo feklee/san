@@ -4,22 +4,26 @@
 
 "use strict";
 
-var serialport = require("serialport");
-var SerialPort = serialport.SerialPort;
+const SerialPort = require("serialport");
+const parsers = SerialPort.parsers;
+const parser = new parsers.Readline({
+    delimiter: "\n"
+});
+
 var log = require("./log");
 var port;
 
 function listSerialPorts(callback) {
-    serialport.list(function (ignore, ports) {
+    SerialPort.list(function (ignore, ports) {
         callback(ports);
     });
 }
 
 function connect(settings) {
     port = new SerialPort(settings.comName, {
-        baudRate: 115200,
-        parser: serialport.parsers.readline("\n")
+        baudRate: 9600
     });
+    port.pipe(parser);
     port.on("open", function () {
         log.appendInfo("Serial port opened");
         settings.onConnected();
@@ -33,7 +37,7 @@ function connect(settings) {
     port.on("disconnected", function () {
         log.appendWarn("Serial port disconnected");
     });
-    port.on("data", function (json) {
+    parser.on("data", function (json) {
         var data;
         try {
             data = JSON.parse(json);

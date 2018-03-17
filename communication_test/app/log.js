@@ -1,6 +1,6 @@
 // Interface to log shown in the browser
 
-/*jslint node: true, es6: true, maxlen: 80 */
+/*jslint node: true, maxlen: 80 */
 
 "use strict";
 

@@ -3,17 +3,38 @@ $finegray: #f4f4f4;
 html, body {
     width: 100%;
     height: 100%;
+    overflow: hidden;
 }
 
 body {
+    display: flex;
     font: normal normal normal 15px/17px "Source Sans Pro";
 }
 
+aside {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+table.matrix {
+    font: normal normal normal 13px/15px "Source Code Pro";
+    width: 100%;
+
+    th, td {
+        border: 1px solid gray;
+    }
+}
+
 div.log {
+    margin-top: 5px;
+
     font: normal normal normal 13px/15px "Source Code Pro";
 
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: scroll;
+    height: 100%;
+    box-sizing: border-box;
 
     ul {
         $indent-width: 15px;
@@ -71,4 +92,11 @@ div.log {
             }
         }
     }
+}
+
+canvas {
+    width: 100%;
+    background: darkgray;
+    box-sizing: border-box;
+    border: 10px solid black;
 }

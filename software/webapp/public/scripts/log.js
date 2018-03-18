@@ -15,6 +15,8 @@ var append = function (type, text) {
     logEl.appendChild(liEl).setAttribute("class", type);
     var preEl = document.createElement("pre");
     liEl.appendChild(preEl).textContent = prettyPrinted(text);
+    var parentEl = logEl.parentElement;
+    parentEl.scrollTop = parentEl.scrollHeight;
 };
 
 export default {

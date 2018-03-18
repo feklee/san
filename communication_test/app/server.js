@@ -71,7 +71,7 @@ if (args.length === 0) {
                 console.log("");
                 console.log("  * " + port.comName);
             });
-            process.exit(1);
+            process.exit();
         }
     );
 } else {

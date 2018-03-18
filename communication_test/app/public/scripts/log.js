@@ -2,7 +2,7 @@
 
 /*global d3 */
 
-var logEl = d3.select("ul.log");
+var logEl = document.querySelector("ul.log");
 
 var prettyPrinted = function (text) {
     try {
@@ -13,11 +13,14 @@ var prettyPrinted = function (text) {
 };
 
 var append = function (type, text) {
-    logEl.append("li").attr("class", type).append("pre").text(
-        prettyPrinted(text)
-    );
-    var parentNode = logEl.node().parentNode;
-    parentNode.scrollTop = parentNode.scrollHeight;
+    var liEl = document.createElement("li");
+    logEl.appendChild(liEl).setAttribute("class", type);
+    var preEl = document.createElement("pre");
+    liEl.appendChild(preEl).textContent = prettyPrinted(text);
+    var parentEl = logEl.parentElement;
+    parentEl.scrollTop = parentEl.scrollHeight;
+//    var parentNode = logEl.node().parentNode;
+//    parentNode.scrollTop = parentNode.scrollHeight;
 };
 
 var log = {

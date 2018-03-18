@@ -1,18 +1,20 @@
 Instructions
 ============
 
- 1. Build and upload Arduino sketch `node` to MCU.
+ 1. Write ID on EEPROM of each MCU.
 
- 2. List available serial ports for communication with the Teensy:
+ 2. Build and upload Arduino sketch `node` to MCU.
 
-        $ cd server/
+ 3. List available serial ports for communication with the Teensy:
+
+        $ cd app/
         $ npm start
 
- 3. Start server, here with serial port `COM59`:
+ 4. Start server, here with serial port `COM6`:
 
-        $ npm start COM59
+        $ npm start COM6
 
- 4. Open index page in browser, in full screen mode on a 16:9 screen. Example
+ 5. Open index page in browser, in full screen mode on a 16:9 screen. Example
     URL (adapt to your system):
 
         http://localhost:8080
@@ -21,7 +23,7 @@ Instructions
 Build instructions
 ==================
 
-First enter the directory `server/public`, then:
+First enter the directory `app/public`, then:
 
  1. Install Bower packages:
 
@@ -44,10 +46,3 @@ Coding conventions
   * Comments in Markdown
 
   * JavaScript passes JSLint.
-
-
-Legal
-=====
-
-Unless mentioned otherwise, stuff is licensed under the WTFPL version 2:
-<http://www.wtfpl.net/>

@@ -3,279 +3,70 @@ $finegray: #f4f4f4;
 html, body {
     width: 100%;
     height: 100%;
-    overflow: hidden;
-}
-
-html {
-    display: flex;
-    flex-direction: column;
 }
 
 body {
-    display: flex;
-    flex-direction: row;
-    flex: 1;
     font: normal normal normal 15px/17px "Source Sans Pro";
-
-    >* {
-        overflow: auto;
-        height: 100%;
-        padding: 5px;
-        box-sizing: border-box;
-    }
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    border-right: 1px solid lightgray;
-    width: 300px;
-    resize: horizontal;
-    padding: 5px;
+div.log {
     font: normal normal normal 13px/15px "Source Code Pro";
 
-    div.log {
-        flex: 1;
-        display: flex;
-        overflow-x: hidden;
-        overflow-y: auto;
-
-        ul {
-            $indent-width: 15px;
-            margin-top: auto;
-            width: 100%;
-
-            li {
-                white-space: nowrap;
-                padding-left: $indent-width;
-
-                &::before {
-                    display: inline-block;
-                    margin-left: -$indent-width;
-                    width: $indent-width;
-                }
-
-                &.error {
-                    background: hsl(0, 100%, 97%);
-                    color: red;
-
-                    &::before {
-                        content: "⦻";
-                    }
-                }
-
-                &.input::before {
-                    content: ">";
-                }
-
-                &>pre {
-                    display: inline-block;
-                    vertical-align: top;
-                    white-space: pre-wrap;
-                    word-break: initial;
-                    word-wrap: break-word;
-                    overflow-wrap: break-word;
-                }
-
-                &.info {
-                    background: $finegray;
-                    color: blue;
-
-                    &::before {
-                        content: "ⓘ";
-                    }
-                }
-
-                &.warn {
-                    background: hsl(50, 100%, 95%);
-                    color: hsl(39, 100%, 18%);
-
-                    &::before {
-                        content: "⚠";
-                    }
-                }
-            }
-        }
-    }
-
-    fieldset {
-        width: 100%;
-        $label-width: 15px;
-        font: inherit;
-
-        label {
-            display: inline-block;
-            width: $label-width;
-            margin-right: -$label-width;
-            color: #367cf1;
-            font-weight: 900;
-        }
-
-        >input[name="mode-chain-json"] {
-            box-sizing: border-box;
-            padding-left: $label-width;
-            width: 100%;
-            border: none;
-            outline: none;
-            background: transparent;
-            font: inherit;
-        }
-    }
-
-    input[type="submit"] {
-        display: none;
-    }
-}
-
-main {
-    flex: 1;
+    overflow-x: hidden;
     overflow-y: auto;
 
     ul {
-        overflow: hidden;
-        height: auto;
-    }
-
-    li {
-        float: left;
-        margin-right: 40px;
-
-        &:last-child {
-            margin-right: 0;
-        }
-    }
-
-    >iframe {
+        $indent-width: 15px;
+        margin-top: auto;
         width: 100%;
-        display: block;
-        height: 0;
-        border: none;
-        background-color: transparent;
-    }
-
-    >ul {
-        .bias-voltage, .current-signal {
-            display: inline-block;
-            text-align: right;
-        }
-
-        .bias-voltage {
-            min-width: 40px;
-        }
-
-        .current-signal {
-            min-width: 30px;
-        }
-    }
-
-    >section {
-        margin-top: 20px;
-        border-top: 1px solid lightgray;
-        min-width: 350px;
-
-        h1 {
-            color: gray;
-            margin: 10px 0;
-        }
-    }
-
-    figure {
-        $z-color: blue;
-        $current-signal-color: red;
-        $font: 10px "Source Sans Pro";
-        margin: 5px 0;
-
-        ul {
-            margin-left: 30px;
-        }
 
         li {
-            font: $font;
-            line-height: 30px;
-        }
+            white-space: nowrap;
+            padding-left: $indent-width;
 
-        li.current-signal {
-            color: $current-signal-color;
-        }
-
-        li.z {
-            color: $z-color;
-        }
-
-        li.position {
-            .current-signal {
-                color: $current-signal-color;
+            &::before {
+                display: inline-block;
+                margin-left: -$indent-width;
+                width: $indent-width;
             }
 
-            .z {
-                color: $z-color;
-            }
-        }
+            &.error {
+                background: hsl(0, 100%, 97%);
+                color: red;
 
-        input {
-            vertical-align: middle;
-        }
-
-        button {
-            font: $font;
-        }
-
-        svg {
-            display: block;
-            width: 100%;
-            height: 200px;
-
-            g.main {
-                cursor: crosshair;
-            }
-
-            g.main rect {
-                fill: $finegray;
-            }
-
-            path {
-                fill: none;
-                vector-effect: non-scaling-stroke;
-                stroke-width: 0.5px;
-
-                &.z {
-                    stroke: $z-color;
-                }
-
-                &.current-signal {
-                    stroke: $current-signal-color;
+                &::before {
+                    content: "⦻";
                 }
             }
 
-            text {
-                font: $font;
+            &.input::before {
+                content: ">";
             }
 
-            .axis {
-                .domain {
-                    display: none;
-                }
+            &>pre {
+                display: inline-block;
+                vertical-align: top;
+                white-space: pre-wrap;
+                word-break: initial;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+            }
 
-                .tick line {
-                    stroke-width: 1px;
+            &.info {
+                background: $finegray;
+                color: blue;
+
+                &::before {
+                    content: "ⓘ";
                 }
             }
 
-            .z.axis {
-                path, line {
-                    stroke: $z-color;
-                }
-                text {
-                    fill: $z-color;
-                }
-            }
+            &.warn {
+                background: hsl(50, 100%, 95%);
+                color: hsl(39, 100%, 18%);
 
-            .current-signal.axis {
-                path, line {
-                    stroke: $current-signal-color;
-                }
-                text {
-                    fill: $current-signal-color;
+                &::before {
+                    content: "⚠";
                 }
             }
         }

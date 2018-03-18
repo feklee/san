@@ -4,27 +4,80 @@ Introduction
 Self aware network structure. It understands its own topology.
 
 
+Construction
+============
+
 Nodes
 -----
 
-Nodes are 3D printed, composed of two parts:
+Nodes are 3D printed, composed of two hemispheres that are screwed.
 
-![Half of a node](half_node.jpg)
-![Node](node.jpg)
+Parametric design (Fusion 360): http://a360.co/2FMH0TC
 
-Parametric design (Fusion 360): http://a360.co/2BTdbKg
-
-Inside of each node there is a tiny microcontroller, a Digispark clone
-(ATtiny85).
+Inside of each node there is a tiny microcontroller, an Arduino Pro Mini. The
+root node also contains a USB interface.
 
 
 Edges
 -----
 
 Edges are composed of RG58 cables inside metal tubes, connected to BNC
-connectors:
+connectors.
 
-![Edge](edge.jpg)
+
+Software
+========
+
+Setup
+-----
+
+ 1. Write ID on EEPROM of each MCU: `idWriter`
+ 
+    The root node needs to be named: `*`
+
+ 2. Build and upload Arduino sketch to MCU: `node`
+
+ 3. List available serial ports for communication with the Teensy:
+
+        $ cd app/
+        $ npm start
+
+ 4. Start server, here with serial port `COM6`:
+
+        $ npm start COM6
+
+ 5. Open index page in browser, in full screen mode on a 16:9 screen. Example
+    URL (adapt to your system):
+
+        http://localhost:8080
+
+
+Build instructions
+------------------
+
+First enter the directory `app/public`, then:
+
+ 1. Install Bower packages:
+
+        $ bower install
+
+ 2. Compile CSS:
+
+        $ sass -E utf-8 --update sass:stylesheets
+
+    During development, you may use:
+
+        $ sass -E utf-8 --watch sass:stylesheets
+
+
+Coding conventions
+------------------
+
+  * Maximum line length: 80 characters
+
+  * Comments in Markdown
+
+  * JavaScript passes JSLint.
 
 
 License

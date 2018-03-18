@@ -15,6 +15,8 @@ aside {
     display: flex;
     flex-direction: column;
     padding: 5px;
+    flex-shrink: 0;
+    flex-grow: 0;
 }
 
 table.matrix {
@@ -94,9 +96,8 @@ div.log {
     }
 }
 
-canvas {
+div.visualization {
+    box-sizing: border-box;
     width: 100%;
     background: darkgray;
-    box-sizing: border-box;
-    border: 10px solid black;
 }

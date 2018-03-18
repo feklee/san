@@ -1,7 +1,5 @@
 /*jslint browser: true, maxlen: 80 */
 
-/*global d3 */
-
 var logEl = document.querySelector("ul.log");
 
 var prettyPrinted = function (text) {
@@ -19,19 +17,6 @@ var append = function (type, text) {
     liEl.appendChild(preEl).textContent = prettyPrinted(text);
 };
 
-var log = {
-    appendInput: function (text) {
-        append("input", text);
-    },
-    appendError(text) {
-        append("error", text);
-    },
-    appendWarn(text) {
-        append("warn", text);
-    },
-    appendInfo(text) {
-        append("info", text);
-    }
+export default {
+    append: append
 };
-
-export default log;

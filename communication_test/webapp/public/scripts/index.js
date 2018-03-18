@@ -6,22 +6,26 @@ var hostname = window.location.hostname;
 var client = new window.WebSocket("ws://" + hostname + ":8080/");
 
 client.onerror = function () {
-    log.appendError("WebSocket error");
+    log.append("error", "WebSocket error");
 };
 
 client.onopen = function () {
-    log.appendInfo("WebSocket opened");
+    log.append("info", "WebSocket opened");
 };
 
 client.onclose = function () {
-    log.appendWarn("WebSocket closed");
+    log.append("warn", "WebSocket closed");
 };
 
 client.onmessage = function (e) {
-    if (typeof e.data !== "string") {
+    var data;
+    var json;
+    if (typeof e.data === "string") {
+        json = e.data;
+        data = JSON.parse(json);
+    } else {
         return;
     }
-    var json = e.data;
-    var data = JSON.parse(json);
-    log.appendError(data.value);
+
+    log.append(data.type, data.text);
 };

@@ -1,6 +1,4 @@
-// Serves the game and assets.
-
-/*jslint node: true, es6: true, maxlen: 80 */
+/*jslint node: true, maxlen: 80 */
 
 "use strict";
 
@@ -11,8 +9,6 @@ var args = process.argv.slice(2);
 var browserConnection = null;
 var nodeStatic = require("node-static");
 var fileServer = new nodeStatic.Server("./public", {cache: 0});
-var log = require("./log");
-var onData;
 
 if (process.platform === "win32") {
     var rl = require("readline").createInterface({
@@ -45,21 +41,9 @@ function onConnectedToMicrocontroller() {
     wsServer.on("request", function (request) {
         browserConnection = request.accept(null, request.origin);
         console.log("Connection from browser accepted");
-        log.browserConnection = browserConnection;
-
-        browserConnection.on("message", function (message) {
-            if (message.type === "utf8") {
-                microcontroller.sendJson(message.utf8Data);
-            }
-        });
+        microcontroller.browserConnection = browserConnection;
     });
 }
-
-onData = function (data) {
-    if (browserConnection !== null) {
-        browserConnection.sendUTF(JSON.stringify(data));
-    }
-};
 
 if (args.length === 0) {
     microcontroller.listSerialPorts(
@@ -77,7 +61,6 @@ if (args.length === 0) {
 } else {
     microcontroller.connect({
         comName: args[0],
-        onConnected: onConnectedToMicrocontroller,
-        onData: onData
+        onConnected: onConnectedToMicrocontroller
     });
 }

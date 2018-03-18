@@ -26,12 +26,10 @@ function sendToBrowser(message) {
 }
 
 function log(message) {
-    var textWithEscapes = JSON.stringify(message.text);
-
     if (message.type === "error" || message.type === "warn") {
-        console.error(textWithEscapes);
+        console.error(message.text);
     } else {
-        console.log(textWithEscapes);
+        console.log(message.text);
     }
 
     if (browserConnection === undefined) {
@@ -41,7 +39,7 @@ function log(message) {
 
 function connect(settings) {
     port = new SerialPort(settings.comName, {
-        baudRate: 9600
+        baudRate: 115200
     });
     port.pipe(parser);
     port.on("open", function () {

@@ -308,7 +308,7 @@ void setup() {
   flashLed();
 
   if (iAmRoot()) {
-    Serial.begin(9600);
+    Serial.begin(115200);
   }
 }
 

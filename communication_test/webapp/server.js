@@ -4,7 +4,7 @@
 
 var WebSocketServer = require("websocket").server;
 var http = require("http");
-var microcontroller = require("./microcontroller");
+var rootNode = require("./root_node");
 var args = process.argv.slice(2);
 var browserConnection = null;
 var nodeStatic = require("node-static");
@@ -21,7 +21,7 @@ if (process.platform === "win32") {
     });
 }
 
-function onConnectedToMicrocontroller() {
+function onConnectedToRootNode() {
     var port = 8080;
     var server = http.createServer(function (request, response) {
         request.addListener("end", function () {
@@ -41,12 +41,12 @@ function onConnectedToMicrocontroller() {
     wsServer.on("request", function (request) {
         browserConnection = request.accept(null, request.origin);
         console.log("Connection from browser accepted");
-        microcontroller.browserConnection = browserConnection;
+        rootNode.browserConnection = browserConnection;
     });
 }
 
 if (args.length === 0) {
-    microcontroller.listSerialPorts(
+    rootNode.listSerialPorts(
         function (ports) {
             console.log("Specify com port name as first argument");
             console.log("");
@@ -59,8 +59,8 @@ if (args.length === 0) {
         }
     );
 } else {
-    microcontroller.connect({
+    rootNode.connect({
         comName: args[0],
-        onConnected: onConnectedToMicrocontroller
+        onConnected: onConnectedToRootNode
     });
 }

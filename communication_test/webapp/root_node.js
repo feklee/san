@@ -1,4 +1,4 @@
-// Interface to microcontroller
+// Interface to root node
 
 /*jslint node: true, getset: true, maxlen: 80 */
 

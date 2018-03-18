@@ -32,7 +32,7 @@ client.onmessage = function (e) {
 };
 
 var camera, scene, renderer;
-var geometry, material, mesh;
+var geometry, material, mesh, controls;
 
 var visualizationEl = document.querySelector("div.visualization");
 
@@ -44,7 +44,17 @@ function init() {
     console.log(width);
 
 	camera = new THREE.PerspectiveCamera( 70, width / height, 0.01, 10 );
+
+    controls = new THREE.OrbitControls(camera);
+    controls.enableDamping = true;
+    controls.autoRotate = true;
+
+    controls.addEventListener("start", function(){
+        controls.autoRotate = false;
+    });
+
 	camera.position.z = 1;
+    controls.update();
 
 	scene = new THREE.Scene();
 
@@ -54,6 +64,20 @@ function init() {
 	mesh = new THREE.Mesh( geometry, material );
 	scene.add( mesh );
 
+    var material2 = new THREE.LineBasicMaterial({
+	    color: 0x0000ff
+    });
+
+    geometry = new THREE.Geometry();
+    geometry.vertices.push(
+	    new THREE.Vector3(-0.2, 0, 0),
+	    new THREE.Vector3(0, 0.2, 0),
+	    new THREE.Vector3(0.2, 0, 0)
+    );
+
+    var line = new THREE.Line(geometry, material2);
+    scene.add(line);
+
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setSize(width, height);
 	visualizationEl.appendChild( renderer.domElement );
@@ -62,8 +86,7 @@ function init() {
 function animate() {
 	requestAnimationFrame(animate);
 
-	mesh.rotation.x += 0.01;
-	mesh.rotation.y += 0.02;
+    controls.update();
 
 	renderer.render(scene, camera);
 }

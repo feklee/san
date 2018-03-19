@@ -7,6 +7,7 @@
 class Pair {
 public:
   Pair(OtherNode = emptyOtherNode, OtherNode = emptyOtherNode);
+  boolean isEmpty();
   OtherNode firstNode;
   OtherNode secondNode;
 };

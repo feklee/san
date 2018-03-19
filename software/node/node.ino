@@ -37,10 +37,12 @@ static inline OtherNode nodeFromPayload(char payload[2]) {
 }
 
 static void flashLed() {
-  digitalWrite(ledPin, HIGH);
-  delay(50);
-  digitalWrite(ledPin, LOW);
-  delay(50);
+  if (flashLedIsEnabled) {
+    digitalWrite(ledPin, HIGH);
+    delay(50);
+    digitalWrite(ledPin, LOW);
+    delay(50);
+  }
 }
 
 static inline boolean iAmRoot() {
@@ -325,15 +327,17 @@ void rootLoop() {
   askForChild(port);
 
   Pair pair = dequeueNewPair();
-  char buffer[] = {
-    pair.firstNode.nodeId,
-    charFromDigit(pair.firstNode.portNumber),
-    pair.secondNode.nodeId,
-    charFromDigit(pair.secondNode.portNumber),
-    '\0'
-  };
+  if (!pair.isEmpty()) {
+    char buffer[] = {
+      pair.firstNode.nodeId,
+      charFromDigit(pair.firstNode.portNumber),
+      pair.secondNode.nodeId,
+      charFromDigit(pair.secondNode.portNumber),
+      '\0'
+    };
 
-  Serial.println(buffer);
+    Serial.println(buffer);
+  }
 
   waitForEndOfCycle();
 }

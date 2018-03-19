@@ -297,7 +297,7 @@ void setup() {
 
   for (uint8_t i = 0; i < portsCount; i ++) {
     ports[i] = new Port(portPins[i], i + 1);
-    ports[i]->serial->begin(4800);
+    ports[i]->serial->begin(57600);
   }
 
   for (uint8_t i = 0; i < portsCount; i ++) {

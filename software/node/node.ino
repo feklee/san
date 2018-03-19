@@ -296,7 +296,7 @@ void setup() {
   setRandomSeed(nodeId);
 
   for (uint8_t i = 0; i < portsCount; i ++) {
-    ports[i] = new Port(portPins[i], i);
+    ports[i] = new Port(portPins[i], i + 1);
     ports[i]->serial->begin(4800);
   }
 

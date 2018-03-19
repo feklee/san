@@ -40,42 +40,30 @@ function init() {
     var width = window.innerWidth - asideWidth;
     var height = window.innerHeight;
 
-    console.log(window.innerWidth);
-    console.log(width);
-
-	camera = new THREE.PerspectiveCamera( 70, width / height, 0.01, 10 );
+	camera = new THREE.PerspectiveCamera(50, width / height, 0.01, 10);
 
     controls = new THREE.OrbitControls(camera);
     controls.enableDamping = true;
     controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.5;
 
-    controls.addEventListener("start", function(){
-        controls.autoRotate = false;
-    });
-
-	camera.position.z = 1;
+	camera.position.z = 3;
     controls.update();
 
 	scene = new THREE.Scene();
 
-	geometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );
-	material = new THREE.MeshNormalMaterial();
-
-	mesh = new THREE.Mesh( geometry, material );
-	scene.add( mesh );
-
-    var material2 = new THREE.LineBasicMaterial({
+    var material = new THREE.LineBasicMaterial({
 	    color: 0x0000ff
     });
 
     geometry = new THREE.Geometry();
     geometry.vertices.push(
-	    new THREE.Vector3(-0.2, 0, 0),
-	    new THREE.Vector3(0, 0.2, 0),
-	    new THREE.Vector3(0.2, 0, 0)
+	    new THREE.Vector3(-1, 0, 0),
+	    new THREE.Vector3(0, 1, 0),
+	    new THREE.Vector3(1, 0, 0)
     );
 
-    var line = new THREE.Line(geometry, material2);
+    var line = new THREE.Line(geometry, material);
     scene.add(line);
 
 	renderer = new THREE.WebGLRenderer( { antialias: true } );

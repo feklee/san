@@ -1,5 +1,7 @@
 /*jslint browser: true, maxlen: 80 */
 
+/*global THREE*/
+
 import log from "./log.js";
 
 var hostname = window.location.hostname;
@@ -31,8 +33,12 @@ client.onmessage = function (e) {
     log.append(data.type, data.text);
 };
 
-var camera, scene, renderer;
-var geometry, material, mesh, controls;
+var camera;
+var scene;
+var renderer;
+var geometry;
+var mesh;
+var controls;
 
 var visualizationEl = document.querySelector("div.visualization");
 
@@ -40,43 +46,41 @@ function init() {
     var width = window.innerWidth - asideWidth;
     var height = window.innerHeight;
 
-	camera = new THREE.PerspectiveCamera(50, width / height, 0.01, 10);
+    camera = new THREE.PerspectiveCamera(50, width / height, 0.01, 10);
 
     controls = new THREE.OrbitControls(camera);
     controls.enableDamping = true;
     controls.autoRotate = true;
     controls.autoRotateSpeed = 0.5;
 
-	camera.position.z = 3;
+    camera.position.z = 3;
     controls.update();
 
-	scene = new THREE.Scene();
+    scene = new THREE.Scene();
 
     var material = new THREE.LineBasicMaterial({
-	    color: 0x0000ff
+        color: 0x0000ff
     });
 
     geometry = new THREE.Geometry();
     geometry.vertices.push(
-	    new THREE.Vector3(-1, 0, 0),
-	    new THREE.Vector3(0, 1, 0),
-	    new THREE.Vector3(1, 0, 0)
+        new THREE.Vector3(-1, 0, 0),
+        new THREE.Vector3(0, 1, 0),
+        new THREE.Vector3(1, 0, 0)
     );
 
     var line = new THREE.Line(geometry, material);
     scene.add(line);
 
-	renderer = new THREE.WebGLRenderer( { antialias: true } );
-	renderer.setSize(width, height);
-	visualizationEl.appendChild( renderer.domElement );
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setSize(width, height);
+    visualizationEl.appendChild( renderer.domElement );
 }
 
 function animate() {
-	requestAnimationFrame(animate);
-
+    window.requestAnimationFrame(animate);
     controls.update();
-
-	renderer.render(scene, camera);
+    renderer.render(scene, camera);
 }
 
 function onWindowResize() {

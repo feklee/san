@@ -4,6 +4,7 @@
 
 import log from "./log.js";
 import matrix from "./matrix.js";
+import nodes from "./nodes.js";
 
 var hostname = window.location.hostname;
 var client = new window.WebSocket("ws://" + hostname + ":8080/");
@@ -21,18 +22,37 @@ client.onclose = function () {
     log.append("warn", "WebSocket closed");
 };
 
+var parseData = function (data) {
+    var a = data.split("");
+    var existingNodeId = a[0];
+    var existingNodePort = parseInt(a[1]);
+    var newNodeId = a[2];
+    var newNodePort = parseInt(a[3]);
+    nodes.add(newNodeId);
+    nodes.updateConnection([{
+        nodeId: existingNodeId,
+        portNumber: existingNodePort
+    }, {
+        nodeId: newNodeId,
+        portNumber: newNodePort
+    }]);
+};
+
 client.onmessage = function (e) {
-    var data;
+    var message;
     var json;
     if (typeof e.data === "string") {
         json = e.data;
-        data = JSON.parse(json);
+        message = JSON.parse(json);
     } else {
         return;
     }
 
-    log.append(data.type, data.text);
-    matrix.connectNode("*", 1, "X", 3);
+    log.append(message.type, message.text);
+
+    if (message.type === "data") {
+        parseData(message.text);
+    }
 };
 
 var camera;

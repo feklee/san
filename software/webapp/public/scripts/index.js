@@ -3,6 +3,7 @@
 /*global THREE*/
 
 import log from "./log.js";
+import matrix from "./matrix.js";
 
 var hostname = window.location.hostname;
 var client = new window.WebSocket("ws://" + hostname + ":8080/");
@@ -31,6 +32,7 @@ client.onmessage = function (e) {
     }
 
     log.append(data.type, data.text);
+    matrix.connectNode("*", 1, "X", 3);
 };
 
 var camera;
@@ -72,9 +74,9 @@ function init() {
     var line = new THREE.Line(geometry, material);
     scene.add(line);
 
-    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(width, height);
-    visualizationEl.appendChild( renderer.domElement );
+    visualizationEl.appendChild(renderer.domElement);
 }
 
 function animate() {
@@ -94,7 +96,7 @@ function onWindowResize() {
 
 window.addEventListener("resize", onWindowResize, false);
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     var asideEl = document.querySelector("aside");
     asideEl.style.width = asideWidth + "px";
     init();

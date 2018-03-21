@@ -6,7 +6,7 @@ var nodeExists = function (id) {
     return nodes[id] !== undefined;
 };
 
-nodes.add = function (id) {
+var addNode = function (id) {
     if (nodeExists(id)) {
         return;
     }
@@ -35,25 +35,25 @@ var hasNoConnectedNodes = function (node) {
 };
 
 var removeUnconnectedNodes = function () {
-    Object.keys(nodes).forEach(function (key) {
-        var entryIsNode = key.length === 1;
-        if (entryIsNode) {
-            var nodeId = key;
-            var node = nodes[nodeId];
-            var isRootNode = nodeId === "*";
-            if (isRootNode) {
-                return;
-            }
-            if (hasNoConnectedNodes(node)) {
-                delete nodes[nodeId];
-            }
+    Object.keys(nodes).forEach(function (nodeId) {
+        var node = nodes[nodeId];
+        var isRootNode = nodeId === "*";
+        if (isRootNode) {
+            return;
+        }
+        if (hasNoConnectedNodes(node)) {
+            delete nodes[nodeId];
         }
     });
 };
 
-var removeConnectedNode = function (node, nodeToRemove) {
+var disconnectNode = function (node, nodeToDisconnect) {
+    if (node === null) {
+        return;
+    }
     node.connectedNodes.forEach(function (connectedNode, i) {
-        if (connectedNode !== null && connectedNode.id === nodeToRemove.id) {
+        if (connectedNode !== null &&
+            connectedNode.id === nodeToDisconnect.id) {
             node.connectedNodes[i] = null;
         }
     });
@@ -70,19 +70,24 @@ var disconnect = function (port) {
     var connectedNode = node.connectedNodes[port.portNumber - 1];
 
     node.connectedNodes[port.portNumber - 1] = null;
-    removeConnectedNode(connectedNode, node);
+    disconnectNode(connectedNode, node);
     removeUnconnectedNodes();
 };
 
-nodes.updateConnection = function (ports) {
+var updateConnection = function (ports) {
     if (ports[1].nodeId === "_") {
         disconnect(ports[0]);
+        console.log(nodes);
         return;
     }
 
     connect(ports);
+    console.log(nodes);
 };
 
-nodes.add("*");
+addNode("*");
 
-export default nodes;
+export default {
+    addNode: addNode,
+    updateConnection: updateConnection
+};

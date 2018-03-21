@@ -4,7 +4,7 @@
 
 import log from "./log.js";
 import matrix from "./matrix.js";
-import nodes from "./nodes.js";
+import nodeManager from "./node-manager.js";
 
 var hostname = window.location.hostname;
 var client = new window.WebSocket("ws://" + hostname + ":8080/");
@@ -28,8 +28,10 @@ var parseData = function (data) {
     var existingNodePort = parseInt(a[1]);
     var newNodeId = a[2];
     var newNodePort = parseInt(a[3]);
-    nodes.add(newNodeId);
-    nodes.updateConnection([{
+    if (newNodeId !== "_") {
+        nodeManager.addNode(newNodeId);
+    }
+    nodeManager.updateConnection([{
         nodeId: existingNodeId,
         portNumber: existingNodePort
     }, {

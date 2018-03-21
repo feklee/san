@@ -82,10 +82,14 @@ var connectNode = function (existingNodeId, existingPortNumber,
     // fixme: take action if new node also exists (closes loop)
 };
 
-document.addEventListener("DOMContentLoaded", function () {
+var rebuild = function () {
     render();
+};
+
+document.addEventListener("DOMContentLoaded", function () {
+    rebuild();
 });
 
 export default {
-    connectNode: connectNode
+    rebuild: rebuild
 };

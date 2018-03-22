@@ -124,10 +124,9 @@ var disconnect = function (port) {
 var updateConnection = function (ports) {
     if (ports[1].nodeId === "_") {
         disconnect(ports[0]);
-        return;
+    } else {
+        connect(ports);
     }
-
-    connect(ports);
     visualize();
 };
 

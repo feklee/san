@@ -124,7 +124,6 @@ var drawNodes = function () {
 
 var visualize = function () {
     clear(scene);
-
     drawNodes();
     drawEdges();
 };

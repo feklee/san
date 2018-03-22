@@ -6,9 +6,10 @@ var WebSocketServer = require("websocket").server;
 var http = require("http");
 var rootNode = require("./root_node");
 var args = process.argv.slice(2);
-var browserConnection = null;
 var nodeStatic = require("node-static");
 var fileServer = new nodeStatic.Server("./public", {cache: 0});
+var receivedDataItems = require("./received_data_items");
+var browser = require("./browser");
 
 if (process.platform === "win32") {
     var rl = require("readline").createInterface({
@@ -39,9 +40,9 @@ function onConnectedToRootNode() {
     });
 
     wsServer.on("request", function (request) {
-        browserConnection = request.accept(null, request.origin);
+        browser.connection = request.accept(null, request.origin);
         console.log("Connection from browser accepted");
-        rootNode.browserConnection = browserConnection;
+        receivedDataItems.send();
     });
 }
 

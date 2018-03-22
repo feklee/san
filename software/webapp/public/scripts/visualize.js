@@ -64,8 +64,26 @@ clear = function (obj) {
     }
 };
 
+var drawNode = function (node) {
+    if (node.location === null) {
+        return;
+    }
+
+    var geometry = new THREE.SphereGeometry(settings.nodeDiameter, 32, 32);
+    var material = new THREE.MeshBasicMaterial({color: "gray"});
+    var sphere = new THREE.Mesh(geometry, material);
+    scene.add(sphere);
+    sphere.position.set(node.location.x, node.location.y, node.location.z);
+};
+
+var drawNodes = function () {
+    Object.values(nodes).forEach(drawNode);
+};
+
 var visualize = function () {
     clear(scene);
+
+    drawNodes();
 
     var material = new THREE.LineBasicMaterial({
         color: "gray"
@@ -80,11 +98,6 @@ var visualize = function () {
 
     var line = new THREE.Line(geometry, material);
     scene.add(line);
-
-    geometry = new THREE.SphereGeometry(0.1, 32, 32);
-    material = new THREE.MeshBasicMaterial({color: "gray"});
-    var sphere = new THREE.Mesh(geometry, material);
-    scene.add(sphere);
 };
 
 window.addEventListener("resize", updateSize, false);

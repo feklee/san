@@ -12,8 +12,10 @@ var addNode = function (id) {
     }
     nodes[id] = {
         id: id,
-        connectedNodes: [null, null, null, null]
+        connectedNodes: [null, null, null, null],
+        location: null // todo: initialize with THREE.Vector3 when connecting, in distance 10 (configurable)
     };
+    return nodes[id];
 };
 
 var connect = function (ports) {
@@ -85,7 +87,12 @@ var updateConnection = function (ports) {
     console.log(nodes);
 };
 
-addNode("*");
+var addRootNode = function () {
+    var node = addNode("*");
+    node.location = new THREE.Vector3(0, 0, 0);
+};
+
+addRootNode();
 
 export default {
     addNode: addNode,

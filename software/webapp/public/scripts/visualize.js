@@ -4,6 +4,7 @@
 
 import settings from "./settings.js";
 import nodes from "./nodes.js";
+import findEdges from "./find-edges.js";
 
 var camera;
 var scene;
@@ -64,14 +65,14 @@ clear = function (obj) {
     }
 };
 
-var drawEdge = function (pairOfNodes) {
+var drawEdge = function (edge) {
     var material = new THREE.LineBasicMaterial({
         color: "gray"
     });
 
-    var locations = [pairOfNodes[0].location, pairOfNodes[1].location];
+    var locations = [edge.node.location, edge.connectedNode.location];
 
-    var missingLocation = locations.indexOf(null) !== -1;
+    var missingLocation = locations.indexOf(null) !== -1; // todo: necessary?
     if (missingLocation) {
         return;
     }
@@ -88,21 +89,10 @@ var drawEdge = function (pairOfNodes) {
 };
 
 var drawEdges = function () {
-    var processedNodes = [];
+    var edges = findEdges();
 
-    Object.values(nodes).forEach(function (node) {
-        Object.values(node.connectedNodes).forEach(function (connectedNode) {
-            if (connectedNode === null) {
-                return;
-            }
-            var connectionAlreadyDrawn =
-                processedNodes.indexOf(connectedNode) !== -1;
-            if (connectionAlreadyDrawn) {
-                return;
-            }
-            drawEdge([node, connectedNode]);
-        });
-        processedNodes.push(node);
+    edges.forEach(function (edge) {
+        drawEdge(edge);
     });
 };
 

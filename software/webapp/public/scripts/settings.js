@@ -6,5 +6,6 @@ export default {
         "B": "yellow",
         "C": "blue"
     },
-    defaultNodeColor: "gray"
+    defaultNodeColor: "gray",
+    optimizationResolution: 10
 };

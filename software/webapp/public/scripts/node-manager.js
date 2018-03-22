@@ -5,6 +5,7 @@
 import visualize from "./visualize.js";
 import nodes from "./nodes.js";
 import settings from "./settings.js";
+import renderMatrix from "./render-matrix.js";
 
 var nodeExists = function (id) {
     return nodes[id] !== undefined;
@@ -127,6 +128,7 @@ var updateConnection = function (ports) {
     } else {
         connect(ports);
     }
+    renderMatrix();
     visualize();
 };
 

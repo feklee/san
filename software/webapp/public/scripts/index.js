@@ -3,7 +3,6 @@
 /*global THREE*/
 
 import log from "./log.js";
-import matrix from "./matrix.js";
 import nodeManager from "./node-manager.js";
 import settings from "./settings.js";
 

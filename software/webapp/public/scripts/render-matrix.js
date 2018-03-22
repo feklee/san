@@ -1,13 +1,17 @@
 /*jslint browser: true, maxlen: 80 */
 
+import nodes from "./nodes.js";
+
 var matrixEl = document.querySelector("table.matrix");
-var nodeIds = ["*"];
-var matrix = [[0]];
 
 var clear = function () {
     while (matrixEl.firstChild) {
         matrixEl.removeChild(matrixEl.firstChild);
     }
+};
+
+var sortNodeIds = function () {
+    return Object.keys(nodes).sort();
 };
 
 var renderHead = function () {
@@ -16,21 +20,23 @@ var renderHead = function () {
     var rowEl = document.createElement("tr");
     headEl.appendChild(rowEl);
     rowEl.appendChild(document.createElement("th"));
-    nodeIds.forEach(function (nodeId) {
+    var columnIds = sortNodeIds();
+    columnIds.forEach(function (nodeId) {
         var cellEl = document.createElement("th");
         cellEl.textContent = nodeId;
         rowEl.appendChild(cellEl);
     });
 };
 
-var renderBody = function () {
+var renderBody = function (matrix) {
     var bodyEl = document.createElement("tbody");
     matrixEl.appendChild(bodyEl);
+    var sortedNodeIds = sortNodeIds();
     matrix.forEach(function (row, i) {
         var rowEl = document.createElement("tr");
         bodyEl.appendChild(rowEl);
         var headerCellEl = document.createElement("th");
-        headerCellEl.textContent = nodeIds[i];
+        headerCellEl.textContent = sortedNodeIds[i];
         rowEl.appendChild(headerCellEl);
         row.forEach(function (x) {
             var cellEl = document.createElement("td");
@@ -40,56 +46,50 @@ var renderBody = function () {
     });
 };
 
-var render = function () {
+var render = function (matrix) {
     clear();
     renderHead();
-    renderBody();
+    renderBody(matrix);
 };
 
-var nodeIndex = function (nodeId) {
-    return nodeIds.indexOf(nodeId);
-};
-
-var addColumn = function () {
-    matrix.forEach(function (row) {
-        row.push(0);
-    });
-};
-
-var addRow = function () {
+var createRow = function (node, columnIds) {
     var row = [];
-    matrix[0].forEach(function () {
-        row.push(0);
+    var connectedNodes = Object.values(node.connectedNodes);
+
+    columnIds.forEach(function (columnId) {
+        var columnNode = nodes[columnId];
+        var i = connectedNodes.indexOf(columnNode);
+        row.push(
+            i === -1
+                ? 0
+                : i + 1
+        );
     });
-    matrix.push(row);
+
+    console.log(row);
+
+    return row;
 };
 
-var addNode = function (nodeId) {
-    addRow();
-    addColumn();
-    nodeIds.push(nodeId);
+var createMatrix = function () {
+    var rowIds = sortNodeIds();
+    var matrix = [];
+
+    rowIds.forEach(function (nodeId) {
+        var node = nodes[nodeId];
+        matrix.push(createRow(node, rowIds));
+    });
+
+    return matrix;
 };
 
-var connectNode = function (existingNodeId, existingPortNumber,
-                            newNodeId, newPortNumber) {
-    var i = nodeIndex(existingNodeId);
-    var nodeDoesNotExist = i < 0;
-    if (nodeDoesNotExist) {
-        return;
-    }
-    addNode(newNodeId);
-    render();
-    // fixme: take action if new node also exists (closes loop)
-};
-
-var rebuild = function () {
-    render();
+var renderMatrix = function () {
+    var matrix = createMatrix();
+    render(matrix);
 };
 
 document.addEventListener("DOMContentLoaded", function () {
-    rebuild();
+    renderMatrix();
 });
 
-export default {
-    rebuild: rebuild
-};
+export default renderMatrix;

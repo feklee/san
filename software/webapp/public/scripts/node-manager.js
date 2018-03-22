@@ -16,10 +16,39 @@ var addNode = function (id) {
     nodes[id] = {
         id: id,
         connectedNodes: [null, null, null, null],
-        location: null, // todo: initialize with THREE.Vector3 when connecting, in distance 10 (configurable)
+        location: null,
         color: "gray"
     };
     return nodes[id];
+};
+
+// See article "Generating uniformly distributed numbers on a sphere":
+// http://corysimon.github.io/articles/uniformdistn-on-sphere/
+var randomUnitVector = function () {
+    var theta = 2 * Math.PI * Math.random();
+    var phi = Math.acos(1 - 2 * Math.random());
+
+    return new THREE.Vector3(
+        Math.sin(phi) * Math.cos(theta),
+        Math.sin(phi) * Math.sin(theta),
+        Math.cos(phi));
+};
+
+var locationAtRandomOrientation = function (origin) {
+    return origin.clone().add(randomUnitVector());
+};
+
+var setLocation = function (originNode, node) {
+    if (originNode.location === null) {
+        return;
+    }
+
+    var nodeAlreadyHasLocation = node.location !== null;
+    if (nodeAlreadyHasLocation) {
+        return;
+    }
+
+    node.location = locationAtRandomOrientation(originNode.location);
 };
 
 var connect = function (ports) {
@@ -27,10 +56,13 @@ var connect = function (ports) {
         return;
     }
 
-    nodes[ports[0].nodeId].connectedNodes[ports[0].portNumber - 1] =
-            nodes[ports[1].nodeId];
-    nodes[ports[1].nodeId].connectedNodes[ports[1].portNumber - 1] =
-            nodes[ports[0].nodeId];
+    var node = nodes[ports[0].nodeId];
+    var nodeToConnect = nodes[ports[1].nodeId];
+
+    node.connectedNodes[ports[0].portNumber - 1] = nodeToConnect;
+    nodeToConnect.connectedNodes[ports[1].portNumber - 1] = node;
+
+    setLocation(node, nodeToConnect);
 };
 
 var hasNoConnectedNodes = function (node) {
@@ -83,13 +115,11 @@ var disconnect = function (port) {
 var updateConnection = function (ports) {
     if (ports[1].nodeId === "_") {
         disconnect(ports[0]);
-        console.log(nodes);
         return;
     }
 
     connect(ports);
-    console.log(nodes);
-    visualize();;
+    visualize();
 };
 
 var addRootNode = function () {

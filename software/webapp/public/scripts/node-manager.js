@@ -13,7 +13,8 @@ var addNode = function (id) {
     nodes[id] = {
         id: id,
         connectedNodes: [null, null, null, null],
-        location: null // todo: initialize with THREE.Vector3 when connecting, in distance 10 (configurable)
+        location: null, // todo: initialize with THREE.Vector3 when connecting, in distance 10 (configurable)
+        color: "black"
     };
     return nodes[id];
 };

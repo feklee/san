@@ -112,7 +112,7 @@ var drawNode = function (node) {
     }
 
     var geometry = new THREE.SphereGeometry(settings.nodeDiameter, 32, 32);
-    var material = new THREE.MeshBasicMaterial({color: "gray"});
+    var material = new THREE.MeshBasicMaterial({color: node.color});
     var sphere = new THREE.Mesh(geometry, material);
     scene.add(sphere);
     sphere.position.set(node.location.x, node.location.y, node.location.z);

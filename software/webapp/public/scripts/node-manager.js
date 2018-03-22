@@ -4,6 +4,7 @@
 
 import visualize from "./visualize.js";
 import nodes from "./nodes.js";
+import settings from "./settings.js";
 
 var nodeExists = function (id) {
     return nodes[id] !== undefined;
@@ -13,13 +14,21 @@ var addNode = function (id) {
     if (nodeExists(id)) {
         return;
     }
-    nodes[id] = {
+    var node = {
         id: id,
         connectedNodes: [null, null, null, null],
         location: null,
-        color: "gray"
+        color: null
     };
-    return nodes[id];
+
+    node.color = settings.nodeColors[id];
+    if (node.color === undefined) {
+        node.color = settings.defaultNodeColor;
+    }
+
+    nodes[id] = node;
+
+    return node;
 };
 
 // See article "Generating uniformly distributed numbers on a sphere":

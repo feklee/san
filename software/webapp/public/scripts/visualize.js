@@ -64,6 +64,48 @@ clear = function (obj) {
     }
 };
 
+var drawEdge = function (pairOfNodes) {
+    var material = new THREE.LineBasicMaterial({
+        color: "gray"
+    });
+
+    var locations = [pairOfNodes[0].location, pairOfNodes[1].location];
+
+    var missingLocation = locations.indexOf(null) !== -1;
+    if (missingLocation) {
+        return;
+    }
+
+    var geometry = new THREE.Geometry();
+    locations.forEach(function (location) {
+        geometry.vertices.push(
+            new THREE.Vector3(location.x, location.y, location.z)
+        );
+    });
+
+    var line = new THREE.Line(geometry, material);
+    scene.add(line);
+};
+
+var drawEdges = function () {
+    var processedNodes = [];
+
+    Object.values(nodes).forEach(function (node) {
+        Object.values(node.connectedNodes).forEach(function (connectedNode) {
+            if (connectedNode === null) {
+                return;
+            }
+            var connectionAlreadyDrawn =
+                processedNodes.indexOf(connectedNode) !== -1;
+            if (connectionAlreadyDrawn) {
+                return;
+            }
+            drawEdge([node, connectedNode]);
+        });
+        processedNodes.push(node);
+    });
+};
+
 var drawNode = function (node) {
     if (node.location === null) {
         return;
@@ -84,20 +126,7 @@ var visualize = function () {
     clear(scene);
 
     drawNodes();
-
-    var material = new THREE.LineBasicMaterial({
-        color: "gray"
-    });
-
-    var geometry = new THREE.Geometry();
-    geometry.vertices.push(
-        new THREE.Vector3(-1, 0, 0),
-        new THREE.Vector3(0, 1, 0),
-        new THREE.Vector3(1, 0, 0)
-    );
-
-    var line = new THREE.Line(geometry, material);
-    scene.add(line);
+    drawEdges();
 };
 
 window.addEventListener("resize", updateSize, false);

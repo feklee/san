@@ -1,6 +1,9 @@
 /*jslint browser: true, maxlen: 80 */
 
-var nodes = {};
+/*global THREE*/
+
+import visualize from "./visualize.js";
+import nodes from "./nodes.js";
 
 var nodeExists = function (id) {
     return nodes[id] !== undefined;
@@ -14,7 +17,7 @@ var addNode = function (id) {
         id: id,
         connectedNodes: [null, null, null, null],
         location: null, // todo: initialize with THREE.Vector3 when connecting, in distance 10 (configurable)
-        color: "black"
+        color: "gray"
     };
     return nodes[id];
 };
@@ -86,6 +89,7 @@ var updateConnection = function (ports) {
 
     connect(ports);
     console.log(nodes);
+    visualize();;
 };
 
 var addRootNode = function () {

@@ -6,7 +6,7 @@ import visualize from "./visualize.js";
 import nodes from "./nodes.js";
 import settings from "./settings.js";
 import renderMatrix from "./render-matrix.js";
-//todo import optimizeLocations from "./optimize-locations.js";
+import optimizeLocations from "./optimize-locations.js";
 
 var nodeExists = function (id) {
     return nodes[id] !== undefined;
@@ -130,7 +130,7 @@ var updateConnection = function (ports) {
         connect(ports);
     }
     renderMatrix();
-//todo    optimizeLocations();
+    optimizeLocations();
     visualize();
 };
 

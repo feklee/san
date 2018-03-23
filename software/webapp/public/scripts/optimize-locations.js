@@ -4,44 +4,39 @@
 
 import nodes from "./nodes.js";
 import settings from "./settings.js";
+import findEdges from "./find-edges.js";
 
 var resolution = settings.optimizationResolution;
 
-var lengthOfEdge = function (pairOfNodes) {
-    var locations = [pairOfNodes[0].location, pairOfNodes[1].location];
-    var edge = location[1] - location[0];
-    return edge.length();
+var lengthOfEdge = function (edge) {
+    var connection =
+        edge.node.location.clone().sub(edge.connectedNode.location);
+    return connection.length();
 };
 
-var lengthsOfEdges = function () {
+var largestDeviationOfEdgeLength = function () {
+    var edges = findEdges(); // todo: do that only once, or cache
     var lengths = [];
+    var largestDeviation = 0;
 
-    Object.values(nodes).forEach(function (node) {
-        Object.values(node.connectedNodes).forEach(function (connectedNode) {
-            lengths.push(lengthOfEdge());
-        });
-    });
-
-    individual.forEach(function (value) {
-        
-    });
-            return individual.reduce((p, c) => p + c); // the fitness is the sum of all the values
+    edges.forEach(function (edge) {
+        var deviation = Math.abs(1 - lengthOfEdge(edge));
+        if (deviation > largestDeviation) {
+            largestDeviation = deviation;
         }
-    ...
-};
+    });
 
-var lengthOfLongestEdge = function () {
-    return Math.max.apply(null, lengthsOfEdges());
+    return largestDeviation;
 };
 
 var fitness = function (individual) {
     Object.values(nodes).forEach(function (node, i) {
-        nodes.location.x = individual[i * 3] / resolution;
-        nodes.location.y = individual[i * 3 + 1] / resolution;
-        nodes.location.z = individual[i * 3 + 2] / resolution;
+        node.location.x = individual[i * 3] / resolution;
+        node.location.y = individual[i * 3 + 1] / resolution;
+        node.location.z = individual[i * 3 + 2] / resolution;
     });
 
-    return lengthOfLongestEdge();
+    return 1 / largestDeviationOfEdgeLength();
 };
 
 export default function () {
@@ -64,4 +59,6 @@ export default function () {
         console.log(`Best individual: ${generation.best.params}`);
         console.log(`Best individual's fitness: ${generation.best.fitness}`);
     }
+
+    console.log(nodes);
 };

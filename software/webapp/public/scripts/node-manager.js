@@ -150,6 +150,7 @@ var addRootNode = function () {
 };
 
 addRootNode();
+sortNodes();
 
 export default {
     addNode: addNode,

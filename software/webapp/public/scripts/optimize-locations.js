@@ -3,6 +3,7 @@
 /*global JSGA, THREE*/
 
 import nodes from "./nodes.js";
+import sortedNodes from "./sorted-nodes.js";
 import settings from "./settings.js";
 import findEdges from "./find-edges.js";
 
@@ -42,22 +43,26 @@ var fitness = function (individual) {
 var findCenter = function () {
     var center = new THREE.Vector3();
 
-    Object.values(nodes).forEach(function (node) {
+    sortedNodes.forEach(function (node) {
         center.add(node.location);
     });
 
-    center.divideScalar(Object.keys(nodes).length);
+    center.divideScalar(sortedNodes.length);
 
     return center;
 };
 
 var moveCenterToOrigin = function () {
-    Object.values(nodes).forEach(function (node) {
-        
+    var center = findCenter();
+
+    sortedNodes.forEach(function (node) {
+        node.location.sub(center);
     });
 };
 
 export default function () {
+    moveCenterToOrigin();
+
     return;
 
     var numberOfNodes = Object.keys(nodes).length;

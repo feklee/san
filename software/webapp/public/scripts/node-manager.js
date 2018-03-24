@@ -4,6 +4,7 @@
 
 import visualize from "./visualize.js";
 import nodes from "./nodes.js";
+import sortedNodes from "./sorted-nodes.js";
 import settings from "./settings.js";
 import renderMatrix from "./render-matrix.js";
 import optimizeLocations from "./optimize-locations.js";
@@ -123,12 +124,21 @@ var disconnect = function (port) {
     removeUnconnectedNodes();
 };
 
+var sortNodes = function () {
+    sortedNodes.length = 0;
+    var sortedNodeIds = Object.keys(nodes).sort();
+    sortedNodeIds.forEach(function (nodeId) {
+        sortedNodes.push(nodes[nodeId]);
+    });
+};
+
 var updateConnection = function (ports) {
     if (ports[1].nodeId === "_") {
         disconnect(ports[0]);
     } else {
         connect(ports);
     }
+    sortNodes();
     renderMatrix();
     optimizeLocations();
     visualize();

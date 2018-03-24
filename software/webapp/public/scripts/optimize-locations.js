@@ -1,6 +1,6 @@
 /*jslint browser: true, maxlen: 80 */
 
-/*global JSGA*/
+/*global JSGA, THREE*/
 
 import nodes from "./nodes.js";
 import settings from "./settings.js";
@@ -39,7 +39,27 @@ var fitness = function (individual) {
     return 1 / largestDeviationOfEdgeLength();
 };
 
+var findCenter = function () {
+    var center = new THREE.Vector3();
+
+    Object.values(nodes).forEach(function (node) {
+        center.add(node.location);
+    });
+
+    center.divideScalar(Object.keys(nodes).length);
+
+    return center;
+};
+
+var moveCenterToOrigin = function () {
+    Object.values(nodes).forEach(function (node) {
+        
+    });
+};
+
 export default function () {
+    return;
+
     var numberOfNodes = Object.keys(nodes).length;
     var dimensionality = 3;
 

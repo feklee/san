@@ -1,6 +1,6 @@
 /*jslint browser: true, maxlen: 80 */
 
-import nodes from "./nodes.js";
+import sortedNodes from "./sorted-nodes.js";
 
 var matrixEl = document.querySelector("table.matrix");
 
@@ -10,20 +10,15 @@ var clear = function () {
     }
 };
 
-var sortNodeIds = function () {
-    return Object.keys(nodes).sort();
-};
-
 var renderHead = function () {
     var headEl = document.createElement("thead");
     matrixEl.appendChild(headEl);
     var rowEl = document.createElement("tr");
     headEl.appendChild(rowEl);
     rowEl.appendChild(document.createElement("th"));
-    var columnIds = sortNodeIds();
-    columnIds.forEach(function (nodeId) {
+    sortedNodes.forEach(function (node) {
         var cellEl = document.createElement("th");
-        cellEl.textContent = nodeId;
+        cellEl.textContent = node.id;
         rowEl.appendChild(cellEl);
     });
 };
@@ -31,12 +26,11 @@ var renderHead = function () {
 var renderBody = function (matrix) {
     var bodyEl = document.createElement("tbody");
     matrixEl.appendChild(bodyEl);
-    var sortedNodeIds = sortNodeIds();
     matrix.forEach(function (row, i) {
         var rowEl = document.createElement("tr");
         bodyEl.appendChild(rowEl);
         var headerCellEl = document.createElement("th");
-        headerCellEl.textContent = sortedNodeIds[i];
+        headerCellEl.textContent = sortedNodes[i].id;
         rowEl.appendChild(headerCellEl);
         row.forEach(function (x) {
             var cellEl = document.createElement("td");
@@ -52,13 +46,12 @@ var render = function (matrix) {
     renderBody(matrix);
 };
 
-var createRow = function (node, columnIds) {
+var createRow = function (node) {
     var row = [];
     var connectedNodes = Object.values(node.connectedNodes);
 
-    columnIds.forEach(function (columnId) {
-        var columnNode = nodes[columnId];
-        var i = connectedNodes.indexOf(columnNode);
+    sortedNodes.forEach(function (node) {
+        var i = connectedNodes.indexOf(node);
         row.push(
             i === -1
                 ? 0
@@ -66,18 +59,14 @@ var createRow = function (node, columnIds) {
         );
     });
 
-    console.log(row);
-
     return row;
 };
 
 var createMatrix = function () {
-    var rowIds = sortNodeIds();
     var matrix = [];
 
-    rowIds.forEach(function (nodeId) {
-        var node = nodes[nodeId];
-        matrix.push(createRow(node, rowIds));
+    sortedNodes.forEach(function (node) {
+        matrix.push(createRow(node));
     });
 
     return matrix;

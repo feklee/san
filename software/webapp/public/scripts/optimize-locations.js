@@ -3,29 +3,68 @@
 /*global JSGA, THREE*/
 
 import nodes from "./nodes.js";
+import edges from "./edges.js";
 import sortedNodes from "./sorted-nodes.js";
 import settings from "./settings.js";
 
 var resolution = settings.optimizationResolution;
+const targetNeighborDistance = 2 * Math.sqrt(2 / 3);
 
-var lengthOfEdge = function (edge) {
-    var connection =
-        edge.node.location.clone().sub(edge.connectedNode.location);
+var distance = function (nodes) {
+    var connection = nodes[1].location.clone().sub(nodes[0].location);
     return connection.length();
 };
 
-var largestDeviationOfEdgeLength = function () {
-    var lengths = [];
-    var largestDeviation = 0;
+var normalizedDeviation = function (nodes, targetDistance) {
+    return Math.abs(distance(nodes) - targetDistance) / targetDistance;
+};
 
+var addEdgeLengthDeviations = function (deviations) {
     edges.forEach(function (edge) {
-        var deviation = Math.abs(1 - lengthOfEdge(edge));
-        if (deviation > largestDeviation) {
-            largestDeviation = deviation;
+        deviations.push(
+            normalizedDeviation([edge.node, edge.connectedNode], 1));
+    });
+};
+
+var addDistanceDevsOfNeighborsOfNode = function (deviations, node) {
+    var neighbors = node.connectedNodes;
+    neighbors.forEach(function (neighbor, i) {
+        if (neighbor === null) {
+            return;
+        }
+        var otherNeighbor;
+        var normalizedDistance;
+        var j = i + 1;
+        while (j < 4) {
+            otherNeighbor = neighbors[j];
+            if (otherNeighbor !== null) {
+                deviations.push(normalizedDeviation([neighbor, otherNeighbor],
+                                                    targetNeighborDistance));
+            }
+            j += 1;
         }
     });
+};
 
-    return largestDeviation;
+var addNeighborDistanceDeviations = function (deviations) {
+    sortedNodes.forEach(function (node) {
+        addDistanceDevsOfNeighborsOfNode(deviations, node);
+    });
+};
+
+var findDeviations = function () {
+    var deviations = [];
+    addEdgeLengthDeviations(deviations);
+    addNeighborDistanceDeviations(deviations);
+    return deviations;
+};
+
+var largestDeviation = function () {
+    return Math.max.apply(null, findDeviations());
+};
+
+var totalDeviation = function () {
+    return findDeviations().reduce((sum, x) => sum + x, 0);
 };
 
 var fitness = function (individual) {
@@ -35,17 +74,15 @@ var fitness = function (individual) {
         node.location.z = individual[i * 3 + 2] / resolution;
     });
 
-    return 1 / largestDeviationOfEdgeLength();
+    return 1 / totalDeviation();
+
+    return 1 / largestDeviation();
 };
 
 var findCenter = function () {
     var center = new THREE.Vector3();
 
     sortedNodes.forEach(function (node) {
-        if (node.location === null) {
-            console.log("null", Object.keys(nodes));
-            debugger;
-        }
         center.add(node.location);
     });
 
@@ -63,10 +100,6 @@ var moveCenterToOrigin = function () {
 };
 
 export default function () {
-    moveCenterToOrigin();
-
-    return;
-
     var numberOfNodes = Object.keys(nodes).length;
     var dimensionality = 3;
 
@@ -81,11 +114,15 @@ export default function () {
     });
 
     for (let generation of algorithm.run(50)) {
-        console.log(`Generation ${generation.generation}`);
+/*        console.log(`Generation ${generation.generation}`);
         console.log(`Array of individuals: ${generation.population}`);
         console.log(`Best individual: ${generation.best.params}`);
-        console.log(`Best individual's fitness: ${generation.best.fitness}`);
+        console.log(`Best individual's fitness: ${generation.best.fitness}`);*/
     }
+
+    console.log(findDeviations());
+
+    moveCenterToOrigin();
 
     console.log(nodes);
 };

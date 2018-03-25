@@ -4,6 +4,7 @@
 
 import visualize from "./visualize.js";
 import nodes from "./nodes.js";
+import edges from "./edges.js";
 import sortedNodes from "./sorted-nodes.js";
 import settings from "./settings.js";
 import renderMatrix from "./render-matrix.js";
@@ -158,6 +159,30 @@ var sortNodes = function () {
     });
 };
 
+var findEdges = function () {
+    var processedNodes = [];
+
+    edges.length = 0;
+
+    Object.values(nodes).forEach(function (node) {
+        Object.values(node.connectedNodes).forEach(function (connectedNode) {
+            if (connectedNode === null) {
+                return;
+            }
+            var connectionAlreadyFound =
+                    processedNodes.indexOf(connectedNode) !== -1;
+            if (connectionAlreadyFound) {
+                return;
+            }
+            edges.push({
+                node: node,
+                connectedNode: connectedNode
+            });
+        });
+        processedNodes.push(node);
+    });
+};
+
 var updateConnection = function (ports) {
     if (ports[1].nodeId === "_") {
         disconnect(ports[0]);
@@ -167,6 +192,7 @@ var updateConnection = function (ports) {
     removeNodesNotConnectedToRoot();
     nullConnectionsToRemovedNodes();
     sortNodes();
+    findEdges();
     renderMatrix();
     optimizeLocations();
     visualize();

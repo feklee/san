@@ -5,7 +5,6 @@
 import nodes from "./nodes.js";
 import sortedNodes from "./sorted-nodes.js";
 import settings from "./settings.js";
-import findEdges from "./find-edges.js";
 
 var resolution = settings.optimizationResolution;
 
@@ -16,7 +15,6 @@ var lengthOfEdge = function (edge) {
 };
 
 var largestDeviationOfEdgeLength = function () {
-    var edges = findEdges(); // todo: do that only once, or cache
     var lengths = [];
     var largestDeviation = 0;
 

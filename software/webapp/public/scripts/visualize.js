@@ -4,7 +4,7 @@
 
 import settings from "./settings.js";
 import nodes from "./nodes.js";
-import findEdges from "./find-edges.js";
+import edges from "./edges.js";
 
 var camera;
 var scene;
@@ -89,8 +89,6 @@ var drawEdge = function (edge) {
 };
 
 var drawEdges = function () {
-    var edges = findEdges();
-
     edges.forEach(function (edge) {
         drawEdge(edge);
     });

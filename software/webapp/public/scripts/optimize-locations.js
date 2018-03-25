@@ -44,6 +44,10 @@ var findCenter = function () {
     var center = new THREE.Vector3();
 
     sortedNodes.forEach(function (node) {
+        if (node.location === null) {
+            console.log("null", Object.keys(nodes));
+            debugger;
+        }
         center.add(node.location);
     });
 

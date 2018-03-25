@@ -8,6 +8,7 @@ import sortedNodes from "./sorted-nodes.js";
 import settings from "./settings.js";
 import renderMatrix from "./render-matrix.js";
 import optimizeLocations from "./optimize-locations.js";
+var rootNode;
 
 var nodeExists = function (id) {
     return nodes[id] !== undefined;
@@ -77,22 +78,48 @@ var connect = function (ports) {
     setLocation(node, nodeToConnect);
 };
 
-var hasNoConnectedNodes = function (node) {
-    var result = node.connectedNodes.find(function (connectedNode) {
-        return connectedNode !== null;
-    });
-    return result === undefined;
-};
+var findNodesConnectedToRoot = function () {
+    var nodesConnectedToRoot = new Set();
 
-var removeUnconnectedNodes = function () {
-    Object.keys(nodes).forEach(function (nodeId) {
-        var node = nodes[nodeId];
-        var isRootNode = nodeId === "*";
-        if (isRootNode) {
+    var findNodesConnectedToNode;
+    findNodesConnectedToNode = function (node) {
+        var nodeAlreadyProcessed = nodesConnectedToRoot.has(node);
+        if (nodeAlreadyProcessed) {
             return;
         }
-        if (hasNoConnectedNodes(node)) {
-            delete nodes[nodeId];
+        nodesConnectedToRoot.add(node);
+        node.connectedNodes.forEach(function (connectedNode) {
+            if (connectedNode !== null) {
+                findNodesConnectedToNode(connectedNode);
+            }
+        });
+    };
+
+    findNodesConnectedToNode(rootNode);
+
+    return nodesConnectedToRoot;
+};
+
+var nullConnectionsToRemovedNodes = function () {
+    Object.values(nodes).forEach(function (node) {
+        node.connectedNodes.forEach(function (connectedNode, i) {
+            if (connectedNode === null) {
+                return;
+            }
+            var isRemoved = nodes[connectedNode.id] !== undefined;
+            if (!isRemoved) {
+                node.connectedNodes[i] = null;
+            }
+        });
+    });
+};
+
+var removeNodesNotConnectedToRoot = function () {
+    var nodesConnectedToRoot = findNodesConnectedToRoot();
+    Object.values(nodes).forEach(function (node) {
+        var isConnectedToRoot = nodesConnectedToRoot.has(node);
+        if (!isConnectedToRoot) {
+            delete nodes[node.id];
         }
     });
 };
@@ -121,7 +148,6 @@ var disconnect = function (port) {
 
     node.connectedNodes[port.portNumber - 1] = null;
     disconnectNode(connectedNode, node);
-    removeUnconnectedNodes();
 };
 
 var sortNodes = function () {
@@ -138,6 +164,8 @@ var updateConnection = function (ports) {
     } else {
         connect(ports);
     }
+    removeNodesNotConnectedToRoot();
+    nullConnectionsToRemovedNodes();
     sortNodes();
     renderMatrix();
     optimizeLocations();
@@ -145,8 +173,8 @@ var updateConnection = function (ports) {
 };
 
 var addRootNode = function () {
-    var node = addNode("*");
-    node.location = new THREE.Vector3(0, 0, 0);
+    rootNode = addNode("*");
+    rootNode.location = new THREE.Vector3(0, 0, 0);
 };
 
 addRootNode();

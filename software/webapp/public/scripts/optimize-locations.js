@@ -15,14 +15,14 @@ var distance = function (nodes) {
     return connection.length();
 };
 
-var normalizedDeviation = function (nodes, targetDistance) {
-    return Math.abs(distance(nodes) - targetDistance) / targetDistance;
+var deviation = function (nodes, targetDistance) {
+    return Math.abs(distance(nodes) - targetDistance);
 };
 
 var addEdgeLengthDeviations = function (deviations) {
     edges.forEach(function (edge) {
         deviations.push(
-            normalizedDeviation([edge.node, edge.connectedNode], 1));
+            deviation([edge.node, edge.connectedNode], 1));
     });
 };
 
@@ -33,13 +33,12 @@ var addDistanceDevsOfNeighborsOfNode = function (deviations, node) {
             return;
         }
         var otherNeighbor;
-        var normalizedDistance;
         var j = i + 1;
         while (j < 4) {
             otherNeighbor = neighbors[j];
             if (otherNeighbor !== null) {
-                deviations.push(normalizedDeviation([neighbor, otherNeighbor],
-                                                    targetNeighborDistance));
+                deviations.push(deviation([neighbor, otherNeighbor],
+                                          targetNeighborDistance));
             }
             j += 1;
         }
@@ -63,19 +62,16 @@ var largestDeviation = function () {
     return Math.max.apply(null, findDeviations());
 };
 
-var totalDeviation = function () {
-    return findDeviations().reduce((sum, x) => sum + x, 0);
-};
-
-var fitness = function (individual) {
+var assignLocationsToNodes = function (individual) {
     Object.values(nodes).forEach(function (node, i) {
         node.location.x = individual[i * 3] / resolution;
         node.location.y = individual[i * 3 + 1] / resolution;
         node.location.z = individual[i * 3 + 2] / resolution;
     });
+};
 
-    return 1 / totalDeviation();
-
+var fitness = function (individual) {
+    assignLocationsToNodes(individual);
     return 1 / largestDeviation();
 };
 
@@ -102,27 +98,28 @@ var moveCenterToOrigin = function () {
 export default function () {
     var numberOfNodes = Object.keys(nodes).length;
     var dimensionality = 3;
-
-    let algorithm = JSGA({
+    var jsga = JSGA;
+    var algorithm = jsga({
         length: dimensionality * numberOfNodes,
         radix: numberOfNodes * resolution,
         fitness: fitness,
-        size: 100,
-        children: 4,
+        size: 20 * numberOfNodes, // needs to be even
+        children: numberOfNodes,
         mutationRate: 0.05,
         crossovers: 1
     });
 
-    for (let generation of algorithm.run(50)) {
-/*        console.log(`Generation ${generation.generation}`);
-        console.log(`Array of individuals: ${generation.population}`);
-        console.log(`Best individual: ${generation.best.params}`);
-        console.log(`Best individual's fitness: ${generation.best.fitness}`);*/
+    var generation;
+    var iterable = algorithm.run(10 * numberOfNodes);
+    var iterator = iterable[Symbol.iterator]();
+    var n = iterator.next();
+    while (!n.done) {
+        generation = n.value;
+        n = iterator.next();
     }
 
-    console.log(findDeviations());
-
+    assignLocationsToNodes(generation.best.params);
     moveCenterToOrigin();
-
+    console.log(findDeviations());
     console.log(nodes);
 };

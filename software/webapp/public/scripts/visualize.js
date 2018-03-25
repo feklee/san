@@ -70,7 +70,7 @@ var drawEdge = function (edge) {
         color: "gray"
     });
 
-    var locations = [edge.node.location, edge.connectedNode.location];
+    var locations = [edge.node.location, edge.neighbor.location];
 
     var missingLocation = locations.indexOf(null) !== -1; // todo: necessary?
     if (missingLocation) {

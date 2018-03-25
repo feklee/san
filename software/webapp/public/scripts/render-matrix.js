@@ -48,10 +48,10 @@ var render = function (matrix) {
 
 var createRow = function (node) {
     var row = [];
-    var connectedNodes = Object.values(node.connectedNodes);
+    var neighbors = Object.values(node.neighbors);
 
     sortedNodes.forEach(function (node) {
-        var i = connectedNodes.indexOf(node);
+        var i = neighbors.indexOf(node);
         row.push(
             i === -1
                 ? 0

@@ -21,7 +21,7 @@ var addNode = function (id) {
     }
     var node = {
         id: id,
-        connectedNodes: [null, null, null, null],
+        neighbors: [null, null, null, null],
         location: null,
         color: null
     };
@@ -73,8 +73,8 @@ var connect = function (ports) {
     var node = nodes[ports[0].nodeId];
     var nodeToConnect = nodes[ports[1].nodeId];
 
-    node.connectedNodes[ports[0].portNumber - 1] = nodeToConnect;
-    nodeToConnect.connectedNodes[ports[1].portNumber - 1] = node;
+    node.neighbors[ports[0].portNumber - 1] = nodeToConnect;
+    nodeToConnect.neighbors[ports[1].portNumber - 1] = node;
 
     setLocation(node, nodeToConnect);
 };
@@ -89,9 +89,9 @@ var findNodesConnectedToRoot = function () {
             return;
         }
         nodesConnectedToRoot.add(node);
-        node.connectedNodes.forEach(function (connectedNode) {
-            if (connectedNode !== null) {
-                findNodesConnectedToNode(connectedNode);
+        node.neighbors.forEach(function (neighbor) {
+            if (neighbor !== null) {
+                findNodesConnectedToNode(neighbor);
             }
         });
     };
@@ -103,13 +103,13 @@ var findNodesConnectedToRoot = function () {
 
 var nullConnectionsToRemovedNodes = function () {
     Object.values(nodes).forEach(function (node) {
-        node.connectedNodes.forEach(function (connectedNode, i) {
-            if (connectedNode === null) {
+        node.neighbors.forEach(function (neighbor, i) {
+            if (neighbor === null) {
                 return;
             }
-            var isRemoved = nodes[connectedNode.id] !== undefined;
+            var isRemoved = nodes[neighbor.id] !== undefined;
             if (!isRemoved) {
-                node.connectedNodes[i] = null;
+                node.neighbors[i] = null;
             }
         });
     });
@@ -129,10 +129,10 @@ var disconnectNode = function (node, nodeToDisconnect) {
     if (node === null) {
         return;
     }
-    node.connectedNodes.forEach(function (connectedNode, i) {
-        if (connectedNode !== null &&
-            connectedNode.id === nodeToDisconnect.id) {
-            node.connectedNodes[i] = null;
+    node.neighbors.forEach(function (neighbor, i) {
+        if (neighbor !== null &&
+            neighbor.id === nodeToDisconnect.id) {
+            node.neighbors[i] = null;
         }
     });
 };
@@ -145,10 +145,10 @@ var disconnect = function (port) {
     }
 
     var node = nodes[nodeId];
-    var connectedNode = node.connectedNodes[port.portNumber - 1];
+    var neighbor = node.neighbors[port.portNumber - 1];
 
-    node.connectedNodes[port.portNumber - 1] = null;
-    disconnectNode(connectedNode, node);
+    node.neighbors[port.portNumber - 1] = null;
+    disconnectNode(neighbor, node);
 };
 
 var sortNodes = function () {
@@ -165,18 +165,18 @@ var findEdges = function () {
     edges.length = 0;
 
     Object.values(nodes).forEach(function (node) {
-        Object.values(node.connectedNodes).forEach(function (connectedNode) {
-            if (connectedNode === null) {
+        Object.values(node.neighbors).forEach(function (neighbor) {
+            if (neighbor === null) {
                 return;
             }
             var connectionAlreadyFound =
-                    processedNodes.indexOf(connectedNode) !== -1;
+                    processedNodes.indexOf(neighbor) !== -1;
             if (connectionAlreadyFound) {
                 return;
             }
             edges.push({
                 node: node,
-                connectedNode: connectedNode
+                neighbor: neighbor
             });
         });
         processedNodes.push(node);

@@ -22,12 +22,12 @@ var deviation = function (nodes, targetDistance) {
 var addEdgeLengthDeviations = function (deviations) {
     edges.forEach(function (edge) {
         deviations.push(
-            deviation([edge.node, edge.connectedNode], 1));
+            deviation([edge.node, edge.neighbor], 1));
     });
 };
 
 var addDistanceDevsOfNeighborsOfNode = function (deviations, node) {
-    var neighbors = node.connectedNodes;
+    var neighbors = node.neighbors;
     neighbors.forEach(function (neighbor, i) {
         if (neighbor === null) {
             return;

@@ -77,8 +77,4 @@ var renderMatrix = function () {
     render(matrix);
 };
 
-document.addEventListener("DOMContentLoaded", function () {
-    renderMatrix();
-});
-
 export default renderMatrix;

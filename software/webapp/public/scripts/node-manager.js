@@ -205,6 +205,8 @@ var addRootNode = function () {
 
 addRootNode();
 sortNodes();
+renderMatrix();
+visualize();
 
 export default {
     addNode: addNode,

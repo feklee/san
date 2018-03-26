@@ -3,7 +3,7 @@
 "use strict";
 
 var items = [];
-var browser = require("./browser");
+var webSocket = require("./web-socket.js");
 
 var add = function (data) {
     items.push(data);
@@ -12,7 +12,7 @@ var add = function (data) {
 var send = function () {
     items.forEach(function (data) {
         var message = {type: "data", text: data};
-        browser.send(message);
+        webSocket.send(message);
     });
 };
 

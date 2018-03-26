@@ -9,8 +9,8 @@ const parsers = SerialPort.parsers;
 const parser = new parsers.Readline({
     delimiter: "\r\n"
 });
-var browser = require("./browser");
-var receivedDataItems = require("./received_data_items");
+var webSocket = require("./web-socket");
+var receivedDataItems = require("./received-data-items");
 var port;
 
 function listSerialPorts(callback) {
@@ -35,29 +35,29 @@ function connect(settings) {
     port.on("open", function () {
         var message = {type: "info", text: "Serial port opened"};
         log(message);
-        browser.send(message);
+        webSocket.send(message);
         settings.onConnected();
     });
     port.on("close", function () {
         var message = {type: "warn", text: "Serial port closed"};
         log(message);
-        browser.send(message);
+        webSocket.send(message);
     });
     port.on("error", function () {
         var message = {type: "error", text: "Serial port error"};
         log(message);
-        browser.send(message);
+        webSocket.send(message);
         process.exit(1);
     });
     port.on("disconnected", function () {
         var message = {type: "warn", text: "Serial port disconnected"};
         log(message);
-        browser.send(message);
+        webSocket.send(message);
     });
     parser.on("data", function (data) {
         var message = {type: "data", text: data};
         log(message);
-        browser.send(message);
+        webSocket.send(message);
         receivedDataItems.add(data);
     });
 }

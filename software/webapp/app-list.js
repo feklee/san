@@ -2,7 +2,7 @@
 
 "use strict";
 
-var rootNode = require("./root_node");
+var rootNode = require("./root-node");
 
 rootNode.listSerialPorts(
     function (ports) {

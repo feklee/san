@@ -3,19 +3,22 @@
 "use strict";
 
 var startWebServer = require("./start-web-server");
-var rootNode = require("./root-node");
-var program = require("commander");
+var webSocket = require("./web-socket");
+var receivedDataItems = require("./received-data-items");
+var readline = require("readline");
 
-program.parse(process.argv);
+startWebServer(function () {
+    console.log("Now send data packages via standard input, line by line");
+});
 
-var port = program.args[0];
+var readlineInterface = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+});
 
-if (port === undefined) {
-    console.error("Missing port");
-    process.exit(1);
-}
-
-rootNode.connect({
-    comName: port,
-    onConnected: startWebServer
+readlineInterface.on("line", function (data) {
+    var message = {type: "data", text: data};
+    webSocket.send(message);
+    receivedDataItems.push(data);
 });

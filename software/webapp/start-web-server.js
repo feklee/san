@@ -8,7 +8,7 @@ var fileServer = new nodeStatic.Server("./public", {cache: 0});
 var webSocket = require("./web-socket");
 var port = 8080;
 
-module.exports = function () {
+module.exports = function (onListening) {
     var httpServer = http.createServer(function (request, response) {
         request.addListener("end", function () {
             fileServer.serve(request, response);
@@ -17,6 +17,9 @@ module.exports = function () {
 
     httpServer.listen(port, function () {
         console.log("HTTP server is listening on port " + port);
+        if (onListening !== undefined) {
+            onListening();
+        }
     });
 
     webSocket.create(httpServer);

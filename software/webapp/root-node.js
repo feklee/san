@@ -58,7 +58,7 @@ function connect(settings) {
         var message = {type: "data", text: data};
         log(message);
         webSocket.send(message);
-        receivedDataItems.add(data);
+        receivedDataItems.push(data);
     });
 }
 

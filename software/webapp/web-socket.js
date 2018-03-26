@@ -8,6 +8,19 @@ var WebSocketServer = require("websocket").server;
 var receivedDataItems = require("./received-data-items");
 var connection;
 
+function send(message) {
+    if (connection !== undefined) {
+        connection.sendUTF(JSON.stringify(message));
+    }
+}
+
+function sendReceivedDataItems() {
+    receivedDataItems.forEach(function (data) {
+        var message = {type: "data", text: data};
+        send(message);
+    });
+}
+
 function create(httpServer) {
     var wsServer = new WebSocketServer({
         httpServer: httpServer,
@@ -17,14 +30,8 @@ function create(httpServer) {
     wsServer.on("request", function (request) {
         connection = request.accept(null, request.origin);
         console.log("WebSocket connection from browser accepted");
-        receivedDataItems.send();
+        sendReceivedDataItems();
     });
-}
-
-function send(message) {
-    if (connection !== undefined) {
-        connection.sendUTF(JSON.stringify(message));
-    }
 }
 
 module.exports = {

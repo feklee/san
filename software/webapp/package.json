@@ -9,6 +9,7 @@
   "author": "",
   "license": "WTFPL",
   "dependencies": {
+    "commander": "^2.15.1",
     "node-static": "^0.7.10",
     "serialport": "^6.1.1",
     "websocket": "^1.0.25"

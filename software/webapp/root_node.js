@@ -47,6 +47,7 @@ function connect(settings) {
         var message = {type: "error", text: "Serial port error"};
         log(message);
         browser.send(message);
+        process.exit(1);
     });
     port.on("disconnected", function () {
         var message = {type: "warn", text: "Serial port disconnected"};

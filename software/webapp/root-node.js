@@ -11,6 +11,7 @@ const parser = new parsers.Readline({
 });
 var webSocket = require("./web-socket");
 var receivedDataItems = require("./received-data-items");
+var cli = require("./cli");
 var port;
 
 function listSerialPorts(callback) {
@@ -21,9 +22,9 @@ function listSerialPorts(callback) {
 
 function log(message) {
     if (message.type === "error" || message.type === "warn") {
-        console.error(message.text);
+        cli.logError(message.text);
     } else {
-        console.log(message.text);
+        cli.log(message.text);
     }
 }
 

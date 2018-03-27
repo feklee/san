@@ -6,6 +6,7 @@ var http = require("http");
 var nodeStatic = require("node-static");
 var fileServer = new nodeStatic.Server("./public", {cache: 0});
 var webSocket = require("./web-socket");
+var cli = require("./cli");
 var port = 8080;
 
 module.exports = function (onListening) {
@@ -16,7 +17,7 @@ module.exports = function (onListening) {
     }).listen(port);
 
     httpServer.listen(port, function () {
-        console.log("HTTP server is listening on port " + port);
+        cli.log("HTTP server is listening on port " + port);
         if (onListening !== undefined) {
             onListening();
         }

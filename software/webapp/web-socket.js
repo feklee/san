@@ -6,6 +6,7 @@
 
 var WebSocketServer = require("websocket").server;
 var receivedDataItems = require("./received-data-items");
+var cli = require("./cli");
 var connection;
 
 function send(message) {
@@ -29,7 +30,7 @@ function create(httpServer) {
 
     wsServer.on("request", function (request) {
         connection = request.accept(null, request.origin);
-        console.log("WebSocket connection from browser accepted");
+        cli.log("WebSocket connection from browser accepted");
         sendReceivedDataItems();
     });
 }

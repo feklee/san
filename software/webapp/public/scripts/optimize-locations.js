@@ -95,8 +95,13 @@ var moveCenterToOrigin = function () {
     });
 };
 
-export default function () {
+var optimizeNodeDistribution = function () {
     var numberOfNodes = Object.keys(nodes).length;
+    var nothingToBeDone = numberOfNodes === 1;
+    if (nothingToBeDone) {
+        return;
+    }
+
     var dimensionality = 3;
     var jsga = JSGA;
     var algorithm = jsga({
@@ -119,6 +124,10 @@ export default function () {
     }
 
     assignLocationsToNodes(generation.best.params);
+};
+
+export default function () {
+    optimizeNodeDistribution();
     moveCenterToOrigin();
     console.log(findDeviations());
     console.log(nodes);

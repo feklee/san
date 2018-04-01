@@ -9,6 +9,7 @@ import sortedNodes from "./sorted-nodes.js";
 import settings from "./settings.js";
 import renderMatrix from "./render-matrix.js";
 import optimizeLocations from "./optimize-locations.js";
+import randomUnitVector from "./random-unit-vector.js";
 var rootNode;
 
 var nodeExists = function (id) {
@@ -22,6 +23,7 @@ var addNode = function (id) {
     var node = {
         id: id,
         neighbors: [null, null, null, null],
+        connectedPorts: [],
         location: null,
         color: null
     };
@@ -34,18 +36,6 @@ var addNode = function (id) {
     nodes[id] = node;
 
     return node;
-};
-
-// See article "Generating uniformly distributed numbers on a sphere":
-// http://corysimon.github.io/articles/uniformdistn-on-sphere/
-var randomUnitVector = function () {
-    var theta = 2 * Math.PI * Math.random();
-    var phi = Math.acos(1 - 2 * Math.random());
-
-    return new THREE.Vector3(
-        Math.sin(phi) * Math.cos(theta),
-        Math.sin(phi) * Math.sin(theta),
-        Math.cos(phi));
 };
 
 var locationAtRandomOrientation = function (origin) {
@@ -65,6 +55,24 @@ var setLocation = function (originNode, node) {
     node.location = locationAtRandomOrientation(originNode.location);
 };
 
+var updateConnectedPorts = function (node) {
+    node.connectedPorts = [];
+    node.neighbors.forEach(function (neighbor, i) {
+        if (neighbor !== null) {
+            node.connectedPorts.push({
+                node: node,
+                portNumber: i + 1,
+                neighbor: neighbor
+            });
+        }
+    });
+};
+
+var setNeighbor = function (node, portNumber, neighbor) {
+    node.neighbors[portNumber - 1] = neighbor;
+    updateConnectedPorts(node);
+};
+
 var connect = function (ports) {
     if (!nodeExists(ports[0].nodeId) || !nodeExists(ports[1].nodeId)) {
         return;
@@ -73,8 +81,8 @@ var connect = function (ports) {
     var node = nodes[ports[0].nodeId];
     var nodeToConnect = nodes[ports[1].nodeId];
 
-    node.neighbors[ports[0].portNumber - 1] = nodeToConnect;
-    nodeToConnect.neighbors[ports[1].portNumber - 1] = node;
+    setNeighbor(node, ports[0].portNumber, nodeToConnect);
+    setNeighbor(nodeToConnect, ports[1].portNumber - 1, node);
 
     setLocation(node, nodeToConnect);
 };
@@ -144,11 +152,9 @@ var disconnect = function (port) {
         return;
     }
 
-    var node = nodes[nodeId];
-    var neighbor = node.neighbors[port.portNumber - 1];
-
+    var node = nodes[port.nodeId];
     node.neighbors[port.portNumber - 1] = null;
-    disconnectNode(neighbor, node);
+    updateConnectedPorts(node);
 };
 
 var sortNodes = function () {

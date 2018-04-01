@@ -3,58 +3,96 @@
 /*global JSGA, THREE*/
 
 import nodes from "./nodes.js";
-import edges from "./edges.js";
 import sortedNodes from "./sorted-nodes.js";
 import settings from "./settings.js";
+import randomUnitVector from "./random-unit-vector.js";
 
 var resolution = settings.optimizationResolution;
+const targetNodeDistance = 1;
 const targetNeighborDistance = 2 * Math.sqrt(2 / 3);
 
-var distance = function (nodes) {
-    var connection = nodes[1].location.clone().sub(nodes[0].location);
-    return connection.length();
+var distance = function (v1, v2) {
+    return v2.clone().sub(v1).length();
 };
 
-var deviation = function (nodes, targetDistance) {
-    return Math.abs(distance(nodes) - targetDistance);
+var normalizedConnection = function (v1, v2) {
+    var v = v2.clone().sub(v1);
+    if (v.length() === 0) {
+        v = randomUnitVector;
+    }
+    v.normalize();
+    return v;
 };
 
-var addEdgeLengthDeviations = function (deviations) {
-    edges.forEach(function (edge) {
-        deviations.push(
-            deviation([edge.node, edge.neighbor], 1));
-    });
+var updateExpectedNeighborLocation = function (port) {
+    port.expectedNeighborLocation =
+        port.node.location.clone().add(port.expectedConnection);
 };
 
-var addDistanceDevsOfNeighborsOfNode = function (deviations, node) {
-    var neighbors = node.neighbors;
-    neighbors.forEach(function (neighbor, i) {
-        if (neighbor === null) {
-            return;
-        }
-        var otherNeighbor;
-        var j = i + 1;
-        while (j < 4) {
-            otherNeighbor = neighbors[j];
-            if (otherNeighbor !== null) {
-                deviations.push(deviation([neighbor, otherNeighbor],
-                                          targetNeighborDistance));
-            }
-            j += 1;
-        }
-    });
+var setExpectedNeighborLocation1 = function (port) {
+    port.expectedConnection = normalizedConnection(port.node.location,
+                                                   port.neighbor.location);
+    updateExpectedNeighborLocation(port);
 };
 
-var addNeighborDistanceDeviations = function (deviations) {
-    sortedNodes.forEach(function (node) {
-        addDistanceDevsOfNeighborsOfNode(deviations, node);
+var setExpectedNeighborLocation2 = function (port2) {
+    var node = port2.node;
+    var port1 = node.connectedPorts[0];
+
+    var v1 = port1.expectedConnection;
+    var v2 = normalizedConnection(node.location, port2.neighbor.location);
+
+    var axis = v1.clone().cross(v2);
+    if (axis.length() === 0) {
+        // fixme
+    }
+
+    port2.expectedConnection = v1.clone().applyAxisAngle(axis, angle); // todo: rotation in right direction?
+    updateExpectedNeighborLocation(port2);
+};
+
+var setExpectedNeighborLocation34 = function (port34) {
+    var node = port34.node;
+    var port1 = node.connectedPorts[0];
+    var port2 = node.connectedPorts[1];
+
+    var axis = port1.expectedConnection;
+    var v = port2.expectedConnection;
+
+    // todo: compare port numbers, then rotate around v2 around v1 in the right
+    // direction
+};
+
+var setExpectedNeighborLocation = function (port, i) {
+    switch (i) {
+    case 0:
+        setExpectedNeighborLocation1(port);
+        break;
+    case 1:
+        setExpectedNeighborLocation2(port);
+        break;
+    default:
+        setExpectedNeighborLocation34(port);
+    }
+};
+
+var addDeviation = function (deviations, port) {
+    deviations.push(distance(port.neighbor.location,
+                             port.expectedNeighborLocation));
+};
+
+var addDeviationsForNode = function (deviations, node) {
+    node.connectedPorts.forEach(function (port, i) {
+        setExpectedNeighborLocation(port, i);
+        addDeviation(deviations, port);
     });
 };
 
 var findDeviations = function () {
     var deviations = [];
-    addEdgeLengthDeviations(deviations);
-    addNeighborDistanceDeviations(deviations);
+    sortedNodes.forEach(function (node) {
+        addDeviationsForNode(deviations, node);
+    });
     return deviations;
 };
 

@@ -5,24 +5,9 @@
 import nodes from "./nodes.js";
 import sortedNodes from "./sorted-nodes.js";
 import settings from "./settings.js";
-import randomUnitVector from "./random-unit-vector.js";
+import vector from "./vector.js";
 
 var resolution = settings.optimizationResolution;
-const targetNodeDistance = 1;
-const targetNeighborDistance = 2 * Math.sqrt(2 / 3);
-
-var distance = function (v1, v2) {
-    return v2.clone().sub(v1).length();
-};
-
-var normalizedConnection = function (v1, v2) {
-    var v = v2.clone().sub(v1);
-    if (v.length() === 0) {
-        v = randomUnitVector;
-    }
-    v.normalize();
-    return v;
-};
 
 var updateExpectedNeighborLocation = function (port) {
     port.expectedNeighborLocation =
@@ -30,8 +15,10 @@ var updateExpectedNeighborLocation = function (port) {
 };
 
 var setExpectedNeighborLocation1 = function (port) {
-    port.expectedConnection = normalizedConnection(port.node.location,
-                                                   port.neighbor.location);
+    port.expectedConnection = vector.normalizedConnection(
+        port.node.location,
+        port.neighbor.location
+    );
     updateExpectedNeighborLocation(port);
 };
 
@@ -40,14 +27,13 @@ var setExpectedNeighborLocation2 = function (port2) {
     var port1 = node.connectedPorts[0];
 
     var v1 = port1.expectedConnection;
-    var v2 = normalizedConnection(node.location, port2.neighbor.location);
+    var v2 = vector.normalizedConnection(node.location,
+                                         port2.neighbor.location);
+    vector.normalizeOrRandomize(v2);
+    vector.rotateToTetrahedralAngle(v1, v2);
 
-    var axis = v1.clone().cross(v2);
-    if (axis.length() === 0) {
-        // fixme
-    }
+    port2.expectedConnection = v2;
 
-    port2.expectedConnection = v1.clone().applyAxisAngle(axis, angle); // todo: rotation in right direction?
     updateExpectedNeighborLocation(port2);
 };
 
@@ -77,8 +63,8 @@ var setExpectedNeighborLocation = function (port, i) {
 };
 
 var addDeviation = function (deviations, port) {
-    deviations.push(distance(port.neighbor.location,
-                             port.expectedNeighborLocation));
+    deviations.push(vector.distance(port.neighbor.location,
+                                    port.expectedNeighborLocation));
 };
 
 var addDeviationsForNode = function (deviations, node) {
@@ -160,6 +146,8 @@ var optimizeNodeDistribution = function () {
         generation = n.value;
         n = iterator.next();
     }
+
+    
 
     assignLocationsToNodes(generation.best.params);
 };

@@ -9,7 +9,7 @@ import sortedNodes from "./sorted-nodes.js";
 import settings from "./settings.js";
 import renderMatrix from "./render-matrix.js";
 import optimizeLocations from "./optimize-locations.js";
-import randomUnitVector from "./random-unit-vector.js";
+import vector from "./vector.js";
 var rootNode;
 
 var nodeExists = function (id) {
@@ -39,7 +39,7 @@ var addNode = function (id) {
 };
 
 var locationAtRandomOrientation = function (origin) {
-    return origin.clone().add(randomUnitVector());
+    return origin.clone().add(vector.randomUnitVector());
 };
 
 var setLocation = function (originNode, node) {

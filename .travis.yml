@@ -1,4 +1,4 @@
 language: node_js
-before_script: cd software/webapp
+before_install: cd software/webapp
 node_js:
   - "8.10"

@@ -1,6 +1,12 @@
-/*jslint browser: true, maxlen: 80 */
+/*jslint node: true, browser: true, maxlen: 80 */
 
-/*global THREE*/
+/*global THREE, global*/
+
+var windowType = typeof "window";
+var runningInNode = windowType === "undefined";
+if (runningInNode) {
+    THREE = global.THREE;
+}
 
 // See article "Generating uniformly distributed numbers on a sphere":
 // http://corysimon.github.io/articles/uniformdistn-on-sphere/
@@ -8,7 +14,7 @@ var randomUnitVector = function () {
     var theta = 2 * Math.PI * Math.random();
     var phi = Math.acos(1 - 2 * Math.random());
 
-    return new THREE.Vector3(
+    return new (THREE).Vector3(
         Math.sin(phi) * Math.cos(theta),
         Math.sin(phi) * Math.sin(theta),
         Math.cos(phi)
@@ -27,23 +33,35 @@ var rotateToTetrahedralAngle = function (vUnitFixed, vUnit) {
     v1.clone().applyAxisAngle(axis, angle); // todo: rotation in right direction?
 };
 
-var normalizeOrRandomize = function (v) {
-    if (v.length() === 0) {
-        v = vector.randomUnitVector();
+var normalizeOrRandomize = function (a) {
+    if (a.length() === 0) {
+        a = randomUnitVector();
     } else {
-        v.normalize();
+        a.normalize();
     }
 };
 
-var normalizedConnection = function (v1, v2) {
-    var v = v2.clone().sub(v1);
-    normalizeOrRandomize(v);
-    return v;
+var normalizedConnection = function (a, b) {
+    var c = b.clone().sub(a);
+    normalizeOrRandomize(c);
+    return c;
+};
+
+var areEqual = function (a, b, epsilon) {
+    if (epsilon === undefined) {
+        epsilon = Number.EPSILON;
+    }
+    return Math.max(
+        Math.abs(b.x - a.x),
+        Math.abs(b.y - a.y),
+        Math.abs(b.z - a.z)
+    ) < epsilon;
 };
 
 export default {
     rotateToTetrahedralAngle: rotateToTetrahedralAngle,
     randomUnitVector: randomUnitVector,
     normalizeOrRandomize: normalizeOrRandomize,
-    normalizedConnection: normalizedConnection
+    normalizedConnection: normalizedConnection,
+    areEqual: areEqual
 };

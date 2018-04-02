@@ -2,9 +2,9 @@
 
 /*global THREE*/
 
-import log from "./log.js";
-import nodeManager from "./node-manager.js";
-import settings from "./settings.js";
+import log from "./log.mjs";
+import nodeManager from "./node-manager.mjs";
+import settings from "./settings.mjs";
 
 var hostname = window.location.hostname;
 var client = new window.WebSocket("ws://" + hostname + ":8080/");

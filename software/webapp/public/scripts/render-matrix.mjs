@@ -1,6 +1,6 @@
 /*jslint browser: true, maxlen: 80 */
 
-import sortedNodes from "./sorted-nodes.js";
+import sortedNodes from "./sorted-nodes.mjs";
 
 var matrixEl = document.querySelector("table.matrix");
 

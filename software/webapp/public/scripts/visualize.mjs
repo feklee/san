@@ -2,9 +2,9 @@
 
 /*global THREE*/
 
-import settings from "./settings.js";
-import nodes from "./nodes.js";
-import edges from "./edges.js";
+import settings from "./settings.mjs";
+import nodes from "./nodes.mjs";
+import edges from "./edges.mjs";
 
 var camera;
 var scene;

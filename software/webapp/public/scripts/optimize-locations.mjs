@@ -2,10 +2,10 @@
 
 /*global JSGA, THREE*/
 
-import nodes from "./nodes.js";
-import sortedNodes from "./sorted-nodes.js";
-import settings from "./settings.js";
-import vector from "./vector.js";
+import nodes from "./nodes.mjs";
+import sortedNodes from "./sorted-nodes.mjs";
+import settings from "./settings.mjs";
+import vector from "./vector.mjs";
 
 var resolution = settings.optimizationResolution;
 

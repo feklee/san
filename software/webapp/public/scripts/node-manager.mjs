@@ -2,14 +2,14 @@
 
 /*global THREE*/
 
-import visualize from "./visualize.js";
-import nodes from "./nodes.js";
-import edges from "./edges.js";
-import sortedNodes from "./sorted-nodes.js";
-import settings from "./settings.js";
-import renderMatrix from "./render-matrix.js";
-import optimizeLocations from "./optimize-locations.js";
-import vector from "./vector.js";
+import visualize from "./visualize.mjs";
+import nodes from "./nodes.mjs";
+import edges from "./edges.mjs";
+import sortedNodes from "./sorted-nodes.mjs";
+import settings from "./settings.mjs";
+import renderMatrix from "./render-matrix.mjs";
+import optimizeLocations from "./optimize-locations.mjs";
+import vector from "./vector.mjs";
 var rootNode;
 
 var nodeExists = function (id) {

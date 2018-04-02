@@ -30,14 +30,20 @@ var assertEqualNumbers = function (actual, expected, epsilon) {
     );
 };
 
+var logWhatIsTested = function (whatIsTested) {
+    console.log("Testing " + whatIsTested + "...");
+};
+
 var a;
 var b;
+
+logWhatIsTested("vector.areEqual");
 
 a = new THREE.Vector3(0, 0, 0);
 assert(vector.areEqual(a, a.clone()));
 
-a = new THREE.Vector3(0, 0, 0);
-b = new THREE.Vector3(0, 0.01, 0);
+a = new THREE.Vector3(2, 3, 5);
+b = new THREE.Vector3(2, 3.01, 5);
 assert(!vector.areEqual(a, b));
 assert(vector.areEqual(a, b, 0.011));
 
@@ -46,6 +52,8 @@ b = new THREE.Vector3(0, 0, 0);
 assert(!vector.areEqual(a, b));
 assert(vector.areEqual(a, b, 0.011));
 
+logWhatIsTested("vector.normalizeOrRandomize");
+
 a = new THREE.Vector3(0, 0, 0);
 vector.normalizeOrRandomize(a);
-//assertEqualNumbers(a.length(), 1);
+assertEqualNumbers(a.length(), 1);

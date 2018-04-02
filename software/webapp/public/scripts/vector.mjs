@@ -35,7 +35,7 @@ var rotateToTetrahedralAngle = function (vUnitFixed, vUnit) {
 
 var normalizeOrRandomize = function (a) {
     if (a.length() === 0) {
-        a = randomUnitVector();
+        a.fromArray(randomUnitVector().toArray());
     } else {
         a.normalize();
     }

@@ -27,10 +27,6 @@ var rotateToTetrahedralAngle = function (vUnitFixed, vUnit) {
     v1.clone().applyAxisAngle(axis, angle); // todo: rotation in right direction?
 };
 
-var distance = function (v1, v2) { // todo: maybe use a.distanceTo( b )
-    return v2.clone().sub(v1).length();
-};
-
 var normalizeOrRandomize = function (v) {
     if (v.length() === 0) {
         v = vector.randomUnitVector();
@@ -49,6 +45,5 @@ export default {
     rotateToTetrahedralAngle: rotateToTetrahedralAngle,
     randomUnitVector: randomUnitVector,
     normalizeOrRandomize: normalizeOrRandomize,
-    distance: distance,
     normalizedConnection: normalizedConnection
 };

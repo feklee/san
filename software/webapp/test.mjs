@@ -16,5 +16,4 @@ var assertNumEqual = function (actual, expected, epsilon) {
     );
 };
 
-
 assertNumEqual(0, 0);

@@ -63,8 +63,9 @@ var setExpectedNeighborLocation = function (port, i) {
 };
 
 var addDeviation = function (deviations, port) {
-    deviations.push(vector.distance(port.neighbor.location,
-                                    port.expectedNeighborLocation));
+    deviations.push(
+        port.neighbor.location.distanceTo(port.expectedNeighborLocation)
+    );
 };
 
 var addDeviationsForNode = function (deviations, node) {

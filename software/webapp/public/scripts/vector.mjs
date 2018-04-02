@@ -21,16 +21,19 @@ var randomUnitVector = function () {
     );
 };
 
-var rotateToTetrahedralAngle = function (vUnitFixed, vUnit) {
-    var enclosingAngle = 0; // todo: calculate
-    var tetrahedralAngle = Math.acos(-1 / 3) / 2;
-
-    var axis = vFixed.clone().cross(v);
-    if (axis.length() === 0) {
-        // fixme
+var rotateToTetrahedralAngle = function (fixedUnitVector, unitVector) {
+    var rotationAxis = fixedUnitVector.clone().cross(unitVector);
+    var v;
+    while (rotationAxis.length() < Number.EPSILON) {
+        v = randomUnitVector();
+        rotationAxis = fixedUnitVector.clone().cross(v);
     }
+    rotationAxis.normalize();
 
-    v1.clone().applyAxisAngle(axis, angle); // todo: rotation in right direction?
+    unitVector.fromArray(fixedUnitVector.toArray());
+
+    var tetrahedralAngle = Math.acos(-1 / 3);
+    unitVector.applyAxisAngle(rotationAxis, tetrahedralAngle);
 };
 
 var normalizeOrRandomize = function (a) {

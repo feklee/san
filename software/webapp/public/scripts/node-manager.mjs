@@ -82,7 +82,7 @@ var connect = function (ports) {
     var nodeToConnect = nodes[ports[1].nodeId];
 
     setNeighbor(node, ports[0].portNumber, nodeToConnect);
-    setNeighbor(nodeToConnect, ports[1].portNumber - 1, node);
+    setNeighbor(nodeToConnect, ports[1].portNumber, node);
 
     setLocation(node, nodeToConnect);
 };

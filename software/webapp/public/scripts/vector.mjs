@@ -8,6 +8,8 @@ if (runningInNode) {
     THREE = global.THREE;
 }
 
+const tetrahedralAngle = Math.acos(-1 / 3);
+
 // See article "Generating uniformly distributed numbers on a sphere":
 // http://corysimon.github.io/articles/uniformdistn-on-sphere/
 var randomUnitVector = function () {
@@ -32,7 +34,6 @@ var rotateToTetrahedralAngle = function (fixedUnitVector, unitVector) {
 
     unitVector.fromArray(fixedUnitVector.toArray());
 
-    var tetrahedralAngle = Math.acos(-1 / 3);
     unitVector.applyAxisAngle(rotationAxis, tetrahedralAngle);
 };
 
@@ -66,5 +67,6 @@ export default {
     randomUnitVector: randomUnitVector,
     normalizeOrRandomize: normalizeOrRandomize,
     normalizedConnection: normalizedConnection,
-    areEqual: areEqual
+    areEqual: areEqual,
+    tetrahedralAngle: tetrahedralAngle
 };

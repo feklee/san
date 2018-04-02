@@ -26,27 +26,65 @@ var setExpectedNeighborLocation2 = function (port2) {
     var node = port2.node;
     var port1 = node.connectedPorts[0];
 
-    var v1 = port1.expectedConnection;
-    var v2 = vector.normalizedConnection(node.location,
+    var a = port1.expectedConnection;
+    var b = vector.normalizedConnection(node.location,
                                          port2.neighbor.location);
-    vector.normalizeOrRandomize(v2);
-    vector.rotateToTetrahedralAngle(v1, v2);
+    vector.normalizeOrRandomize(b);
+    vector.rotateToTetrahedralAngle(a, b);
 
-    port2.expectedConnection = v2;
+    port2.expectedConnection = b;
 
     updateExpectedNeighborLocation(port2);
 };
 
-var setExpectedNeighborLocation34 = function (port34) {
-    var node = port34.node;
+var setExpectedNeighborLocation3 = function (port3) {
+    var node = port3.node;
     var port1 = node.connectedPorts[0];
     var port2 = node.connectedPorts[1];
 
-    var axis = port1.expectedConnection;
-    var v = port2.expectedConnection;
+    var a = port1.expectedConnection;
+    var b = port2.expectedConnection;
+    var cw = b.clone().applyAxisAngle(a, vector.tetrahedralAngle);
+    var ccw = b.clone().applyAxisAngle(a, -vector.tetrahedralAngle);
 
-    // todo: compare port numbers, then rotate around v2 around v1 in the right
-    // direction
+    switch (port1.portNumber) {
+    case 1:
+        switch (port2.portNumber) {
+        case 2:
+            switch (port3.portNumber) {
+            case 3:
+                port3.expectedConnection = cw;
+                break;
+            case 4:
+                port3.expectedConnection = ccw;
+                break;
+            }
+            break;
+        case 3:
+            port3.expectedConnection = cw;
+            break;
+        }
+        break;
+    case 2:
+        port3.expectedConnection = ccw;
+        break;
+    }
+
+    updateExpectedNeighborLocation(port3);
+};
+
+var setExpectedNeighborLocation4 = function (port4) {
+    var node = port4.node;
+    var port1 = node.connectedPorts[0];
+    var port2 = node.connectedPorts[1];
+
+    var a = port1.expectedConnection;
+    var b = port2.expectedConnection;
+
+    port4.expectedConnection =
+        b.clone().applyAxisAngle(a, -vector.tetrahedralAngle);
+
+    updateExpectedNeighborLocation(port4);
 };
 
 var setExpectedNeighborLocation = function (port, i) {
@@ -57,8 +95,12 @@ var setExpectedNeighborLocation = function (port, i) {
     case 1:
         setExpectedNeighborLocation2(port);
         break;
-    default:
-        setExpectedNeighborLocation34(port);
+    case 2:
+        setExpectedNeighborLocation3(port);
+        break;
+    case 3:
+        setExpectedNeighborLocation4(port);
+        break;
     }
 };
 
@@ -147,8 +189,6 @@ var optimizeNodeDistribution = function () {
         generation = n.value;
         n = iterator.next();
     }
-
-    
 
     assignLocationsToNodes(generation.best.params);
 };

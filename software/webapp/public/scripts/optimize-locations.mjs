@@ -6,6 +6,7 @@ import nodes from "./nodes.mjs";
 import sortedNodes from "./sorted-nodes.mjs";
 import settings from "./settings.mjs";
 import vector from "./vector.mjs";
+import visualize from "./visualize.mjs";
 
 var resolution = settings.optimizationResolution;
 
@@ -162,6 +163,24 @@ var moveCenterToOrigin = function () {
     });
 };
 
+var n;
+var iterator;
+
+var iterate;
+iterate = function () {
+    if (n.done) {
+        moveCenterToOrigin();
+        console.log(findDeviations());
+        console.log(nodes);
+        visualize();
+        return;
+    }
+    var generation = n.value;
+    assignLocationsToNodes(generation.best.params);
+    n = iterator.next();
+    setTimeout(iterate, 0);
+};
+
 var optimizeNodeDistribution = function () {
     var numberOfNodes = Object.keys(nodes).length;
     var nothingToBeDone = numberOfNodes === 1;
@@ -181,21 +200,12 @@ var optimizeNodeDistribution = function () {
         crossovers: 1
     });
 
-    var generation;
-    var iterable = algorithm.run(10 * numberOfNodes);
-    var iterator = iterable[Symbol.iterator]();
-    var n = iterator.next();
-    while (!n.done) {
-        generation = n.value;
-        n = iterator.next();
-    }
-
-    assignLocationsToNodes(generation.best.params);
+    var iterable = algorithm.run(1000 * numberOfNodes);
+    iterator = iterable[Symbol.iterator]();
+    n = iterator.next();
+    iterate();
 };
 
 export default function () {
     optimizeNodeDistribution();
-    moveCenterToOrigin();
-    console.log(findDeviations());
-    console.log(nodes);
 };

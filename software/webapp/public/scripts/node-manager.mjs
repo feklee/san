@@ -201,7 +201,7 @@ var updateConnection = function (ports) {
     findEdges();
     renderMatrix();
     optimizeLocations();
-    visualize();
+//todo    visualize();
 };
 
 var addRootNode = function () {

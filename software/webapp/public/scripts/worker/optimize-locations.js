@@ -1,11 +1,17 @@
 /*jslint browser: true, maxlen: 80 */
 
-/*global JSGA, THREE*/
+/*global JSGA, THREE, self, settings, vector*/
 
-import nodes from "./nodes.mjs";
-import sortedNodes from "./sorted-nodes.mjs";
-import settings from "./settings.mjs";
-import vector from "./vector.mjs";
+self.importScripts("/bower_components/jsga/jsga.js");
+try {
+    eval("self.importScripts(\"../settings.mjs\")");
+} catch(ignore) {
+}
+
+/*try {
+    self.importScripts("../vector.mjs");
+} catch(ignore) {
+}*/
 
 var resolution = settings.optimizationResolution;
 
@@ -117,7 +123,7 @@ var addDeviationsForNode = function (deviations, node) {
     });
 };
 
-var findDeviations = function () {
+var findDeviations = function (sortedNodes) {
     var deviations = [];
     sortedNodes.forEach(function (node) {
         addDeviationsForNode(deviations, node);
@@ -125,24 +131,24 @@ var findDeviations = function () {
     return deviations;
 };
 
-var largestDeviation = function () {
-    return Math.max.apply(null, findDeviations());
+var largestDeviation = function (sortedNodes) {
+    return Math.max.apply(null, findDeviations(sortedNodes));
 };
 
-var assignLocationsToNodes = function (individual) {
-    Object.values(nodes).forEach(function (node, i) {
+var assignLocationsToNodes = function (sortedNodes, individual) {
+    sortedNodes.forEach(function (node, i) {
         node.location.x = individual[i * 3] / resolution;
         node.location.y = individual[i * 3 + 1] / resolution;
         node.location.z = individual[i * 3 + 2] / resolution;
     });
 };
 
-var fitness = function (individual) {
-    assignLocationsToNodes(individual);
-    return 1 / largestDeviation();
+var fitness = function (sortedNodes, individual) {
+    assignLocationsToNodes(sortedNodes, individual);
+    return 1 / largestDeviation(sortedNodes);
 };
 
-var findCenter = function () {
+var findCenter = function (sortedNodes) {
     var center = new THREE.Vector3();
 
     sortedNodes.forEach(function (node) {
@@ -154,16 +160,16 @@ var findCenter = function () {
     return center;
 };
 
-var moveCenterToOrigin = function () {
-    var center = findCenter();
+var moveCenterToOrigin = function (sortedNodes) {
+    var center = findCenter(sortedNodes);
 
     sortedNodes.forEach(function (node) {
         node.location.sub(center);
     });
 };
 
-var optimizeNodeDistribution = function () {
-    var numberOfNodes = Object.keys(nodes).length;
+var optimizeNodeDistribution = function (sortedNodes) {
+    var numberOfNodes = sortedNodes.length;
     var nothingToBeDone = numberOfNodes === 1;
     if (nothingToBeDone) {
         return;
@@ -174,7 +180,9 @@ var optimizeNodeDistribution = function () {
     var algorithm = jsga({
         length: dimensionality * numberOfNodes,
         radix: numberOfNodes * resolution,
-        fitness: fitness,
+        fitness: function () {
+            fitness(sortedNodes, fitness);
+        },
         size: 20 * numberOfNodes, // needs to be even
         children: numberOfNodes,
         mutationRate: 0.05,
@@ -190,12 +198,17 @@ var optimizeNodeDistribution = function () {
         n = iterator.next();
     }
 
-    assignLocationsToNodes(generation.best.params);
+    assignLocationsToNodes(sortedNodes, generation.best.params);
 };
 
-export default function () {
-    optimizeNodeDistribution();
-    moveCenterToOrigin();
-    console.log(findDeviations());
-    console.log(nodes);
+self.optimizeLocations = function (sortedNodes) {
+    "use strict";
+//    optimizeNodeDistribution(sortedNodes);
+//    moveCenterToOrigin(sortedNodes);
+//    console.log(findDeviations(sortedNodes));
+    console.log(sortedNodes);
+    return {
+        "*": new THREE.Vector3(0, 0, 0),
+        "A": new THREE.Vector3(1, 0, 0)
+    };
 };

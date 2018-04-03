@@ -8,8 +8,8 @@ import edges from "./edges.mjs";
 import sortedNodes from "./sorted-nodes.mjs";
 import settings from "./settings.mjs";
 import renderMatrix from "./render-matrix.mjs";
-import optimizeLocations from "./optimize-locations.mjs";
 import vector from "./vector.mjs";
+import worker from "./worker.mjs";
 var rootNode;
 
 var nodeExists = function (id) {
@@ -200,7 +200,21 @@ var updateConnection = function (ports) {
     sortNodes();
     findEdges();
     renderMatrix();
-    optimizeLocations();
+    worker.postMessage({
+        nodes: nodes,
+        sortedNodes: sortedNodes
+    });
+};
+
+worker.onmessage = function (e) {
+    var locations = e.data;
+    sortedNodes.forEach(function (node) {
+        var location = locations[node.id];
+        if (location !== undefined) {
+            node.location = location;
+        }
+    });
+
     visualize();
 };
 

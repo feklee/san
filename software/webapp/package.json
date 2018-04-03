@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test" : "node --experimental-modules test.mjs"
+    "test" : "node --experimental-modules public/tests/vector.mjs"
   },
   "author": "",
   "license": "WTFPL",

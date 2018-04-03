@@ -3,7 +3,7 @@
 import assert from "assert";
 import util from "util";
 import THREE from "./global-three";
-import vector from "./public/scripts/vector";
+import vector from "../scripts/vector";
 
 var assertEqualVectors = function (a, b, epsilon) {
     return assert(

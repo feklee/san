@@ -60,11 +60,11 @@ var updateEdge = function (edge) {
     var line = edge.object3D;
     var i = 0;
     edge.nodes.forEach(function (node) {
-        var location = node.location;
+        var animatedLocation = node.animatedLocation;
         var vertex = line.geometry.vertices[i];
-        vertex.x = location.x;
-        vertex.y = location.y;
-        vertex.z = location.z;
+        vertex.x = animatedLocation.x;
+        vertex.y = animatedLocation.y;
+        vertex.z = animatedLocation.z;
         line.geometry.verticesNeedUpdate = true;
         i += 1;
     });
@@ -89,11 +89,23 @@ var destroyNodeObject3D = function (node) {
     scene.remove(node.object3D);
 };
 
+var updateAnimatedLocation = function (node) {
+    if (!node.animatedLocation) {
+        node.animatedLocation = node.location.clone();
+        return;
+    }
+
+    var a = node.animatedLocation;
+    var b = node.location;
+    a.add(b.clone().sub(a).multiplyScalar(settings.easingSpeed));
+};
+
 var updateNode = function (node) {
+    updateAnimatedLocation(node);
     node.object3D.position.set(
-        node.location.x,
-        node.location.y,
-        node.location.z
+        node.animatedLocation.x,
+        node.animatedLocation.y,
+        node.animatedLocation.z
     );
 };
 
@@ -101,15 +113,11 @@ var updateNodes = function () {
     Object.values(nodes).forEach(updateNode);
 };
 
-var visualize = function () {
-    updateNodes();
-    updateEdges();
-};
-
 var animate;
 animate = function () {
     window.requestAnimationFrame(animate);
-    visualize();
+    updateNodes();
+    updateEdges();
     controls.update();
     renderer.render(scene, camera);
 };

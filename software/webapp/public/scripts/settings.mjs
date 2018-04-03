@@ -13,5 +13,6 @@ export default {
         "F": "white"
     },
     defaultNodeColor: "gray",
-    optimizationResolution: 10
+    optimizationResolution: 10,
+    easingSpeed: 0.1
 };

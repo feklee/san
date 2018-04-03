@@ -6,7 +6,6 @@ import nodes from "./nodes.mjs";
 import sortedNodes from "./sorted-nodes.mjs";
 import settings from "./settings.mjs";
 import vector from "./vector.mjs";
-import visualize from "./visualize.mjs";
 
 var resolution = settings.optimizationResolution;
 

@@ -2,14 +2,14 @@
 
 /*global THREE*/
 
-import visualize from "./visualize.mjs";
 import nodes from "./nodes.mjs";
-import edges from "./edges.mjs";
+import updateEdges from "./update-edges.mjs";
 import sortedNodes from "./sorted-nodes.mjs";
 import settings from "./settings.mjs";
 import renderMatrix from "./render-matrix.mjs";
 import locationOptimizer from "./location-optimizer.mjs";
 import vector from "./vector.mjs";
+import visualization from "./visualization.mjs";
 var rootNode;
 
 var nodeExists = function (id) {
@@ -34,6 +34,8 @@ var addNode = function (id) {
     }
 
     nodes[id] = node;
+
+    visualization.createNodeObject3D(node);
 
     return node;
 };
@@ -128,6 +130,7 @@ var removeNodesNotConnectedToRoot = function () {
     Object.values(nodes).forEach(function (node) {
         var isConnectedToRoot = nodesConnectedToRoot.has(node);
         if (!isConnectedToRoot) {
+            visualization.destroyNodeObject3D(node);
             delete nodes[node.id];
         }
     });
@@ -165,32 +168,6 @@ var sortNodes = function () {
     });
 };
 
-// todo: var createNodeGeometry
-
-var findEdges = function () {
-    var processedNodes = [];
-
-    edges.length = 0;
-
-    Object.values(nodes).forEach(function (node) {
-        Object.values(node.neighbors).forEach(function (neighbor) {
-            if (neighbor === null) {
-                return;
-            }
-            var connectionAlreadyFound =
-                    processedNodes.indexOf(neighbor) !== -1;
-            if (connectionAlreadyFound) {
-                return;
-            }
-            edges.push({
-                node: node,
-                neighbor: neighbor
-            });
-        });
-        processedNodes.push(node);
-    });
-};
-
 var updateConnection = function (ports) {
     if (ports[1].nodeId === "_") {
         disconnect(ports[0]);
@@ -200,7 +177,7 @@ var updateConnection = function (ports) {
     removeNodesNotConnectedToRoot();
     nullConnectionsToRemovedNodes();
     sortNodes();
-    findEdges();
+    updateEdges();
     renderMatrix();
     locationOptimizer.update();
 };
@@ -213,7 +190,6 @@ var addRootNode = function () {
 addRootNode();
 sortNodes();
 renderMatrix();
-visualize();
 
 export default {
     addNode: addNode,

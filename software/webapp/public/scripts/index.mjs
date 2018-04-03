@@ -5,6 +5,7 @@
 import log from "./log.mjs";
 import nodeManager from "./node-manager.mjs";
 import settings from "./settings.mjs";
+import visualization from "./visualization.mjs";
 
 var hostname = window.location.hostname;
 var client = new window.WebSocket("ws://" + hostname + ":8080/");

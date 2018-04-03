@@ -1,6 +1,6 @@
 /*jslint node: true, browser: true, maxlen: 80 */
 
-/*global THREE, global, self, WorkerGlobalScope*/
+/*global THREE, global*/
 
 var windowType = typeof "window";
 var runningInNode = windowType === "undefined";
@@ -62,7 +62,7 @@ var areEqual = function (a, b, epsilon) {
     ) < epsilon;
 };
 
-var vector = {
+export default {
     rotateToTetrahedralAngle: rotateToTetrahedralAngle,
     randomUnitVector: randomUnitVector,
     normalizeOrRandomize: normalizeOrRandomize,
@@ -70,10 +70,3 @@ var vector = {
     areEqual: areEqual,
     tetrahedralAngle: tetrahedralAngle
 };
-
-var typeofWorkerGlobalScope = typeof WorkerGlobalScope;
-var runningInWebWorker = typeofWorkerGlobalScope !== "undefined";
-if (runningInWebWorker) {
-    self.vector = vector;
-}
-export default vector;

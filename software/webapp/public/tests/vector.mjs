@@ -31,14 +31,14 @@ var assertEqualNumbers = function (actual, expected, epsilon) {
 };
 
 var logWhatIsTested = function (whatIsTested) {
-    console.log("Testing " + whatIsTested + "...");
+    console.log("Testing vector." + whatIsTested + "...");
 };
 
 var a;
 var b;
 const tetrahedralAngle = Math.acos(-1 / 3);
 
-logWhatIsTested("vector.areEqual");
+logWhatIsTested("areEqual");
 
 a = new THREE.Vector3(0, 0, 0);
 assert(vector.areEqual(a, a.clone()));
@@ -53,13 +53,13 @@ b = new THREE.Vector3(0, 0, 0);
 assert(!vector.areEqual(a, b));
 assert(vector.areEqual(a, b, 0.011));
 
-logWhatIsTested("vector.normalizeOrRandomize");
+logWhatIsTested("normalizeOrRandomize");
 
 a = new THREE.Vector3(0, 0, 0);
 vector.normalizeOrRandomize(a);
 assertEqualNumbers(a.length(), 1);
 
-logWhatIsTested("vector.rotateToTetrahedralAngle");
+logWhatIsTested("rotateToTetrahedralAngle");
 
 // 1 - see 3dm file
 a = new THREE.Vector3(0, 1, 0);

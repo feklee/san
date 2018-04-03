@@ -41,13 +41,6 @@ var init = function () {
     visualizationEl.appendChild(renderer.domElement);
 };
 
-var animate;
-animate = function () {
-    window.requestAnimationFrame(animate);
-    controls.update();
-    renderer.render(scene, camera);
-};
-
 var clear;
 clear = function (obj) {
     while (obj.children.length > 0) {
@@ -114,6 +107,14 @@ var visualize = function () {
     clear(scene);
     drawNodes();
     drawEdges();
+};
+
+var animate;
+animate = function () {
+    window.requestAnimationFrame(animate);
+    visualize();
+    controls.update();
+    renderer.render(scene, camera);
 };
 
 window.addEventListener("resize", updateSize, false);

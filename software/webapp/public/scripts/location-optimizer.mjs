@@ -12,13 +12,13 @@ var resolution = settings.optimizationResolution;
 
 var updateExpectedNeighborLocation = function (port) {
     port.expectedNeighborLocation =
-        port.node.location.clone().add(port.expectedConnection);
+        port.node.testLocation.clone().add(port.expectedConnection);
 };
 
 var setExpectedNeighborLocation1 = function (port) {
     port.expectedConnection = vector.normalizedConnection(
-        port.node.location,
-        port.neighbor.location
+        port.node.testLocation,
+        port.neighbor.testLocation
     );
     updateExpectedNeighborLocation(port);
 };
@@ -28,8 +28,8 @@ var setExpectedNeighborLocation2 = function (port2) {
     var port1 = node.connectedPorts[0];
 
     var a = port1.expectedConnection;
-    var b = vector.normalizedConnection(node.location,
-                                         port2.neighbor.location);
+    var b = vector.normalizedConnection(node.testLocation,
+                                        port2.neighbor.testLocation);
     vector.normalizeOrRandomize(b);
     vector.rotateToTetrahedralAngle(a, b);
 
@@ -107,7 +107,7 @@ var setExpectedNeighborLocation = function (port, i) {
 
 var addDeviation = function (deviations, port) {
     deviations.push(
-        port.neighbor.location.distanceTo(port.expectedNeighborLocation)
+        port.neighbor.testLocation.distanceTo(port.expectedNeighborLocation)
     );
 };
 
@@ -130,16 +130,20 @@ var largestDeviation = function () {
     return Math.max.apply(null, findDeviations());
 };
 
-var assignLocationsToNodes = function (individual) {
+var assignLocationsToNodes = function (locationType, individual) {
     Object.values(nodes).forEach(function (node, i) {
-        node.location.x = individual[i * 3] / resolution;
-        node.location.y = individual[i * 3 + 1] / resolution;
-        node.location.z = individual[i * 3 + 2] / resolution;
+        if (node[locationType] === undefined) {
+            node[locationType] = new THREE.Vector3();
+        }
+        var location = node[locationType];
+        location.x = individual[i * 3] / resolution;
+        location.y = individual[i * 3 + 1] / resolution;
+        location.z = individual[i * 3 + 2] / resolution;
     });
 };
 
 var fitness = function (individual) {
-    assignLocationsToNodes(individual);
+    assignLocationsToNodes("testLocation", individual);
     return 1 / largestDeviation();
 };
 
@@ -163,25 +167,9 @@ var moveCenterToOrigin = function () {
     });
 };
 
-var n;
 var iterator;
 
-var iterate;
-iterate = function () {
-    if (n.done) {
-        moveCenterToOrigin();
-        console.log(findDeviations());
-        console.log(nodes);
-        visualize();
-        return;
-    }
-    var generation = n.value;
-    assignLocationsToNodes(generation.best.params);
-    n = iterator.next();
-    setTimeout(iterate, 0);
-};
-
-var optimizeNodeDistribution = function () {
+var update = function () {
     var numberOfNodes = Object.keys(nodes).length;
     var nothingToBeDone = numberOfNodes === 1;
     if (nothingToBeDone) {
@@ -200,12 +188,33 @@ var optimizeNodeDistribution = function () {
         crossovers: 1
     });
 
-    var iterable = algorithm.run(1000 * numberOfNodes);
+    var iterable = algorithm.run(-1);
     iterator = iterable[Symbol.iterator]();
-    n = iterator.next();
+};
+
+var updateNodeLocations = function (generation) {
+    assignLocationsToNodes("location", generation.best.params);
+    moveCenterToOrigin();
+};
+
+var run = function () {
+    var item;
+    var iterate;
+    iterate = function () {
+        if (iterator === undefined) {
+            setTimeout(iterate, 0);
+            return;
+        }
+        item = iterator.next();
+        var generation = item.value;
+        updateNodeLocations(generation);
+        setTimeout(iterate, 0);
+    };
     iterate();
 };
 
-export default function () {
-    optimizeNodeDistribution();
+run();
+
+export default {
+    update: update
 };

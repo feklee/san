@@ -8,7 +8,7 @@ import edges from "./edges.mjs";
 import sortedNodes from "./sorted-nodes.mjs";
 import settings from "./settings.mjs";
 import renderMatrix from "./render-matrix.mjs";
-import optimizeLocations from "./optimize-locations.mjs";
+import locationOptimizer from "./location-optimizer.mjs";
 import vector from "./vector.mjs";
 var rootNode;
 
@@ -165,6 +165,8 @@ var sortNodes = function () {
     });
 };
 
+// todo: var createNodeGeometry
+
 var findEdges = function () {
     var processedNodes = [];
 
@@ -200,8 +202,7 @@ var updateConnection = function (ports) {
     sortNodes();
     findEdges();
     renderMatrix();
-    optimizeLocations();
-//todo    visualize();
+    locationOptimizer.update();
 };
 
 var addRootNode = function () {

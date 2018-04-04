@@ -14,5 +14,5 @@ export default {
     },
     defaultNodeColor: "gray",
     optimizationResolution: 10,
-    easingSpeed: 0.1
+    easingSpeed: 0.1 // (0, 1]
 };

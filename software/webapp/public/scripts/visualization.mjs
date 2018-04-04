@@ -97,7 +97,7 @@ var updateAnimatedLocation = function (node) {
 
     var a = node.animatedLocation;
     var b = node.location;
-    a.add(b.clone().sub(a).multiplyScalar(settings.easingSpeed));
+    a.add(b.clone().sub(a).multiplyScalar(settings.locationEasingSpeed));
 };
 
 var updateNode = function (node) {

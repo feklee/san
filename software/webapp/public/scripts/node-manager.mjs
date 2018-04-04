@@ -24,14 +24,8 @@ var addNode = function (id) {
         id: id,
         neighbors: [null, null, null, null],
         connectedPorts: [],
-        location: null,
-        color: null
+        location: null
     };
-
-    node.color = settings.nodeColors[id];
-    if (node.color === undefined) {
-        node.color = settings.defaultNodeColor;
-    }
 
     nodes[id] = node;
 

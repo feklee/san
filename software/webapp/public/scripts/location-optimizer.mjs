@@ -6,7 +6,7 @@ import sortedNodes from "./sorted-nodes.mjs";
 import settings from "./settings.mjs";
 import vector from "./vector.mjs";
 
-var resolution = settings.optimizationResolution;
+var loSettings = settings.locationOptimizer;
 
 var updateExpectedNeighborLocation = function (port) {
     port.expectedNeighborLocation =
@@ -134,9 +134,9 @@ var assignLocationsToNodes = function (locationType, individual) {
             node[locationType] = new THREE.Vector3();
         }
         var location = node[locationType];
-        location.x = individual[i * 3] / resolution;
-        location.y = individual[i * 3 + 1] / resolution;
-        location.z = individual[i * 3 + 2] / resolution;
+        location.x = individual[i * 3] / loSettings.resolution;
+        location.y = individual[i * 3 + 1] / loSettings.resolution;
+        location.z = individual[i * 3 + 2] / loSettings.resolution;
     });
 };
 
@@ -167,18 +167,17 @@ var moveCenterToOrigin = function () {
 
 var iterator;
 
-var createSeed = function (size) {
+var createSeedFromNodeLocations = function (size) {
     var individual = [];
 
     sortedNodes.forEach(function (node, i) {
         var location = node.location;
-        individual[i * 3] = location.x * resolution;
-        individual[i * 3 + 1] = location.y * resolution;
-        individual[i * 3 + 2] = location.z * resolution;
+        individual[i * 3] = location.x * loSettings.resolution;
+        individual[i * 3 + 1] = location.y * loSettings.resolution;
+        individual[i * 3 + 2] = location.z * loSettings.resolution;
     });
 
-    var seedSizePercentage = 10; // % of population size
-    var seedSize = Math.round(seedSizePercentage / 100 * size);
+    var seedSize = Math.round(loSettings.seedSizePercentage / 100 * size);
     var a = Array;
     return a(seedSize).fill(individual);
 };
@@ -190,18 +189,18 @@ var update = function () {
         return;
     }
 
-    var size = 20 * numberOfNodes; // needs to be even
+    var size = loSettings.populationSizeFactor * numberOfNodes;
     var dimensionality = 3;
     var jsga = JSGA;
     var algorithm = jsga({
         length: dimensionality * numberOfNodes,
-        radix: numberOfNodes * resolution,
+        radix: numberOfNodes * loSettings.resolution,
         fitness: fitness,
         size: size,
-        seed: createSeed(size),
+        seed: createSeedFromNodeLocations(size),
         children: numberOfNodes,
-        mutationRate: 0.05,
-        crossovers: 1
+        mutationRate: loSettings.mutationRate,
+        crossovers: loSettings.crossovers
     });
 
     var iterable = algorithm.run(-1);

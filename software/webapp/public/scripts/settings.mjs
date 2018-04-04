@@ -2,18 +2,26 @@
 
 export default {
     asideWidth: 300, // px
-    nodeDiameter: 0.1,
-    nodeColors: {
-        "*": "gray",
-        "A": "green",
-        "B": "yellow",
-        "C": "blue",
-        "D": "red",
-        "E": "brown",
-        "F": "white"
+    locationOptimizer: {
+        resolution: 10, // px (length of an edge)
+        populationSizeFactor: 20, // needs to be even
+        seedSizePercentage: 10, // % (existing locations in new population)
+        mutationRate: 0.05,
+        crossovers: 1
     },
-    defaultNodeColor: "gray",
-    optimizationResolution: 10,
-    locationEasingSpeed: 0.1 // (0, 1]
+    visualization: {
+        locationEasingSpeed: 0.1, // (0, 1]
+        nodeDiameter: 0.1,
+        nodeColors: {
+            "*": "gray",
+            "A": "green",
+            "B": "yellow",
+            "C": "blue",
+            "D": "red",
+            "E": "brown",
+            "F": "white"
+        },
+        defaultNodeColor: "gray",
+        edgeColor: "gray"
+    }
 };
-

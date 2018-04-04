@@ -6,6 +6,7 @@ import settings from "./settings.mjs";
 import nodes from "./nodes.mjs";
 import edges from "./edges.mjs";
 
+var vSettings = settings.visualization;
 var camera;
 var scene;
 var renderer;
@@ -40,7 +41,9 @@ destroyObject3D = function (object3D) {
 };
 
 var createEdgeObject3D = function (edge) {
-    var material = new THREE.LineBasicMaterial({color: "gray"});
+    var material = new THREE.LineBasicMaterial({
+        color: vSettings.edgeColor
+    });
 
     var geometry = new THREE.Geometry();
     geometry.vertices.push(new THREE.Vector3());
@@ -76,9 +79,18 @@ var updateEdges = function () {
     });
 };
 
+var nodeColor = function (node) {
+    var c = vSettings.nodeColors[node.id];
+    if (c === undefined) {
+        c = vSettings. kdefaultNodeColor;
+    }
+    return c;
+};
+
 var createNodeObject3D = function (node) {
-    var geometry = new THREE.SphereGeometry(settings.nodeDiameter, 32, 32);
-    var material = new THREE.MeshBasicMaterial({color: node.color});
+    var geometry = new THREE.SphereGeometry(vSettings.nodeDiameter,
+                                            32, 32);
+    var material = new THREE.MeshBasicMaterial({color: nodeColor(node)});
     var mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
     node.object3D = mesh;
@@ -97,7 +109,9 @@ var updateAnimatedLocation = function (node) {
 
     var a = node.animatedLocation;
     var b = node.location;
-    a.add(b.clone().sub(a).multiplyScalar(settings.locationEasingSpeed));
+    a.add(b.clone().sub(a).multiplyScalar(
+        vSettings.locationEasingSpeed
+    ));
 };
 
 var updateNode = function (node) {

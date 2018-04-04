@@ -2,7 +2,6 @@
 
 /*global JSGA, THREE*/
 
-import nodes from "./nodes.mjs";
 import sortedNodes from "./sorted-nodes.mjs";
 import settings from "./settings.mjs";
 import vector from "./vector.mjs";
@@ -130,7 +129,7 @@ var largestDeviation = function () {
 };
 
 var assignLocationsToNodes = function (locationType, individual) {
-    Object.values(nodes).forEach(function (node, i) {
+    sortedNodes.forEach(function (node, i) {
         if (node[locationType] === undefined) {
             node[locationType] = new THREE.Vector3();
         }
@@ -168,20 +167,38 @@ var moveCenterToOrigin = function () {
 
 var iterator;
 
+var createSeed = function (size) {
+    var individual = [];
+
+    sortedNodes.forEach(function (node, i) {
+        var location = node.location;
+        individual[i * 3] = location.x * resolution;
+        individual[i * 3 + 1] = location.y * resolution;
+        individual[i * 3 + 2] = location.z * resolution;
+    });
+
+    var seedSizePercentage = 10; // % of population size
+    var seedSize = Math.round(seedSizePercentage / 100 * size);
+    var a = Array;
+    return a(seedSize).fill(individual);
+};
+
 var update = function () {
-    var numberOfNodes = Object.keys(nodes).length;
+    var numberOfNodes = sortedNodes.length;
     var nothingToBeDone = numberOfNodes === 1;
     if (nothingToBeDone) {
         return;
     }
 
+    var size = 20 * numberOfNodes; // needs to be even
     var dimensionality = 3;
     var jsga = JSGA;
     var algorithm = jsga({
         length: dimensionality * numberOfNodes,
         radix: numberOfNodes * resolution,
         fitness: fitness,
-        size: 20 * numberOfNodes, // needs to be even
+        size: size,
+        seed: createSeed(size),
         children: numberOfNodes,
         mutationRate: 0.05,
         crossovers: 1

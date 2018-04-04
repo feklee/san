@@ -1,0 +1,9 @@
+{
+  "name": "frontend",
+  "license": "WTFPL",
+  "dependencies": {
+    "jsga-feklee": "file:/scratch/genetic",
+    "reset-css": "^3.0.0",
+    "source-code-pro": "^2.30.1"
+  }
+}

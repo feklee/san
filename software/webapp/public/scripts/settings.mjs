@@ -16,3 +16,4 @@ export default {
     optimizationResolution: 10,
     easingSpeed: 0.1 // (0, 1]
 };
+

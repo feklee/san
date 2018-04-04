@@ -130,13 +130,9 @@ var removeNodesNotConnectedToRoot = function () {
     });
 };
 
-var disconnectNode = function (node, nodeToDisconnect) {
-    if (node === null) {
-        return;
-    }
-    node.neighbors.forEach(function (neighbor, i) {
-        if (neighbor !== null &&
-            neighbor.id === nodeToDisconnect.id) {
+var nullConnectionsToNeighbor = function (node, neighbor) {
+    node.neighbors.forEach(function (neighborToTest, i) {
+        if (neighborToTest === neighbor) {
             node.neighbors[i] = null;
         }
     });
@@ -150,8 +146,16 @@ var disconnect = function (port) {
     }
 
     var node = nodes[port.nodeId];
+    var neighbor = node.neighbors[port.portNumber - 1];
+    var alreadyDisconnected = neighbor === null;
+    if (alreadyDisconnected) {
+        return;
+    }
     node.neighbors[port.portNumber - 1] = null;
     updateConnectedPorts(node);
+
+    nullConnectionsToNeighbor(neighbor, node);
+    updateConnectedPorts(neighbor);
 };
 
 var sortNodes = function () {

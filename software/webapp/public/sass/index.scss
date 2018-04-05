@@ -1,5 +1,14 @@
 $dimgray: #444;
 
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: $dimgray;
+    border-radius: 4px;
+}
+
 html, body {
     width: 100%;
     height: 100%;
@@ -11,6 +20,10 @@ html, body {
 body {
     display: flex;
     font: normal normal normal 15px/17px "Source Sans Pro";
+}
+
+div.visualization {
+    width: 100%;
 }
 
 aside {
@@ -30,15 +43,6 @@ table.matrix {
         border: 1px solid $dimgray;
         text-align: center;
     }
-}
-
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-    background-color: $dimgray;
-    border-radius: 4px;
 }
 
 div.log {

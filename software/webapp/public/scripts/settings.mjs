@@ -3,7 +3,7 @@
 export default {
     asideWidth: 300, // px
     locationOptimizer: {
-        resolution: 10, // px (length of an edge)
+        resolution: 10, // discrete points per unit in space
         populationSizeFactor: 20, // needs to be even
         seedSizePercentage: 10, // % (existing locations in new population)
         mutationRate: 0.05,

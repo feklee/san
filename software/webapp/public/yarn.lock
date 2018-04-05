@@ -2,8 +2,9 @@
 # yarn lockfile v1
 
 
-"jsga-feklee@file:/scratch/genetic":
-  version "1.1.0"
+jsga-feklee@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/jsga-feklee/-/jsga-feklee-1.1.1.tgz#0fd5cb6a2ee15df778e8992efdeac6bf9cfbe4b2"
 
 reset-css@^3.0.0:
   version "3.0.0"

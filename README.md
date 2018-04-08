@@ -65,11 +65,11 @@ First enter the directory `app/public`, then:
 
  2. Compile CSS:
 
-        $ sass -E utf-8 --update sass:stylesheets
+        $ sass -E utf-8 --update sass:public/stylesheets
 
     During development, you may use:
 
-        $ sass -E utf-8 --watch sass:stylesheets
+        $ sass -E utf-8 --watch sass:public/stylesheets
 
 
 Coding conventions

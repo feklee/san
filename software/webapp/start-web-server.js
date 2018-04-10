@@ -4,7 +4,7 @@
 
 var http = require("http");
 var nodeStatic = require("node-static");
-var fileServer = new nodeStatic.Server("./frontend/public", {cache: 0});
+var fileServer = new nodeStatic.Server("./frontend/build", {cache: 0});
 var webSocket = require("./web-socket");
 var cli = require("./cli");
 var port = 8080;

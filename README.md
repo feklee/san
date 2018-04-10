@@ -30,8 +30,8 @@ connectors.
 Software
 ========
 
-Setup
------
+Setup of microcontroller units (MCU)
+------------------------------------
 
  1. Write ID on EEPROM of each MCU: `idWriter`
 
@@ -39,42 +39,40 @@ Setup
 
  2. Build and upload Arduino sketch to MCU: `node`
 
- 3. List available serial ports for communication with the Teensy:
 
-        $ cd webapp/
-        $ npm start list
+Building the webapp
+-------------------
 
- 4. Start server, here with serial port `COM6`:
+First enter the directory `webapp`, then:
 
-        $ npm start connect COM6
+ 1. Install packages:
 
- 5. Open index page in browser, in full screen mode on a 16:9 screen. Example
-    URL (adapt to your system):
+        $ yarn install
 
-        http://localhost:8080
+ 2. Run tests:
+
+        $ yarn test
+
+ 3. Build frontend:
+
+        $ cd frontend
+        $ ./node_modules/.bin/rollup.cmd --config
+
+      * On Windows call `rollup.cmd` instead of `rollup`.
+
+      * Append `--watch` for automatic rebuilds during development.
 
 
-Build instructions
+Running the webapp
 ------------------
 
-First enter the directory `app/public`, then:
+ 1. Get help:
 
- 1. Install Bower packages:
+        $ yarn start
 
-        $ bower install
+ 2. Run the app, applying options as described in help.
 
- 2. Compile CSS:
-
-        $ sass -E utf-8 --update sass:public/stylesheets
-
-    During development, you may use:
-
-        $ sass -E utf-8 --watch sass:public/stylesheets
-
-Also run (optinially with the option `--watch` during development):
-
-    cd webapp
-    rollup --config
+ 3. Connect to the web server with a browser.
 
 
 Coding conventions

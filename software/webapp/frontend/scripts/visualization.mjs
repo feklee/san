@@ -5,6 +5,18 @@
 import settings from "./settings.mjs";
 import nodes from "./nodes.mjs";
 import edges from "./edges.mjs";
+import {
+    Vector3,
+    Geometry,
+    Line,
+    LineBasicMaterial,
+    SphereGeometry,
+    MeshBasicMaterial,
+    Mesh,
+    PerspectiveCamera,
+    Scene,
+    WebGLRenderer
+} from "../../node_modules/three/build/three.module.js";
 
 var vSettings = settings.visualization;
 var camera;
@@ -41,15 +53,15 @@ destroyObject3D = function (object3D) {
 };
 
 var createEdgeObject3D = function (edge) {
-    var material = new THREE.LineBasicMaterial({
+    var material = new LineBasicMaterial({
         color: vSettings.edgeColor
     });
 
-    var geometry = new THREE.Geometry();
-    geometry.vertices.push(new THREE.Vector3());
-    geometry.vertices.push(new THREE.Vector3());
+    var geometry = new Geometry();
+    geometry.vertices.push(new Vector3());
+    geometry.vertices.push(new Vector3());
 
-    var line = new THREE.Line(geometry, material);
+    var line = new Line(geometry, material);
     scene.add(line);
     edge.object3D = line;
 };
@@ -88,10 +100,10 @@ var nodeColor = function (node) {
 };
 
 var createNodeObject3D = function (node) {
-    var geometry = new THREE.SphereGeometry(vSettings.nodeDiameter,
+    var geometry = new SphereGeometry(vSettings.nodeDiameter,
                                             32, 32);
-    var material = new THREE.MeshBasicMaterial({color: nodeColor(node)});
-    var mesh = new THREE.Mesh(geometry, material);
+    var material = new MeshBasicMaterial({color: nodeColor(node)});
+    var mesh = new Mesh(geometry, material);
     scene.add(mesh);
     node.object3D = mesh;
 };
@@ -137,7 +149,7 @@ animate = function () {
 };
 
 var init = function () {
-    camera = new THREE.PerspectiveCamera(50, 1, 0.01, 10);
+    camera = new PerspectiveCamera(50, 1, 0.01, 10);
 
     controls = new THREE.OrbitControls(camera);
     controls.enableDamping = true;
@@ -147,9 +159,9 @@ var init = function () {
     camera.position.z = 3;
     controls.update();
 
-    scene = new THREE.Scene();
+    scene = new Scene();
 
-    renderer = new THREE.WebGLRenderer({antialias: true});
+    renderer = new WebGLRenderer({antialias: true});
     updateSize();
 
     visualizationEl.appendChild(renderer.domElement);

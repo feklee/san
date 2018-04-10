@@ -1,15 +1,13 @@
 /*jslint browser: true, maxlen: 80 */
 
-/*global THREE*/
-
 import nodes from "./nodes.mjs";
 import updateEdges from "./update-edges.mjs";
 import sortedNodes from "./sorted-nodes.mjs";
-import settings from "./settings.mjs";
 import renderMatrix from "./render-matrix.mjs";
 import locationOptimizer from "./location-optimizer.mjs";
 import vector from "./vector.mjs";
 import visualization from "./visualization.mjs";
+import {Vector3} from "../../node_modules/three/build/three.module.js";
 var rootNode;
 
 var nodeExists = function (id) {
@@ -182,7 +180,7 @@ var updateConnection = function (ports) {
 
 var addRootNode = function () {
     rootNode = addNode("*");
-    rootNode.location = new THREE.Vector3(0, 0, 0);
+    rootNode.location = new Vector3(0, 0, 0);
 };
 
 addRootNode();

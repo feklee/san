@@ -55,7 +55,6 @@ First enter the directory `webapp`, then:
 
  3. Build frontend:
 
-        $ cd frontend
         $ ./node_modules/.bin/rollup.cmd --config
 
       * On Windows call `rollup.cmd` instead of `rollup`.

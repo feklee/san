@@ -20,13 +20,13 @@
     "reset-css": "^3.0.0",
     "serialport": "^6.1.1",
     "source-code-pro": "^2.30.1",
-    "websocket": "^1.0.25"
+    "websocket": "^1.0.25",
+    "three": "0.91.0"
   },
   "devDependencies": {
     "rollup": "^0.57.1",
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-copy": "^0.2.3",
-    "rollup-plugin-node-resolve": "^3.3.0",
-    "three": "0.91.0"
+    "rollup-plugin-node-resolve": "^3.3.0"
   }
 }

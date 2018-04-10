@@ -19,7 +19,7 @@ var findEdge = function (node, neighbor) {
     return null;
 };
 
-var deleteNonExistingEdges = function (edges, existingEdges) {
+var deleteNonExistingEdges = function (existingEdges) {
     edges.forEach(function (edge) {
         if (!existingEdges.has(edge)) {
             visualization.destroyEdgeObject3D(edge);
@@ -53,5 +53,5 @@ export default function () {
         });
     });
 
-    deleteNonExistingEdges(edges, existingEdges);
+    deleteNonExistingEdges(existingEdges);
 };

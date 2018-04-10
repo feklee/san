@@ -1,10 +1,11 @@
 /*jslint browser: true, maxlen: 80 */
 
-/*global JSGA, THREE*/
+/*global THREE*/
 
 import sortedNodes from "./sorted-nodes.mjs";
 import settings from "./settings.mjs";
 import vector from "./vector.mjs";
+import jsga from "jsga-feklee";
 
 var loSettings = settings.locationOptimizer;
 
@@ -191,7 +192,6 @@ var update = function () {
 
     var size = loSettings.populationSizeFactor * numberOfNodes;
     var dimensionality = 3;
-    var jsga = JSGA;
     var algorithm = jsga({
         length: dimensionality * numberOfNodes,
         radix: numberOfNodes * loSettings.resolution,

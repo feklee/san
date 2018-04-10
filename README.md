@@ -34,19 +34,19 @@ Setup
 -----
 
  1. Write ID on EEPROM of each MCU: `idWriter`
- 
+
     The root node needs to be named: `*`
 
  2. Build and upload Arduino sketch to MCU: `node`
 
  3. List available serial ports for communication with the Teensy:
 
-        $ cd app/
-        $ npm start
+        $ cd webapp/
+        $ npm start list
 
  4. Start server, here with serial port `COM6`:
 
-        $ npm start COM6
+        $ npm start connect COM6
 
  5. Open index page in browser, in full screen mode on a 16:9 screen. Example
     URL (adapt to your system):
@@ -70,6 +70,11 @@ First enter the directory `app/public`, then:
     During development, you may use:
 
         $ sass -E utf-8 --watch sass:public/stylesheets
+
+Also run (optinially with the option `--watch` during development):
+
+    cd webapp
+    rollup --config
 
 
 Coding conventions

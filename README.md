@@ -5,6 +5,8 @@ Introduction
 
 Self aware network structure. It understands its own topology.
 
+Get it running by building the construction and running the software.
+
 
 Construction
 ============
@@ -55,7 +57,7 @@ First enter the directory `webapp`, then:
 
  3. Build frontend:
 
-        $ ./node_modules/.bin/rollup.cmd --config
+        $ ./node_modules/.bin/rollup --config
 
       * On Windows call `rollup.cmd` instead of `rollup`.
 

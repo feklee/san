@@ -72,12 +72,19 @@ div.log ul li>pre {
     overflow-wrap: break-word;
 }
 
+div.log ul li.warn::before,
+div.log ul li.info::before,
+div.log ul li.error::before {
+    display: inline-block;
+    width: 20px;
+}
+
 div.log ul li.error {
     color: salmon;
 }
 
 div.log ul li.error::before {
-    content: "⦻ ";
+    content: "⦻";
 }
 
 div.log ul li.info {
@@ -85,7 +92,7 @@ div.log ul li.info {
 }
 
 div.log ul li.info::before {
-    content: "ⓘ ";
+    content: "ⓘ";
 }
 
 div.log ul li.warn {
@@ -93,5 +100,5 @@ div.log ul li.warn {
 }
 
 div.log ul li.warn::before {
-    content: "⚠ ";
+    content: "⚠";
 }

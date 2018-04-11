@@ -1,6 +1,5 @@
 :root {
   --dimgray: #444;
-  --indent-width: 15px;
 }
 
 ::-webkit-scrollbar {
@@ -55,34 +54,16 @@ div.log {
     box-sizing: border-box;
 }
 
-div.log.ul {
+div.log ul {
     margin-top: auto;
     width: 100%;
+}
 
-div.log.ul li {
+div.log ul li {
     white-space: nowrap;
-    padding-left: var(--indent-width);
 }
 
-div.log.ul::before {
-    display: inline-block;
-    margin-left: -var(--indent-width);
-    width: var(--indent-width);
-}
-
-div.log.ul.error {
-    color: salmon;
-}
-
-div.log.ul.error::before {
-    content: "⦻";
-}
-
-div.log.ul.input::before {
-    content: ">";
-}
-
-div.log.ul>pre {
+div.log ul li>pre {
     display: inline-block;
     vertical-align: top;
     white-space: pre-wrap;
@@ -91,18 +72,26 @@ div.log.ul>pre {
     overflow-wrap: break-word;
 }
 
-div.log.ul.info {
+div.log ul li.error {
+    color: salmon;
+}
+
+div.log ul li.error::before {
+    content: "⦻ ";
+}
+
+div.log ul li.info {
     color: lightblue;
 }
 
-div.log.ul.info::before {
-    content: "ⓘ";
+div.log ul li.info::before {
+    content: "ⓘ ";
 }
 
-div.log.ul.warn {
+div.log ul li.warn {
     color: khaki;
 }
 
-div.log.ul.warn::before {
-    content: "⚠";
+div.log ul li.warn::before {
+    content: "⚠ ";
 }

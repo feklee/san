@@ -2,16 +2,14 @@
 
 "use strict";
 
-var rootNode = require("./root-node");
+const SerialPort = require("serialport");
 
-rootNode.listSerialPorts(
-    function (ports) {
-        var comNames = ports.map(function (port) {
-            return port.comName;
-        });
-        comNames.sort();
-        comNames.forEach(function (comName) {
-            console.log(comName);
-        });
-    }
-);
+SerialPort.list(function (ignore, ports) {
+    var comNames = ports.map(function (port) {
+        return port.comName;
+    });
+    comNames.sort();
+    comNames.forEach(function (comName) {
+        console.log(comName);
+    });
+});

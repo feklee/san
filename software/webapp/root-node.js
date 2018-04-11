@@ -14,12 +14,6 @@ var receivedDataItems = require("./received-data-items");
 var cli = require("./cli");
 var port;
 
-function listSerialPorts(callback) {
-    SerialPort.list(function (ignore, ports) {
-        callback(ports);
-    });
-}
-
 function log(message) {
     if (message.type === "error" || message.type === "warn") {
         cli.logError(message.text);
@@ -68,7 +62,6 @@ function sendJson(modeChainJson) {
 }
 
 module.exports = {
-    listSerialPorts: listSerialPorts,
     connect: connect,
     sendJson: sendJson
 };

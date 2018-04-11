@@ -32,8 +32,8 @@ connectors.
 Software
 ========
 
-Setup of microcontroller units (MCU)
-------------------------------------
+Setup of nodes
+--------------
 
  1. Write ID on EEPROM of each MCU: `idWriter`
 

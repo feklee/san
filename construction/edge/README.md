@@ -11,6 +11,10 @@ Parts
     [Modulor Item #4500359-002-ST][1]
   
     Isolation cut to a length of 107 mm
+    
+Consider adding a resistor as a protection against shorting when nodes are
+connected in loops: [Half Duplex: How to prevent shorting?][2] (Electrical
+Engineering StackExchange)
 
 
 Steps
@@ -25,3 +29,4 @@ Steps
     ![Finished edge](finished.jpg)
 
 [1]: https://www.modulor.de/en/abs-round-tube-opaque-coloured-oe-1-6-l-760-mm-wire-yellow.html
+[2]: https://electronics.stackexchange.com/q/368116/21817

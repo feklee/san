@@ -151,18 +151,18 @@ animate = function () {
 var init = function () {
     camera = new PerspectiveCamera(50, 1, 0.01, 10);
 
-    controls = new THREE.OrbitControls(camera);
-    controls.enableDamping = true;
-    controls.autoRotate = true;
-    controls.autoRotateSpeed = 0.5;
-
     camera.position.z = 3;
-    controls.update();
 
     scene = new Scene();
 
     renderer = new WebGLRenderer({antialias: true});
     updateSize();
+
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.5;
+    controls.update();
 
     visualizationEl.appendChild(renderer.domElement);
 

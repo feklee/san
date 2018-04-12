@@ -57,7 +57,6 @@ client.onmessage = function (e) {
     }
 };
 
-document.addEventListener("DOMContentLoaded", function () {
-    var asideEl = document.querySelector("aside");
-    asideEl.style.width = settings.asideWidth + "px";
-});
+var asideEl = document.querySelector("aside");
+asideEl.style.width = settings.asideWidth + "px";
+document.body.classList.remove("hidden");

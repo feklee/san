@@ -22,6 +22,15 @@ html, body {
 body {
     display: flex;
     font: normal normal normal 15px/17px "Source Code Pro";
+
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s, opacity 1s;
+}
+
+body.hidden {
+    visibility: hidden;
+    opacity: 0;
 }
 
 div.visualization {

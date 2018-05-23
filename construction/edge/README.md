@@ -3,7 +3,7 @@ Parts
 
 ![Components](components.jpg)
 
-  * 2 × RG58 BNC crimp coaxial connector with contact pins: Amphenol RF 112116
+  * 2 × RG58 BNC crimp coaxial connector with contact pins: Amphenol RF 112116
   
   * Aluminum pipe, 6 mm outer diameter, 0.5 mm wall thickness, 100 mm length
 
@@ -17,8 +17,8 @@ connected in loops: [Half Duplex: How to prevent shorting?][2] (Electrical
 Engineering StackExchange)
 
 
-Steps
-=====
+Assembly
+========
 
  1. Crimp contact pins.
  

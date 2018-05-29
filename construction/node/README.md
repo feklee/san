@@ -42,7 +42,7 @@ Assembly
 
           + Print without raft and support.
 
-          + Print with high amount of infill.
+          + Print with high amount of infill to get smooth light from the LEDs.
 
      2. Cut material. Make sure that the LEDs fit into the receptacles.
 

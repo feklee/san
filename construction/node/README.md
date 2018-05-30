@@ -25,6 +25,8 @@ Parts
   * 4 × Screws: DIN 912, M2×6
 
   * 4 × Nuts: DIN 934, M2
+  
+  * 6 pin header, stackable, i.e. with long pins
 
 
 Assembly
@@ -56,7 +58,7 @@ Assembly
 
      1. Cut:
 
-          - black: 5 × 60 mm, 2 × 30 mm
+          - black: 5 × 60 mm, 4 × 30 mm
 
           - red: 4 × 60 mm
 
@@ -89,42 +91,137 @@ Assembly
 
  3. BNC connectors:
 
-     1. Bend BNC connector solder tags by 90°, then solder one y black and one
-        short black one onto each.
-
-     2. Solder wires to center pins: white, purple
+     1. Bend solder tags by 90°.
+     
+     2. Test if bent BNC connectors fit in hemisphere.
+     
+     3. Tin solder tags.
+     
+     4. Solder one black y-cable and one short black cable onto each solder tag.
+        Consistently always put the short cable on the same side.
+     
+     5. Tin the inside of the contact pins.
+     
+     6. Solder cables to the contact pins: white, purple
 
  4. LEDs:
 
      1. Test them. (provide sketch)
 
      2. Shorten pins of LEDs to 5 mm.
+     
+     3. Bend pins to spread them.
+     
+     4. Tin pins.
 
-     3. Solder stuff to LEDs.
+     5. Solder to first LED, from left to right:
+     
+          - (round side)
+
+          - DIN: yellow cable, tinned on one end
+          
+          - VDD: black cable, short, attached to a BNC connector
+          
+          - VSS: red y-cable, one of the two tinned ends
+          
+          - DOUT: yellow cable
+          
+          - (flat side)
+
+     6. Solder to second LED:
+     
+          - DIN: yellow cable, connected to DOUT on first LED
+          
+          - VDD: black cable, short, attached to the BNC connector which is
+            connected to that from the previous step
+          
+          - VSS: red y-cable, connected to first LED
+          
+          - DOUT: yellow cable
+          
+      7. Solder to third LED:
+
+          - DIN: yellow cable, connected to second LED
+          
+          - VDD: black cable, short, attached to BNC connector
+          
+          - VSS: red y-cable
+          
+          - DOUT: yellow cable
+          
+      8. Solder to fourth LED:
+
+          - DIN: yellow cable, connected to third LED
+          
+          - VDD: black cable, short, attached to BNC connector
+          
+          - VSS: red y-cable
 
  5. Battery holders:
 
-     1. Cut off one of each + connector pins completely.
+     1. Cut off one of each ⊕ connector pins completely.
+     
+     2. Tin pins.
 
-     2. Shorten pins to half their length.
+     3. Solder to first battery holder:
 
-     3. Solder cables to battery holders.
+          - ⊖: black cable
 
-     4. Bend pins to flatten holders.
+          - ⊕: gray cable
 
- 6. Assemble.
+     4. Solder to second battery holder:
 
- 7. Pro Mini board:
+          - ⊖: gray cable, connected to first battery holder
 
-     1. Desolder LED from Arduino Pro Mini (works good with soldering iron, as
-        shown in the video “Desoldering led and voltage regulator on Arduino Pro
+          - ⊕: orange cable
+
+     4. Bend pins flat.
+
+ 6. Pro Mini board:
+
+     1. Desolder LED from Arduino Pro Mini (works good with a soldering iron and
+        a little tin on its tip, as shown in the video “Desoldering led and
+        voltage regulator on Arduino Pro
         Mini”: <https://www.youtube.com/watch?v=7qujkC72dYs>)
 
-     2. Bend the six piece connector so that the distance to the FTDI is minimized.
+     2. Bend the six pin connector so that board with the connector fits into a
+        hemisphere. Suggestion: Test by bending one pin first.
 
-     3. Solder six piece connector.
+     3. Solder six piece connector to board.
+     
+     4. Thread white and purple cables through holes and metal rings:
+     
+          - First white cable: same side and hemisphere as the orange cable
+          
+          - First purple cable: same hemisphere as first purple cable
+          
+          - Second white cable: other hemisphere, next to the gray cable
+          
+          - Second white cable: remaining position
+          
+            (TODO: specify above how to glue in battery holders)
+     
+     5. Solder cables going into the bottom side of the board, after stripping
+        ends:
+     
+          - GND between RST and RAW: two black cables, connected to battery
+            holder and to LEDs three and four (see above)
+            
+          - Pin 10: white cable, going through hole in hemisphere, plus metal
+            rings.
+          
+            […]
+            
+     6. Solder cables going into the upper side of the board, after stripping
+        ends:
+          
+          - GND between RST and 2: remaining black cable
+     
+          - A0: yellow cable
+          
+          - VCC: both red cables
 
-     4. Solder everything to the board, stripping cables where needed.
+ 7. Assemble.
 
  8. Test, in particular the LEDs.
 

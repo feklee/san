@@ -22,7 +22,7 @@ Parts
 
   * Milky transparent plastics for 3D printing.
 
-  * 4 × Screws: DIN 912, M2×6
+  * 4 × Screws: DIN 912, M2×5 mm
 
   * 4 × Nuts: DIN 934, M2
   

@@ -114,7 +114,7 @@ Assembly
 
     ![LEDs](images/LEDs.jpg)
 
-     1. Test them. (provide sketch)
+     1. Test them using the provided Arduino sketch.
 
      2. Shorten pins of LEDs to 5 mm.
      

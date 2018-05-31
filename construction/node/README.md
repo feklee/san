@@ -38,19 +38,23 @@ Assembly
 
      1. 3D print two copies:
 
-          + See the provided STL file.
+          - See the provided STL file.
 
-          + Orient upside down.
+          - Orient upside down.
 
-          + Print without raft and support.
+          - Print without raft and support.
 
-          + Print with high amount of infill to get smooth light from the LEDs.
+          - Print with high amount of infill to get smooth light from the LEDs.
 
      2. Cut material. Make sure that the LEDs fit into the receptacles.
 
      3. Sand the top of the print so that the hemispheres are flush when joined.
 
-     4. Glue in battery holders using gap-filling glue.
+     4. Glue in battery holders using gap-filling glue, as pictured:
+     
+          - receptacle for 6 pin header on the left
+          
+          - ⊕ in front
 
  2. Cables:
 
@@ -204,8 +208,6 @@ Assembly
           - Second white cable: other hemisphere, next to the gray cable
           
           - Second white cable: remaining position
-          
-            (TODO: specify above how to glue in battery holders)
      
      5. Solder cables going into the bottom side of the board, after stripping
         ends:

@@ -1,9 +1,9 @@
 #include <Adafruit_NeoPixel.h>
 
 void setup() {
-  const uint8_t ledPin = 2;
-  const uint8_t brightness = 40; // Avoid exceeding the Arduino's power supply
-  Adafruit_NeoPixel neoPixel = Adafruit_NeoPixel(1, ledPin,
+  const uint8_t dataPin = 10; // connected to pin at round edge of LED
+  const uint8_t brightness = 20; // avoid exceeding the Arduino's power supply
+  Adafruit_NeoPixel neoPixel = Adafruit_NeoPixel(1, dataPin,
                                                  NEO_RGB + NEO_KHZ800);
 
   neoPixel.begin();

@@ -91,6 +91,8 @@ Assembly
 
  3. BNC connectors:
 
+    ![BNC connectors](images/BNC_connectors.jpg)
+
      1. Bend solder tags by 90°.
      
      2. Test if bent BNC connectors fit in hemisphere.
@@ -105,6 +107,8 @@ Assembly
      6. Solder cables to the contact pins: white, purple
 
  4. LEDs:
+
+    ![LEDs](images/LEDs.jpg)
 
      1. Test them. (provide sketch)
 
@@ -158,6 +162,8 @@ Assembly
           - VSS: red y-cable
 
  5. Battery holders:
+
+    ![Battery holders](images/battery_holders.jpg)
 
      1. Cut off one of each ⊕ connector pins completely.
      

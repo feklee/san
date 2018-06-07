@@ -8,7 +8,7 @@ building the construction and running the software.
 
 ![Construction](images/construction.jpg)
 
-![Visualization](images/visualization.jpg)
+![Visualization](images/visualization.png)
 
 
 Construction

@@ -3,9 +3,12 @@
 Introduction
 ============
 
-Self aware network structure. It understands its own topology.
+Self aware network structure. It understands its own topology. Get started by
+building the construction and running the software.
 
-Get it running by building the construction and running the software.
+![Construction](images/construction.jpg)
+
+![Visualization](images/visualization.jpg)
 
 
 Construction

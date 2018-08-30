@@ -9,8 +9,11 @@
 #include "Pair.h"
 #include "newPairs.h"
 
-static uint8_t nodeId;
-static Port *ports[portsCount];
+static char nodeId;
+static Port port1(2, 1);
+static Port port2(3, 2);
+static Port port3(4, 3); // TODO: use also second set, change to 8?
+static Port port4(5, 4);
 static char debugChar = ' '; // Can be used to indicate status during debugging
 
 static long randx;
@@ -53,57 +56,57 @@ static inline boolean startsRequest(char c) {
   return c == '?';
 }
 
-OtherNode I(Port *port) {
+OtherNode I(Port &port) {
   OtherNode I;
   I.nodeId = nodeId;
-  I.portNumber = port->number;
+  I.portNumber = port.number;
   return I;
 }
 
-static void storeAsParent(Port *port, OtherNode otherNode) {
+static void storeAsParent(Port &port, OtherNode otherNode) {
   boolean neighborIsNew = !otherNodeIsMyNeighbor(port, otherNode);
   if (neighborIsNew) {
-    port->neighbor = otherNode;
+    port.neighbor = otherNode;
     Pair newPair(otherNode, I(port));
     enqueueNewPair(newPair);
   }
-  port->neighborType = parent;
+  port.neighborType = parent;
 }
 
 static void storeAsChild( // fixme: rename
-  Port *port, OtherNode otherNode,
+  Port &port, OtherNode otherNode,
   boolean otherNodeClosesLoop = false) {
   boolean neighborIsNew = !otherNodeIsMyNeighbor(port, otherNode);
   if (neighborIsNew) {
-    port->neighbor = otherNode;
+    port.neighbor = otherNode;
   }
-  port->neighborType = otherNodeClosesLoop ? closesLoop : child;
+  port.neighborType = otherNodeClosesLoop ? closesLoop : child;
 }
 
-static void removeNeighbor(Port *port) {
-  port->neighbor = emptyOtherNode;
-  port->neighborType = none;
+static void removeNeighbor(Port &port) {
+  port.neighbor = emptyOtherNode;
+  port.neighborType = none;
 }
 
-static void removeChild(Port *port) {
-  if (!port->neighbor.isEmpty()) {
+static void removeChild(Port &port) {
+  if (!port.neighbor.isEmpty()) {
     removeNeighbor(port);
-    Pair newPair(I(port), port->neighbor);
+    Pair newPair(I(port), port.neighbor);
     enqueueNewPair(newPair);
   }
 }
 
-static void removeParent(Port *port) {
-  if (!port->neighbor.isEmpty()) {
+static void removeParent(Port &port) {
+  if (!port.neighbor.isEmpty()) {
     removeNeighbor(port);
     // don't queue as we're disconnected
   }
 }
 
-static boolean readRequest(Port *port) {
+static boolean readRequest(Port &port) {
   const uint8_t payloadSize = 3;
   char payload[payloadSize];
-  boolean payloadIsComplete = port->readPayload(payload, payloadSize, false);
+  boolean payloadIsComplete = port.readPayload(payload, payloadSize, false);
 
   if (!payloadIsComplete) {
     return false;
@@ -121,14 +124,13 @@ static void syncTimeSlotToParent() {
   openTimeSlotStartingAt(millis() - graceTime);
 }
 
-static boolean waitForRequestAndSyncTime(Port *port,
+static boolean waitForRequestAndSyncTime(Port &port,
                                          boolean doSyncTime = true) {
-  uint8_t i = 0;
-  port->serial->listen();
+  port.serial->listen();
   startOverlappingCycle();
   while (!overlappingCycleHasEnded()) {
-    if (port->serial->available()) {
-      char c = port->serial->read();
+    if (port.serial->available()) {
+      char c = port.serial->read();
       if (startsRequest(c)) {
         if (doSyncTime) {
           syncTimeSlotToParent();
@@ -142,9 +144,7 @@ static boolean waitForRequestAndSyncTime(Port *port,
   return false;
 }
 
-static void sendResponse(Port *port) {
-  OtherNode &parent = port->neighbor;
-
+static void sendResponse(Port &port) {
   Pair pair = dequeueNewPair();
 
   char buffer[] = {'!',
@@ -159,20 +159,20 @@ static void sendResponse(Port *port) {
                    debugChar,
                    '\n', // line break for easy debugging
                    '\0'};
-  port->serial->write(buffer);
+  port.serial->write(buffer);
 }
 
-static void sendRequest(Port *port) {
-  port->serial->listen();
+static void sendRequest(Port &port) {
+  port.serial->listen();
   char buffer[] = {'?',
                    nodeId,
-                   charFromDigit(port->number),
+                   charFromDigit(port.number),
                    '\n', // line break for easy debugging
                    '\0'};
-  port->serial->write(buffer);
+  port.serial->write(buffer);
 }
 
-static boolean waitForParentAndSyncTime(Port *port) {
+static boolean waitForParentAndSyncTime(Port &port) {
   boolean requestWasReceived = waitForRequestAndSyncTime(port);
   if (!requestWasReceived) {
     removeParent(port);
@@ -190,9 +190,9 @@ static boolean waitForParentAndSyncTime(Port *port) {
   return true;
 }
 
-static Port *findParentAndSyncTime(Port *startPort) {
-  static Port *port = startPort;
-  while (!waitForParentAndSyncTime(port)) {
+static Port *findParentAndSyncTime(Port &startPort) {
+  static Port *port = &startPort;
+  while (!waitForParentAndSyncTime(*port)) {
     port = port->next;
   }
   return port;
@@ -208,22 +208,22 @@ static boolean firstNodeIsI(Pair pair) {
   return pair.firstNode.nodeId == nodeId;
 }
 
-static boolean secondNodeIsMyNeighbor(Port *port, Pair pair) {
-  return pair.secondNode == port->neighbor;
+static boolean secondNodeIsMyNeighbor(Port &port, Pair pair) {
+  return pair.secondNode == port.neighbor;
 }
 
-static boolean otherNodeIsMyNeighbor(Port *port, OtherNode otherNode) {
-  return otherNode == port->neighbor;
+static boolean otherNodeIsMyNeighbor(Port &port, OtherNode otherNode) {
+  return otherNode == port.neighbor;
 }
 
-static boolean pairIsNew(Port *port, Pair pair) {
+static boolean pairIsNew(Port &port, Pair pair) {
   return !firstNodeIsI(pair) || !secondNodeIsMyNeighbor(port, pair);
 }
 
-static boolean readResponse(Port *port, boolean childClosesLoop) {
+static boolean readResponse(Port &port, boolean childClosesLoop) {
   const uint8_t payloadSize = 7;
   char payload[payloadSize];
-  boolean payloadIsComplete = port->readPayload(payload, payloadSize);
+  boolean payloadIsComplete = port.readPayload(payload, payloadSize);
 
   if (!payloadIsComplete) {
     return false;
@@ -241,10 +241,10 @@ static boolean readResponse(Port *port, boolean childClosesLoop) {
   return true;
 }
 
-static bool waitForResponse(Port *port) {
+static bool waitForResponse(Port &port) {
   while (!timeSlotHasEnded()) {
-    if (port->serial->available()) {
-      char c = port->serial->read();
+    if (port.serial->available()) {
+      char c = port.serial->read();
       if (startsResponse(c)) {
         if (readResponse(port, c == '%')) {
           return true;
@@ -255,15 +255,15 @@ static bool waitForResponse(Port *port) {
   return false;
 }
 
-static void deleteChildIfAgainNoResponse(Port *port,
+static void deleteChildIfAgainNoResponse(Port &port,
                                          boolean responseHasBeenReceived) {
-  if (!responseHasBeenReceived && port->noResponseLastTime) {
+  if (!responseHasBeenReceived && port.noResponseLastTime) {
     removeChild(port);
   }
-  port->noResponseLastTime = !responseHasBeenReceived;
+  port.noResponseLastTime = !responseHasBeenReceived;
 }
 
-static void askForChild(Port *port) {
+static void askForChild(Port &port) {
   openNextTimeSlot();
   giveOtherSideTimeToGetReady();
   sendRequest(port);
@@ -277,18 +277,18 @@ static void askForChild(Port *port) {
 }
 
 // Check if the other node is asking for a child. Then there is a loop.
-static void checkIfThereIsALoop(Port *port) {
+static void checkIfThereIsALoop(Port &port) {
   boolean requestWasReceived = waitForRequestAndSyncTime(port, false); // fixme: maybe rename without sync time, or put that in separate variable
 
   if (!requestWasReceived) { // fixme: may be wrong answer if parent is doing something! => neighbor report may turn on and off randomly, from time to time
-    if (!port->neighbor.isEmpty()) {
+    if (!port.neighbor.isEmpty()) {
       removeNeighbor(port);
-      Pair newPair(port->neighbor, I(port));
+      Pair newPair(port.neighbor, I(port));
       enqueueNewPair(newPair);
     }
     return;
   }
-  port->neighborType = closesLoop; // fixme: do that assignment when reading
+  port.neighborType = closesLoop; // fixme: do that assignment when reading
                                    // request
 }
 
@@ -297,14 +297,15 @@ void setup() {
 
   setRandomSeed(nodeId);
 
-  for (uint8_t i = 0; i < portsCount; i ++) {
-    ports[i] = new Port(portPins[i], i + 1);
-    ports[i]->serial->begin(19200);
-  }
+  port1.serial->begin(19200);
+  port2.serial->begin(19200);
+  port3.serial->begin(19200);
+  port4.serial->begin(19200);
 
-  for (uint8_t i = 0; i < portsCount; i ++) {
-    ports[i]->next = ports[(portsCount + i - 1) % portsCount];
-  }
+  port1.next = &port2;
+  port2.next = &port3;
+  port3.next = &port4;
+  port4.next = &port1;
 
   pinMode(ledPin, OUTPUT);
   flashLed();
@@ -315,16 +316,17 @@ void setup() {
 }
 
 void resetResponseStatus() {
-  for (uint8_t i = 0; i < portsCount; i ++) {
-    ports[i]->noResponseLastTime = false;
-  }
+  port1.noResponseLastTime = false;
+  port2.noResponseLastTime = false;
+  port3.noResponseLastTime = false;
+  port4.noResponseLastTime = false;
 }
 
 void rootLoop() {
-  static Port *port = ports[0];
+  static Port *port = &port1;
 
   startCycleWithNextTimeSlot();
-  askForChild(port);
+  askForChild(*port);
 
   Pair pair = dequeueNewPair();
   if (!pair.isEmpty()) {
@@ -343,7 +345,7 @@ void rootLoop() {
 }
 
 void nonRootLoop() {
-  static Port *port = ports[0];
+  static Port *port = &port1;
   static boolean loopCheckIsScheduled = false;
   Port *portWithParent;
   static uint8_t loopChecks = 0; // fixme
@@ -365,7 +367,7 @@ void nonRootLoop() {
   }
 #endif
 
-  portWithParent = findParentAndSyncTime(port);
+  portWithParent = findParentAndSyncTime(*port);
   port = portWithParent->next;
 
   if (loopCheckIsScheduled) {
@@ -375,11 +377,11 @@ void nonRootLoop() {
     }*/
     loopChecks ++;
     resetResponseStatus(); // because no responses recorded this cycle
-    checkIfThereIsALoop(port);
+    checkIfThereIsALoop(*port);
     port = portWithParent;
   } else {
     for (uint8_t i = 0 ; i < portsCount - 1; i ++) {
-      askForChild(port);
+      askForChild(*port);
       port = port->next;
     }
   }

@@ -7,7 +7,6 @@
 
 const uint8_t ledPin = 13;
 const uint8_t portsCount = 4;
-const uint8_t portPins[portsCount] = {2, 3, 4, 5};
 const uint8_t pairBufferSize = 10;
 
 #ifdef DEBUG

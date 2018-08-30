@@ -14,7 +14,6 @@ static Port port1(2, 1);
 static Port port2(3, 2);
 static Port port3(4, 8);
 static Port port4(5, 9);
-static Port *ports[] = {&port1, &port2, &port3, &port4};
 static char debugChar = ' '; // Can be used to indicate status during debugging
 
 static long randx;
@@ -195,17 +194,28 @@ uint8_t nextPortNumber(uint8_t portNumber) {
   return portNumber % 4 + 1;
 }
 
+bool waitForParentAndThenSyncTime(uint8_t portNumber) {
+  switch (portNumber) {
+  case 1:
+    return waitForParentAndThenSyncTime(port1);
+  case 2:
+    return waitForParentAndThenSyncTime(port2);
+  case 3:
+    return waitForParentAndThenSyncTime(port3);
+  default:
+    return waitForParentAndThenSyncTime(port4);
+  }
+}
+
 static uint8_t findParentAndThenSyncTime(uint8_t startPortNumber) {
   uint8_t portNumber = startPortNumber;
   while (true) {
-    Port *port = ports[portNumber - 1];
-    bool parentDetected = waitForParentAndThenSyncTime(*port);
+    bool parentDetected = waitForParentAndThenSyncTime(portNumber);
     if (parentDetected) {
-      break;
+      return portNumber;
     }
     portNumber = nextPortNumber(portNumber);
   }
-  return portNumber;
 }
 
 static boolean startsResponse(char c) {
@@ -354,6 +364,23 @@ void rootLoop() {
   waitForEndOfCycle();
 }
 
+void askForChild(uint8_t portNumber) {
+  switch (portNumber) {
+  case 1:
+    askForChild(port1);
+    break;
+  case 2:
+    askForChild(port2);
+    break;
+  case 3:
+    askForChild(port3);
+    break;
+  default:
+    askForChild(port4);
+    break;
+  }
+}
+
 void nonRootLoop() {
   static uint8_t portNumber = 1;
 
@@ -361,7 +388,7 @@ void nonRootLoop() {
   portNumber = nextPortNumber(portNumber);
 
   for (uint8_t i = 0 ; i < portsCount - 1; i ++) {
-    askForChild(*ports[portNumber - 1]);
+    askForChild(portNumber);
     portNumber = nextPortNumber(portNumber);
   }
 }

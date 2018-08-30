@@ -12,8 +12,9 @@
 static char nodeId;
 static Port port1(2, 1);
 static Port port2(3, 2);
-static Port port3(4, 3); // TODO: use also second set, change to 8?
-static Port port4(5, 4);
+static Port port3(4, 8);
+static Port port4(5, 9);
+static Port *ports[] = {&port1, &port2, &port3, &port4};
 static char debugChar = ' '; // Can be used to indicate status during debugging
 
 static long randx;
@@ -124,7 +125,7 @@ static void syncTimeSlotToParent() {
   openTimeSlotStartingAt(millis() - graceTime);
 }
 
-static boolean waitForRequestAndSyncTime(Port &port,
+static boolean waitForRequestAndThenSyncTime(Port &port,
                                          boolean doSyncTime = true) {
   port.serial->listen();
   startOverlappingCycle();
@@ -172,8 +173,8 @@ static void sendRequest(Port &port) {
   port.serial->write(buffer);
 }
 
-static boolean waitForParentAndSyncTime(Port &port) {
-  boolean requestWasReceived = waitForRequestAndSyncTime(port);
+static boolean waitForParentAndThenSyncTime(Port &port) {
+  boolean requestWasReceived = waitForRequestAndThenSyncTime(port);
   if (!requestWasReceived) {
     removeParent(port);
     return false;
@@ -190,12 +191,21 @@ static boolean waitForParentAndSyncTime(Port &port) {
   return true;
 }
 
-static Port *findParentAndSyncTime(Port &startPort) {
-  static Port *port = &startPort;
-  while (!waitForParentAndSyncTime(*port)) {
-    port = port->next;
+uint8_t nextPortNumber(uint8_t portNumber) {
+  return portNumber % 4 + 1;
+}
+
+static uint8_t findParentAndThenSyncTime(uint8_t startPortNumber) {
+  uint8_t portNumber = startPortNumber;
+  while (true) {
+    Port *port = ports[portNumber - 1];
+    bool parentDetected = waitForParentAndThenSyncTime(*port);
+    if (parentDetected) {
+      break;
+    }
+    portNumber = nextPortNumber(portNumber);
   }
-  return port;
+  return portNumber;
 }
 
 static boolean startsResponse(char c) {
@@ -276,9 +286,10 @@ static void askForChild(Port &port) {
   waitForEndOfTimeSlot();
 }
 
+#if 0 // TODO: remove eventually
 // Check if the other node is asking for a child. Then there is a loop.
 static void checkIfThereIsALoop(Port &port) {
-  boolean requestWasReceived = waitForRequestAndSyncTime(port, false); // fixme: maybe rename without sync time, or put that in separate variable
+  boolean requestWasReceived = waitForRequestAndThenSyncTime(port, false); // fixme: maybe rename without sync time, or put that in separate variable
 
   if (!requestWasReceived) { // fixme: may be wrong answer if parent is doing something! => neighbor report may turn on and off randomly, from time to time
     if (!port.neighbor.isEmpty()) {
@@ -291,6 +302,7 @@ static void checkIfThereIsALoop(Port &port) {
   port.neighborType = closesLoop; // fixme: do that assignment when reading
                                    // request
 }
+#endif
 
 void setup() {
   nodeId = EEPROM.read(0);
@@ -323,10 +335,8 @@ void resetResponseStatus() {
 }
 
 void rootLoop() {
-  static Port *port = &port1;
-
   startCycleWithNextTimeSlot();
-  askForChild(*port);
+  askForChild(port1);
 
   Pair pair = dequeueNewPair();
   if (!pair.isEmpty()) {
@@ -345,45 +355,14 @@ void rootLoop() {
 }
 
 void nonRootLoop() {
-  static Port *port = &port1;
-  static boolean loopCheckIsScheduled = false;
-  Port *portWithParent;
-  static uint8_t loopChecks = 0; // fixme
+  static uint8_t portNumber = 1;
 
-#if 0
-  if (loopCheckIsScheduled) {
-    loopCheckIsScheduled = false; // no more than one loop check in a row, to
-                                  // allow replying to parent at least every
-                                  // other time (loop check block replies to
-                                  // parent for one cycle)
-  } else {
-    if (nodeId == 'c' || nodeId == 'a') { // fixme
-      loopCheckIsScheduled = false; // fixme: for c
-    } else {
-      loopCheckIsScheduled = true;
-    }
-//      loopCheckIsScheduled = true;
-//      loopCheckIsScheduled = randomNumber() % 10 < 1;
-  }
-#endif
+  portNumber = findParentAndThenSyncTime(portNumber);
+  portNumber = nextPortNumber(portNumber);
 
-  portWithParent = findParentAndSyncTime(*port);
-  port = portWithParent->next;
-
-  if (loopCheckIsScheduled) {
-    // fixme: portNumber = randomNumber() % (portsCount - 1)
-/*    for (uint8_t i = 0 ; i < portsCount - 1; i ++) { // fixme: skipPorts
-      port = port->next;
-    }*/
-    loopChecks ++;
-    resetResponseStatus(); // because no responses recorded this cycle
-    checkIfThereIsALoop(*port);
-    port = portWithParent;
-  } else {
-    for (uint8_t i = 0 ; i < portsCount - 1; i ++) {
-      askForChild(*port);
-      port = port->next;
-    }
+  for (uint8_t i = 0 ; i < portsCount - 1; i ++) {
+    askForChild(*ports[portNumber - 1]);
+    portNumber = nextPortNumber(portNumber);
   }
 }
 

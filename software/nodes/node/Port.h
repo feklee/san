@@ -8,6 +8,13 @@
 // <https://github.com/nickstedman/SoftwareSerialWithHalfDuplex>:
 #include <SoftwareSerialWithHalfDuplex.h>
 
+#include <MultiTrans.h>
+
+static const uint8_t bitDurationExp = 14; // TODO: try faster
+static const uint8_t maxNumberOfCharsPerTransmission = 7;
+using MT = MultiTrans<bitDurationExp, maxNumberOfCharsPerTransmission>;
+MT multiTransceiver;
+
 enum neighborType {
   parent, child, closesLoop, none
 };
@@ -19,6 +26,8 @@ class Port {
 public:
   Port(uint8_t);
   SoftwareSerialWithHalfDuplex *serial;
+  MT::Transceiver<pinNumber> transceiver;
+
   uint8_t number;
 
   OtherNode neighbor;

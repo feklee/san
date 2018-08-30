@@ -10,10 +10,15 @@
 #include "newPairs.h"
 
 static char nodeId;
-static Port<2> port1(1);
-static Port<3> port2(2);
-static Port<8> port3(3);
-static Port<9> port4(4);
+
+const uint8_t pinNumber1 = 2;
+const uint8_t pinNumber2 = 3;
+const uint8_t pinNumber3 = 8;
+const uint8_t pinNumber4 = 9;
+static Port<pinNumber1> port1(1);
+static Port<pinNumber2> port2(2);
+static Port<pinNumber3> port3(3);
+static Port<pinNumber4> port4(4);
 static char debugChar = ' '; // Can be used to indicate status during debugging
 
 static long randx;

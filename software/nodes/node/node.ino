@@ -19,9 +19,27 @@ static Port<pinNumber1> port1(1);
 static Port<pinNumber2> port2(2);
 static Port<pinNumber3> port3(3);
 static Port<pinNumber4> port4(4);
-static char debugChar = ' '; // Can be used to indicate status during debugging
+static char debugChar = '|'; // Can be used to indicate status during debugging
 
 static long randx;
+
+ISR(TIMER2_COMPA_vect) {
+  port1.transceiver.handleTimer2Interrupt();
+  port2.transceiver.handleTimer2Interrupt();
+  port3.transceiver.handleTimer2Interrupt();
+  port4.transceiver.handleTimer2Interrupt();
+}
+
+ISR(PCINT2_vect) { // D0-D7
+  port1.transceiver.handlePinChangeInterrupt();
+  port2.transceiver.handlePinChangeInterrupt();
+}
+
+ISR(PCINT0_vect) { // D8-D13
+  port3.transceiver.handlePinChangeInterrupt();
+  port4.transceiver.handlePinChangeInterrupt();
+}
+
 
 static inline void setRandomSeed(long x) {
   randx = x;
@@ -137,13 +155,11 @@ static void syncTimeSlotToParent() {
 }
 
 template <typename T>
-boolean waitForRequestAndThenSyncTime(T &port,
-                                      boolean doSyncTime = true) {
-  port.serial->listen();
+boolean waitForRequestAndThenSyncTime(T &port, boolean doSyncTime = true) {
   startOverlappingCycle();
   while (!overlappingCycleHasEnded()) {
-    if (port.serial->available()) {
-      char c = port.serial->read();
+    char c = port.transceiver.getNextCharacter();
+    if (c) {
       if (startsRequest(c)) {
         if (doSyncTime) {
           syncTimeSlotToParent();
@@ -173,18 +189,17 @@ void sendResponse(T &port) {
                    debugChar,
                    '\n', // line break for easy debugging
                    '\0'};
-  port.serial->write(buffer);
+  port.transceiver.startTransmissionOfCharacters(buffer);
 }
 
 template <typename T>
 void sendRequest(T &port) {
-  port.serial->listen();
   char buffer[] = {'?',
                    nodeId,
                    charFromDigit(port.number),
                    '\n', // line break for easy debugging
                    '\0'};
-  port.serial->write(buffer);
+  port.transceiver.startTransmissionOfCharacters(buffer);
 }
 
 template <typename T>
@@ -284,8 +299,8 @@ boolean readResponse(T &port, boolean childClosesLoop) {
 template <typename T>
 bool waitForResponse(T &port) {
   while (!timeSlotHasEnded()) {
-    if (port.serial->available()) {
-      char c = port.serial->read();
+    char c = port.transceiver.getNextCharacter();
+    if (c) {
       if (startsResponse(c)) {
         if (readResponse(port, c == '%')) {
           return true;
@@ -338,15 +353,26 @@ void checkIfThereIsALoop(T &port) {
 }
 #endif
 
+void enablePinChangeInterrupts() {
+  PCICR |= // Pin Change Interrupt Control Register
+    bit(PCIE2) | // D0 to D7
+    bit(PCIE0); // D8 to D15
+}
+
+void setupMultiTransceiver() {
+  multiTransceiver.startTimer1();
+  multiTransceiver.startTimer2();
+  enablePinChangeInterrupts();
+  port1.transceiver.begin();
+  port2.transceiver.begin();
+  port3.transceiver.begin();
+  port4.transceiver.begin();
+}
+
 void setup() {
   nodeId = EEPROM.read(0);
 
   setRandomSeed(nodeId);
-
-  port1.serial->begin(19200);
-  port2.serial->begin(19200);
-  port3.serial->begin(19200);
-  port4.serial->begin(19200);
 
   pinMode(ledPin, OUTPUT);
   flashLed();
@@ -354,6 +380,8 @@ void setup() {
   if (iAmRoot()) {
     Serial.begin(115200);
   }
+
+  setupMultiTransceiver();
 }
 
 void resetResponseStatus() {

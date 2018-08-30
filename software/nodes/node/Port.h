@@ -5,13 +5,10 @@
 #include "OtherNode.h"
 #include "timeslot.h"
 
-// <https://github.com/nickstedman/SoftwareSerialWithHalfDuplex>:
-#include <SoftwareSerialWithHalfDuplex.h>
-
 #include <MultiTrans.h>
 
 static const uint8_t bitDurationExp = 14; // TODO: try faster
-static const uint8_t maxNumberOfCharsPerTransmission = 7;
+static const uint8_t maxNumberOfCharsPerTransmission = 8;
 using MT = MultiTrans<bitDurationExp, maxNumberOfCharsPerTransmission>;
 MT multiTransceiver;
 
@@ -25,7 +22,6 @@ class Port {
   
 public:
   Port(uint8_t);
-  SoftwareSerialWithHalfDuplex *serial;
   MT::Transceiver<pinNumber> transceiver;
 
   uint8_t number;
@@ -40,7 +36,6 @@ public:
 
 template <uint8_t t>
 Port<t>::Port(uint8_t number) {
-  serial = new SoftwareSerialWithHalfDuplex(pinNumber, pinNumber, false, false);
   this->number = number;
 }
 
@@ -48,14 +43,16 @@ template <uint8_t t>
 char Port<t>::receiveNextChar(boolean fixmeTimeSlot) {
   if (fixmeTimeSlot) {
     while (!timeSlotHasEnded()) {
-      if (serial->available()) {
-        return serial->read();
+      char c = transceiver.getNextCharacter();
+      if (c) {
+        return c;
       }
     }
   } else {
     while (!overlappingCycleHasEnded()) {
-      if (serial->available()) {
-        return serial->read();
+      char c = transceiver.getNextCharacter();
+      if (c) {
+        return c;
       }
     }
   }

@@ -32,6 +32,7 @@ public:
 
   char receiveNextChar(boolean = true);
   boolean readPayload(char *, int, boolean = true);
+  char *getMessage();
 };
 
 template <uint8_t t>
@@ -71,6 +72,40 @@ boolean Port<t>::readPayload(char *payload, int expectedPayloadLength,
     payload ++;
   }
   return true;
+}
+
+template <uint8_t t>
+char *Port<t>::getMessage() {
+  static uint8_t messageSize = 0;
+  static uint8_t messagePos = 0;
+  static char message[maxNumberOfCharsPerTransmission + 1];
+
+  while (true) {
+    char character = transceiver.getNextCharacter();
+
+    if (character == 0) {
+      return 0;
+    }
+
+    switch (character) {
+    case '?':
+      messageSize = 4;
+      messagePos = 0;
+      break;
+    case '!':
+      messageSize = 8;
+      messagePos = 0;
+      break;
+    }
+    if (messagePos < messageSize) {
+      message[messagePos] = character;
+      messagePos ++;
+    }
+    if (messagePos == messageSize) {
+      message[messagePos] = '\0'; // To make it easy to print the message
+      return message;
+    }
+  }
 }
 
 #endif

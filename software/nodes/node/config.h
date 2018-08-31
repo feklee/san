@@ -3,7 +3,7 @@
 
 #include "Arduino.h"
 
-// #define DEBUG
+#define DEBUG
 
 const uint8_t ledPin = 13;
 const uint8_t portsCount = 4;

@@ -7,6 +7,7 @@
 
 #include <MultiTrans.h>
 
+static const uint32_t expiryPeriod = 2.5 * announcementPeriod; // ms
 static const uint8_t maxNumberOfCharsPerTransmission = 5;
 using MT = MultiTrans<bitDurationExp, maxNumberOfCharsPerTransmission>;
 MT multiTransceiver;
@@ -27,8 +28,9 @@ public:
 
   OtherNode neighbor;
   enum neighborType neighborType = none;
-  boolean noResponseLastTime = false;
+  uint32_t neighborExpiryTime; // ms
 
+  void setNeighbor(OtherNode &, enum neighborType);
   char receiveNextChar(boolean = true);
   boolean readPayload(char *, int, boolean = true);
   char *getMessage();
@@ -37,6 +39,14 @@ public:
 template <uint8_t t>
 Port<t>::Port(uint8_t number) {
   this->number = number;
+}
+
+template <uint8_t t>
+void Port<t>::setNeighbor(OtherNode &otherNode,
+                          enum neighborType type) {
+  neighbor = otherNode;
+  neighborType = type;
+  neighborExpiryTime = millis() + expiryPeriod; // ms
 }
 
 template <uint8_t t>

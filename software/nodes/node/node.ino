@@ -95,7 +95,17 @@ void nonRootLoop() {
     sendPairToParent(pair);
   }
 
-  periodicallyAnnounceMe();
+  if (iHaveAParent()) {
+    periodicallyAnnounceMe();
+  }
+}
+
+boolean iHaveAParent() {
+  return
+    port1.neighborType == parent ||
+    port2.neighborType == parent ||
+    port3.neighborType == parent ||
+    port4.neighborType == parent;
 }
 
 void periodicallyAnnounceMe() {
@@ -103,7 +113,7 @@ void periodicallyAnnounceMe() {
     millis() + announcementPeriod; // ms
 
   if (millis() >= scheduledAnnouncementTime) {
-    Serial.println("reporting...");
+    Serial.println("announcing me"); // TODO
     announceMeToChildren();
     scheduledAnnouncementTime = millis() + announcementPeriod;
   }
@@ -148,22 +158,16 @@ OtherNode I(T &port) {
 
 template <typename T>
 void storeAsParent(T &port, OtherNode otherNode) {
-  Serial.println("store as parent"); // TODO
-  port.neighbor = otherNode;
+  port.setNeighbor(otherNode, parent);
   Pair pair(otherNode, I(port));
   enqueuePair(pair);
-  port.neighborType = parent;
 }
 
 template <typename T>
 void storeAsChild( // fixme: rename
   T &port, OtherNode otherNode,
   boolean otherNodeClosesLoop = false) {
-  boolean neighborIsNew = !otherNodeIsMyNeighbor(port, otherNode);
-  if (neighborIsNew) {
-    port.neighbor = otherNode;
-  }
-  port.neighborType = otherNodeClosesLoop ? closesLoop : child;
+  port.setNeighbor(otherNode, otherNodeClosesLoop ? closesLoop : child);
 }
 
 template <typename T>
@@ -195,13 +199,18 @@ static void syncTimeSlotToParent() {
 
 template <typename T>
 void sendPairToParent(T &port, const Pair &pair) {
-  if (port1.neighborType != parent) {
+  if (port.neighborType != parent) {
     return;
   }
 
   if (port.transceiver.transmissionIsInProgress()) {
     return;
   }
+
+  Serial.print("Sending via port "); // TODO
+  Serial.print(port.number); // TODO
+  Serial.print(": "); // TODO
+  printPair(pair); // TODO
 
   char buffer[] = {'%',
                    pair.firstNode.nodeId,
@@ -210,16 +219,6 @@ void sendPairToParent(T &port, const Pair &pair) {
                    charFromDigit(pair.secondNode.portNumber),
                    '\0'};
   port.transceiver.startTransmissionOfCharacters(buffer);
-}
-
-uint8_t nextPortNumber(uint8_t portNumber) {
-  return portNumber % 4 + 1;
-}
-
-static boolean startsResponse(char c) {
-  const char fromChild = '!';
-  const char fromChildThatClosesLoop = '%';
-  return c == fromChild || c == fromChildThatClosesLoop;
 }
 
 static boolean firstNodeIsI(Pair pair) {
@@ -234,15 +233,6 @@ boolean secondNodeIsMyNeighbor(T &port, Pair pair) {
 template <typename T>
 boolean otherNodeIsMyNeighbor(T &port, OtherNode otherNode) {
   return otherNode == port.neighbor;
-}
-
-template <typename T>
-void deleteChildIfAgainNoResponse(T &port,
-                                  boolean responseHasBeenReceived) {
-  if (!responseHasBeenReceived && port.noResponseLastTime) {
-    removeChild(port);
-  }
-  port.noResponseLastTime = !responseHasBeenReceived;
 }
 
 #if 0 // TODO: remove eventually
@@ -280,13 +270,6 @@ void setupMultiTransceiver() {
   port4.transceiver.begin();
 }
 
-void resetResponseStatus() {
-  port1.noResponseLastTime = false;
-  port2.noResponseLastTime = false;
-  port3.noResponseLastTime = false;
-  port4.noResponseLastTime = false;
-}
-
 template <typename T>
 void transmitAnnouncement(T &port) {
   char buffer[] = {'!',
@@ -310,6 +293,7 @@ void parseAnnouncementPayload(T &port, char *payload) {
   if (iAmRoot()) {
     return; // root cannot have a parent
   }
+
   OtherNode otherNode;
   otherNode = nodeFromPayload(payload);
   storeAsParent(port, otherNode);
@@ -319,6 +303,11 @@ template <typename T>
 void parsePairPayload(T &port, char *payload) {
   Pair pair(nodeFromPayload(payload), nodeFromPayload(payload + 2));
   boolean childClosesLoop = false; // TODO
+
+  Serial.print("pair received on port "); // TODO
+  Serial.print(port.number); // TODO
+  Serial.print(": "); // TODO
+  printPair(pair); // TODO
 
   enqueuePair(pair);
   if (firstNodeIsI(pair)) {
@@ -331,12 +320,13 @@ void parseMessage(T &port, char *message) {
   if (message == 0) {
     return;
   }
+  char *payload = message + 1;
   switch (message[0]) {
   case '!':
-    parseAnnouncementPayload(port, message + 1);
+    parseAnnouncementPayload(port, payload);
     return;
   case '%':
-    parsePairPayload(port, message + 1);
+    parsePairPayload(port, payload);
     return;
   }
 }

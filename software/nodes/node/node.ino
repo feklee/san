@@ -7,7 +7,7 @@
 #include "timeslot.h"
 #include "OtherNode.h"
 #include "Pair.h"
-#include "newPairs.h"
+#include "pairQueue.h"
 
 static char nodeId;
 
@@ -43,8 +43,6 @@ ISR(PCINT0_vect) { // D8-D13
 void setup() {
   nodeId = EEPROM.read(0);
 
-  setRandomSeed(nodeId);
-
   pinMode(ledPin, OUTPUT);
   flashLed();
 
@@ -78,7 +76,7 @@ void printPair(const Pair &pair) {
 void rootLoop() {
   parseMessage(port1, port1.getMessage());
 
-  Pair pair = dequeueNewPair();
+  Pair pair = dequeuePair();
   if (!pair.isEmpty()) {
     printPair(pair);
   }
@@ -92,7 +90,10 @@ void nonRootLoop() {
   parseMessage(port3, port3.getMessage());
   parseMessage(port4, port4.getMessage());
 
-  reportToParent();
+  Pair pair = dequeuePair();
+  if (!pair.isEmpty()) {
+    sendPairToParent(pair);
+  }
 
   periodicallyAnnounceMe();
 }
@@ -106,15 +107,6 @@ void periodicallyAnnounceMe() {
     announceMeToChildren();
     scheduledAnnouncementTime = millis() + announcementPeriod;
   }
-}
-
-static inline void setRandomSeed(long x) {
-  randx = x;
-}
-
-// Including the Arduino random library makes the code too big.
-static inline int randomNumber() {
-  return ((int)((randx = randx * 1103515245L + 12345) >> 16) & 077777);
 }
 
 static inline uint8_t digitFromChar(char c) {
@@ -158,8 +150,8 @@ template <typename T>
 void storeAsParent(T &port, OtherNode otherNode) {
   Serial.println("store as parent"); // TODO
   port.neighbor = otherNode;
-  Pair newPair(otherNode, I(port));
-  enqueueNewPair(newPair);
+  Pair pair(otherNode, I(port));
+  enqueuePair(pair);
   port.neighborType = parent;
 }
 
@@ -184,8 +176,8 @@ template <typename T>
 void removeChild(T &port) {
   if (!port.neighbor.isEmpty()) {
     removeNeighbor(port);
-    Pair newPair(I(port), port.neighbor);
-    enqueueNewPair(newPair);
+    Pair pair(I(port), port.neighbor);
+    enqueuePair(pair);
   }
 }
 
@@ -202,9 +194,7 @@ static void syncTimeSlotToParent() {
 }
 
 template <typename T>
-void reportToParent(T &port) {
-  Pair pair = dequeueNewPair();
-
+void sendPairToParent(T &port, const Pair &pair) {
   if (port1.neighborType != parent) {
     return;
   }
@@ -213,21 +203,11 @@ void reportToParent(T &port) {
     return;
   }
 
-  if (pair.isEmpty()) {
-    return;
-  }
-
   char buffer[] = {'%',
                    pair.firstNode.nodeId,
                    charFromDigit(pair.firstNode.portNumber),
                    pair.secondNode.nodeId,
                    charFromDigit(pair.secondNode.portNumber),
-                   ' ', // fixme: maybe turn into loop closing
-                        // thingy, but even that doesn't seem
-                        // necessary (info already stored in
-                        // node)
-                   debugChar,
-                   '\n', // line break for easy debugging
                    '\0'};
   port.transceiver.startTransmissionOfCharacters(buffer);
 }
@@ -274,8 +254,8 @@ void checkIfThereIsALoop(T &port) {
   if (!requestWasReceived) { // fixme: may be wrong answer if parent is doing something! => neighbor report may turn on and off randomly, from time to time
     if (!port.neighbor.isEmpty()) {
       removeNeighbor(port);
-      Pair newPair(port.neighbor, I(port));
-      enqueueNewPair(newPair);
+      Pair pair(port.neighbor, I(port));
+      enqueuePair(pair);
     }
     return;
   }
@@ -336,11 +316,11 @@ void parseAnnouncementPayload(T &port, char *payload) {
 }
 
 template <typename T>
-void parseNewPairPayload(T &port, char *payload) {
+void parsePairPayload(T &port, char *payload) {
   Pair pair(nodeFromPayload(payload), nodeFromPayload(payload + 2));
   boolean childClosesLoop = false; // TODO
 
-  enqueueNewPair(pair);
+  enqueuePair(pair);
   if (firstNodeIsI(pair)) {
     storeAsChild(port, pair.secondNode, childClosesLoop);
   }
@@ -356,16 +336,16 @@ void parseMessage(T &port, char *message) {
     parseAnnouncementPayload(port, message + 1);
     return;
   case '%':
-    parseNewPairPayload(port, message + 1);
+    parsePairPayload(port, message + 1);
     return;
   }
 }
 
-void reportToParent() {
-  reportToParent(port1);
-  reportToParent(port2);
-  reportToParent(port3);
-  reportToParent(port4);
+void sendPairToParent(const Pair &pair) {
+  sendPairToParent(port1, pair);
+  sendPairToParent(port2, pair);
+  sendPairToParent(port3, pair);
+  sendPairToParent(port4, pair);
 }
 
 void announceMeToChildren() {

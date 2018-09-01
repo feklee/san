@@ -7,7 +7,7 @@
 
 #include <MultiTrans.h>
 
-static const uint8_t maxNumberOfCharsPerTransmission = 8;
+static const uint8_t maxNumberOfCharsPerTransmission = 5;
 using MT = MultiTrans<bitDurationExp, maxNumberOfCharsPerTransmission>;
 MT multiTransceiver;
 
@@ -92,7 +92,7 @@ char *Port<t>::getMessage() {
       messagePos = 0;
       break;
     case '%':
-      messageSize = 8;
+      messageSize = 5;
       messagePos = 0;
       break;
     }

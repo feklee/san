@@ -7,7 +7,6 @@
 
 #include <MultiTrans.h>
 
-static const uint8_t bitDurationExp = 14; // TODO: try faster
 static const uint8_t maxNumberOfCharsPerTransmission = 8;
 using MT = MultiTrans<bitDurationExp, maxNumberOfCharsPerTransmission>;
 MT multiTransceiver;
@@ -89,6 +88,7 @@ char *Port<t>::getMessage() {
 
     switch (character) {
     case '?':
+      Serial.println("Received ?"); // TODO
       messageSize = 4;
       messagePos = 0;
       break;

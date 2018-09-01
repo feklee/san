@@ -1,6 +1,8 @@
 #include "newPairs.h"
 #include "config.h"
 
+// TODO: remove the new, it's just for pairs
+
 static uint8_t first = 0;
 static uint8_t last = 0;
 static uint8_t length = 0;

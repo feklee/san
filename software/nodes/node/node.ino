@@ -40,6 +40,69 @@ ISR(PCINT0_vect) { // D8-D13
   port4.transceiver.handlePinChangeInterrupt();
 }
 
+void setup() {
+  nodeId = EEPROM.read(0);
+
+  setRandomSeed(nodeId);
+
+  pinMode(ledPin, OUTPUT);
+  flashLed();
+
+// TODO  if (iAmRoot()) {
+    Serial.begin(115200);
+// TODO  }
+
+  setupMultiTransceiver();
+}
+
+void loop() {
+  if (iAmRoot()) {
+    rootLoop();
+  } else {
+    nonRootLoop();
+  }
+}
+
+void rootLoop() {
+  parseMessage(port1, port1.getMessage());
+
+  Pair pair = dequeueNewPair();
+  if (!pair.isEmpty()) {
+    char buffer[] = {
+      pair.firstNode.nodeId,
+      charFromDigit(pair.firstNode.portNumber),
+      pair.secondNode.nodeId,
+      charFromDigit(pair.secondNode.portNumber),
+      '\0'
+    };
+
+    Serial.println(buffer);
+  }
+
+  periodicallyReportToChildren();
+}
+
+void nonRootLoop() {
+  parseMessage(port1, port1.getMessage());
+  parseMessage(port2, port2.getMessage());
+  parseMessage(port3, port3.getMessage());
+  parseMessage(port4, port4.getMessage());
+
+  reportToParent();
+
+  periodicallyReportToChildren();
+}
+
+void periodicallyReportToChildren() {
+  static uint32_t reportToChildrenTime =
+    millis() + reportToChildrenPeriod; // ms
+
+  if (millis() >= reportToChildrenTime) {
+    Serial.println("reporting...");
+    reportToChildren();
+    reportToChildrenTime = millis() + reportToChildrenPeriod;
+  }
+}
 
 static inline void setRandomSeed(long x) {
   randx = x;
@@ -89,12 +152,10 @@ OtherNode I(T &port) {
 
 template <typename T>
 void storeAsParent(T &port, OtherNode otherNode) {
-  boolean neighborIsNew = !otherNodeIsMyNeighbor(port, otherNode);
-  if (neighborIsNew) {
-    port.neighbor = otherNode;
-    Pair newPair(otherNode, I(port));
-    enqueueNewPair(newPair);
-  }
+  Serial.println("store as parent"); // TODO
+  port.neighbor = otherNode;
+  Pair newPair(otherNode, I(port));
+  enqueueNewPair(newPair);
   port.neighborType = parent;
 }
 
@@ -132,50 +193,21 @@ void removeParent(T &port) {
   }
 }
 
-template <typename T>
-boolean readRequest(T &port) {
-  const uint8_t payloadSize = 3;
-  char payload[payloadSize];
-  boolean payloadIsComplete = port.readPayload(payload, payloadSize, false);
-
-  if (!payloadIsComplete) {
-    return false;
-  }
-
-  OtherNode otherNode;
-  otherNode = nodeFromPayload(payload);
-
-  storeAsParent(port, otherNode);
-
-  return true;
-}
-
 static void syncTimeSlotToParent() {
   openTimeSlotStartingAt(millis() - graceTime);
 }
 
 template <typename T>
-boolean waitForRequestAndThenSyncTime(T &port, boolean doSyncTime = true) {
-  startOverlappingCycle();
-  while (!overlappingCycleHasEnded()) {
-    char c = port.transceiver.getNextCharacter();
-    if (c) {
-      if (startsRequest(c)) {
-        if (doSyncTime) {
-          syncTimeSlotToParent();
-        }
-        if (readRequest(port)) {
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-}
-
-template <typename T>
-void sendResponse(T &port) {
+void reportToParent(T &port) {
   Pair pair = dequeueNewPair();
+
+  if (port.transceiver.transmissionIsInProgress()) {
+    return;
+  }
+
+  if (pair.isEmpty()) {
+    return;
+  }
 
   char buffer[] = {'!',
                    pair.firstNode.nodeId,
@@ -202,51 +234,8 @@ void sendRequest(T &port) {
   port.transceiver.startTransmissionOfCharacters(buffer);
 }
 
-template <typename T>
-boolean waitForParentAndThenSyncTime(T &port) {
-  boolean requestWasReceived = waitForRequestAndThenSyncTime(port);
-  if (!requestWasReceived) {
-    removeParent(port);
-    return false;
-  }
-  flashLed();
-  flashLed();
-  waitForEndOfTimeSlot();
-
-  openNextTimeSlot();
-  giveOtherSideTimeToGetReady();
-  sendResponse(port);
-  waitForEndOfTimeSlot();
-
-  return true;
-}
-
 uint8_t nextPortNumber(uint8_t portNumber) {
   return portNumber % 4 + 1;
-}
-
-bool waitForParentAndThenSyncTime(uint8_t portNumber) {
-  switch (portNumber) {
-  case 1:
-    return waitForParentAndThenSyncTime(port1);
-  case 2:
-    return waitForParentAndThenSyncTime(port2);
-  case 3:
-    return waitForParentAndThenSyncTime(port3);
-  default:
-    return waitForParentAndThenSyncTime(port4);
-  }
-}
-
-static uint8_t findParentAndThenSyncTime(uint8_t startPortNumber) {
-  uint8_t portNumber = startPortNumber;
-  while (true) {
-    bool parentDetected = waitForParentAndThenSyncTime(portNumber);
-    if (parentDetected) {
-      return portNumber;
-    }
-    portNumber = nextPortNumber(portNumber);
-  }
 }
 
 static boolean startsResponse(char c) {
@@ -320,20 +309,6 @@ void deleteChildIfAgainNoResponse(T &port,
   port.noResponseLastTime = !responseHasBeenReceived;
 }
 
-template <typename T>
-void askForChild(T &port) {
-  if (port.neighborType != parent) {
-    sendRequest(port);
-    flashLed();
-  }
-
-#if 0 // TODO
-  boolean responseHasBeenReceived = waitForResponse(port);
-  deleteChildIfAgainNoResponse(port, responseHasBeenReceived);
-  waitForEndOfTimeSlot();
-#endif
-}
-
 #if 0 // TODO: remove eventually
 // Check if the other node is asking for a child. Then there is a loop.
 template <typename T>
@@ -369,21 +344,6 @@ void setupMultiTransceiver() {
   port4.transceiver.begin();
 }
 
-void setup() {
-  nodeId = EEPROM.read(0);
-
-  setRandomSeed(nodeId);
-
-  pinMode(ledPin, OUTPUT);
-  flashLed();
-
-// TODO  if (iAmRoot()) {
-    Serial.begin(115200);
-// TODO  }
-
-  setupMultiTransceiver();
-}
-
 void resetResponseStatus() {
   port1.noResponseLastTime = false;
   port2.noResponseLastTime = false;
@@ -391,46 +351,20 @@ void resetResponseStatus() {
   port4.noResponseLastTime = false;
 }
 
-void rootLoop() {
-  askForChild(port1);
-
-  parseMessage(port1, port1.getMessage());
-
-  Pair pair = dequeueNewPair();
-  if (!pair.isEmpty()) {
-    char buffer[] = {
-      pair.firstNode.nodeId,
-      charFromDigit(pair.firstNode.portNumber),
-      pair.secondNode.nodeId,
-      charFromDigit(pair.secondNode.portNumber),
-      '\0'
-    };
-
-    Serial.println(buffer);
-  }
-
-  delay(500); // TODO
-}
-
-void askForChild(uint8_t portNumber) {
-  switch (portNumber) {
-  case 1:
-    askForChild(port1);
-    break;
-  case 2:
-    askForChild(port2);
-    break;
-  case 3:
-    askForChild(port3);
-    break;
-  default:
-    askForChild(port4);
-    break;
+template <typename T>
+void reportToChild(T &port) {
+  if (port.neighborType != parent) {
+    sendRequest(port); // TODO: rename
+    flashLed();
   }
 }
 
 template <typename T>
 void parseParentPayload(T &port, char *payload) {
+  Serial.println("Parsing parent payload"); // TODO
+  if (iAmRoot()) {
+    return;
+  }
   OtherNode otherNode;
   otherNode = nodeFromPayload(payload);
   storeAsParent(port, otherNode);
@@ -454,6 +388,7 @@ void parseMessage(T &port, char *message) {
   if (message == 0) {
     return;
   }
+  Serial.println("Parsing message"); // TODO
   switch (message[0]) {
   case '?':
     parseParentPayload(port, message + 1);
@@ -464,50 +399,31 @@ void parseMessage(T &port, char *message) {
   }
 }
 
-void sendToParent() {
+void reportToParent() {
   if (port1.neighborType == parent) {
-    sendResponse(port1);
+    reportToParent(port1);
     return;
   }
   if (port2.neighborType == parent) {
-    sendResponse(port2);
+    reportToParent(port2);
     return;
   }
   if (port3.neighborType == parent) {
-    sendResponse(port3);
+    reportToParent(port3);
     return;
   }
   if (port4.neighborType == parent) {
-    sendResponse(port4);
+    reportToParent(port4);
     return;
   }
 }
 
-void sendToChildren() {
-  askForChild(port1);
-  askForChild(port2);
-  askForChild(port3);
-  askForChild(port4);
-}
-
-void nonRootLoop() {
-  static uint8_t portNumber = 1;
-
-  parseMessage(port1, port1.getMessage());
-  parseMessage(port2, port2.getMessage());
-  parseMessage(port3, port3.getMessage());
-  parseMessage(port4, port4.getMessage());
-
-  sendToParent();
-  sendToChildren();
-
-  delay(500);
-}
-
-void loop() {
+void reportToChildren() {
+  reportToChild(port1);
   if (iAmRoot()) {
-    rootLoop();
-  } else {
-    nonRootLoop();
+    return;
   }
+  reportToChild(port2);
+  reportToChild(port3);
+  reportToChild(port4);
 }

@@ -13,10 +13,14 @@ const uint8_t pairBufferSize = 10;
 const boolean flashLedIsEnabled = true; // takes time
 const unsigned long timeSlotDuration = 500; // ms
 const unsigned long graceTime = 100; // time for other node to switch to receive
+const uint32_t reportToChildrenPeriod = 500; // ms
+const uint8_t bitDurationExp = 11;
 #else
 const boolean flashLedIsEnabled = false;
 const unsigned long timeSlotDuration = 50; // ms
 const unsigned long graceTime = 10; // time for other node to switch to receive
+const uint32_t reportToChildrenPeriod = 50; // ms (increase for longer tree)
+const uint8_t bitDurationExp = 11;
 #endif
 
 #endif

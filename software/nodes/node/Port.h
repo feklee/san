@@ -87,12 +87,11 @@ char *Port<t>::getMessage() {
     }
 
     switch (character) {
-    case '?':
-      Serial.println("Received ?"); // TODO
-      messageSize = 4;
+    case '!':
+      messageSize = 3;
       messagePos = 0;
       break;
-    case '!':
+    case '%':
       messageSize = 8;
       messagePos = 0;
       break;

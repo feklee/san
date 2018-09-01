@@ -63,23 +63,27 @@ void loop() {
   }
 }
 
+void printPair(const Pair &pair) {
+  char buffer[] = {
+                   pair.firstNode.nodeId,
+                   charFromDigit(pair.firstNode.portNumber),
+                   pair.secondNode.nodeId,
+                   charFromDigit(pair.secondNode.portNumber),
+                   '\0'
+  };
+
+  Serial.println(buffer);
+}
+
 void rootLoop() {
   parseMessage(port1, port1.getMessage());
 
   Pair pair = dequeueNewPair();
   if (!pair.isEmpty()) {
-    char buffer[] = {
-      pair.firstNode.nodeId,
-      charFromDigit(pair.firstNode.portNumber),
-      pair.secondNode.nodeId,
-      charFromDigit(pair.secondNode.portNumber),
-      '\0'
-    };
-
-    Serial.println(buffer);
+    printPair(pair);
   }
 
-  periodicallyReportToChildren();
+  periodicallyAnnounceMe();
 }
 
 void nonRootLoop() {
@@ -90,17 +94,17 @@ void nonRootLoop() {
 
   reportToParent();
 
-  periodicallyReportToChildren();
+  periodicallyAnnounceMe();
 }
 
-void periodicallyReportToChildren() {
-  static uint32_t reportToChildrenTime =
-    millis() + reportToChildrenPeriod; // ms
+void periodicallyAnnounceMe() {
+  static uint32_t scheduledAnnouncementTime =
+    millis() + announcementPeriod; // ms
 
-  if (millis() >= reportToChildrenTime) {
+  if (millis() >= scheduledAnnouncementTime) {
     Serial.println("reporting...");
-    reportToChildren();
-    reportToChildrenTime = millis() + reportToChildrenPeriod;
+    announceMeToChildren();
+    scheduledAnnouncementTime = millis() + announcementPeriod;
   }
 }
 
@@ -139,7 +143,7 @@ static inline boolean iAmRoot() {
 }
 
 static inline boolean startsRequest(char c) {
-  return c == '?';
+  return c == '!';
 }
 
 template <typename T>
@@ -201,6 +205,10 @@ template <typename T>
 void reportToParent(T &port) {
   Pair pair = dequeueNewPair();
 
+  if (port1.neighborType != parent) {
+    return;
+  }
+
   if (port.transceiver.transmissionIsInProgress()) {
     return;
   }
@@ -209,7 +217,7 @@ void reportToParent(T &port) {
     return;
   }
 
-  char buffer[] = {'!',
+  char buffer[] = {'%',
                    pair.firstNode.nodeId,
                    charFromDigit(pair.firstNode.portNumber),
                    pair.secondNode.nodeId,
@@ -219,16 +227,6 @@ void reportToParent(T &port) {
                         // necessary (info already stored in
                         // node)
                    debugChar,
-                   '\n', // line break for easy debugging
-                   '\0'};
-  port.transceiver.startTransmissionOfCharacters(buffer);
-}
-
-template <typename T>
-void sendRequest(T &port) {
-  char buffer[] = {'?',
-                   nodeId,
-                   charFromDigit(port.number),
                    '\n', // line break for easy debugging
                    '\0'};
   port.transceiver.startTransmissionOfCharacters(buffer);
@@ -256,48 +254,6 @@ boolean secondNodeIsMyNeighbor(T &port, Pair pair) {
 template <typename T>
 boolean otherNodeIsMyNeighbor(T &port, OtherNode otherNode) {
   return otherNode == port.neighbor;
-}
-
-template <typename T>
-boolean pairIsNew(T &port, Pair pair) {
-  return !firstNodeIsI(pair) || !secondNodeIsMyNeighbor(port, pair);
-}
-
-template <typename T>
-boolean readResponse(T &port, boolean childClosesLoop) {
-  const uint8_t payloadSize = 7;
-  char payload[payloadSize];
-  boolean payloadIsComplete = port.readPayload(payload, payloadSize);
-
-  if (!payloadIsComplete) {
-    return false;
-  }
-
-  Pair pair(nodeFromPayload(payload), nodeFromPayload(payload + 2));
-
-  if (pairIsNew(port, pair)) {
-    enqueueNewPair(pair);
-    if (firstNodeIsI(pair)) {
-      storeAsChild(port, pair.secondNode, childClosesLoop);
-    }
-  }
-
-  return true;
-}
-
-template <typename T>
-bool waitForResponse(T &port) {
-  while (!timeSlotHasEnded()) {
-    char c = port.transceiver.getNextCharacter();
-    if (c) {
-      if (startsResponse(c)) {
-        if (readResponse(port, c == '%')) {
-          return true;
-        }
-      }
-    }
-  }
-  return false;
 }
 
 template <typename T>
@@ -352,18 +308,27 @@ void resetResponseStatus() {
 }
 
 template <typename T>
-void reportToChild(T &port) {
-  if (port.neighborType != parent) {
-    sendRequest(port); // TODO: rename
-    flashLed();
-  }
+void transmitAnnouncement(T &port) {
+  char buffer[] = {'!',
+                   nodeId,
+                   charFromDigit(port.number),
+                   '\0'};
+  port.transceiver.startTransmissionOfCharacters(buffer);
 }
 
 template <typename T>
-void parseParentPayload(T &port, char *payload) {
-  Serial.println("Parsing parent payload"); // TODO
-  if (iAmRoot()) {
+void announceMeToChild(T &port) {
+  if (port.neighborType == parent) {
     return;
+  }
+  transmitAnnouncement(port);
+  flashLed();
+}
+
+template <typename T>
+void parseAnnouncementPayload(T &port, char *payload) {
+  if (iAmRoot()) {
+    return; // root cannot have a parent
   }
   OtherNode otherNode;
   otherNode = nodeFromPayload(payload);
@@ -375,11 +340,9 @@ void parseNewPairPayload(T &port, char *payload) {
   Pair pair(nodeFromPayload(payload), nodeFromPayload(payload + 2));
   boolean childClosesLoop = false; // TODO
 
-  if (pairIsNew(port, pair)) {
-    enqueueNewPair(pair);
-    if (firstNodeIsI(pair)) {
-      storeAsChild(port, pair.secondNode, childClosesLoop);
-    }
+  enqueueNewPair(pair);
+  if (firstNodeIsI(pair)) {
+    storeAsChild(port, pair.secondNode, childClosesLoop);
   }
 }
 
@@ -388,42 +351,28 @@ void parseMessage(T &port, char *message) {
   if (message == 0) {
     return;
   }
-  Serial.println("Parsing message"); // TODO
   switch (message[0]) {
-  case '?':
-    parseParentPayload(port, message + 1);
-    return;
   case '!':
+    parseAnnouncementPayload(port, message + 1);
+    return;
+  case '%':
     parseNewPairPayload(port, message + 1);
     return;
   }
 }
 
 void reportToParent() {
-  if (port1.neighborType == parent) {
-    reportToParent(port1);
-    return;
-  }
-  if (port2.neighborType == parent) {
-    reportToParent(port2);
-    return;
-  }
-  if (port3.neighborType == parent) {
-    reportToParent(port3);
-    return;
-  }
-  if (port4.neighborType == parent) {
-    reportToParent(port4);
-    return;
-  }
+  reportToParent(port1);
+  reportToParent(port2);
+  reportToParent(port3);
+  reportToParent(port4);
 }
 
-void reportToChildren() {
-  reportToChild(port1);
-  if (iAmRoot()) {
-    return;
+void announceMeToChildren() {
+  announceMeToChild(port1);
+  if (!iAmRoot()) {
+    announceMeToChild(port2);
+    announceMeToChild(port3);
+    announceMeToChild(port4);
   }
-  reportToChild(port2);
-  reportToChild(port3);
-  reportToChild(port4);
 }

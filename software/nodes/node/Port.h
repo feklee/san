@@ -31,6 +31,8 @@ public:
   uint32_t neighborExpiryTime; // ms
 
   void setNeighbor(OtherNode &, enum neighborType);
+  void removeNeighbor();
+  void removeNeighborIfExpired();
   char receiveNextChar(boolean = true);
   boolean readPayload(char *, int, boolean = true);
   char *getMessage();
@@ -47,6 +49,19 @@ void Port<t>::setNeighbor(OtherNode &otherNode,
   neighbor = otherNode;
   neighborType = type;
   neighborExpiryTime = millis() + expiryPeriod; // ms
+}
+
+template <uint8_t t>
+void Port<t>::removeNeighbor() {
+  neighbor = emptyOtherNode;
+  neighborType = none;
+}
+
+template <uint8_t t>
+void Port<t>::removeNeighborIfExpired() {
+  if (neighborType != none && millis > neighborExpiryTime) {
+    removeNeighbor();
+  }
 }
 
 template <uint8_t t>

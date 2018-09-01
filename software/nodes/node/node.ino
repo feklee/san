@@ -98,6 +98,21 @@ void nonRootLoop() {
   if (iHaveAParent()) {
     periodicallyAnnounceMe();
   }
+
+  removeExpiredNeighbors();
+}
+
+void removeExpiredNeighbors() {
+  port1.removeNeighborIfExpired();
+  port2.removeNeighborIfExpired();
+  port3.removeNeighborIfExpired();
+  port4.removeNeighborIfExpired();
+}
+
+template <typename T>
+void removeNeighbor(T &port) {
+  port.neighbor = emptyOtherNode;
+  port.neighborType = none;
 }
 
 boolean iHaveAParent() {
@@ -168,12 +183,6 @@ void storeAsChild( // fixme: rename
   T &port, OtherNode otherNode,
   boolean otherNodeClosesLoop = false) {
   port.setNeighbor(otherNode, otherNodeClosesLoop ? closesLoop : child);
-}
-
-template <typename T>
-void removeNeighbor(T &port) {
-  port.neighbor = emptyOtherNode;
-  port.neighborType = none;
 }
 
 template <typename T>

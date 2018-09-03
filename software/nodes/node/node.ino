@@ -4,7 +4,6 @@
                     // https://digistump.com/board/index.php?topic=1132.0
 #include "config.h"
 #include "Port.h"
-#include "timeslot.h"
 #include "OtherNode.h"
 #include "Pair.h"
 #include "pairQueue.h"
@@ -19,9 +18,13 @@ static Port<pinNumber1> port1(1);
 static Port<pinNumber2> port2(2);
 static Port<pinNumber3> port3(3);
 static Port<pinNumber4> port4(4);
-static char debugChar = '|'; // Can be used to indicate status during debugging
+static uint8_t numberOfPortWithParent = 0; // 0 = no parent
 
-static long randx;
+// Parents are given an expiry time. This is so that they don't change
+// abruptly in case there is a flaky connection (which could make the
+// graph change dramatically).
+static uint32_t parentExpiryTime = 0; // ms
+static const uint32_t expiryDuration = 2.5 * announcementPeriod; // ms
 
 ISR(TIMER2_COMPA_vect) {
   port1.transceiver.handleTimer2Interrupt();
@@ -51,6 +54,10 @@ void setup() {
 // TODO  }
 
   setupMultiTransceiver();
+}
+
+bool iHaveAParent() {
+  return numberOfPortWithParent != 0;
 }
 
 void loop() {
@@ -90,37 +97,44 @@ void nonRootLoop() {
   parseMessage(port3, port3.getMessage());
   parseMessage(port4, port4.getMessage());
 
-  Pair pair = dequeuePair();
-  if (!pair.isEmpty()) {
-    sendPairToParent(pair);
-  }
+  if (!transmissionToParentIsInProgress()) {
+    Pair pair = dequeuePair();
+    if (!pair.isEmpty()) {
+      sendPairToParent(pair);
+    }
+  } // TODO: what to do if no parent? just forget?
 
   if (iHaveAParent()) {
     periodicallyAnnounceMe();
   }
 
-  removeExpiredNeighbors();
+  removeParentIfExpired();
 }
 
-void removeExpiredNeighbors() {
-  port1.removeNeighborIfExpired();
-  port2.removeNeighborIfExpired();
-  port3.removeNeighborIfExpired();
-  port4.removeNeighborIfExpired();
+bool transmissionToParentIsInProgress() {
+  if (numberOfPortWithParent == port1.number) {
+    return port1.transceiver.transmissionIsInProgress();
+  }
+  if (numberOfPortWithParent == port2.number) {
+    return port2.transceiver.transmissionIsInProgress();
+  }
+  if (numberOfPortWithParent == port3.number) {
+    return port3.transceiver.transmissionIsInProgress();
+  }
+  if (numberOfPortWithParent == port4.number) {
+    return port4.transceiver.transmissionIsInProgress();
+  }
+  return false;
 }
 
-template <typename T>
-void removeNeighbor(T &port) {
-  port.neighbor = emptyOtherNode;
-  port.neighborType = none;
+void removeParent() {
+  numberOfPortWithParent = 0;
 }
 
-boolean iHaveAParent() {
-  return
-    port1.neighborType == parent ||
-    port2.neighborType == parent ||
-    port3.neighborType == parent ||
-    port4.neighborType == parent;
+void removeParentIfExpired() {
+  if (iHaveAParent() && millis() > parentExpiryTime) {
+    removeParent();
+  }
 }
 
 void periodicallyAnnounceMe() {
@@ -128,7 +142,6 @@ void periodicallyAnnounceMe() {
     millis() + announcementPeriod; // ms
 
   if (millis() >= scheduledAnnouncementTime) {
-    Serial.println("announcing me"); // TODO
     announceMeToChildren();
     scheduledAnnouncementTime = millis() + announcementPeriod;
   }
@@ -155,11 +168,11 @@ static void flashLed() {
   }
 }
 
-static inline boolean iAmRoot() {
+static inline bool iAmRoot() {
   return nodeId == '*';
 }
 
-static inline boolean startsRequest(char c) {
+static inline bool startsRequest(char c) {
   return c == '!';
 }
 
@@ -172,54 +185,10 @@ OtherNode I(T &port) {
 }
 
 template <typename T>
-void storeAsParent(T &port, OtherNode otherNode) {
-  port.setNeighbor(otherNode, parent);
-  Pair pair(otherNode, I(port));
-  enqueuePair(pair);
-}
-
-template <typename T>
-void storeAsChild( // fixme: rename
-  T &port, OtherNode otherNode,
-  boolean otherNodeClosesLoop = false) {
-  port.setNeighbor(otherNode, otherNodeClosesLoop ? closesLoop : child);
-}
-
-template <typename T>
-void removeChild(T &port) {
-  if (!port.neighbor.isEmpty()) {
-    removeNeighbor(port);
-    Pair pair(I(port), port.neighbor);
-    enqueuePair(pair);
-  }
-}
-
-template <typename T>
-void removeParent(T &port) {
-  if (!port.neighbor.isEmpty()) {
-    removeNeighbor(port);
-    // don't queue as we're disconnected
-  }
-}
-
-static void syncTimeSlotToParent() {
-  openTimeSlotStartingAt(millis() - graceTime);
-}
-
-template <typename T>
 void sendPairToParent(T &port, const Pair &pair) {
-  if (port.neighborType != parent) {
-    return;
-  }
-
   if (port.transceiver.transmissionIsInProgress()) {
     return;
   }
-
-  Serial.print("Sending via port "); // TODO
-  Serial.print(port.number); // TODO
-  Serial.print(": "); // TODO
-  printPair(pair); // TODO
 
   char buffer[] = {'%',
                    pair.firstNode.nodeId,
@@ -229,39 +198,6 @@ void sendPairToParent(T &port, const Pair &pair) {
                    '\0'};
   port.transceiver.startTransmissionOfCharacters(buffer);
 }
-
-static boolean firstNodeIsI(Pair pair) {
-  return pair.firstNode.nodeId == nodeId;
-}
-
-template <typename T>
-boolean secondNodeIsMyNeighbor(T &port, Pair pair) {
-  return pair.secondNode == port.neighbor;
-}
-
-template <typename T>
-boolean otherNodeIsMyNeighbor(T &port, OtherNode otherNode) {
-  return otherNode == port.neighbor;
-}
-
-#if 0 // TODO: remove eventually
-// Check if the other node is asking for a child. Then there is a loop.
-template <typename T>
-void checkIfThereIsALoop(T &port) {
-  boolean requestWasReceived = waitForRequestAndThenSyncTime(port, false); // fixme: maybe rename without sync time, or put that in separate variable
-
-  if (!requestWasReceived) { // fixme: may be wrong answer if parent is doing something! => neighbor report may turn on and off randomly, from time to time
-    if (!port.neighbor.isEmpty()) {
-      removeNeighbor(port);
-      Pair pair(port.neighbor, I(port));
-      enqueuePair(pair);
-    }
-    return;
-  }
-  port.neighborType = closesLoop; // fixme: do that assignment when reading
-                                   // request
-}
-#endif
 
 void enablePinChangeInterrupts() {
   PCICR |= // Pin Change Interrupt Control Register
@@ -290,11 +226,15 @@ void transmitAnnouncement(T &port) {
 
 template <typename T>
 void announceMeToChild(T &port) {
-  if (port.neighborType == parent) {
+  if (port.number == numberOfPortWithParent) {
     return;
   }
   transmitAnnouncement(port);
   flashLed();
+}
+
+void resetParentExpiryTime() {
+  parentExpiryTime = millis() + expiryDuration; // ms
 }
 
 template <typename T>
@@ -303,25 +243,24 @@ void parseAnnouncementPayload(T &port, char *payload) {
     return; // root cannot have a parent
   }
 
-  OtherNode otherNode;
-  otherNode = nodeFromPayload(payload);
-  storeAsParent(port, otherNode);
+  if (!iHaveAParent()) {
+    numberOfPortWithParent = port.number;
+  }
+
+  if (port.number == numberOfPortWithParent) {
+    resetParentExpiryTime(); // call regularly to keep parent fresh
+
+    // Report back always when parent announces itself:
+    OtherNode otherNode;
+    otherNode = nodeFromPayload(payload);
+    Pair pair(otherNode, I(port));
+    enqueuePair(pair);
+  }
 }
 
-template <typename T>
-void parsePairPayload(T &port, char *payload) {
+void parsePairPayload(char *payload) {
   Pair pair(nodeFromPayload(payload), nodeFromPayload(payload + 2));
-  boolean childClosesLoop = false; // TODO
-
-  Serial.print("pair received on port "); // TODO
-  Serial.print(port.number); // TODO
-  Serial.print(": "); // TODO
-  printPair(pair); // TODO
-
   enqueuePair(pair);
-  if (firstNodeIsI(pair)) {
-    storeAsChild(port, pair.secondNode, childClosesLoop);
-  }
 }
 
 template <typename T>
@@ -335,16 +274,24 @@ void parseMessage(T &port, char *message) {
     parseAnnouncementPayload(port, payload);
     return;
   case '%':
-    parsePairPayload(port, payload);
+    parsePairPayload(payload);
     return;
   }
 }
 
 void sendPairToParent(const Pair &pair) {
-  sendPairToParent(port1, pair);
-  sendPairToParent(port2, pair);
-  sendPairToParent(port3, pair);
-  sendPairToParent(port4, pair);
+  if (numberOfPortWithParent == port1.number) {
+    sendPairToParent(port1, pair);
+  }
+  if (numberOfPortWithParent == port2.number) {
+    sendPairToParent(port2, pair);
+  }
+  if (numberOfPortWithParent == port3.number) {
+    sendPairToParent(port3, pair);
+  }
+  if (numberOfPortWithParent == port4.number) {
+    sendPairToParent(port4, pair);
+  }
 }
 
 void announceMeToChildren() {

@@ -3,18 +3,12 @@
 
 #include "Arduino.h"
 #include "OtherNode.h"
-#include "timeslot.h"
 
 #include <MultiTrans.h>
 
-static const uint32_t expiryPeriod = 2.5 * announcementPeriod; // ms
 static const uint8_t maxNumberOfCharsPerTransmission = 5;
 using MT = MultiTrans<bitDurationExp, maxNumberOfCharsPerTransmission>;
 MT multiTransceiver;
-
-enum neighborType {
-  parent, child, closesLoop, none
-};
 
 template <uint8_t t>
 class Port {
@@ -26,76 +20,12 @@ public:
 
   uint8_t number;
 
-  OtherNode neighbor;
-  enum neighborType neighborType = none;
-  uint32_t neighborExpiryTime; // ms
-
-  void setNeighbor(OtherNode &, enum neighborType);
-  void removeNeighbor();
-  void removeNeighborIfExpired();
-  char receiveNextChar(boolean = true);
-  boolean readPayload(char *, int, boolean = true);
   char *getMessage();
 };
 
 template <uint8_t t>
 Port<t>::Port(uint8_t number) {
   this->number = number;
-}
-
-template <uint8_t t>
-void Port<t>::setNeighbor(OtherNode &otherNode,
-                          enum neighborType type) {
-  neighbor = otherNode;
-  neighborType = type;
-  neighborExpiryTime = millis() + expiryPeriod; // ms
-}
-
-template <uint8_t t>
-void Port<t>::removeNeighbor() {
-  neighbor = emptyOtherNode;
-  neighborType = none;
-}
-
-template <uint8_t t>
-void Port<t>::removeNeighborIfExpired() {
-  if (neighborType != none && millis > neighborExpiryTime) {
-    removeNeighbor();
-  }
-}
-
-template <uint8_t t>
-char Port<t>::receiveNextChar(boolean fixmeTimeSlot) {
-  if (fixmeTimeSlot) {
-    while (!timeSlotHasEnded()) {
-      char c = transceiver.getNextCharacter();
-      if (c) {
-        return c;
-      }
-    }
-  } else {
-    while (!overlappingCycleHasEnded()) {
-      char c = transceiver.getNextCharacter();
-      if (c) {
-        return c;
-      }
-    }
-  }
-  return 0;
-}
-
-template <uint8_t t>
-boolean Port<t>::readPayload(char *payload, int expectedPayloadLength,
-                             boolean fixmeTimeSlot) {
-  for (int i = 0; i < expectedPayloadLength; i ++) {
-    char c = receiveNextChar(fixmeTimeSlot);
-    if (c == 0) {
-      return false;
-    }
-    *payload = c;
-    payload ++;
-  }
-  return true;
 }
 
 template <uint8_t t>

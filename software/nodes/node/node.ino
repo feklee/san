@@ -267,13 +267,14 @@ void parseAnnouncementPayload(T &port, char *payload) {
 
   if (port.number == numberOfPortWithParent) {
     resetParentExpiryTime(); // call regularly to keep parent fresh
-
-    // Report back always when parent announces itself:
-    OtherNode otherNode;
-    otherNode = nodeFromPayload(payload);
-    Pair pair(otherNode, I(port));
-    enqueuePair(pair);
   }
+
+  // Create pair, either describing parent-child (I) relationship, or
+  // loop:
+  OtherNode otherNode;
+  otherNode = nodeFromPayload(payload);
+  Pair pair(otherNode, I(port));
+  enqueuePair(pair);
 }
 
 void parsePairPayload(char *payload) {

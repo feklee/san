@@ -1,5 +1,10 @@
 // Tested with Arduino Pro Mini
 
+// Basic algorithm idea: Parent nodes announce themselves. When a node
+// sees the announcement of a parent, it creates a pair with the
+// announcing node and itself. Pairs are propagated up to the root
+// node.
+
 #include <EEPROM.h> // Library may need to be copied:
                     // https://digistump.com/board/index.php?topic=1132.0
 #include "config.h"
@@ -271,25 +276,7 @@ void parseAnnouncementPayload(T &port, char *payload) {
   }
 }
 
-template <char t>
-void receivedFrom(char *payload) {
-  static uint32_t lastMillis = 0; // TODO
-  uint32_t now = millis();
-  Serial.print(now - lastMillis); // TODO
-  Serial.print(" Received pair from ");
-  Serial.print(t);
-  Serial.print(": ");
-  Serial.println(payload); // TODO
-  lastMillis = now; // TODO
-}
-
 void parsePairPayload(char *payload) {
-  if (payload[2] == 'A') {
-    receivedFrom<'A'>(payload);
-  }
-  if (payload[2] == 'B') {
-    receivedFrom<'B'>(payload);
-  }
   Pair pair(nodeFromPayload(payload), nodeFromPayload(payload + 2));
   enqueuePair(pair);
 }
@@ -327,11 +314,6 @@ void sendPairToParent(const Pair &pair) {
 }
 
 void announceMeToChildren() {
-  static uint32_t lastMillis = 0; // TODO
-  uint32_t now = millis();
-  Serial.print(now - lastMillis); // TODO
-  Serial.println(" Announcing me"); // TODO
-  lastMillis = now; // TODO
   announceMeToChild(port1);
   if (!iAmRoot()) {
     announceMeToChild(port2);

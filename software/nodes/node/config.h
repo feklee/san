@@ -6,7 +6,7 @@
 #undef DEBUG
 
 const uint8_t ledPin = 13;
-const uint8_t pairBufferSize = 10;
+const uint8_t pairBufferSize = 4; // TODO: increase
 
 #ifdef DEBUG
 const boolean flashLedIsEnabled = true; // takes time
@@ -15,12 +15,13 @@ const uint8_t bitDurationExp = 9;
 #else
 const boolean flashLedIsEnabled = false;
 
-// The data rate is intentionally not set to the maximum, so that
-// there is enough time for processing. The maximum data rate
-// supported by MultiTrans when communicating with four neighboring
-// nodes is at about ~3kbit/s uni-directionally (bit duration
-// exponent: 11).
-const uint8_t bitDurationExp = 9;
+// The maximum data rate supported by MultiTrans when communicating
+// with four neighboring nodes is at about ~3kbit/s uni-directionally
+// (bit duration exponent: 11).
+// 
+// On stability problems, reduce the data rate (by increasing the bit
+// duration exponent) and increase the announcement period.
+const uint8_t bitDurationExp = 11;
 
 // The announcement period needs to be long enough so that all pairs
 // can be transmitted in between two announcements. It depends on the
@@ -32,7 +33,7 @@ const uint8_t bitDurationExp = 9;
 // considerably. So maybe it's best to multiply the result with a
 // factor. In the end it may be possible to calculate the annoncement
 // period automatically.
-const uint32_t announcementPeriod = 50; // ms
+const uint32_t announcementPeriod = 150; // ms
 #endif
 
 #endif

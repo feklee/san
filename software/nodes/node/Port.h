@@ -6,7 +6,14 @@
 
 #include <MultiTrans.h>
 
+#if 1 // TODO: decide on one
 static const uint8_t maxNumberOfCharsPerTransmission = 5;
+#else
+// A large value is used for the maximum number of characters per
+// transmission than what is needed for sending. The reason is that
+// this also creates a larger receive buffer, to combat message loss.
+static const uint8_t maxNumberOfCharsPerTransmission = 12;
+#endif
 using MT = MultiTrans<bitDurationExp, maxNumberOfCharsPerTransmission>;
 MT multiTransceiver;
 
@@ -33,6 +40,7 @@ char *Port<t>::getMessage() {
   static uint8_t messageSize = 0;
   static uint8_t messagePos = 0;
   static char message[maxNumberOfCharsPerTransmission + 1];
+  static bool gettingMessage = false;
 
   while (true) {
     char character = transceiver.getNextCharacter();
@@ -45,19 +53,25 @@ char *Port<t>::getMessage() {
     case '!':
       messageSize = 3;
       messagePos = 0;
+      gettingMessage = true;
       break;
     case '%':
       messageSize = 5;
       messagePos = 0;
+      gettingMessage = true;
       break;
     }
-    if (messagePos < messageSize) {
-      message[messagePos] = character;
-      messagePos ++;
-    }
-    if (messagePos == messageSize) {
-      message[messagePos] = '\0'; // To make it easy to print the message
-      return message;
+
+    if (gettingMessage) {
+      if (messagePos < messageSize) {
+        message[messagePos] = character;
+        messagePos ++;
+      }
+      if (messagePos == messageSize) {
+        message[messagePos] = '\0'; // To make it easy to print the message
+        gettingMessage = false;
+        return message;
+      }
     }
   }
 }

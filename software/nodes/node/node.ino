@@ -91,18 +91,30 @@ void rootLoop() {
   periodicallyAnnounceMe();
 }
 
+void parseMessages() {
+  bool messageHasBeenReceived;
+
+  do {
+    messageHasBeenReceived = false;
+    messageHasBeenReceived |= parseMessage(port1, port1.getMessage());
+    messageHasBeenReceived |= parseMessage(port2, port2.getMessage());
+    messageHasBeenReceived |= parseMessage(port3, port3.getMessage());
+    messageHasBeenReceived |= parseMessage(port4, port4.getMessage());
+  } while (messageHasBeenReceived);
+}
+
 void nonRootLoop() {
-  parseMessage(port1, port1.getMessage());
-  parseMessage(port2, port2.getMessage());
-  parseMessage(port3, port3.getMessage());
-  parseMessage(port4, port4.getMessage());
+  parseMessages();
 
   if (!transmissionToParentIsInProgress()) {
     Pair pair = dequeuePair();
     if (!pair.isEmpty()) {
       sendPairToParent(pair);
     }
-  } // TODO: what to do if no parent? just forget?
+  }
+
+  // TODO: what to do if no parent? just forget all pairs / empty the
+  // queue?
 
   if (iHaveAParent()) {
     periodicallyAnnounceMe();
@@ -140,10 +152,11 @@ void removeParentIfExpired() {
 void periodicallyAnnounceMe() {
   static uint32_t scheduledAnnouncementTime =
     millis() + announcementPeriod; // ms
+  uint32_t now = millis(); // ms
 
-  if (millis() >= scheduledAnnouncementTime) {
+  if (now >= scheduledAnnouncementTime) {
     announceMeToChildren();
-    scheduledAnnouncementTime = millis() + announcementPeriod;
+    scheduledAnnouncementTime = now + announcementPeriod;
   }
 }
 
@@ -240,7 +253,7 @@ void resetParentExpiryTime() {
 template <typename T>
 void parseAnnouncementPayload(T &port, char *payload) {
   if (iAmRoot()) {
-    return; // root cannot have a parent
+    return; // root cannot have a parent => ignore announcement
   }
 
   if (!iHaveAParent()) {
@@ -258,25 +271,44 @@ void parseAnnouncementPayload(T &port, char *payload) {
   }
 }
 
+template <char t>
+void receivedFrom(char *payload) {
+  static uint32_t lastMillis = 0; // TODO
+  uint32_t now = millis();
+  Serial.print(now - lastMillis); // TODO
+  Serial.print(" Received pair from ");
+  Serial.print(t);
+  Serial.print(": ");
+  Serial.println(payload); // TODO
+  lastMillis = now; // TODO
+}
+
 void parsePairPayload(char *payload) {
+  if (payload[2] == 'A') {
+    receivedFrom<'A'>(payload);
+  }
+  if (payload[2] == 'B') {
+    receivedFrom<'B'>(payload);
+  }
   Pair pair(nodeFromPayload(payload), nodeFromPayload(payload + 2));
   enqueuePair(pair);
 }
 
 template <typename T>
-void parseMessage(T &port, char *message) {
+bool parseMessage(T &port, char *message) {
   if (message == 0) {
-    return;
+    return false;
   }
   char *payload = message + 1;
   switch (message[0]) {
   case '!':
     parseAnnouncementPayload(port, payload);
-    return;
+    return true;
   case '%':
     parsePairPayload(payload);
-    return;
+    return true;
   }
+  return false;
 }
 
 void sendPairToParent(const Pair &pair) {
@@ -295,6 +327,11 @@ void sendPairToParent(const Pair &pair) {
 }
 
 void announceMeToChildren() {
+  static uint32_t lastMillis = 0; // TODO
+  uint32_t now = millis();
+  Serial.print(now - lastMillis); // TODO
+  Serial.println(" Announcing me"); // TODO
+  lastMillis = now; // TODO
   announceMeToChild(port1);
   if (!iAmRoot()) {
     announceMeToChild(port2);

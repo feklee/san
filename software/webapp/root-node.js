@@ -10,7 +10,6 @@ const parser = new parsers.Readline({
     delimiter: "\r\n"
 });
 var webSocket = require("./web-socket");
-var receivedDataItems = require("./received-data-items");
 var cli = require("./cli");
 var port;
 
@@ -53,7 +52,6 @@ function connect(settings) {
         var message = {type: "data", text: data};
         log(message);
         webSocket.send(message);
-        receivedDataItems.push(data);
     });
 }
 

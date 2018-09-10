@@ -101,7 +101,7 @@ var nodeColor = function (node) {
 
 var createNodeObject3D = function (node) {
     var geometry = new SphereGeometry(vSettings.nodeDiameter,
-                                            32, 32);
+                                      32, 32);
     var material = new MeshBasicMaterial({color: nodeColor(node)});
     var mesh = new Mesh(geometry, material);
     scene.add(mesh);

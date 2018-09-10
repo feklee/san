@@ -24,19 +24,20 @@ client.onclose = function () {
 
 var parseData = function (data) {
     var a = data.split("");
-    var existingNodeId = a[0];
-    var existingNodePort = parseInt(a[1]);
-    var newNodeId = a[2];
-    var newNodePort = parseInt(a[3]);
-    if (newNodeId !== "_") {
-        nodeManager.addNode(newNodeId);
+    var parentNodeId = a[0];
+    var parentNodePort = parseInt(a[1]);
+    var childNodeId = a[2];
+    var childNodePort = parseInt(a[3]);
+    if (!nodeManager.nodeExists(childNodeId)) {
+        nodeManager.addNode(childNodeId);
     }
-    nodeManager.updateConnection([{
-        nodeId: existingNodeId,
-        portNumber: existingNodePort
+    // TODO: check if connection exists?
+    nodeManager.connect([{
+        nodeId: parentNodeId,
+        portNumber: parentNodePort
     }, {
-        nodeId: newNodeId,
-        portNumber: newNodePort
+        nodeId: childNodeId,
+        portNumber: childNodePort
     }]);
 };
 

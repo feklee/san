@@ -10,13 +10,24 @@ var prettyPrinted = function (text) {
     }
 };
 
+var removeOverflow = function () {
+    var childNode;
+    var parentEl = logEl.parentElement;
+    while (parentEl.scrollHeight > parentEl.clientHeight) {
+        childNode = logEl.childNodes[0];
+        if (childNode === undefined) {
+            return;
+        }
+        logEl.removeChild(childNode);
+    }
+};
+
 var append = function (type, text) {
     var liEl = document.createElement("li");
     logEl.appendChild(liEl).setAttribute("class", type);
     var preEl = document.createElement("pre");
     liEl.appendChild(preEl).textContent = prettyPrinted(text);
-    var parentEl = logEl.parentElement;
-    parentEl.scrollTop = parentEl.scrollHeight;
+    removeOverflow();
 };
 
 export default {

@@ -29,7 +29,7 @@ var addNode = function (id) {
     var node = {
         id: id,
         neighbors: [null, null, null, null],
-        connectedPorts: [],
+        connectedPorts: [], // TODO: -> connections?
         location: null
     };
 
@@ -45,12 +45,12 @@ var locationAtRandomOrientation = function (origin) {
 };
 
 var setLocation = function (originNode, node) {
-    if (originNode.location === null) {
+    var nodeAlreadyHasLocation = node.location !== null;
+    if (nodeAlreadyHasLocation) {
         return;
     }
 
-    var nodeAlreadyHasLocation = node.location !== null;
-    if (nodeAlreadyHasLocation) {
+    if (originNode.location === null) {
         return;
     }
 
@@ -194,6 +194,43 @@ var removeExpiredConnections = function () {
     });
 };
 
+var connectionExists = function (ports) {
+    if (!nodeExists(ports[0].nodeId) || !nodeExists(ports[1].nodeId)) {
+        return;
+    }
+
+    var node = nodes[ports[0].nodeId];
+    var connectedNode = nodes[ports[1].nodeId];
+
+    return node.neighbors[ports[0].portNumber - 1] === connectedNode;
+};
+
+var connectedPortAtPort = function (port) {
+    if (!nodeExists(port.nodeId)) {
+        return null;
+    }
+
+    var node = nodes[port.nodeId];
+    var foundConnectedPort = null;
+
+    node.connectedPorts.forEach(function (connectedPort) {
+        if (connectedPort.portNumber === port.portNumber) {
+            foundConnectedPort = connectedPort;
+        }
+    });
+
+    return foundConnectedPort;
+};
+
+var refreshConnection = function (ports) {
+    ports.forEach(function (port) {
+        var connectedPort = connectedPortAtPort(port);
+        if (connectedPort) {
+            connectedPort.connectionExpiryTime = expiryTime();
+        }
+    });
+};
+
 var updateConnections = function () {
     removeExpiredConnections();
     removeNodesNotConnectedToRoot();
@@ -210,5 +247,7 @@ setInterval(updateConnections, updateInterval);
 export default {
     nodeExists: nodeExists,
     addNode: addNode,
+    connectionExists: connectionExists,
+    refreshConnection: refreshConnection,
     connect: connect
 };

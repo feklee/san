@@ -22,38 +22,11 @@ var expiryTime = function () { // ms
     return Date.now() + expiryDuration;
 };
 
-var addNode = function (id) {
-    if (nodeExists(id)) {
-        return;
-    }
-    var node = {
-        id: id,
-        neighbors: [null, null, null, null],
-        connectedPorts: [], // TODO: -> connections?
-        location: null
-    };
-
-    nodes[id] = node;
-
-    visualization.createNodeObject3D(node);
-
-    return node;
-};
-
 var locationAtRandomOrientation = function (origin) {
     return origin.clone().add(vector.randomUnitVector());
 };
 
 var setLocation = function (originNode, node) {
-    var nodeAlreadyHasLocation = node.location !== null;
-    if (nodeAlreadyHasLocation) {
-        return;
-    }
-
-    if (originNode.location === null) {
-        return;
-    }
-
     node.location = locationAtRandomOrientation(originNode.location);
 };
 
@@ -75,20 +48,6 @@ var updateConnectedPorts = function (node) {
 var setNeighbor = function (node, portNumber, neighbor) {
     node.neighbors[portNumber - 1] = neighbor;
     updateConnectedPorts(node);
-};
-
-var connect = function (ports) {
-    if (!nodeExists(ports[0].nodeId) || !nodeExists(ports[1].nodeId)) {
-        return;
-    }
-
-    var node = nodes[ports[0].nodeId];
-    var nodeToConnect = nodes[ports[1].nodeId];
-
-    setNeighbor(node, ports[0].portNumber, nodeToConnect);
-    setNeighbor(nodeToConnect, ports[1].portNumber, node);
-
-    setLocation(node, nodeToConnect);
 };
 
 var findNodesConnectedToRoot = function () {
@@ -174,11 +133,6 @@ var sortNodes = function () {
     });
 };
 
-var addRootNode = function () {
-    rootNode = addNode("*");
-    rootNode.location = new Vector3(0, 0, 0);
-};
-
 var connectionIsExpired = function (port) {
     return Date.now() > port.connectionExpiryTime;
 };
@@ -186,7 +140,6 @@ var connectionIsExpired = function (port) {
 var removeExpiredConnections = function () {
     Object.values(nodes).forEach(function (node) {
         Object.values(node.connectedPorts).forEach(function (port) {
-            console.log(port.node.id, port.portNumber, port.connectionExpiryTime);
             if (connectionIsExpired(port)) {
                 disconnect(port);
             }
@@ -239,6 +192,46 @@ var updateConnections = function () {
     updateEdges();
     renderMatrix();
     locationOptimizer.update();
+};
+
+var addNode = function (id) {
+    if (nodeExists(id)) {
+        return;
+    }
+    var node = {
+        id: id,
+        neighbors: [null, null, null, null],
+        connectedPorts: [], // TODO: -> connections?
+        location: null
+    };
+
+    nodes[id] = node;
+
+    visualization.createNodeObject3D(node);
+
+    return node;
+};
+
+var addRootNode = function () {
+    rootNode = addNode("*");
+    rootNode.location = new Vector3(0, 0, 0);
+};
+
+var connect = function (ports) {
+    if (!nodeExists(ports[0].nodeId) || !nodeExists(ports[1].nodeId)) {
+        return;
+    }
+
+    var node = nodes[ports[0].nodeId];
+    var nodeToConnect = nodes[ports[1].nodeId];
+
+    setNeighbor(node, ports[0].portNumber, nodeToConnect);
+    setNeighbor(nodeToConnect, ports[1].portNumber, node);
+
+    if (nodeToConnect.location === null) {
+        setLocation(node, nodeToConnect);
+    }
+    updateConnections();
 };
 
 addRootNode();

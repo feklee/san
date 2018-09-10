@@ -106,7 +106,9 @@ var setExpectedNeighborLocation = function (port, i) {
 
 var addDeviation = function (deviations, port) {
     deviations.push(
-        port.neighbor.testLocation.distanceTo(port.expectedNeighborLocation)
+        port.neighbor.testLocation.distanceTo(
+            port.expectedNeighborLocation
+        )
     );
 };
 

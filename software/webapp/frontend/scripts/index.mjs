@@ -33,6 +33,10 @@ var parseData = function (data) {
         portNumber: parseInt(a[3])
     };
 
+    if (!nodeManager.nodeExists(parentPort.nodeId)) {
+        return;
+    }
+
     if (!nodeManager.nodeExists(childPort.nodeId)) {
         nodeManager.addNode(childPort.nodeId);
     }

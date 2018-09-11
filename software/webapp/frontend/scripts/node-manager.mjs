@@ -14,7 +14,7 @@ var rootNode;
 const updateInterval = 150; // ms
 const expiryDuration = 2.5 * updateInterval; // ms
 
-var nodeExists = function (id) {
+var nodeExists = function (id) { // TODO: really needed to check with ID?
     return nodes[id] !== undefined;
 };
 
@@ -26,8 +26,9 @@ var locationAtRandomOrientation = function (origin) {
     return origin.clone().add(vector.randomUnitVector());
 };
 
-var setLocation = function (originNode, node) {
-    node.location = locationAtRandomOrientation(originNode.location);
+var setChildLocation = function (parentNode, childNode) {
+    childNode.location =
+        locationAtRandomOrientation(parentNode.location);
 };
 
 var updateConnectedPorts = function (node) {
@@ -48,16 +49,8 @@ var updateConnectedPorts = function (node) {
     });
 };
 
-var nodeOnPort = function (port) {
-    return nodes[port.nodeId];
-};
-
 var connectionOnPort = function (port) {
-    var node = nodeOnPort(port);
-    if (!node) {
-        return undefined;
-    }
-    return node.connectedPorts.find(function (connection) {
+    return port.node.connectedPorts.find(function (connection) {
         return connection.portNumber === port.portNumber;
     });
 };
@@ -185,42 +178,20 @@ var removeExpiredConnections = function () {
     });
 };
 
-var connectionExists = function (ports) {
-    var potentialNeighbor = nodeOnPort(ports[1]);
-    if (!potentialNeighbor) {
-        return false;
-    }
-
-    var connection = connectionOnPort(ports[0]);
+var connectionExists = function (portsPair) {
+    var connection = connectionOnPort(portsPair[0]);
     if (!connection) {
         return false;
     }
 
-    return connection.neighbor === potentialNeighbor;
+    return connection.neighbor === portsPair[1].node;
 };
 
-var connectedPortAtPort = function (port) {
-    if (!nodeExists(port.nodeId)) {
-        return null;
-    }
-
-    var node = nodes[port.nodeId];
-    var foundConnectedPort = null;
-
-    node.connectedPorts.forEach(function (connectedPort) {
-        if (connectedPort.portNumber === port.portNumber) {
-            foundConnectedPort = connectedPort;
-        }
-    });
-
-    return foundConnectedPort;
-};
-
-var refreshConnection = function (ports) {
-    ports.forEach(function (port) {
-        var connectedPort = connectedPortAtPort(port);
-        if (connectedPort) {
-            connectedPort.connectionExpiryTime = expiryTime();
+var refreshConnection = function (portsPair) {
+    portsPair.forEach(function (port) {
+        var connection = connectionOnPort(port);
+        if (connection) {
+            connection.connectionExpiryTime = expiryTime();
         }
     });
 };
@@ -258,29 +229,15 @@ var addRootNode = function () {
     rootNode.location = new Vector3(0, 0, 0);
 };
 
-var connect = function (ports) {
-    if (!nodeExists(ports[0].nodeId) ||
-        !nodeExists(ports[1].nodeId)) {
-        return;
-    }
+var connect = function (portsPair) {
+    var parentPort = portsPair[0];
+    var childPort = portsPair[1];
 
-    var node = nodes[ports[0].nodeId];
-    var nodeToConnect = nodes[ports[1].nodeId];
+    setNeighbor(parentPort, childPort);
+    setNeighbor(childPort, parentPort);
 
-    var port = {
-        node: node,
-        portNumber: ports[0].portNumber
-    };
-    var neighborPort = {
-        node: nodeToConnect,
-        portNumber: ports[1].portNumber
-    };
-
-    setNeighbor(port, neighborPort);
-    setNeighbor(neighborPort, port);
-
-    if (nodeToConnect.location === null) {
-        setLocation(node, nodeToConnect);
+    if (childPort.node.location === null) {
+        setChildLocation(parentPort.node, childPort.node);
     }
     updateConnections();
 };
@@ -289,7 +246,6 @@ addRootNode();
 setInterval(updateConnections, updateInterval);
 
 export default {
-    nodeExists: nodeExists,
     addNode: addNode,
     connectionExists: connectionExists,
     refreshConnection: refreshConnection,

@@ -6,6 +6,7 @@ import log from "./log.mjs";
 import nodeManager from "./node-manager.mjs";
 import settings from "./settings.mjs";
 import visualization from "./visualization.mjs";
+import nodes from "./nodes.mjs";
 
 var hostname = window.location.hostname;
 var client = new window.WebSocket("ws://" + hostname + ":8080/");
@@ -24,22 +25,29 @@ client.onclose = function () {
 
 var parseData = function (data) {
     var a = data.split("");
-    var parentPort = {
-        nodeId: a[0], // TODO: maybe put node here righ away
-        portNumber: parseInt(a[1])
-    };
-    var childPort = {
-        nodeId: a[2],
-        portNumber: parseInt(a[3])
-    };
+    var parentNodeId = a[0];
+    var parentNode = nodes[parentNodeId];
+    var parentPortNumber = a[1];
+    var childNodeId = a[2];
+    var childNode = nodes[childNodeId];
+    var childPortNumber = a[3];
 
-    if (!nodeManager.nodeExists(parentPort.nodeId)) {
+    if (parentNode === undefined) {
         return;
     }
 
-    if (!nodeManager.nodeExists(childPort.nodeId)) {
-        nodeManager.addNode(childPort.nodeId);
+    if (childNode === undefined) {
+        childNode = nodeManager.addNode(childNodeId);
     }
+
+    var parentPort = {
+        node: parentNode,
+        portNumber: parentPortNumber
+    };
+    var childPort = {
+        node: childNode,
+        portNumber: childPortNumber
+    };
 
     if (nodeManager.connectionExists([parentPort, childPort])) {
         nodeManager.refreshConnection([parentPort, childPort]);

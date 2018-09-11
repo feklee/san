@@ -75,7 +75,7 @@ var setNeighbor = function (port, neighbor) {
 
     var existingConnection = connectionOnPort(port);
     if (existingConnection) {
-        existingConnection = existingConnection.index;
+        newConnection.index = existingConnection.index;
         port.node.connectedPorts[existingConnection.index] =
             newConnection;
     } else {

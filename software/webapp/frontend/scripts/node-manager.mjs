@@ -62,19 +62,21 @@ var connectionOnPort = function (port) {
     });
 };
 
-var setNeighbor = function (port, neighbor) {
-    port.node.neighbors[port.portNumber - 1] = neighbor;
+var setNeighbor = function (port, neighborPort) {
+    port.node.neighbors[port.portNumber - 1] = neighborPort.node;
 
     var newConnection = {
         nodeId: port.node.id,
-        node: port.node,
+        node: port.node, // TODO: maybe store port here, also for neighbor
         portNumber: port.portNumber,
-        neighbor: neighbor,
+        neighbor: neighborPort.node,
+        neighborPortNumber: neighborPort.portNumber,
         connectionExpiryTime: expiryTime()
     };
 
     var existingConnection = connectionOnPort(port);
-    if (existingConnection) {
+    var replaceExistingConnection = existingConnection !== undefined;
+    if (replaceExistingConnection) {
         newConnection.index = existingConnection.index;
         port.node.connectedPorts[existingConnection.index] =
             newConnection;
@@ -137,6 +139,10 @@ var nullConnectionsToNeighbor = function (node, neighbor) {
     });
 };
 
+var removeNeighbor = function (port) {
+    // TODO: implement
+};
+
 var disconnect = function (port) {
     var nodeId = port.nodeId; // TODO: -> port.node
 
@@ -151,10 +157,10 @@ var disconnect = function (port) {
         return;
     }
     node.neighbors[port.portNumber - 1] = null;
-    updateConnectedPorts(node);
+    removeNeighbor(port);
 
     nullConnectionsToNeighbor(neighbor, node);
-    updateConnectedPorts(neighbor);
+// TODO:    removeNeighbor(neighborPort);
 };
 
 var sortNodes = function () {
@@ -261,14 +267,17 @@ var connect = function (ports) {
     var node = nodes[ports[0].nodeId];
     var nodeToConnect = nodes[ports[1].nodeId];
 
-    setNeighbor({
+    var port = {
         node: node,
         portNumber: ports[0].portNumber
-    }, nodeToConnect);
-    setNeighbor({
+    };
+    var neighborPort = {
         node: nodeToConnect,
         portNumber: ports[1].portNumber
-    }, node);
+    };
+
+    setNeighbor(port, neighborPort);
+    setNeighbor(neighborPort, port);
 
     if (nodeToConnect.location === null) {
         setLocation(node, nodeToConnect);

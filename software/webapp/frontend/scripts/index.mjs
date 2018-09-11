@@ -25,7 +25,7 @@ client.onclose = function () {
 var parseData = function (data) {
     var a = data.split("");
     var parentPort = {
-        nodeId: a[0],
+        nodeId: a[0], // TODO: maybe put node here righ away
         portNumber: parseInt(a[1])
     };
     var childPort = {

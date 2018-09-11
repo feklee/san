@@ -1,4 +1,7 @@
-// Optimizes the locations of nodes using a genetic algorithm.
+// Optimizes the locations of nodes using a genetic algorithm. After
+// optimization, ideally all neighboring nodes have a distance of 1,
+// and the angles between the connecting vectors match those on the
+// spheres.
 
 /*jslint browser: true, maxlen: 80 */
 
@@ -11,113 +14,117 @@ import jsga from "jsga-feklee";
 
 var loSettings = settings.locationOptimizer;
 
-var updateExpectedNeighborLocation = function (port) { // TODO: port means sth. different here than elsewhere!
-    port.expectedNeighborLocation =
-        port.node.testLocation.clone().add(port.expectedConnection);
+var updateExpectedNeighborLocation = function (connection) {
+    connection.expectedNeighborLocation =
+        connection.node.testLocation.clone().add(
+            connection.expectedVector
+        );
 };
 
-var setExpectedNeighborLocation1 = function (port) {
-    port.expectedConnection = vector.normalizedConnection(
-        port.node.testLocation,
-        port.neighbor.testLocation
+var setExpectedNeighborLocation1 = function (connection) {
+    connection.expectedVector = vector.normalizedConnectingVector(
+        connection.node.testLocation,
+        connection.neighbor.testLocation
     );
-    updateExpectedNeighborLocation(port);
+    updateExpectedNeighborLocation(connection);
 };
 
-var setExpectedNeighborLocation2 = function (port2) {
-    var node = port2.node;
-    var port1 = node.connections[0];
+var setExpectedNeighborLocation2 = function (connection2) {
+    var node = connection2.node;
+    var connection1 = node.sortedConnections[0];
 
-    var a = port1.expectedConnection;
-    var b = vector.normalizedConnection(node.testLocation,
-                                        port2.neighbor.testLocation);
+    var a = connection1.expectedVector;
+    var b = vector.normalizedConnectingVector(
+        node.testLocation,
+        connection2.neighbor.testLocation
+    );
     vector.normalizeOrRandomize(b);
     vector.rotateToTetrahedralAngle(a, b);
 
-    port2.expectedConnection = b;
+    connection2.expectedVector = b;
 
-    updateExpectedNeighborLocation(port2);
+    updateExpectedNeighborLocation(connection2);
 };
 
-var setExpectedNeighborLocation3 = function (port3) {
-    var node = port3.node;
-    var port1 = node.connections[0];
-    var port2 = node.connections[1];
+var setExpectedNeighborLocation3 = function (connection3) {
+    var node = connection3.node;
+    var connection1 = node.sortedConnections[0];
+    var connection2 = node.sortedConnections[1];
 
-    var a = port1.expectedConnection;
-    var b = port2.expectedConnection;
+    var a = connection1.expectedVector;
+    var b = connection2.expectedVector;
     var cw = b.clone().applyAxisAngle(a, vector.tetrahedralAngle);
     var ccw = b.clone().applyAxisAngle(a, -vector.tetrahedralAngle);
 
-    switch (port1.portNumber) {
+    switch (connection1.portNumber) {
     case 1:
-        switch (port2.portNumber) {
+        switch (connection2.portNumber) {
         case 2:
-            switch (port3.portNumber) {
+            switch (connection3.portNumber) {
             case 3:
-                port3.expectedConnection = cw;
+                connection3.expectedVector = cw;
                 break;
             case 4:
-                port3.expectedConnection = ccw;
+                connection3.expectedVector = ccw;
                 break;
             }
             break;
         case 3:
-            port3.expectedConnection = cw;
+            connection3.expectedVector = cw;
             break;
         }
         break;
     case 2:
-        port3.expectedConnection = ccw;
+        connection3.expectedVector = ccw;
         break;
     }
 
-    updateExpectedNeighborLocation(port3);
+    updateExpectedNeighborLocation(connection3);
 };
 
-var setExpectedNeighborLocation4 = function (port4) {
-    var node = port4.node;
-    var port1 = node.connections[0];
-    var port2 = node.connections[1];
+var setExpectedNeighborLocation4 = function (connection4) {
+    var node = connection4.node;
+    var connection1 = node.sortedConnections[0];
+    var connection2 = node.sortedConnections[1];
 
-    var a = port1.expectedConnection;
-    var b = port2.expectedConnection;
+    var a = connection1.expectedVector;
+    var b = connection2.expectedVector;
 
-    port4.expectedConnection =
+    connection4.expectedVector =
         b.clone().applyAxisAngle(a, -vector.tetrahedralAngle);
 
-    updateExpectedNeighborLocation(port4);
+    updateExpectedNeighborLocation(connection4);
 };
 
-var setExpectedNeighborLocation = function (port, i) {
+var setExpectedNeighborLocation = function (connection, i) {
     switch (i) {
     case 0:
-        setExpectedNeighborLocation1(port);
+        setExpectedNeighborLocation1(connection);
         break;
     case 1:
-        setExpectedNeighborLocation2(port);
+        setExpectedNeighborLocation2(connection);
         break;
     case 2:
-        setExpectedNeighborLocation3(port);
+        setExpectedNeighborLocation3(connection);
         break;
     case 3:
-        setExpectedNeighborLocation4(port);
+        setExpectedNeighborLocation4(connection);
         break;
     }
 };
 
-var addDeviation = function (deviations, port) {
+var addDeviation = function (deviations, connection) {
     deviations.push(
-        port.neighbor.testLocation.distanceTo(
-            port.expectedNeighborLocation
+        connection.neighbor.testLocation.distanceTo(
+            connection.expectedNeighborLocation
         )
     );
 };
 
 var addDeviationsForNode = function (deviations, node) {
-    Object.values(node.connections).forEach(function (port, i) {
-        setExpectedNeighborLocation(port, i);
-        addDeviation(deviations, port);
+    node.sortedConnections.forEach(function (connection, i) {
+        setExpectedNeighborLocation(connection, i);
+        addDeviation(deviations, connection);
     });
 };
 
@@ -182,7 +189,8 @@ var createSeedFromNodeLocations = function (size) {
         individual[i * 3 + 2] = location.z * loSettings.resolution;
     });
 
-    var seedSize = Math.round(loSettings.seedSizePercentage / 100 * size);
+    var seedSize = Math.round(loSettings.seedSizePercentage / 100 *
+                              size);
     var a = Array;
     return a(seedSize).fill(individual);
 };

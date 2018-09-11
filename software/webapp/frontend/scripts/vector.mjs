@@ -23,7 +23,8 @@ var randomUnitVector = function () {
     );
 };
 
-var rotateToTetrahedralAngle = function (fixedUnitVector, unitVector) {
+var rotateToTetrahedralAngle = function (fixedUnitVector,
+                                         unitVector) {
     var rotationAxis = fixedUnitVector.clone().cross(unitVector);
     var v;
     while (rotationAxis.length() < Number.EPSILON) {
@@ -45,7 +46,7 @@ var normalizeOrRandomize = function (a) {
     }
 };
 
-var normalizedConnection = function (a, b) {
+var normalizedConnectingVector = function (a, b) {
     var c = b.clone().sub(a);
     normalizeOrRandomize(c);
     return c;
@@ -66,7 +67,7 @@ export default {
     rotateToTetrahedralAngle: rotateToTetrahedralAngle,
     randomUnitVector: randomUnitVector,
     normalizeOrRandomize: normalizeOrRandomize,
-    normalizedConnection: normalizedConnection,
+    normalizedConnectingVector: normalizedConnectingVector,
     areEqual: areEqual,
     tetrahedralAngle: tetrahedralAngle
 };

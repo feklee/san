@@ -35,8 +35,17 @@ var connectionOnPort = function (port) {
     return port.node.connections[port.portNumber];
 };
 
+var sortConnections = function (node) {
+    node.sortedConnections.length = 0;
+    var sortedPortNumbers = Object.keys(node.connections).sort();
+    sortedPortNumbers.forEach(function (portNumber) {
+        node.sortedConnections.push(node.connections[portNumber]);
+    });
+};
+
 var removeConnectionOnPort = function (port) {
     delete port.node.connections[port.portNumber];
+    sortConnections(port.node);
 };
 
 var disconnectOnBothSides = function (port) {
@@ -64,6 +73,7 @@ var setNeighbor = function (port, neighborPort) {
 
     disconnectOnBothSides(port); // if a connection already exists
     port.node.connections[port.portNumber] = newConnection;
+    sortConnections(port.node);
 };
 
 var findNodesConnectedToRoot = function () {
@@ -159,6 +169,7 @@ var addNode = function (id) {
     var node = {
         id: id,
         connections: {},
+        sortedConnections: [],
         location: null
     };
 
@@ -181,7 +192,8 @@ var connect = function (pair) {
     if (pair.childPort.node.location === null) {
         setChildLocation(pair.parentPort.node, pair.childPort.node);
     }
-    updateConnections();
+
+    updateConnections(); // TODO: maybe just call sth. like e.g. processConnections, i.e. don't do the entire thing
 };
 
 addRootNode();

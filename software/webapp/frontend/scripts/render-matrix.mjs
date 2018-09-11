@@ -1,3 +1,5 @@
+// Renders the adjacency matrix.
+
 /*jslint browser: true, maxlen: 80 */
 
 import sortedNodes from "./sorted-nodes.mjs";
@@ -47,9 +49,11 @@ var render = function (matrix) {
 };
 
 var connectionToNeighbor = function (node, neighbor) {
-    return node.connections.find(function (connection) {
-        return connection.neighbor === neighbor;
-    });
+    return Object.values(node.connections).find(
+        function (connection) {
+            return connection.neighbor === neighbor;
+        }
+    );
 };
 
 var createRow = function (node) {

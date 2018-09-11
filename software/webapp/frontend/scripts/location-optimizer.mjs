@@ -1,3 +1,5 @@
+// Optimizes the locations of nodes using a genetic algorithm.
+
 /*jslint browser: true, maxlen: 80 */
 
 /*global THREE*/

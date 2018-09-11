@@ -1,3 +1,6 @@
+// Manages the collection of nodes and the connections in between
+// them.
+
 /*jslint browser: true, maxlen: 80 */
 
 import nodes from "./nodes.mjs";
@@ -7,7 +10,8 @@ import renderMatrix from "./render-matrix.mjs";
 import locationOptimizer from "./location-optimizer.mjs";
 import vector from "./vector.mjs";
 import visualization from "./visualization.mjs";
-import {Vector3} from "../../node_modules/three/build/three.module.js";
+import {Vector3} from
+"../../node_modules/three/build/three.module.js";
 var rootNode;
 
 // TODO: take the following values from common configuration
@@ -28,17 +32,11 @@ var setChildLocation = function (parentNode, childNode) {
 };
 
 var connectionOnPort = function (port) {
-    return port.node.connections.find(function (connection) {
-        return connection.portNumber === port.portNumber;
-    });
+    return port.node.connections[port.portNumber];
 };
 
 var removeConnectionOnPort = function (port) {
-    var connection = connectionOnPort(port);
-    if (connection === undefined) {
-        return;
-    }
-    port.node.connections.splice(connection.index);
+    delete port.node.connections[port.portNumber];
 };
 
 var disconnectOnBothSides = function (port) {
@@ -64,10 +62,8 @@ var setNeighbor = function (port, neighborPort) {
         connectionExpiryTime: expiryTime()
     };
 
-    disconnectOnBothSides(port);
-
-    newConnection.index = port.node.connections.length;
-    port.node.connections.push(newConnection);
+    disconnectOnBothSides(port); // if a connection already exists
+    port.node.connections[port.portNumber] = newConnection;
 };
 
 var findNodesConnectedToRoot = function () {
@@ -162,7 +158,7 @@ var addNode = function (id) {
     }
     var node = {
         id: id,
-        connections: [],
+        connections: {},
         location: null
     };
 

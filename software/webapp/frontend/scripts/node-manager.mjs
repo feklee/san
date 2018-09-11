@@ -14,10 +14,6 @@ var rootNode;
 const updateInterval = 150; // ms
 const expiryDuration = 2.5 * updateInterval; // ms
 
-var nodeExists = function (id) { // TODO: really needed to check with ID?
-    return nodes[id] !== undefined;
-};
-
 var expiryTime = function () { // ms
     return Date.now() + expiryDuration;
 };
@@ -32,7 +28,7 @@ var setChildLocation = function (parentNode, childNode) {
 };
 
 var connectionOnPort = function (port) {
-    return port.node.connectedPorts.find(function (connection) {
+    return port.node.connections.find(function (connection) {
         return connection.portNumber === port.portNumber;
     });
 };
@@ -54,11 +50,11 @@ var setNeighbor = function (port, neighborPort) {
     var replaceExistingConnection = existingConnection !== undefined;
     if (replaceExistingConnection) {
         newConnection.index = existingConnection.index;
-        port.node.connectedPorts[existingConnection.index] =
+        port.node.connections[existingConnection.index] =
             newConnection;
     } else {
-        newConnection.index = port.node.connectedPorts.length;
-        port.node.connectedPorts.push(newConnection);
+        newConnection.index = port.node.connections.length;
+        port.node.connections.push(newConnection);
     }
 };
 
@@ -72,7 +68,7 @@ var findNodesConnectedToRoot = function () {
             return;
         }
         nodesConnectedToRoot.add(node);
-        node.connectedPorts.forEach(function (connection) {
+        node.connections.forEach(function (connection) {
             findNodesConnectedToNode(connection.neighbor);
         });
     };
@@ -95,7 +91,7 @@ var removeNodesNotConnectedToRoot = function () {
 
 var removeConnectionOnPort = function (port) {
     var connection = connectionOnPort(port);
-    port.node.connectedPorts.splice(port.index);
+    port.node.connections.splice(port.index);
 };
 
 var disconnect = function (port) {
@@ -121,7 +117,7 @@ var connectionIsExpired = function (port) {
 
 var removeExpiredConnections = function () {
     Object.values(nodes).forEach(function (node) {
-        Object.values(node.connectedPorts).forEach(function (port) {
+        Object.values(node.connections).forEach(function (port) {
             if (connectionIsExpired(port)) {
                 disconnect(port);
             }
@@ -156,13 +152,17 @@ var updateConnections = function () {
     locationOptimizer.update();
 };
 
+var nodeExists = function (id) {
+    return nodes[id] !== undefined;
+};
+
 var addNode = function (id) {
     if (nodeExists(id)) {
         return;
     }
     var node = {
         id: id,
-        connectedPorts: [], // TODO: -> connections?
+        connections: [],
         location: null
     };
 

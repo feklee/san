@@ -24,7 +24,7 @@ var setExpectedNeighborLocation1 = function (port) {
 
 var setExpectedNeighborLocation2 = function (port2) {
     var node = port2.node;
-    var port1 = node.connectedPorts[0];
+    var port1 = node.connections[0];
 
     var a = port1.expectedConnection;
     var b = vector.normalizedConnection(node.testLocation,
@@ -39,8 +39,8 @@ var setExpectedNeighborLocation2 = function (port2) {
 
 var setExpectedNeighborLocation3 = function (port3) {
     var node = port3.node;
-    var port1 = node.connectedPorts[0];
-    var port2 = node.connectedPorts[1];
+    var port1 = node.connections[0];
+    var port2 = node.connections[1];
 
     var a = port1.expectedConnection;
     var b = port2.expectedConnection;
@@ -75,8 +75,8 @@ var setExpectedNeighborLocation3 = function (port3) {
 
 var setExpectedNeighborLocation4 = function (port4) {
     var node = port4.node;
-    var port1 = node.connectedPorts[0];
-    var port2 = node.connectedPorts[1];
+    var port1 = node.connections[0];
+    var port2 = node.connections[1];
 
     var a = port1.expectedConnection;
     var b = port2.expectedConnection;
@@ -113,7 +113,7 @@ var addDeviation = function (deviations, port) {
 };
 
 var addDeviationsForNode = function (deviations, node) {
-    node.connectedPorts.forEach(function (port, i) {
+    node.connections.forEach(function (port, i) {
         setExpectedNeighborLocation(port, i);
         addDeviation(deviations, port);
     });

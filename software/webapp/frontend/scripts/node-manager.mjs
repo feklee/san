@@ -60,10 +60,8 @@ var findNodesConnectedToRoot = function () {
             return;
         }
         nodesConnectedToRoot.add(node);
-        node.neighbors.forEach(function (neighbor) {
-            if (neighbor !== null) {
-                findNodesConnectedToNode(neighbor);
-            }
+        node.connectedPorts.forEach(function (connection) {
+            findNodesConnectedToNode(connection.neighbor);
         });
     };
 
@@ -72,14 +70,14 @@ var findNodesConnectedToRoot = function () {
     return nodesConnectedToRoot;
 };
 
-var nullConnectionsToRemovedNodes = function () {
+var nullRemovedNeighbors = function () {
     Object.values(nodes).forEach(function (node) {
         node.neighbors.forEach(function (neighbor, i) {
             if (neighbor === null) {
                 return;
             }
-            var isRemoved = nodes[neighbor.id] !== undefined;
-            if (!isRemoved) {
+            var neighborIsRemoved = nodes[neighbor.id] === undefined;
+            if (neighborIsRemoved) {
                 node.neighbors[i] = null;
             }
         });
@@ -114,8 +112,8 @@ var disconnect = function (port) {
 
     var node = nodes[nodeId];
     var neighbor = node.neighbors[port.portNumber - 1];
-    var alreadyDisconnected = neighbor === null;
-    if (alreadyDisconnected) {
+    var portIsAlreadyDisconnected = neighbor === null;
+    if (portIsAlreadyDisconnected) {
         return;
     }
     node.neighbors[port.portNumber - 1] = null;
@@ -147,15 +145,32 @@ var removeExpiredConnections = function () {
     });
 };
 
+var nodeOnPort = function (port) {
+    return nodes[port.nodeId];
+};
+
+var connectionOnPort = function (port) {
+    var node = nodeOnPort(port);
+    if (!node) {
+        return undefined;
+    }
+    return node.connectedPorts.find(function (connection) {
+        return connection.portNumber === port.portNumber;
+    });
+};
+
 var connectionExists = function (ports) {
-    if (!nodeExists(ports[0].nodeId) || !nodeExists(ports[1].nodeId)) {
-        return;
+    var potentialNeighbor = nodeOnPort(ports[1]);
+    if (!potentialNeighbor) {
+        return false;
     }
 
-    var node = nodes[ports[0].nodeId];
-    var connectedNode = nodes[ports[1].nodeId];
+    var connection = connectionOnPort(ports[0]);
+    if (!connection) {
+        return false;
+    }
 
-    return node.neighbors[ports[0].portNumber - 1] === connectedNode;
+    return connection.neighbor === potentialNeighbor;
 };
 
 var connectedPortAtPort = function (port) {
@@ -187,7 +202,7 @@ var refreshConnection = function (ports) {
 var updateConnections = function () {
     removeExpiredConnections();
     removeNodesNotConnectedToRoot();
-    nullConnectionsToRemovedNodes();
+    nullRemovedNeighbors();
     sortNodes();
     updateEdges();
     renderMatrix();

@@ -80,9 +80,11 @@ var findNodesConnectedToRoot = function () {
             return;
         }
         nodesConnectedToRoot.add(node);
-        node.connections.forEach(function (connection) {
-            findNodesConnectedToNode(connection.neighbor);
-        });
+        Object.values(node.connections).forEach(
+            function (connection) {
+                findNodesConnectedToNode(connection.neighbor);
+            }
+        );
     };
 
     findNodesConnectedToNode(rootNode);

@@ -9,7 +9,7 @@ import jsga from "jsga-feklee";
 
 var loSettings = settings.locationOptimizer;
 
-var updateExpectedNeighborLocation = function (port) {
+var updateExpectedNeighborLocation = function (port) { // TODO: port means sth. different here than elsewhere!
     port.expectedNeighborLocation =
         port.node.testLocation.clone().add(port.expectedConnection);
 };
@@ -113,7 +113,7 @@ var addDeviation = function (deviations, port) {
 };
 
 var addDeviationsForNode = function (deviations, node) {
-    node.connections.forEach(function (port, i) {
+    Object.values(node.connections).forEach(function (port, i) {
         setExpectedNeighborLocation(port, i);
         addDeviation(deviations, port);
     });

@@ -32,6 +32,7 @@ var setLocation = function (originNode, node) {
 
 var updateConnectedPorts = function (node) {
     node.connectedPorts = [];
+    var index = 0;
     node.neighbors.forEach(function (neighbor, i) {
         if (neighbor !== null) {
             node.connectedPorts.push({
@@ -39,15 +40,48 @@ var updateConnectedPorts = function (node) {
                 node: node,
                 portNumber: i + 1,
                 neighbor: neighbor,
-                connectionExpiryTime: expiryTime()
+                connectionExpiryTime: expiryTime(),
+                index: index
             });
+            index += 1;
         }
     });
 };
 
-var setNeighbor = function (node, portNumber, neighbor) {
-    node.neighbors[portNumber - 1] = neighbor;
-    updateConnectedPorts(node);
+var nodeOnPort = function (port) {
+    return nodes[port.nodeId];
+};
+
+var connectionOnPort = function (port) {
+    var node = nodeOnPort(port);
+    if (!node) {
+        return undefined;
+    }
+    return node.connectedPorts.find(function (connection) {
+        return connection.portNumber === port.portNumber;
+    });
+};
+
+var setNeighbor = function (port, neighbor) {
+    port.node.neighbors[port.portNumber - 1] = neighbor;
+
+    var newConnection = {
+        nodeId: port.node.id,
+        node: port.node,
+        portNumber: port.portNumber,
+        neighbor: neighbor,
+        connectionExpiryTime: expiryTime()
+    };
+
+    var existingConnection = connectionOnPort(port);
+    if (existingConnection) {
+        existingConnection = existingConnection.index;
+        port.node.connectedPorts[existingConnection.index] =
+            newConnection;
+    } else {
+        newConnection.index = port.node.connectedPorts.length;
+        port.node.connectedPorts.push(newConnection);
+    }
 };
 
 var findNodesConnectedToRoot = function () {
@@ -145,20 +179,6 @@ var removeExpiredConnections = function () {
     });
 };
 
-var nodeOnPort = function (port) {
-    return nodes[port.nodeId];
-};
-
-var connectionOnPort = function (port) {
-    var node = nodeOnPort(port);
-    if (!node) {
-        return undefined;
-    }
-    return node.connectedPorts.find(function (connection) {
-        return connection.portNumber === port.portNumber;
-    });
-};
-
 var connectionExists = function (ports) {
     var potentialNeighbor = nodeOnPort(ports[1]);
     if (!potentialNeighbor) {
@@ -233,15 +253,22 @@ var addRootNode = function () {
 };
 
 var connect = function (ports) {
-    if (!nodeExists(ports[0].nodeId) || !nodeExists(ports[1].nodeId)) {
+    if (!nodeExists(ports[0].nodeId) ||
+        !nodeExists(ports[1].nodeId)) {
         return;
     }
 
     var node = nodes[ports[0].nodeId];
     var nodeToConnect = nodes[ports[1].nodeId];
 
-    setNeighbor(node, ports[0].portNumber, nodeToConnect);
-    setNeighbor(nodeToConnect, ports[1].portNumber, node);
+    setNeighbor({
+        node: node,
+        portNumber: ports[0].portNumber
+    }, nodeToConnect);
+    setNeighbor({
+        node: nodeToConnect,
+        portNumber: ports[1].portNumber
+    }, node);
 
     if (nodeToConnect.location === null) {
         setLocation(node, nodeToConnect);

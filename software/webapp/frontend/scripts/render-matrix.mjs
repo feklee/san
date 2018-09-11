@@ -46,16 +46,24 @@ var render = function (matrix) {
     renderBody(matrix);
 };
 
+var connectionToNeighbor = function (node, neighbor) {
+    return node.connectedPorts.find(function (connection) {
+        return connection.neighbor === neighbor;
+    });
+};
+
 var createRow = function (node) {
     var row = [];
-    var neighbors = Object.values(node.neighbors);
 
-    sortedNodes.forEach(function (node) {
-        var i = neighbors.indexOf(node);
+    sortedNodes.forEach(function (potentialNeighbor) {
+        var connection = connectionToNeighbor(
+            node,
+            potentialNeighbor
+        );
         row.push(
-            i === -1
+            connection === undefined
                 ? 0
-                : i + 1
+                : connection.portNumber
         );
     });
 

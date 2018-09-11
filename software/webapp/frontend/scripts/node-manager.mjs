@@ -48,32 +48,12 @@ var removeConnectionOnPort = function (port) {
     sortConnections(port.node);
 };
 
-var disconnectOnBothSides = function (port) {
-    var connection = connectionOnPort(port);
-    if (connection === undefined) {
-        return;
-    }
-    var neighborPort = {
-        node: connection.neighbor,
-        portNumber: connection.neighborPortNumber
-    };
-    removeConnectionOnPort(port);
-    removeConnectionOnPort(neighborPort);
-};
-
-var setNeighbor = function (port, neighborPort) {
-    var newConnection = {
-        nodeId: port.node.id,
-        node: port.node, // TODO: maybe store port here, also for neighbor
-        portNumber: port.portNumber,
-        neighbor: neighborPort.node,
-        neighborPortNumber: neighborPort.portNumber,
-        connectionExpiryTime: expiryTime()
-    };
-
-    disconnectOnBothSides(port); // if a connection already exists
-    port.node.connections[port.portNumber] = newConnection;
-    sortConnections(port.node);
+var sortNodes = function () {
+    sortedNodes.length = 0;
+    var sortedNodeIds = Object.keys(nodes).sort();
+    sortedNodeIds.forEach(function (nodeId) {
+        sortedNodes.push(nodes[nodeId]);
+    });
 };
 
 var findNodesConnectedToRoot = function () {
@@ -107,18 +87,48 @@ var removeNodesNotConnectedToRoot = function () {
             delete nodes[node.id];
         }
     });
+
+    sortNodes();
 };
 
-var sortNodes = function () {
-    sortedNodes.length = 0;
-    var sortedNodeIds = Object.keys(nodes).sort();
-    sortedNodeIds.forEach(function (nodeId) {
-        sortedNodes.push(nodes[nodeId]);
-    });
+var disconnectOnBothSides = function (port) {
+    var connection = connectionOnPort(port);
+    if (connection === undefined) {
+        return;
+    }
+    var neighborPort = {
+        node: connection.neighbor,
+        portNumber: connection.neighborPortNumber
+    };
+    removeConnectionOnPort(port);
+    removeConnectionOnPort(neighborPort);
+
+    removeNodesNotConnectedToRoot();
+};
+
+var setNeighbor = function (port, neighborPort) {
+    var newConnection = {
+        nodeId: port.node.id,
+        node: port.node, // TODO: maybe store port here, also for neighbor
+        portNumber: port.portNumber,
+        neighbor: neighborPort.node,
+        neighborPortNumber: neighborPort.portNumber,
+        connectionExpiryTime: expiryTime()
+    };
+
+    disconnectOnBothSides(port); // if a connection already exists
+    port.node.connections[port.portNumber] = newConnection;
+    sortConnections(port.node);
 };
 
 var connectionIsExpired = function (port) {
     return Date.now() > port.connectionExpiryTime;
+};
+
+var processConnections = function () {
+    updateEdges();
+    renderMatrix();
+    locationOptimizer.update();
 };
 
 var removeExpiredConnections = function () {
@@ -129,6 +139,8 @@ var removeExpiredConnections = function () {
             }
         });
     });
+
+    processConnections();
 };
 
 var connectionExists = function (pair) {
@@ -147,15 +159,6 @@ var refreshConnection = function (pair) {
             connection.connectionExpiryTime = expiryTime();
         }
     });
-};
-
-var updateConnections = function () {
-    removeExpiredConnections();
-    removeNodesNotConnectedToRoot();
-    sortNodes();
-    updateEdges();
-    renderMatrix();
-    locationOptimizer.update();
 };
 
 var nodeExists = function (id) {
@@ -177,6 +180,8 @@ var addNode = function (id) {
 
     visualization.createNodeObject3D(node);
 
+    sortNodes();
+
     return node;
 };
 
@@ -193,11 +198,11 @@ var connect = function (pair) {
         setChildLocation(pair.parentPort.node, pair.childPort.node);
     }
 
-    updateConnections(); // TODO: maybe just call sth. like e.g. processConnections, i.e. don't do the entire thing
+    processConnections();
 };
 
 addRootNode();
-setInterval(updateConnections, updateInterval);
+setInterval(removeExpiredConnections, updateInterval);
 
 export default {
     addNode: addNode,

@@ -16,27 +16,27 @@ var loSettings = settings.locationOptimizer;
 
 var updateExpectedNeighborLocation = function (connection) {
     connection.expectedNeighborLocation =
-        connection.node.testLocation.clone().add(
+        connection.fromPort.node.testLocation.clone().add(
             connection.expectedVector
         );
 };
 
 var setExpectedNeighborLocation1 = function (connection) {
     connection.expectedVector = vector.normalizedConnectingVector(
-        connection.node.testLocation,
-        connection.neighbor.testLocation
+        connection.fromPort.node.testLocation,
+        connection.toPort.node.testLocation
     );
     updateExpectedNeighborLocation(connection);
 };
 
 var setExpectedNeighborLocation2 = function (connection2) {
-    var node = connection2.node;
+    var node = connection2.fromPort.node;
     var connection1 = node.sortedConnections[0];
 
     var a = connection1.expectedVector;
     var b = vector.normalizedConnectingVector(
         node.testLocation,
-        connection2.neighbor.testLocation
+        connection2.toPort.node.testLocation
     );
     vector.normalizeOrRandomize(b);
     vector.rotateToTetrahedralAngle(a, b);
@@ -47,7 +47,7 @@ var setExpectedNeighborLocation2 = function (connection2) {
 };
 
 var setExpectedNeighborLocation3 = function (connection3) {
-    var node = connection3.node;
+    var node = connection3.fromPort.node;
     var connection1 = node.sortedConnections[0];
     var connection2 = node.sortedConnections[1];
 
@@ -56,11 +56,11 @@ var setExpectedNeighborLocation3 = function (connection3) {
     var cw = b.clone().applyAxisAngle(a, vector.tetrahedralAngle);
     var ccw = b.clone().applyAxisAngle(a, -vector.tetrahedralAngle);
 
-    switch (connection1.portNumber) {
+    switch (connection1.fromPort.portNumber) {
     case 1:
-        switch (connection2.portNumber) {
+        switch (connection2.fromPort.portNumber) {
         case 2:
-            switch (connection3.portNumber) {
+            switch (connection3.fromPort.portNumber) {
             case 3:
                 connection3.expectedVector = cw;
                 break;
@@ -83,7 +83,7 @@ var setExpectedNeighborLocation3 = function (connection3) {
 };
 
 var setExpectedNeighborLocation4 = function (connection4) {
-    var node = connection4.node;
+    var node = connection4.fromPort.node;
     var connection1 = node.sortedConnections[0];
     var connection2 = node.sortedConnections[1];
 
@@ -115,7 +115,7 @@ var setExpectedNeighborLocation = function (connection, i) {
 
 var addDeviation = function (deviations, connection) {
     deviations.push(
-        connection.neighbor.testLocation.distanceTo(
+        connection.toPort.node.testLocation.distanceTo(
             connection.expectedNeighborLocation
         )
     );

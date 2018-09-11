@@ -68,7 +68,7 @@ var findNodesConnectedToRoot = function () {
         nodesConnectedToRoot.add(node);
         Object.values(node.connections).forEach(
             function (connection) {
-                findNodesConnectedToNode(connection.neighbor);
+                findNodesConnectedToNode(connection.toPort.node);
             }
         );
     };
@@ -96,10 +96,7 @@ var disconnectOnBothSides = function (port) {
     if (connection === undefined) {
         return;
     }
-    var neighborPort = {
-        node: connection.neighbor,
-        portNumber: connection.neighborPortNumber
-    };
+    var neighborPort = connection.toPort;
     removeConnectionOnPort(port);
     removeConnectionOnPort(neighborPort);
 
@@ -108,11 +105,8 @@ var disconnectOnBothSides = function (port) {
 
 var setNeighbor = function (port, neighborPort) {
     var newConnection = {
-        nodeId: port.node.id,
-        node: port.node, // TODO: maybe store port here, also for neighbor
-        portNumber: port.portNumber,
-        neighbor: neighborPort.node,
-        neighborPortNumber: neighborPort.portNumber,
+        fromPort: port,
+        toPort: neighborPort,
         connectionExpiryTime: expiryTime()
     };
 
@@ -149,7 +143,7 @@ var connectionExists = function (pair) {
         return false;
     }
 
-    return connection.neighbor === pair.childPort.node;
+    return connection.toPort.node === pair.childPort.node;
 };
 
 var refreshConnection = function (pair) {

@@ -51,7 +51,7 @@ var render = function (matrix) {
 var connectionToNeighbor = function (node, neighbor) {
     return Object.values(node.connections).find(
         function (connection) {
-            return connection.neighbor === neighbor;
+            return connection.toPort.node === neighbor;
         }
     );
 };

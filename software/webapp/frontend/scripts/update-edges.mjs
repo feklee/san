@@ -41,9 +41,9 @@ export default function () {
 
     Object.values(nodes).forEach(function (node) {
         Object.values(node.connections).forEach(function (connection) {
-            var edge = findEdge(node, connection.neighbor);
+            var edge = findEdge(node, connection.toPort.node);
             if (!edge) {
-                edge = createEdge(node, connection.neighbor);
+                edge = createEdge(node, connection.toPort.node);
                 edges.add(edge);
             }
             existingEdges.add(edge);

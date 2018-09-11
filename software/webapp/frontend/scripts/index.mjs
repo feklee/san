@@ -25,17 +25,17 @@ client.onclose = function () {
 
 var parseData = function (data) {
     var a = data.split("");
-    var parentNodeId = a[0];
-    var parentNode = nodes[parentNodeId];
-    var parentPortNumber = a[1];
-    var childNodeId = a[2];
-    var childNode = nodes[childNodeId];
-    var childPortNumber = a[3];
 
+    var parentNodeId = a[0];
+    var parentPortNumber = a[1];
+    var parentNode = nodes[parentNodeId];
     if (parentNode === undefined) {
         return;
     }
 
+    var childNodeId = a[2];
+    var childPortNumber = a[3];
+    var childNode = nodes[childNodeId];
     if (childNode === undefined) {
         childNode = nodeManager.addNode(childNodeId);
     }

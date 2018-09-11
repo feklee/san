@@ -31,24 +31,6 @@ var setChildLocation = function (parentNode, childNode) {
         locationAtRandomOrientation(parentNode.location);
 };
 
-var updateConnectedPorts = function (node) {
-    node.connectedPorts = [];
-    var index = 0;
-    node.neighbors.forEach(function (neighbor, i) {
-        if (neighbor !== null) {
-            node.connectedPorts.push({
-                nodeId: node.id,
-                node: node,
-                portNumber: i + 1,
-                neighbor: neighbor,
-                connectionExpiryTime: expiryTime(),
-                index: index
-            });
-            index += 1;
-        }
-    });
-};
-
 var connectionOnPort = function (port) {
     return port.node.connectedPorts.find(function (connection) {
         return connection.portNumber === port.portNumber;
@@ -66,6 +48,9 @@ var setNeighbor = function (port, neighborPort) {
         neighborPortNumber: neighborPort.portNumber,
         connectionExpiryTime: expiryTime()
     };
+
+    // TODO: better remove existing connection, because also on the
+    // other side it needs to be removed, which is complex
 
     var existingConnection = connectionOnPort(port);
     var replaceExistingConnection = existingConnection !== undefined;
@@ -132,8 +117,9 @@ var nullConnectionsToNeighbor = function (node, neighbor) {
     });
 };
 
-var removeNeighbor = function (port) {
-    // TODO: implement
+var removeConnectionOnPort = function (port) {
+    var connection = connectionOnPort(port);
+    port.node.connectedPorts.splice(port.index);
 };
 
 var disconnect = function (port) {
@@ -150,10 +136,14 @@ var disconnect = function (port) {
         return;
     }
     node.neighbors[port.portNumber - 1] = null;
-    removeNeighbor(port);
-
     nullConnectionsToNeighbor(neighbor, node);
-// TODO:    removeNeighbor(neighborPort);
+
+    var neighborPort = {
+        node: port.neighbor,
+        portNumber: port.neighborPortNumber
+    };
+    removeConnectionOnPort(port);
+    removeConnectionOnPort(neighborPort);
 };
 
 var sortNodes = function () {

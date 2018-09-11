@@ -38,8 +38,6 @@ var connectionOnPort = function (port) {
 };
 
 var setNeighbor = function (port, neighborPort) {
-    port.node.neighbors[port.portNumber - 1] = neighborPort.node;
-
     var newConnection = {
         nodeId: port.node.id,
         node: port.node, // TODO: maybe store port here, also for neighbor
@@ -84,20 +82,6 @@ var findNodesConnectedToRoot = function () {
     return nodesConnectedToRoot;
 };
 
-var nullRemovedNeighbors = function () {
-    Object.values(nodes).forEach(function (node) {
-        node.neighbors.forEach(function (neighbor, i) {
-            if (neighbor === null) {
-                return;
-            }
-            var neighborIsRemoved = nodes[neighbor.id] === undefined;
-            if (neighborIsRemoved) {
-                node.neighbors[i] = null;
-            }
-        });
-    });
-};
-
 var removeNodesNotConnectedToRoot = function () {
     var nodesConnectedToRoot = findNodesConnectedToRoot();
     Object.values(nodes).forEach(function (node) {
@@ -109,35 +93,12 @@ var removeNodesNotConnectedToRoot = function () {
     });
 };
 
-var nullConnectionsToNeighbor = function (node, neighbor) {
-    node.neighbors.forEach(function (neighborToTest, i) {
-        if (neighborToTest === neighbor) {
-            node.neighbors[i] = null;
-        }
-    });
-};
-
 var removeConnectionOnPort = function (port) {
     var connection = connectionOnPort(port);
     port.node.connectedPorts.splice(port.index);
 };
 
 var disconnect = function (port) {
-    var nodeId = port.nodeId; // TODO: -> port.node
-
-    if (!nodeExists(nodeId)) {
-        return;
-    }
-
-    var node = nodes[nodeId];
-    var neighbor = node.neighbors[port.portNumber - 1];
-    var portIsAlreadyDisconnected = neighbor === null;
-    if (portIsAlreadyDisconnected) {
-        return;
-    }
-    node.neighbors[port.portNumber - 1] = null;
-    nullConnectionsToNeighbor(neighbor, node);
-
     var neighborPort = {
         node: port.neighbor,
         portNumber: port.neighborPortNumber
@@ -189,7 +150,6 @@ var refreshConnection = function (pair) {
 var updateConnections = function () {
     removeExpiredConnections();
     removeNodesNotConnectedToRoot();
-    nullRemovedNeighbors();
     sortNodes();
     updateEdges();
     renderMatrix();
@@ -202,7 +162,6 @@ var addNode = function (id) {
     }
     var node = {
         id: id,
-        neighbors: [null, null, null, null],
         connectedPorts: [], // TODO: -> connections?
         location: null
     };

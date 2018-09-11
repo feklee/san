@@ -178,17 +178,17 @@ var removeExpiredConnections = function () {
     });
 };
 
-var connectionExists = function (portsPair) {
-    var connection = connectionOnPort(portsPair[0]);
+var connectionExists = function (pair) {
+    var connection = connectionOnPort(pair.parentPort);
     if (!connection) {
         return false;
     }
 
-    return connection.neighbor === portsPair[1].node;
+    return connection.neighbor === pair.childPort.node;
 };
 
-var refreshConnection = function (portsPair) {
-    portsPair.forEach(function (port) {
+var refreshConnection = function (pair) {
+    Object.values(pair).forEach(function (port) {
         var connection = connectionOnPort(port);
         if (connection) {
             connection.connectionExpiryTime = expiryTime();
@@ -229,15 +229,12 @@ var addRootNode = function () {
     rootNode.location = new Vector3(0, 0, 0);
 };
 
-var connect = function (portsPair) {
-    var parentPort = portsPair[0];
-    var childPort = portsPair[1];
+var connect = function (pair) {
+    setNeighbor(pair.parentPort, pair.childPort);
+    setNeighbor(pair.childPort, pair.parentPort);
 
-    setNeighbor(parentPort, childPort);
-    setNeighbor(childPort, parentPort);
-
-    if (childPort.node.location === null) {
-        setChildLocation(parentPort.node, childPort.node);
+    if (pair.childPort.node.location === null) {
+        setChildLocation(pair.parentPort.node, pair.childPort.node);
     }
     updateConnections();
 };

@@ -40,19 +40,21 @@ var parseData = function (data) {
         childNode = nodeManager.addNode(childNodeId);
     }
 
-    var parentPort = {
-        node: parentNode,
-        portNumber: parentPortNumber
-    };
-    var childPort = {
-        node: childNode,
-        portNumber: childPortNumber
+    var pair = {
+        parentPort: {
+            node: parentNode,
+            portNumber: parentPortNumber
+        },
+        childPort: {
+            node: childNode,
+            portNumber: childPortNumber
+        }
     };
 
-    if (nodeManager.connectionExists([parentPort, childPort])) {
-        nodeManager.refreshConnection([parentPort, childPort]);
+    if (nodeManager.connectionExists(pair)) {
+        nodeManager.refreshConnection(pair);
     } else {
-        nodeManager.connect([parentPort, childPort]);
+        nodeManager.connect(pair);
     }
 };
 

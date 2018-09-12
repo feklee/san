@@ -3,7 +3,6 @@
 "use strict";
 
 const fs = require("fs");
-const eval2 = require("eval2");
 var cli = require("./cli");
 var graphUpdateInterval = 0;
 var connectionExpiryDuration = 0;

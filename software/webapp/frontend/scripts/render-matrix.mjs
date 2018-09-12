@@ -67,7 +67,7 @@ var createRow = function (node) {
         row.push(
             connection === undefined
                 ? 0
-                : connection.portNumber
+                : connection.fromPort.portNumber
         );
     });
 

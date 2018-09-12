@@ -91,29 +91,32 @@ var removeNodesNotConnectedToRoot = function () {
     sortNodes();
 };
 
+var removeConnection = function (connection) {
+    removeConnectionOnPort(connection.fromPort);
+    removeConnectionOnPort(connection.toPort);
+};
+
 var disconnectOnBothSides = function (port) {
     var connection = connectionOnPort(port);
     if (connection === undefined) {
         return;
     }
-    var neighborPort = connection.toPort;
-    removeConnectionOnPort(port);
-    removeConnectionOnPort(neighborPort);
+    removeConnection(connection);
 };
 
 var setNeighbor = function (port, neighborPort) {
     var newConnection = {
         fromPort: port,
         toPort: neighborPort,
-        connectionExpiryTime: expiryTime()
+        expiryTime: expiryTime()
     };
 
     port.node.connections[port.portNumber] = newConnection;
     sortConnections(port.node);
 };
 
-var connectionIsExpired = function (port) {
-    return Date.now() > port.connectionExpiryTime;
+var connectionIsExpired = function (connection) {
+    return Date.now() > connection.expiryTime;
 };
 
 var updateForVisualization = function () {
@@ -124,11 +127,13 @@ var updateForVisualization = function () {
 
 var removeExpiredConnections = function () {
     Object.values(nodes).forEach(function (node) {
-        Object.values(node.connections).forEach(function (port) {
-            if (connectionIsExpired(port)) {
-                disconnectOnBothSides(port);
+        Object.values(node.connections).forEach(
+            function (connection) {
+                if (connectionIsExpired(connection)) {
+                    removeConnection(connection);
+                }
             }
-        });
+        );
     });
 
     removeNodesNotConnectedToRoot();
@@ -148,7 +153,7 @@ var refreshConnection = function (pair) {
     Object.values(pair).forEach(function (port) {
         var connection = connectionOnPort(port);
         if (connection) {
-            connection.connectionExpiryTime = expiryTime();
+            connection.expiryTime = expiryTime();
         }
     });
 };

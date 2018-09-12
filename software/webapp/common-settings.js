@@ -8,10 +8,12 @@ var graphUpdateInterval;
 var connectionExpiryDuration;
 
 try {
-    var data = fs.readFileSync("../common_settings", "utf8");
-    eval(data);
+    var cData = fs.readFileSync("../common_settings.h", "utf8");
+    var jsData = cData.replace(/const\s+[^\s]+/g, "var");
+    eval(jsData);
 } catch (ignore) {
-    cli.logError("Cannot find load common settings");
+    cli.logError("Cannot load common settings");
+    process.exit(1);
 }
 
 module.exports = {

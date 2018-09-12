@@ -1,6 +1,8 @@
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import copy from "rollup-plugin-copy";
+import legacy from "rollup-plugin-legacy";
+import replace from "rollup-plugin-re";
 
 var copyOptions = {
     "node_modules/three/build/three.min.js":
@@ -21,6 +23,24 @@ export default {
         sourcemap: "inline"
     },
     plugins: [
+        replace({
+            include: "frontend/scripts/common-settings.mjs",
+            patterns: [
+                {
+                    file: "../../../common_settings.h"
+                },
+                {
+                    test: /const\s+[^\s]+/g,
+                    replace: "var"
+                }
+            ]
+        }),
+        legacy({
+            "frontend/scripts/common-settings.mjs": {
+                graphUpdateInterval: "graphUpdateInterval",
+                connectionExpiryDuration: "connectionExpiryDuration"
+            }
+        }),
         copy(copyOptions),
         resolve(),
         commonjs()

@@ -11,15 +11,15 @@ import locationOptimizer from "./location-optimizer.mjs";
 import vector from "./vector.mjs";
 import visualization from "./visualization.mjs";
 import {Vector3} from
-"../../node_modules/three/build/three.module.js";
+        "../../node_modules/three/build/three.module.js";
+import {
+    graphUpdateInterval, // ms
+    connectionExpiryDuration // ms
+} from "./common-settings.mjs";
 var rootNode;
 
-// TODO: take the following values from common configuration
-const updateInterval = 150; // ms
-const expiryDuration = 2.5 * updateInterval; // ms
-
 var expiryTime = function () { // ms
-    return Date.now() + expiryDuration;
+    return Date.now() + connectionExpiryDuration;
 };
 
 var locationAtRandomOrientation = function (origin) {
@@ -28,7 +28,7 @@ var locationAtRandomOrientation = function (origin) {
 
 var setChildLocation = function (parentNode, childNode) {
     childNode.location =
-        locationAtRandomOrientation(parentNode.location);
+            locationAtRandomOrientation(parentNode.location);
 };
 
 var connectionOnPort = function (port) {
@@ -204,7 +204,7 @@ var connect = function (pair) {
 };
 
 addRootNode();
-setInterval(removeExpiredConnections, updateInterval);
+setInterval(removeExpiredConnections, graphUpdateInterval);
 
 export default {
     addNode: addNode,

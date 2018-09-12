@@ -28,6 +28,7 @@
     "rollup-plugin-commonjs": "^9.1.0",
     "rollup-plugin-copy": "^0.2.3",
     "rollup-plugin-legacy": "^1.0.0",
-    "rollup-plugin-node-resolve": "^3.3.0"
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-re": "1.0.7"
   }
 }

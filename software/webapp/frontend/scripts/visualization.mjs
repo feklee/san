@@ -4,6 +4,7 @@
 
 import settings from "./settings.mjs";
 import nodes from "./nodes.mjs";
+import sortedNodes from "./sorted-nodes.mjs"; // TODO: just for debugging
 import edges from "./edges.mjs";
 import {
     Vector3,
@@ -71,11 +72,16 @@ var destroyEdgeObject3D = function (edge) {
     scene.remove(edge.object3D);
 };
 
-var updateEdge = function (edge) {
+var updateEdgeObject3D = function (edge) {
     var line = edge.object3D;
     var i = 0;
     edge.nodes.forEach(function (node) {
         var animatedLocation = node.animatedLocation;
+        if (animatedLocation === undefined) { // TODO: just for debugging
+            console.log(nodes);
+            console.log(sortedNodes);
+            console.log(edges);
+        }
         var vertex = line.geometry.vertices[i];
         vertex.x = animatedLocation.x;
         vertex.y = animatedLocation.y;
@@ -85,9 +91,9 @@ var updateEdge = function (edge) {
     });
 };
 
-var updateEdges = function () {
+var updateEdgeObject3Ds = function () {
     edges.forEach(function (edge) {
-        updateEdge(edge);
+        updateEdgeObject3D(edge);
     });
 };
 
@@ -126,7 +132,7 @@ var updateAnimatedLocation = function (node) {
     ));
 };
 
-var updateNode = function (node) {
+var updateNodeObject3D = function (node) {
     updateAnimatedLocation(node);
     node.object3D.position.set(
         node.animatedLocation.x,
@@ -135,15 +141,15 @@ var updateNode = function (node) {
     );
 };
 
-var updateNodes = function () {
-    Object.values(nodes).forEach(updateNode);
+var updateNodeObject3Ds = function () {
+    Object.values(nodes).forEach(updateNodeObject3D);
 };
 
 var animate;
 animate = function () {
     window.requestAnimationFrame(animate);
-    updateNodes();
-    updateEdges();
+    updateNodeObject3Ds();
+    updateEdgeObject3Ds();
     controls.update();
     renderer.render(scene, camera);
 };

@@ -1,6 +1,8 @@
+// Updates the edges of the displayed graph.
+
 /*jslint browser: true, maxlen: 80 */
 
-import nodes from "./nodes.mjs";
+import sortedNodes from "./sorted-nodes.mjs";
 import edges from "./edges.mjs";
 import visualization from "./visualization.mjs";
 
@@ -39,7 +41,7 @@ var createEdge = function (node, neighbor) {
 export default function () {
     var existingEdges = new Set();
 
-    Object.values(nodes).forEach(function (node) {
+    sortedNodes.forEach(function (node) {
         Object.values(node.connections).forEach(function (connection) {
             var edge = findEdge(node, connection.toPort.node);
             if (!edge) {

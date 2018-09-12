@@ -99,8 +99,6 @@ var disconnectOnBothSides = function (port) {
     var neighborPort = connection.toPort;
     removeConnectionOnPort(port);
     removeConnectionOnPort(neighborPort);
-
-    removeNodesNotConnectedToRoot();
 };
 
 var setNeighbor = function (port, neighborPort) {
@@ -110,7 +108,6 @@ var setNeighbor = function (port, neighborPort) {
         connectionExpiryTime: expiryTime()
     };
 
-    disconnectOnBothSides(port); // if a connection already exists
     port.node.connections[port.portNumber] = newConnection;
     sortConnections(port.node);
 };
@@ -119,7 +116,7 @@ var connectionIsExpired = function (port) {
     return Date.now() > port.connectionExpiryTime;
 };
 
-var processConnections = function () {
+var updateForVisualization = function () {
     updateEdges();
     renderMatrix();
     locationOptimizer.update();
@@ -134,7 +131,8 @@ var removeExpiredConnections = function () {
         });
     });
 
-    processConnections();
+    removeNodesNotConnectedToRoot();
+    updateForVisualization();
 };
 
 var connectionExists = function (pair) {
@@ -185,6 +183,10 @@ var addRootNode = function () {
 };
 
 var connect = function (pair) {
+    // First, remove any existing connections:
+    disconnectOnBothSides(pair.parentPort);
+    disconnectOnBothSides(pair.childPort);
+
     setNeighbor(pair.parentPort, pair.childPort);
     setNeighbor(pair.childPort, pair.parentPort);
 
@@ -192,7 +194,8 @@ var connect = function (pair) {
         setChildLocation(pair.parentPort.node, pair.childPort.node);
     }
 
-    processConnections();
+    removeNodesNotConnectedToRoot();
+    updateForVisualization();
 };
 
 addRootNode();

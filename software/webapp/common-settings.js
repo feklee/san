@@ -3,13 +3,14 @@
 "use strict";
 
 const fs = require("fs");
+const eval2 = require("eval2");
 var cli = require("./cli");
-var graphUpdateInterval;
-var connectionExpiryDuration;
+var graphUpdateInterval = 0;
+var connectionExpiryDuration = 0;
 
 try {
     var cData = fs.readFileSync("../common_settings.h", "utf8");
-    var jsData = cData.replace(/const\s+[^\s]+/g, "var");
+    var jsData = cData.replace(/const\s+[^\s]+/g, "");
     eval(jsData);
 } catch (ignore) {
     cli.logError("Cannot load common settings");
@@ -20,3 +21,11 @@ module.exports = {
     graphUpdateInterval: graphUpdateInterval,
     connectionExpiryDuration: connectionExpiryDuration
 };
+
+Object.keys(module.exports).forEach(function (setting) {
+    var value = module.exports[setting];
+    if (!(value > 0)) {
+        cli.logError("Invalid " + setting);
+        process.exit(1);
+    }
+});

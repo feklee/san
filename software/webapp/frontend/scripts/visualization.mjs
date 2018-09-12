@@ -4,7 +4,6 @@
 
 import settings from "./settings.mjs";
 import nodes from "./nodes.mjs";
-import sortedNodes from "./sorted-nodes.mjs"; // TODO: just for debugging
 import edges from "./edges.mjs";
 import {
     Vector3,
@@ -77,11 +76,6 @@ var updateEdgeObject3D = function (edge) {
     var i = 0;
     edge.nodes.forEach(function (node) {
         var animatedLocation = node.animatedLocation;
-        if (animatedLocation === undefined) { // TODO: just for debugging
-            console.log(nodes);
-            console.log(sortedNodes);
-            console.log(edges);
-        }
         var vertex = line.geometry.vertices[i];
         vertex.x = animatedLocation.x;
         vertex.y = animatedLocation.y;

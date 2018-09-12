@@ -6,8 +6,7 @@ var startWebServer = require("./start-web-server");
 var webSocket = require("./web-socket");
 var cli = require("./cli");
 var pairs = new Set();
-var sendInterval = 150; // ms (should be ~ typical announce interval
-                        // in nodes)
+var commonSettings = require("./common-settings");
 
 function sendSet() {
     pairs.forEach(function (pair) {
@@ -16,7 +15,7 @@ function sendSet() {
     });
 }
 
-setInterval(sendSet, sendInterval);
+setInterval(sendSet, commonSettings.graphUpdateInterval);
 
 console.log("Add pair, by example: +*1A3");
 console.log("Remove pair, by example: -A2B1");

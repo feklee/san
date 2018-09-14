@@ -19,7 +19,7 @@ void setNodeColor(char nodeId, const byte *color1, const byte *color2) {
 
 void setup() {
   EEPROM.write(0, id);
-#include "node_colors.h"
+#include "nodeColors.h"
 }
 
 void loop() {}

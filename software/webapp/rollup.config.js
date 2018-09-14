@@ -41,6 +41,40 @@ export default {
                 connectionExpiryDuration: "connectionExpiryDuration"
             }
         }),
+        replace({
+            include: "frontend/scripts/node-colors.mjs",
+            patterns: [
+                {
+                    file: "../../../nodes/eepromWriter/nodeColors.h"
+                },
+                {
+                    transform(code) {
+                        var re = new RegExp(
+                            "setNodeColor\\(" +
+                                    "\\s*'(.)'\\s*," +
+                                    "\\s*(\\w+)\\s*," +
+                                    "\\s*(\\w+)\\s*" +
+                                    "\\)\\s*;",
+                            "g"
+                        );
+                        var processedCode = code.replace(
+                            re,
+                            "\"$1\": [\"$2\", \"$3\"],"
+                        );
+                        return (
+                            "var nodeColors = {" +
+                                processedCode +
+                                "}"
+                        );
+                    }
+                }
+            ]
+        }),
+        legacy({
+            "frontend/scripts/node-colors.mjs": {
+                nodeColors: "nodeColors"
+            }
+        }),
         copy(copyOptions),
         resolve(),
         commonjs()

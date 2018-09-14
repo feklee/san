@@ -12,16 +12,7 @@ export default {
     visualization: {
         locationEasingSpeed: 0.1, // (0, 1]
         nodeDiameter: 0.1,
-        nodeColors: {
-            "*": ["gray", "orange"],
-            "A": ["green", "blue"],
-            "B": ["yellow", "yellow"],
-            "C": ["blue", "blue"],
-            "D": ["red", "red"],
-            "E": ["brown", "brown"],
-            "F": ["white", "white"]
-        },
-        defaultNodeColor: "gray",
+        defaultNodeColor: "#111",
         edgeColor: "gray"
     }
 };

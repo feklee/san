@@ -1,2 +1,2 @@
-setNodeColor('*', gray, orange);
-setNodeColor('A', green, blue);
+setNodeColor('*', gray, red);
+setNodeColor('A', yellow, blue);

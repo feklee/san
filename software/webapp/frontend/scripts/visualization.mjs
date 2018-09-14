@@ -4,7 +4,7 @@
 
 import settings from "./settings.mjs";
 import { nodeColors } from "./node-colors.mjs";
-import nodes from "./nodes.mjs";
+import sortedNodes from "./sorted-nodes.mjs";
 import edges from "./edges.mjs";
 import {
     Vector3,
@@ -155,7 +155,7 @@ var updateNodeObject3D = function (node) {
 };
 
 var updateNodeObject3Ds = function () {
-    Object.values(nodes).forEach(updateNodeObject3D);
+    sortedNodes.forEach(updateNodeObject3D);
 };
 
 var animate;

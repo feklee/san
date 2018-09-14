@@ -91,21 +91,35 @@ var updateEdgeObject3Ds = function () {
     });
 };
 
-var nodeColor = function (node) {
-    var c = vSettings.nodeColors[node.id];
+var nodeColor = function (node, index) {
+    var c = vSettings.nodeColors[node.id][index];
     if (c === undefined) {
         c = vSettings. kdefaultNodeColor;
     }
     return c;
 };
 
-var createNodeObject3D = function (node) {
+var createHemisphere = function (color, index) {
     var geometry = new SphereGeometry(vSettings.nodeDiameter,
-                                      32, 32);
-    var material = new MeshBasicMaterial({color: nodeColor(node)});
-    var mesh = new Mesh(geometry, material);
-    scene.add(mesh);
-    node.object3D = mesh;
+                                      32, 32, index * Math.PI, Math.PI);
+    var material = new MeshBasicMaterial({color: color});
+    return new Mesh(geometry, material);
+};
+
+var randomlyRotateSphere = function (object3D) {
+    // hemispheres have rotational symmetry about z-axis
+    object3D.rotation.x = 2 * Math.PI * Math.random();
+    object3D.rotation.y = Math.acos(2 * Math.random() - 1);
+};
+
+var createNodeObject3D = function (node) {
+    var sphere = new THREE.Group();
+    [0, 1].forEach(function (i) {
+        sphere.add(createHemisphere(nodeColor(node, i), i));
+    });
+    randomlyRotateSphere(sphere);
+    scene.add(sphere);
+    node.object3D = sphere;
 };
 
 var destroyNodeObject3D = function (node) {

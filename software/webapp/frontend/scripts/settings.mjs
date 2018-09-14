@@ -13,13 +13,13 @@ export default {
         locationEasingSpeed: 0.1, // (0, 1]
         nodeDiameter: 0.1,
         nodeColors: {
-            "*": "gray",
-            "A": "green",
-            "B": "yellow",
-            "C": "blue",
-            "D": "red",
-            "E": "brown",
-            "F": "white"
+            "*": ["gray", "orange"],
+            "A": ["green", "blue"],
+            "B": ["yellow", "yellow"],
+            "C": ["blue", "blue"],
+            "D": ["red", "red"],
+            "E": ["brown", "brown"],
+            "F": ["white", "white"]
         },
         defaultNodeColor: "gray",
         edgeColor: "gray"

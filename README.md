@@ -38,9 +38,9 @@ Software
 Setup of nodes
 --------------
 
- 1. Write ID on EEPROM of each MCU: `idWriter`
+ 1. Write ID and color on EEPROM of each MCU: `eepromWriter`
 
-    The root node needs to be named: `*`
+    The root node needs to have as ID: `*`
 
  2. Build and upload Arduino sketch to MCU: `node`
 

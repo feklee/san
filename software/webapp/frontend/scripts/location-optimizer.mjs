@@ -197,7 +197,7 @@ var createSeedFromNodeLocations = function (size) {
 
 var update = function () {
     var numberOfVisibleNodes = visibleNodes.length;
-    var nothingToBeDone = numberOfVisibleNodes === 1;
+    var nothingToBeDone = numberOfVisibleNodes <= 1;
     if (nothingToBeDone) {
         return;
     }

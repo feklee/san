@@ -7,7 +7,7 @@
 
 /*global THREE*/
 
-import sortedNodes from "./sorted-nodes.mjs";
+import visibleNodes from "./visible-nodes.mjs";
 import settings from "./settings.mjs";
 import vector from "./vector.mjs";
 import jsga from "jsga-feklee";
@@ -31,7 +31,7 @@ var setExpectedNeighborLocation1 = function (connection) {
 
 var setExpectedNeighborLocation2 = function (connection2) {
     var node = connection2.fromPort.node;
-    var connection1 = node.sortedConnections[0];
+    var connection1 = node.visibleConnections[0];
 
     var a = connection1.expectedVector;
     var b = vector.normalizedConnectingVector(
@@ -48,8 +48,8 @@ var setExpectedNeighborLocation2 = function (connection2) {
 
 var setExpectedNeighborLocation3 = function (connection3) {
     var node = connection3.fromPort.node;
-    var connection1 = node.sortedConnections[0];
-    var connection2 = node.sortedConnections[1];
+    var connection1 = node.visibleConnections[0];
+    var connection2 = node.visibleConnections[1];
 
     var a = connection1.expectedVector;
     var b = connection2.expectedVector;
@@ -84,8 +84,8 @@ var setExpectedNeighborLocation3 = function (connection3) {
 
 var setExpectedNeighborLocation4 = function (connection4) {
     var node = connection4.fromPort.node;
-    var connection1 = node.sortedConnections[0];
-    var connection2 = node.sortedConnections[1];
+    var connection1 = node.visibleConnections[0];
+    var connection2 = node.visibleConnections[1];
 
     var a = connection1.expectedVector;
     var b = connection2.expectedVector;
@@ -122,7 +122,7 @@ var addDeviation = function (deviations, connection) {
 };
 
 var addDeviationsForNode = function (deviations, node) {
-    node.sortedConnections.forEach(function (connection, i) {
+    node.visibleConnections.forEach(function (connection, i) {
         setExpectedNeighborLocation(connection, i);
         addDeviation(deviations, connection);
     });
@@ -130,7 +130,7 @@ var addDeviationsForNode = function (deviations, node) {
 
 var findDeviations = function () {
     var deviations = [];
-    sortedNodes.forEach(function (node) {
+    visibleNodes.forEach(function (node) {
         addDeviationsForNode(deviations, node);
     });
     return deviations;
@@ -141,7 +141,7 @@ var largestDeviation = function () {
 };
 
 var assignLocationsToNodes = function (locationType, individual) {
-    sortedNodes.forEach(function (node, i) {
+    visibleNodes.forEach(function (node, i) {
         if (node[locationType] === undefined) {
             node[locationType] = new THREE.Vector3();
         }
@@ -160,11 +160,11 @@ var fitness = function (individual) {
 var findCenter = function () {
     var center = new THREE.Vector3();
 
-    sortedNodes.forEach(function (node) {
+    visibleNodes.forEach(function (node) {
         center.add(node.location);
     });
 
-    center.divideScalar(sortedNodes.length);
+    center.divideScalar(visibleNodes.length);
 
     return center;
 };
@@ -172,7 +172,7 @@ var findCenter = function () {
 var moveCenterToOrigin = function () {
     var center = findCenter();
 
-    sortedNodes.forEach(function (node) {
+    visibleNodes.forEach(function (node) {
         node.location.sub(center);
     });
 };
@@ -182,7 +182,7 @@ var iterator;
 var createSeedFromNodeLocations = function (size) {
     var individual = [];
 
-    sortedNodes.forEach(function (node, i) {
+    visibleNodes.forEach(function (node, i) {
         var location = node.location;
         individual[i * 3] = location.x * loSettings.resolution;
         individual[i * 3 + 1] = location.y * loSettings.resolution;
@@ -196,21 +196,21 @@ var createSeedFromNodeLocations = function (size) {
 };
 
 var update = function () {
-    var numberOfNodes = sortedNodes.length;
-    var nothingToBeDone = numberOfNodes === 1;
+    var numberOfVisibleNodes = visibleNodes.length;
+    var nothingToBeDone = numberOfVisibleNodes === 1;
     if (nothingToBeDone) {
         return;
     }
 
-    var size = loSettings.populationSizeFactor * numberOfNodes;
+    var size = loSettings.populationSizeFactor * numberOfVisibleNodes;
     var dimensionality = 3;
     var algorithm = jsga({
-        length: dimensionality * numberOfNodes,
-        radix: numberOfNodes * loSettings.resolution,
+        length: dimensionality * numberOfVisibleNodes,
+        radix: numberOfVisibleNodes * loSettings.resolution,
         fitness: fitness,
         size: size,
         seed: createSeedFromNodeLocations(size),
-        children: numberOfNodes,
+        children: numberOfVisibleNodes,
         mutationRate: loSettings.mutationRate,
         crossovers: loSettings.crossovers
     });

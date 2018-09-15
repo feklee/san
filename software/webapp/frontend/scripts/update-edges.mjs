@@ -2,7 +2,7 @@
 
 /*jslint browser: true, maxlen: 80 */
 
-import sortedNodes from "./sorted-nodes.mjs";
+import visibleNodes from "./visible-nodes.mjs";
 import edges from "./edges.mjs";
 import visualization from "./visualization.mjs";
 
@@ -41,8 +41,8 @@ var createEdge = function (node, neighbor) {
 export default function () {
     var existingEdges = new Set();
 
-    sortedNodes.forEach(function (node) {
-        Object.values(node.connections).forEach(function (connection) {
+    visibleNodes.forEach(function (node) {
+        Object.values(node.visibleConnections).forEach(function (connection) {
             var edge = findEdge(node, connection.toPort.node);
             if (!edge) {
                 edge = createEdge(node, connection.toPort.node);

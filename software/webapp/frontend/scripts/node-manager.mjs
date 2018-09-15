@@ -6,6 +6,7 @@
 import nodes from "./nodes.mjs";
 import updateEdges from "./update-edges.mjs";
 import sortedNodes from "./sorted-nodes.mjs";
+import visibleNodes from "./visible-nodes.mjs";
 import renderMatrix from "./render-matrix.mjs";
 import locationOptimizer from "./location-optimizer.mjs";
 import vector from "./vector.mjs";
@@ -27,8 +28,9 @@ var locationAtRandomOrientation = function (origin) {
 };
 
 var setChildLocation = function (parentNode, childNode) {
-    childNode.location =
-            locationAtRandomOrientation(parentNode.location);
+    childNode.location = parentNode.isVisible
+        ? locationAtRandomOrientation(parentNode.location)
+        : new Vector3(0, 0, 0);
 };
 
 var connectionOnPort = function (port) {
@@ -37,9 +39,14 @@ var connectionOnPort = function (port) {
 
 var sortConnections = function (node) {
     node.sortedConnections.length = 0;
+    node.visibleConnections.length = 0;
     var sortedPortNumbers = Object.keys(node.connections).sort();
     sortedPortNumbers.forEach(function (portNumber) {
-        node.sortedConnections.push(node.connections[portNumber]);
+        var connection = node.connections[portNumber];
+        node.sortedConnections.push(connection);
+        if (connection.isVisible) {
+            node.visibleConnections.push(connection);
+        }
     });
 };
 
@@ -50,9 +57,14 @@ var removeConnectionOnPort = function (port) {
 
 var sortNodes = function () {
     sortedNodes.length = 0;
+    visibleNodes.length = 0;
     var sortedNodeIds = Object.keys(nodes).sort();
     sortedNodeIds.forEach(function (nodeId) {
-        sortedNodes.push(nodes[nodeId]);
+        var node = nodes[nodeId];
+        sortedNodes.push(node);
+        if (node.isVisible) {
+            visibleNodes.push(node);
+        }
     });
 };
 
@@ -108,7 +120,8 @@ var setNeighbor = function (port, neighborPort) {
     var newConnection = {
         fromPort: port,
         toPort: neighborPort,
-        expiryTime: expiryTime()
+        expiryTime: expiryTime(),
+        isVisible: port.node.isVisible && neighborPort.node.isVisible
     };
 
     port.node.connections[port.portNumber] = newConnection;
@@ -168,14 +181,18 @@ var addNode = function (id) {
     }
     var node = {
         id: id,
+        isVisible: id !== "*",
         connections: {},
         sortedConnections: [],
+        visibleConnections: [],
         location: null
     };
 
     nodes[id] = node;
 
-    visualization.createNodeObject3D(node);
+    if (node.isVisible) {
+        visualization.createNodeObject3D(node);
+    }
 
     sortNodes();
 
@@ -184,7 +201,6 @@ var addNode = function (id) {
 
 var addRootNode = function () {
     rootNode = addNode("*");
-    rootNode.location = new Vector3(0, 0, 0);
 };
 
 var connect = function (pair) {

@@ -46,9 +46,11 @@ Assembly
 
           - Print with high amount of infill to get smooth light from the LEDs.
 
-     2. Cut material. Make sure that the LEDs fit into the receptacles.
+     2. Cut excess material. Make sure that the LEDs fit into the
+        receptacles.
 
-     3. Sand the top of the print so that the hemispheres are flush when joined.
+     3. Using P400 grid paper, wet sand the top of the print so that
+        the hemispheres are flush when joined.
 
      4. Glue in battery holders using gap-filling glue, as pictured:
 

@@ -109,9 +109,7 @@ Assembly
         solder tag. Put the short cable on the left side, with the
         solder tag pointing towards you.
 
-     5. Tin the inside of the contact pins.
-
-     6. Solder cables to the contact pins: white, purple
+     5. Solder cables to the contact pins: white, purple
 
  4. LEDs:
 

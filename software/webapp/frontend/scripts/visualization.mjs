@@ -168,7 +168,7 @@ animate = function () {
 };
 
 var init = function () {
-    camera = new PerspectiveCamera(50, 1, 0.01, 10);
+    camera = new PerspectiveCamera(50);
 
     camera.position.z = 3;
 

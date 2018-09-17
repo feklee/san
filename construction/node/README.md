@@ -105,9 +105,9 @@ Assembly
 
      3. Tin solder tags.
 
-     4. Solder one black y-cable and one short black cable onto each solder tag.
-        Put the short cable on the left side, with the long side of the solder
-        tag pointing towards you.
+     4. Solder one black y-cable and one short black cable onto each
+        solder tag. Put the short cable on the left side, with the
+        solder tag pointing towards you.
 
      5. Tin the inside of the contact pins.
 

@@ -16,7 +16,7 @@ uint32_t white() { // to check if all sub pixels are OK
   return neoPixel.Color(brightness / 3, brightness / 3, brightness / 3);
 }
 
-uint32_t colored(uint8_t i) { // to check if LEDs are wired correctly
+uint32_t color(uint8_t i) { // to check if LEDs are wired correctly
   switch (i) {
   case 0:
     return neoPixel.Color(brightness, 0, 0);
@@ -30,18 +30,16 @@ uint32_t colored(uint8_t i) { // to check if LEDs are wired correctly
 }
 
 void loop() {
-  const uint32_t delayDuration = 1000; // ms
+  const uint32_t delayDuration = 5000; // ms
 
-#if 0
   for (uint8_t i = 0; i < numberOfLeds; i ++) {
     neoPixel.setPixelColor(i, white());
   }
   neoPixel.show();
   delay(delayDuration);
-#endif
 
   for (uint8_t i = 0; i < numberOfLeds; i ++) {
-    neoPixel.setPixelColor(i, colored(i));
+    neoPixel.setPixelColor(i, color(i));
   }
   neoPixel.show();
   delay(delayDuration);

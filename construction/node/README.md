@@ -38,13 +38,17 @@ Assembly
 
      1. 3D print two copies:
 
-          - See the provided STL file.
+          - See the provided STL file: `hemisphere.stl`
 
           - Orient upside down.
 
           - Print without raft and support.
 
           - Print with high amount of infill to get smooth light from the LEDs.
+          
+        Optionally, you may print the hemisphere without receptacle
+        for use as the bottom part (`hemisphere_optional_bottom.stl`).
+        Functionally this is not necessary, however.
 
      2. Cut excess material. Make sure that the LEDs fit into the
         receptacles.

@@ -58,9 +58,11 @@ Assembly
 
      4. Glue in battery holders using gap-filling glue, as pictured:
 
+          - hemisphere upside down
+
           - receptacle for 6 pin header on the left
 
-          - ⊕ in front
+          - ⊕ in back
 
  2. Cables:
 

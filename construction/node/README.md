@@ -210,9 +210,10 @@ Assembly
 
      4. Solder cables into the upper side of the board, after stripping ends:
 
-          - GND between RST and 2: remaining black cable
-
           - A0: yellow cable
+
+          - GND between RST and 2: black cable connected to the two
+            LEDs with the yellow cable soldered to A0
 
           - VCC: both red cables
 
@@ -220,8 +221,7 @@ Assembly
 
      5. Solder cables into the bottom side of the board, after stripping ends:
 
-          - GND between RST and RAW: two black cables, connected to battery
-            holder and to LEDs three and four (see above)
+          - GND between RST and RAW: remaining black cables
 
  7. BNC connectors in sphere:
 

@@ -28,6 +28,12 @@ Parts
 
   * 6 pin header, stackable, i.e. with long pins
 
+Additionally, helpful are:
+
+  * P400 grid sandpaper
+  
+  * Blu Tack
+
 
 Assembly
 ========
@@ -208,7 +214,8 @@ Assembly
 
      3. Solder six piece connector to board.
 
-     4. Solder cables into the upper side of the board, after stripping ends:
+     4. Solder cables into the upper side of the board, after
+        stripping ends (fixing cables with Blu Tack makes things easier):
 
           - A0: yellow cable
 

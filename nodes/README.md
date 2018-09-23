@@ -196,15 +196,15 @@ Assembly
 
      2. Tin pins.
 
-     3. Solder to first battery holder:
+     3. Solder to battery holder in the bottom hemisphere:
 
           - ⊖: black cable
 
           - ⊕: gray cable
 
-     4. Solder to second battery holder:
+     4. Solder to second battery in the top hemisphere:
 
-          - ⊖: gray cable, connected to first battery holder
+          - ⊖: gray cable, connected to other battery holder
 
           - ⊕: orange cable
 
@@ -246,9 +246,11 @@ Assembly
 
      1. Thread contact pin cables through holes in hemispheres:
 
-          - First cable, white: same hemisphere and side as the orange cable
+          - First cable, white: same hemisphere and side as the orange
+            cable (top hemisphere)
 
-          - Second cable, purple: same hemisphere as the above white cable
+          - Second cable, purple: same hemisphere as the above white
+            cable (bottom hemisphere)
 
           - Third cable, white: other hemisphere, next to the gray cable
 

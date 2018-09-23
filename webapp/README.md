@@ -1,7 +1,5 @@
-Building the webapp
-===================
-
-First enter the directory `webapp`, then:
+Building
+========
 
  1. Install packages:
 

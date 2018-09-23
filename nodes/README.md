@@ -5,8 +5,7 @@ Nodes are 3D printed, composed of two hemispheres that are screwed.
 
 Parametric design (Fusion 360): http://a360.co/2FMH0TC
 
-Inside of each node there is a tiny microcontroller, an Arduino Pro Mini. The
-root node also contains a USB interface.
+Inside of each node there is a tiny microcontroller, an Arduino Pro Mini.
 
 
 Parts
@@ -323,8 +322,6 @@ Programming
 ===========
 
  1. Write ID and color on EEPROM of each MCU: `EepromWriter`
-
-    The root node needs to have as ID: `*`
 
  2. Build and upload Arduino sketch to MCU: `Node`
 

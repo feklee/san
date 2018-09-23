@@ -8,7 +8,7 @@ building the construction and running the software.
 
 To get started:
 
-1. Build nodes, root nodes and edges.
+1. Build nodes, edges, and the root node.
 
 2. Program the root node and the nodes.
 

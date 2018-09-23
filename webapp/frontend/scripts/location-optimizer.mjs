@@ -12,6 +12,29 @@ import settings from "./settings.mjs";
 import vector from "./vector.mjs";
 import jsga from "jsga-feklee";
 
+var coordinatesFromRhino = [ // TODO: remove
+    -0.5, -0.688190960235587, -1.11351636441161,
+    0.5, -0.688190960235587, -1.11351636441161,
+    0.809016994374947, 0.262865556059567, -1.11351636441161,
+    0, 0.85065080835204, -1.11351636441161,
+    -0.809016994374947, 0.262865556059567, -1.11351636441161,
+    -0.809016994374947, -1.11351636441161, -0.262865556059567,
+    0, -1.37638192047117, 0.262865556059567,
+    0.809016994374948, -1.11351636441161, -0.262865556059567,
+    1.30901699437495, -0.42532540417602, 0.262865556059567,
+    1.30901699437495, 0.42532540417602, -0.262865556059567,
+    0.809016994374948, 1.11351636441161, 0.262865556059567,
+    0, 1.37638192047117, -0.262865556059567,
+    -0.809016994374947, 1.11351636441161, 0.262865556059567,
+    -1.30901699437495, 0.42532540417602, -0.262865556059567,
+    -1.30901699437495, -0.42532540417602, 0.262865556059567,
+    5.55111512312578E-16, -0.850650808352039, 1.11351636441161,
+    0.809016994374947, -0.262865556059567, 1.11351636441161,
+    0.5, 0.688190960235587, 1.11351636441161,
+    -0.5, 0.688190960235587, 1.11351636441161,
+    -0.809016994374947, -0.262865556059567, 1.11351636441161
+];
+
 var loSettings = settings.locationOptimizer;
 
 var updateExpectedNeighborLocation = function (connection) {
@@ -115,7 +138,7 @@ var setExpectedNeighborLocation = function (connection, i) {
 
 var addDeviation = function (deviations, connection) {
     deviations.push(
-        connection.toPort.node.testLocation.distanceTo(
+        connection.toPort.node.testLocation.distanceToSquared(
             connection.expectedNeighborLocation
         )
     );
@@ -140,6 +163,10 @@ var largestDeviation = function () {
     return Math.max.apply(null, findDeviations());
 };
 
+var sumOfDeviations = function () { // TODO: maybe remove
+    return findDeviations().reduce((a, b) => a + b, 0);
+};
+
 var assignLocationsToNodes = function (locationType, individual) {
     visibleNodes.forEach(function (node, i) {
         if (node[locationType] === undefined) {
@@ -154,7 +181,10 @@ var assignLocationsToNodes = function (locationType, individual) {
 
 var fitness = function (individual) {
     assignLocationsToNodes("testLocation", individual);
-    return 1 / largestDeviation();
+// TODO:    return 10000 - largestDeviation();
+// TODO:    return 1 / largestDeviation();
+    return 10000 - sumOfDeviations();
+// TODO:        return 1 / sumOfDeviations();
 };
 
 var findCenter = function () {
@@ -184,9 +214,17 @@ var createSeedFromNodeLocations = function (size) {
 
     visibleNodes.forEach(function (node, i) {
         var location = node.location;
-        individual[i * 3] = location.x * loSettings.resolution;
-        individual[i * 3 + 1] = location.y * loSettings.resolution;
-        individual[i * 3 + 2] = location.z * loSettings.resolution;
+/* TODO        individual[i * 3] = coordinatesFromRhino[i * 3] * loSettings.resolution;
+        individual[i * 3 + 1] = coordinatesFromRhino[i * 3 + 1] *
+            loSettings.resolution;
+        individual[i * 3 + 2] = coordinatesFromRhino[i * 3 + 2] *
+            loSettings.resolution; */
+        individual[i * 3] =
+            Math.round(location.x * loSettings.resolution);
+        individual[i * 3 + 1] =
+            Math.round(location.y * loSettings.resolution);
+        individual[i * 3 + 2] =
+            Math.round(location.z * loSettings.resolution);
     });
 
     var seedSize = Math.round(loSettings.seedSizePercentage / 100 *
@@ -203,23 +241,58 @@ var update = function () {
     }
 
     var size = loSettings.populationSizeFactor * numberOfVisibleNodes;
-    var dimensionality = 3;
+    var length = (3 * // number of coordinates per nodes
+                  numberOfVisibleNodes);
     var algorithm = jsga({
-        length: dimensionality * numberOfVisibleNodes,
-        radix: numberOfVisibleNodes * loSettings.resolution,
+        length: length,
+        radix: /* TODO numberOfVisibleNodes*/ 3 * loSettings.resolution,
         fitness: fitness,
         size: size,
         seed: createSeedFromNodeLocations(size),
-        children: numberOfVisibleNodes,
+//        children: 2, // TODO: make configurable
         mutationRate: loSettings.mutationRate,
         crossovers: loSettings.crossovers
     });
+
+ // TODO: maybe make mutation rate dependent on population size - "see As far as I know, the variables are strongly related with the size of the problem. As Bas Van der Geer said, for small problams is even better to use exhaustive search through the whole set of solutions. I'm still researching the NSGA-II algorithm, but with Genetic Algorithm I use a population N at least bigger than the number of variables and a mutation rate of about 1/N. The experiments we did with crossover showed that a rate of 80% is good enough." - https://www.researchgate.net/post/How_to_select_parameterspopulation_generations_mutation_crossover_rate_in_NSGA_II
 
     var iterable = algorithm.run(-1);
     iterator = iterable[Symbol.iterator]();
 };
 
+// TODO, just for debugging
+var deviation = function (population) {
+    var fitnessList = [];
+    population.forEach(function (individual) {
+        fitnessList.push(fitness(individual));
+    });
+    var mean = fitnessList.reduce((a, b) => a + b, 0) / fitnessList.length;
+    var sigma = 0; // standard deviation
+    fitnessList.forEach(function (x) {
+        var delta = x - mean;
+        sigma += delta * delta;
+    });
+    sigma /= fitnessList.length;
+    sigma = Math.sqrt(sigma);
+    return [mean, sigma];
+};
+
+var startTime;
+
 var updateNodeLocations = function (generation) {
+    var now = Date.now();
+    if (startTime === undefined) {
+        startTime = now;
+    }
+    var elapsedTime = now - startTime;
+    if (elapsedTime > 10000) {
+        startTime = now;
+        console.log(
+            elapsedTime,
+            generation.generation, fitness(generation.best.params),
+            deviation(generation.population)
+        );
+    }
     assignLocationsToNodes("location", generation.best.params);
     moveCenterToOrigin();
 };

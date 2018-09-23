@@ -139,18 +139,23 @@ var updateForVisualization = function () {
 };
 
 var removeExpiredConnections = function () {
+    var connectionsWereRemoved = false;
+
     Object.values(nodes).forEach(function (node) {
         Object.values(node.connections).forEach(
             function (connection) {
                 if (connectionIsExpired(connection)) {
                     removeConnection(connection);
+                    connectionsWereRemoved = true;
                 }
             }
         );
     });
 
-    removeNodesNotConnectedToRoot();
-    updateForVisualization();
+    if (connectionsWereRemoved) {
+        removeNodesNotConnectedToRoot();
+        updateForVisualization();
+    }
 };
 
 var connectionExists = function (pair) {

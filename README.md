@@ -6,6 +6,9 @@ Introduction
 Self aware network structure. It understands its own topology. Get started by
 building the construction and running the software.
 
+To get started: Build nodes and edges, program the nodes, then fire up
+the web app.
+
 ![Construction](images/construction.jpg)
 
 ![Visualization](images/visualization.png)
@@ -13,17 +16,6 @@ building the construction and running the software.
 
 Construction
 ============
-
-Nodes
------
-
-Nodes are 3D printed, composed of two hemispheres that are screwed.
-
-Parametric design (Fusion 360): http://a360.co/2FMH0TC
-
-Inside of each node there is a tiny microcontroller, an Arduino Pro Mini. The
-root node also contains a USB interface.
-
 
 Edges
 -----

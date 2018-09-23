@@ -1,3 +1,10 @@
+Introduction
+============
+
+Edges are composed of RG58 cables inside metal tubes, connected to BNC
+connectors.
+
+
 Parts
 =====
 

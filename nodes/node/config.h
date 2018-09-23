@@ -33,7 +33,7 @@ const uint8_t bitDurationExp = 11;
 // considerably. So maybe it's best to multiply the result with a
 // factor. In the end it may be possible to calculate the annoncement
 // period automatically.
-const uint32_t announcementPeriod = 150; // ms
+const uint32_t announcementPeriod = 150; // ms // TODO: take from common settings
 #endif
 
 #endif

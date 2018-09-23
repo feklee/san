@@ -29,7 +29,7 @@ static uint8_t numberOfPortWithParent = 0; // 0 = no parent
 // abruptly in case there is a flaky connection (which could make the
 // graph change dramatically).
 static uint32_t parentExpiryTime = 0; // ms
-static const uint32_t expiryDuration = 2.5 * announcementPeriod; // ms
+static const uint32_t expiryDuration = 2.5 * announcementPeriod; // ms // TODO: take from common settings
 
 ISR(TIMER2_COMPA_vect) {
   port1.transceiver.handleTimer2Interrupt();

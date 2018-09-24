@@ -15,6 +15,7 @@ const boolean flashLedIsEnabled = true; // takes time
 const uint32_t announcementPeriod = 2000; // ms
 const uint8_t bitDurationExp = 9;
 const uint32_t parentExpiryDuration = 2.5 * 2000; // ms
+const uint8_t ledBrightness = 20;
 #else
 const boolean flashLedIsEnabled = false;
 
@@ -42,5 +43,10 @@ const uint32_t announcementPeriod = graphUpdateInterval; // ms
 // abruptly in case there is a flaky connection (which could make the
 // graph change dramatically).
 const uint32_t parentExpiryDuration = connectionExpiryDuration; // ms
+
+// Avoid exceeding the Arduino's power supply!
+const uint8_t ledBrightness = 20;
+
+#endif
 
 #endif

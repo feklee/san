@@ -7,11 +7,14 @@
 
 #include <EEPROM.h> // Library may need to be copied:
                     // https://digistump.com/board/index.php?topic=1132.0
+#include <Adafruit_NeoPixel.h>
 #include "settings.h"
 #include "Port.h"
 #include "OtherNode.h"
 #include "Pair.h"
 #include "pairQueue.h"
+
+Adafruit_NeoPixel neoPixel;
 
 static char nodeId;
 
@@ -44,7 +47,36 @@ ISR(PCINT0_vect) { // D8-D13
   port4.transceiver.handlePinChangeInterrupt();
 }
 
+uint8_t adjustForBrightness(uint8_t subColor) {
+  return uint32_t(subColor) * ledBrightness / 0xff;
+}
+
+uint32_t neoPixelColor(uint8_t *color) {
+  return neoPixel.Color(
+    adjustForBrightness(color[0]),
+    adjustForBrightness(color[1]),
+    adjustForBrightness(color[2])
+  );
+}
+
+void setupColors() {
+  uint8_t color1[3] = {EEPROM.read(1), EEPROM.read(2), EEPROM.read(3)};
+  uint8_t color2[3] = {EEPROM.read(4), EEPROM.read(5), EEPROM.read(6)};
+
+  const uint8_t numberOfLeds = 4;
+  const uint8_t dataPin = A0;
+  neoPixel = Adafruit_NeoPixel(numberOfLeds, dataPin, NEO_RGB + NEO_KHZ800);
+  neoPixel.begin();
+  neoPixel.setPixelColor(0, neoPixelColor(color1));
+  neoPixel.setPixelColor(1, neoPixelColor(color2));
+  neoPixel.setPixelColor(2, neoPixelColor(color1));
+  neoPixel.setPixelColor(3, neoPixelColor(color2));
+  neoPixel.show();
+}
+
 void setup() {
+  setupColors();
+
   nodeId = EEPROM.read(0);
 
   pinMode(ledPin, OUTPUT);

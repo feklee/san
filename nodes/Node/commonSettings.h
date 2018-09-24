@@ -1,4 +1,4 @@
-// Common settings, used by nodes and the web app
+// Common settings, shared between nodes and the web app
 
 // How often the entire graph is updated / sent:
 const uint32_t graphUpdateInterval = 150; // ms

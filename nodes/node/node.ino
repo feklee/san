@@ -7,7 +7,7 @@
 
 #include <EEPROM.h> // Library may need to be copied:
                     // https://digistump.com/board/index.php?topic=1132.0
-#include "config.h"
+#include "settings.h"
 #include "Port.h"
 #include "OtherNode.h"
 #include "Pair.h"
@@ -25,11 +25,7 @@ static Port<pinNumber3> port3(3);
 static Port<pinNumber4> port4(4);
 static uint8_t numberOfPortWithParent = 0; // 0 = no parent
 
-// Parents are given an expiry time. This is so that they don't change
-// abruptly in case there is a flaky connection (which could make the
-// graph change dramatically).
 static uint32_t parentExpiryTime = 0; // ms
-static const uint32_t expiryDuration = 2.5 * announcementPeriod; // ms // TODO: take from common settings
 
 ISR(TIMER2_COMPA_vect) {
   port1.transceiver.handleTimer2Interrupt();
@@ -252,7 +248,7 @@ void announceMeToChild(T &port) {
 }
 
 void resetParentExpiryTime() {
-  parentExpiryTime = millis() + expiryDuration; // ms
+  parentExpiryTime = millis() + parentExpiryDuration; // ms
 }
 
 template <typename T>

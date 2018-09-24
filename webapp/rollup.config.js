@@ -27,7 +27,7 @@ export default {
             include: "frontend/scripts/common-settings.mjs",
             patterns: [
                 {
-                    file: "../../../common_settings.h"
+                    file: "../../../nodes/Node/commonSettings.h"
                 },
                 {
                     test: /const\s+[^\s]+/g,
@@ -45,7 +45,7 @@ export default {
             include: "frontend/scripts/node-colors.mjs",
             patterns: [
                 {
-                    file: "../../../nodes/eepromWriter/nodeColors.h"
+                    file: "../../../nodes/EepromWriter/nodeColors.h"
                 },
                 {
                     transform(code) {

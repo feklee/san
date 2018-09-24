@@ -1,9 +1,11 @@
-#ifndef config_h
-#define config_h
+#ifndef settings_h
+#define settings_h
 
 #include "Arduino.h"
 
 #undef DEBUG
+
+#include "commonSettings.h"
 
 const uint8_t ledPin = 13;
 const uint8_t pairBufferSize = 4; // TODO: increase
@@ -12,6 +14,7 @@ const uint8_t pairBufferSize = 4; // TODO: increase
 const boolean flashLedIsEnabled = true; // takes time
 const uint32_t announcementPeriod = 2000; // ms
 const uint8_t bitDurationExp = 9;
+const uint32_t parentExpiryDuration = 2.5 * 2000; // ms
 #else
 const boolean flashLedIsEnabled = false;
 
@@ -33,7 +36,11 @@ const uint8_t bitDurationExp = 11;
 // considerably. So maybe it's best to multiply the result with a
 // factor. In the end it may be possible to calculate the annoncement
 // period automatically.
-const uint32_t announcementPeriod = 150; // ms // TODO: take from common settings
-#endif
+const uint32_t announcementPeriod = graphUpdateInterval; // ms
+
+// Parents are given an expiry time. This is so that they don't change
+// abruptly in case there is a flaky connection (which could make the
+// graph change dramatically).
+const uint32_t parentExpiryDuration = connectionExpiryDuration; // ms
 
 #endif

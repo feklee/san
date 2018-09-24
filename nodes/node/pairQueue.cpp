@@ -1,5 +1,5 @@
 #include "pairQueue.h"
-#include "config.h"
+#include "settings.h"
 
 static uint8_t first = 0;
 static uint8_t last = 0;

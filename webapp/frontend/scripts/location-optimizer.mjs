@@ -245,7 +245,8 @@ var update = function () {
                   numberOfVisibleNodes);
     var algorithm = jsga({
         length: length,
-        radix: /* TODO numberOfVisibleNodes*/ 3 * loSettings.resolution,
+        radix: /* TODO numberOfVisibleNodes*/ 3 * // size of the space
+            loSettings.resolution,
         fitness: fitness,
         size: size,
         seed: createSeedFromNodeLocations(size),

@@ -3,11 +3,12 @@
 export default {
     asideWidth: 300, // px
     locationOptimizer: {
+        sideLength: 3, // size of box containing solution
         resolution: 5, // discrete points per unit in space
-        populationSizeFactor: 0.5, // needs to be even (TODO: better round population size to even using sth. like `makeEven` - round up not to be too small or even zero)
-        seedSizePercentage: 0 /* TODO */, // % (existing locations in new population)
-        mutationRate: 0.05,
-        crossovers: 1
+        populationSize: 20, // needs to be even
+        seedSize: 1, // # existing locations in new population
+        mutationRate: 0.01,
+        crossovers: 10
     },
     visualization: {
         locationEasingSpeed: 0.1, // (0, 1]

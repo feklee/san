@@ -325,6 +325,6 @@ Programming
 
  1. Write ID and color on EEPROM of each MCU: `EepromWriter`
 
- 2. Build and upload Arduino sketch to MCU: `Node`
+ 2. Build and upload firmware to MCU: `Firmware`
 
 [1]: https://www.amazon.de/dp/B01BI1G88C/ref=cm_sw_em_r_mt_dp_U_CHrbBb90ZM0B4

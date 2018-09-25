@@ -81,6 +81,9 @@ var updateEdgeObject3D = function (edge) {
         vertex.x = animatedLocation.x;
         vertex.y = animatedLocation.y;
         vertex.z = animatedLocation.z;
+        line.geometry.computeBoundingSphere(); // prevents lines from
+                                               // randomly
+                                               // disappearing
         line.geometry.verticesNeedUpdate = true;
         i += 1;
     });

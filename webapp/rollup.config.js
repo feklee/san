@@ -27,7 +27,7 @@ export default {
             include: "frontend/scripts/common-settings.mjs",
             patterns: [
                 {
-                    file: "../../../nodes/Node/commonSettings.h"
+                    file: "../../../nodes/Firmware/commonSettings.h"
                 },
                 {
                     test: /const\s+[^\s]+/g,

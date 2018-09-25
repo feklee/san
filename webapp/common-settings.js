@@ -8,7 +8,8 @@ var graphUpdateInterval = 0;
 var connectionExpiryDuration = 0;
 
 try {
-    var cData = fs.readFileSync("../common_settings.h", "utf8");
+    var cData = fs.readFileSync("../nodes/Firmware/commonSettings.h",
+                                "utf8");
     var jsData = cData.replace(/const\s+[^\s]+/g, "");
     eval(jsData);
 } catch (ignore) {

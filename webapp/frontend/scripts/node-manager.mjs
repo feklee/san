@@ -19,7 +19,6 @@ import {
 } from "./common-settings.mjs";
 
 var rootNode;
-var timeOfLastGraphUpdate;
 
 var expiryTime = function () { // ms
     return Date.now() + connectionExpiryDuration;
@@ -173,35 +172,6 @@ var refreshConnection = function (pair) {
     });
 };
 
-var refreshConnections = function (node) {
-    node.sortedConnections.forEach(function (connection) {
-        resetExpiryTime(connection);
-    });
-};
-
-var refreshAllConnections = function () {
-    sortedNodes.forEach(refreshConnections);
-};
-
-var now; // TODO
-var updateGraph = function () {
-    now = Date.now();
-    if (timeOfLastGraphUpdate === undefined) {
-        console.log("1st call"); // TODO
-        timeOfLastGraphUpdate = now;
-    }
-    var lastUpdateWasSkipped = now >
-            timeOfLastGraphUpdate + 1.5 * graphUpdateInterval;
-    if (lastUpdateWasSkipped) {
-        // app was paused, refreshes of connected nodes likely were
-        // missed => give connections additional life time
-        console.log("was paused"); // TODO
-        refreshAllConnections();
-    }
-    removeExpiredConnections();
-    timeOfLastGraphUpdate = now;
-};
-
 var connectionExists = function (pair) {
     var connection = connectionOnPort(pair.parentPort);
     if (!connection) {
@@ -260,7 +230,7 @@ var connect = function (pair) {
 };
 
 addRootNode();
-setInterval(updateGraph, graphUpdateInterval);
+setInterval(removeExpiredConnections, graphUpdateInterval);
 
 export default {
     addNode: addNode,

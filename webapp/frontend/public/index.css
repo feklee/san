@@ -12,8 +12,7 @@ html, body {
 
 body {
     display: flex;
-    font: normal normal normal 15px/17px "Source Code Pro";
-
+    font: normal normal normal 14px "Source Code Pro";
     visibility: visible;
     opacity: 1;
     transition: visibility 0s, opacity 1s;
@@ -43,14 +42,23 @@ table.matrix {
 
 table.matrix th, table.matrix td {
     border: 1px solid black;
-    background: var(--dimgray);
-    color: black;
+/* TODO    background: var(--dimgray); */
     text-align: center;
+}
+
+table.matrix span {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 14px;
+    width: 16px;
+    padding: 1px 0;
+    border-radius: 50%;
 }
 
 div.log {
     margin-top: 5px;
     overflow: hidden;
+    line-height: 16px;
     height: 100%;
     box-sizing: border-box;
 }

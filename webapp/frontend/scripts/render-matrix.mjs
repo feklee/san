@@ -3,7 +3,6 @@
 /*jslint browser: true, maxlen: 80 */
 
 import sortedNodes from "./sorted-nodes.mjs";
-import { nodeColors } from "./node-colors.mjs";
 
 var matrixEl = document.querySelector("table.matrix");
 
@@ -11,6 +10,21 @@ var clear = function () {
     while (matrixEl.firstChild) {
         matrixEl.removeChild(matrixEl.firstChild);
     }
+};
+
+var createSpan = function (text, colors) {
+    var spanEl = document.createElement("span");
+    spanEl.textContent = text;
+    if (text !== 0) {
+        spanEl.style.background =
+                "linear-gradient(to bottom right, " +
+                colors[0] + " 0%, " +
+                colors[0] + " 50%, " +
+                colors[1] + " 50%, " +
+                colors[1] + " 100%)";
+        spanEl.style.color = "black";
+    }
+    return spanEl;
 };
 
 var renderHead = function () {
@@ -21,8 +35,8 @@ var renderHead = function () {
     rowEl.appendChild(document.createElement("th"));
     sortedNodes.forEach(function (node) {
         var cellEl = document.createElement("th");
-        cellEl.textContent = node.id;
         rowEl.appendChild(cellEl);
+        cellEl.appendChild(createSpan(node.id, node.colors));
     });
 };
 
@@ -30,15 +44,16 @@ var renderBody = function (matrix) {
     var bodyEl = document.createElement("tbody");
     matrixEl.appendChild(bodyEl);
     matrix.forEach(function (row, i) {
+        var node = sortedNodes[i];
         var rowEl = document.createElement("tr");
         bodyEl.appendChild(rowEl);
         var headerCellEl = document.createElement("th");
-        headerCellEl.textContent = sortedNodes[i].id;
         rowEl.appendChild(headerCellEl);
+        headerCellEl.appendChild(createSpan(node.id, node.colors));
         row.forEach(function (x) {
             var cellEl = document.createElement("td");
-            cellEl.textContent = x;
             rowEl.appendChild(cellEl);
+            cellEl.appendChild(createSpan(x, node.colors));
         });
     });
 };

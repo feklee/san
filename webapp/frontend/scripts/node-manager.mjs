@@ -17,7 +17,9 @@ import {
     graphUpdateInterval, // ms
     connectionExpiryDuration // ms
 } from "./common-settings.mjs";
+
 var rootNode;
+var timeOfLastGraphUpdate;
 
 var expiryTime = function () { // ms
     return Date.now() + connectionExpiryDuration;
@@ -158,6 +160,48 @@ var removeExpiredConnections = function () {
     }
 };
 
+var resetExpiryTime = function (connection) {
+    connection.expiryTime = expiryTime();
+};
+
+var refreshConnection = function (pair) {
+    Object.values(pair).forEach(function (port) {
+        var connection = connectionOnPort(port);
+        if (connection) {
+            resetExpiryTime(connection);
+        }
+    });
+};
+
+var refreshConnections = function (node) {
+    node.sortedConnections.forEach(function (connection) {
+        resetExpiryTime(connection);
+    });
+};
+
+var refreshAllConnections = function () {
+    sortedNodes.forEach(refreshConnections);
+};
+
+var now; // TODO
+var updateGraph = function () {
+    now = Date.now();
+    if (timeOfLastGraphUpdate === undefined) {
+        console.log("1st call"); // TODO
+        timeOfLastGraphUpdate = now;
+    }
+    var lastUpdateWasSkipped = now >
+            timeOfLastGraphUpdate + 1.5 * graphUpdateInterval;
+    if (lastUpdateWasSkipped) {
+        // app was paused, refreshes of connected nodes likely were
+        // missed => give connections additional life time
+        console.log("was paused"); // TODO
+        refreshAllConnections();
+    }
+    removeExpiredConnections();
+    timeOfLastGraphUpdate = now;
+};
+
 var connectionExists = function (pair) {
     var connection = connectionOnPort(pair.parentPort);
     if (!connection) {
@@ -165,15 +209,6 @@ var connectionExists = function (pair) {
     }
 
     return connection.toPort.node === pair.childPort.node;
-};
-
-var refreshConnection = function (pair) {
-    Object.values(pair).forEach(function (port) {
-        var connection = connectionOnPort(port);
-        if (connection) {
-            connection.expiryTime = expiryTime();
-        }
-    });
 };
 
 var nodeExists = function (id) {
@@ -225,7 +260,7 @@ var connect = function (pair) {
 };
 
 addRootNode();
-setInterval(removeExpiredConnections, graphUpdateInterval);
+setInterval(updateGraph, graphUpdateInterval);
 
 export default {
     addNode: addNode,

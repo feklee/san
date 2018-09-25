@@ -11,8 +11,10 @@ import renderMatrix from "./render-matrix.mjs";
 import locationOptimizer from "./location-optimizer.mjs";
 import vector from "./vector.mjs";
 import visualization from "./visualization.mjs";
+import settings from "./settings.mjs";
 import {Vector3} from
         "../../node_modules/three/build/three.module.js";
+import {nodeColors} from "./node-colors.mjs";
 import {
     graphUpdateInterval, // ms
     connectionExpiryDuration // ms
@@ -189,13 +191,16 @@ var addNode = function (id) {
     if (nodeExists(id)) {
         return;
     }
+    var colors = nodeColors[id] ||
+            [settings.defaultNodeColor, settings.defaultNodeColor];
     var node = {
         id: id,
         isVisible: id !== "*",
         connections: {},
         sortedConnections: [],
         visibleConnections: [],
-        location: null
+        location: null,
+        colors: colors
     };
 
     nodes[id] = node;

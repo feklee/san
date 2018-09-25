@@ -3,6 +3,7 @@
 /*jslint browser: true, maxlen: 80 */
 
 import sortedNodes from "./sorted-nodes.mjs";
+import { nodeColors } from "./node-colors.mjs";
 
 var matrixEl = document.querySelector("table.matrix");
 

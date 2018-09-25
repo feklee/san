@@ -3,7 +3,6 @@
 /*global THREE*/
 
 import settings from "./settings.mjs";
-import { nodeColors } from "./node-colors.mjs";
 import visibleNodes from "./visible-nodes.mjs";
 import edges from "./edges.mjs";
 import {
@@ -95,18 +94,6 @@ var updateEdgeObject3Ds = function () {
     });
 };
 
-var hemisphereColor = function (node, index) {
-    var hemisphereColors = nodeColors[node.id];
-    if (hemisphereColors === undefined) {
-        return settings.visualization.defaultNodeColor;
-    }
-    var color = hemisphereColors[index];
-    if (color === undefined) {
-        return settings.defaultNodeColor;
-    }
-    return color;
-};
-
 var createHemisphere = function (color, index) {
     var geometry = new SphereGeometry(vSettings.nodeDiameter,
                                       32, 32, index * Math.PI, Math.PI);
@@ -123,7 +110,7 @@ var randomlyRotateSphere = function (object3D) {
 var createNodeObject3D = function (node) {
     var sphere = new THREE.Group();
     [0, 1].forEach(function (i) {
-        sphere.add(createHemisphere(hemisphereColor(node, i), i));
+        sphere.add(createHemisphere(node.colors[i], i));
     });
     randomlyRotateSphere(sphere);
     scene.add(sphere);

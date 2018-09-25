@@ -2,6 +2,7 @@
 
 export default {
     asideWidth: 300, // px
+    defaultNodeColor: "#111",
     locationOptimizer: {
         sideLength: 3, // size of box containing solution
         resolution: 5, // discrete points per unit in space
@@ -13,7 +14,6 @@ export default {
     visualization: {
         locationEasingSpeed: 0.1, // (0, 1]
         nodeDiameter: 0.1,
-        defaultNodeColor: "#111",
         edgeColor: "gray"
     }
 };

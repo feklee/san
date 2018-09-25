@@ -137,10 +137,14 @@ var setExpectedNeighborLocation = function (connection, i) {
 };
 
 var addDeviation = function (deviations, connection) {
-    deviations.push(
+    var deviation =
         connection.toPort.node.testLocation.distanceToSquared(
             connection.expectedNeighborLocation
-        )
+        );
+
+    deviations.push(
+        deviation
+        //        Math.pow(deviation, 8) // TODO: experimental, to punish deviations, hoping to avoid premature convergence
     );
 };
 
@@ -167,24 +171,65 @@ var sumOfDeviations = function () { // TODO: maybe remove
     return findDeviations().reduce((a, b) => a + b, 0);
 };
 
+var coordinateFromIndividual = function (individual, nodeIndex,
+                                         coordinateIndex) {
+    return individual[nodeIndex * 3 + coordinateIndex] / loSettings.resolution;
+
+// TODO:
+    var i = 0;
+    var coordinate = 0;
+    var value;
+    var factor = 1;
+    while (i < 10) {
+        value = individual[
+            10 * (nodeIndex * 3 + coordinateIndex) + i
+        ] / loSettings.resolution;
+        coordinate += value * factor;
+        factor *= 10;
+        i += 1;
+    }
+
+    coordinate /= (factor / 10);
+    coordinate *= 3; // TODO: needed size of space
+
+    return (individual[nodeIndex * 3 + coordinateIndex] /
+            loSettings.resolution);
+};
+
+// TODO: needs to be updated in case seed is reactivated
+var coordinateToIndividual = function (individual, nodeIndex,
+                                       coordinateIndex,
+                                       coordinate) {
+    individual[nodeIndex * 3 + coordinateIndex] =
+        Math.round(coordinate * loSettings.resolution);
+};
+
 var assignLocationsToNodes = function (locationType, individual) {
     visibleNodes.forEach(function (node, i) {
         if (node[locationType] === undefined) {
             node[locationType] = new THREE.Vector3();
         }
         var location = node[locationType];
-        location.x = individual[i * 3] / loSettings.resolution;
-        location.y = individual[i * 3 + 1] / loSettings.resolution;
-        location.z = individual[i * 3 + 2] / loSettings.resolution;
+        location.x = coordinateFromIndividual(individual, i, 0);
+        location.y = coordinateFromIndividual(individual, i, 1);
+        location.z = coordinateFromIndividual(individual, i, 2);
     });
 };
 
+var fitness2 = function (individual) {
+    return 10000 - sumOfDeviations();
+};
+
+var useSumForFitness = true; // TODO
+
 var fitness = function (individual) {
     assignLocationsToNodes("testLocation", individual);
-// TODO:    return 10000 - largestDeviation();
+    return -sumOfDeviations();
+// TODO:    return -(sumOfDeviations() * largestDeviation());
+// TODO:    return 10 - largestDeviation();
 // TODO:    return 1 / largestDeviation();
-    return 10000 - sumOfDeviations();
-// TODO:        return 1 / sumOfDeviations();
+// TODO:    return 10000 - sumOfDeviations();
+// TODO:    return 1 / sumOfDeviations();
 };
 
 var findCenter = function () {
@@ -219,12 +264,9 @@ var createSeedFromNodeLocations = function (size) {
             loSettings.resolution;
         individual[i * 3 + 2] = coordinatesFromRhino[i * 3 + 2] *
             loSettings.resolution; */
-        individual[i * 3] =
-            Math.round(location.x * loSettings.resolution);
-        individual[i * 3 + 1] =
-            Math.round(location.y * loSettings.resolution);
-        individual[i * 3 + 2] =
-            Math.round(location.z * loSettings.resolution);
+        coordinateToIndividual(individual, i, 0, location.x);
+        coordinateToIndividual(individual, i, 1, location.y);
+        coordinateToIndividual(individual, i, 2, location.z);
     });
 
     var seedSize = Math.round(loSettings.seedSizePercentage / 100 *
@@ -241,11 +283,16 @@ var update = function () {
     }
 
     var size = loSettings.populationSizeFactor * numberOfVisibleNodes;
-    var length = (3 * // number of coordinates per nodes
-                  numberOfVisibleNodes);
+    var length = (5 * // number of coordinates per nodes
+                  numberOfVisibleNodes
+//                  * 10 // TODO: experimental for now / make configurable
+                 );
     var algorithm = jsga({
         length: length,
-        radix: /* TODO numberOfVisibleNodes*/ 3 * // size of the space
+        radix:
+// 10, // TODO: just for testing
+        /* TODO numberOfVisibleNodes*/
+            3 * // size of the space
             loSettings.resolution,
         fitness: fitness,
         size: size,
@@ -278,6 +325,23 @@ var deviation = function (population) {
     return [mean, sigma];
 };
 
+// TODO, just for debugging
+var deviation2 = function (population) {
+    var fitnessList = [];
+    population.forEach(function (individual) {
+        fitnessList.push(fitness2(individual));
+    });
+    var mean = fitnessList.reduce((a, b) => a + b, 0) / fitnessList.length;
+    var sigma = 0; // standard deviation
+    fitnessList.forEach(function (x) {
+        var delta = x - mean;
+        sigma += delta * delta;
+    });
+    sigma /= fitnessList.length;
+    sigma = Math.sqrt(sigma);
+    return [mean, sigma];
+};
+
 var startTime;
 
 var updateNodeLocations = function (generation) {
@@ -290,8 +354,11 @@ var updateNodeLocations = function (generation) {
         startTime = now;
         console.log(
             elapsedTime,
-            generation.generation, fitness(generation.best.params),
-            deviation(generation.population)
+            generation.generation,
+            fitness(generation.best.params),
+            deviation(generation.population),
+            fitness2(generation.best.params),
+            deviation2(generation.population)
         );
     }
     assignLocationsToNodes("location", generation.best.params);
@@ -310,6 +377,7 @@ var run = function () {
         var generation = item.value;
         updateNodeLocations(generation);
         setTimeout(iterate, 0);
+        useSumForFitness = !useSumForFitness;
     };
     iterate();
 };

@@ -8,7 +8,7 @@
 #include "commonSettings.h"
 
 const uint8_t ledPin = 13;
-const uint8_t pairBufferSize = 4; // TODO: increase
+const uint8_t pairBufferSize = 20;
 
 #ifdef DEBUG
 const boolean flashLedIsEnabled = true; // takes time

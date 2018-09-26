@@ -6,13 +6,13 @@
 
 #include <MultiTrans.h>
 
-#if 1 // TODO: decide on one
+#if 0 // TODO: decide on one
 static const uint8_t maxNumberOfCharsPerTransmission = 5;
 #else
 // A large value is used for the maximum number of characters per
 // transmission than what is needed for sending. The reason is that
 // this also creates a larger receive buffer, to combat message loss.
-static const uint8_t maxNumberOfCharsPerTransmission = 12;
+static const uint8_t maxNumberOfCharsPerTransmission = 10;
 #endif
 using MT = MultiTrans<bitDurationExp, maxNumberOfCharsPerTransmission>;
 MT multiTransceiver;

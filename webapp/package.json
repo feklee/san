@@ -24,11 +24,11 @@
     "websocket": "^1.0.25"
   },
   "devDependencies": {
-    "rollup": "^0.57.1",
-    "rollup-plugin-commonjs": "^9.1.0",
+    "rollup": "^0.66.2",
+    "rollup-plugin-commonjs": "^9.1.8",
     "rollup-plugin-copy": "^0.2.3",
     "rollup-plugin-legacy": "^1.0.0",
     "rollup-plugin-node-resolve": "^3.3.0",
-    "rollup-plugin-re": "1.0.7"
+    "rollup-plugin-re": "^1.0.7"
   }
 }

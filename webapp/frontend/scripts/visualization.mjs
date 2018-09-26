@@ -17,6 +17,7 @@ import {
     Scene,
     WebGLRenderer
 } from "../../node_modules/three/build/three.module.js";
+// TODO: import THREE from "three";
 
 var vSettings = settings.visualization;
 var camera;

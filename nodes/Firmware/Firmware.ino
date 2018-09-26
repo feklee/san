@@ -5,8 +5,7 @@
 // announcing node and itself. Pairs are propagated up to the root
 // node.
 
-#include <EEPROM.h> // Library may need to be copied:
-                    // https://digistump.com/board/index.php?topic=1132.0
+#include <EEPROM.h>
 #include <Adafruit_NeoPixel.h>
 #include "settings.h"
 #include "Port.h"

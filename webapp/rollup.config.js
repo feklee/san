@@ -3,6 +3,7 @@ import commonjs from "rollup-plugin-commonjs";
 import copy from "rollup-plugin-copy";
 import legacy from "rollup-plugin-legacy";
 import replace from "rollup-plugin-re";
+import externalGlobals from "rollup-plugin-external-globals"; // TODO: maybe remove
 
 var copyOptions = {
     "node_modules/three/build/three.min.js":
@@ -17,10 +18,16 @@ var copyOptions = {
 
 export default {
     input: "frontend/scripts/index.mjs",
+    external: ["three"],
     output: {
         file: "frontend/public/build/bundle.js",
         format: "iife",
-        sourcemap: "inline"
+        sourcemap: "inline",
+        externals: {
+        },
+        globals: {
+            three: "THREE"
+        }
     },
     plugins: [
         replace({

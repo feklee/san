@@ -5,11 +5,12 @@
 
 /*jslint browser: true, maxlen: 80 */
 
-/*global THREE*/
-
 import visibleNodes from "./visible-nodes.mjs";
 import settings from "./settings.mjs";
 import vector from "./vector.mjs";
+import {
+    Vector3
+} from "../../node_modules/three/build/three.module.js";
 import jsga from "jsga-feklee";
 
 var loSettings = settings.locationOptimizer;
@@ -156,7 +157,7 @@ var coordinateToIndividual = function (individual, nodeIndex,
 var assignLocationsToNodes = function (locationType, individual) {
     visibleNodes.forEach(function (node, i) {
         if (node[locationType] === undefined) {
-            node[locationType] = new THREE.Vector3();
+            node[locationType] = new Vector3();
         }
         var location = node[locationType];
         location.x = coordinateFromIndividual(individual, i, 0);
@@ -171,7 +172,7 @@ var fitness = function (individual) {
 };
 
 var findCenter = function () {
-    var center = new THREE.Vector3();
+    var center = new Vector3();
 
     visibleNodes.forEach(function (node) {
         center.add(node.location);

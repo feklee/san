@@ -1,11 +1,8 @@
 /*jslint browser: true, maxlen: 80 */
 
-/*global THREE*/
-
 import log from "./log.mjs";
 import nodeManager from "./node-manager.mjs";
 import settings from "./settings.mjs";
-import visualization from "./visualization.mjs";
 import nodes from "./nodes.mjs";
 
 var hostname = window.location.hostname;

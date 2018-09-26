@@ -1,7 +1,5 @@
 /*jslint browser: true, maxlen: 80 */
 
-/*global THREE*/
-
 import settings from "./settings.mjs";
 import visibleNodes from "./visible-nodes.mjs";
 import edges from "./edges.mjs";
@@ -17,7 +15,7 @@ import {
     Scene,
     WebGLRenderer
 } from "../../node_modules/three/build/three.module.js";
-// TODO: import THREE from "three";
+import THREE from "three";
 
 var vSettings = settings.visualization;
 var camera;

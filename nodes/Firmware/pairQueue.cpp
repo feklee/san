@@ -35,3 +35,9 @@ Pair dequeuePair() {
   decrementLength();
   return pair;
 }
+
+void clearPairQueue() {
+  first = 0;
+  last = 0;
+  length = 0;
+}

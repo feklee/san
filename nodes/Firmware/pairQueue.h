@@ -6,5 +6,6 @@
 
 void enqueuePair(Pair);
 Pair dequeuePair();
+void clearPairQueue();
 
 #endif

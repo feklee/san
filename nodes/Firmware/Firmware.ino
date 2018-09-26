@@ -81,9 +81,9 @@ void setup() {
   pinMode(ledPin, OUTPUT);
   flashLed();
 
-// TODO  if (iAmRoot()) {
+  if (iAmRoot()) {
     Serial.begin(115200);
-// TODO  }
+  }
 
   setupMultiTransceiver();
 }
@@ -138,20 +138,18 @@ void parseMessages() {
 void nonRootLoop() {
   parseMessages();
 
+  if (!iHaveAParent()) {
+    clearPairQueue();
+    return;
+  }
+
   if (!transmissionToParentIsInProgress()) {
     Pair pair = dequeuePair();
     if (!pair.isEmpty()) {
       sendPairToParent(pair);
     }
   }
-
-  // TODO: what to do if no parent? just forget all pairs / empty the
-  // queue?
-
-  if (iHaveAParent()) {
-    periodicallyAnnounceMe();
-  }
-
+  periodicallyAnnounceMe();
   removeParentIfExpired();
 }
 
@@ -231,10 +229,6 @@ OtherNode I(T &port) {
 
 template <typename T>
 void sendPairToParent(T &port, const Pair &pair) {
-  if (port.transceiver.transmissionIsInProgress()) {
-    return;
-  }
-
   char buffer[] = {'%',
                    pair.firstNode.nodeId,
                    charFromDigit(pair.firstNode.portNumber),
@@ -329,14 +323,11 @@ bool parseMessage(T &port, char *message) {
 void sendPairToParent(const Pair &pair) {
   if (numberOfPortWithParent == port1.number) {
     sendPairToParent(port1, pair);
-  }
-  if (numberOfPortWithParent == port2.number) {
+  } else if (numberOfPortWithParent == port2.number) {
     sendPairToParent(port2, pair);
-  }
-  if (numberOfPortWithParent == port3.number) {
+  } else if (numberOfPortWithParent == port3.number) {
     sendPairToParent(port3, pair);
-  }
-  if (numberOfPortWithParent == port4.number) {
+  } else if (numberOfPortWithParent == port4.number) {
     sendPairToParent(port4, pair);
   }
 }

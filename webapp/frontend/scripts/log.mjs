@@ -1,6 +1,7 @@
 /*jslint browser: true, maxlen: 80 */
 
 var logEl = document.querySelector("ul.log");
+var startTime = Date.now(); // ms
 
 var pad = function (number) {
     if (number < 10) {
@@ -10,24 +11,21 @@ var pad = function (number) {
 };
 
 var timeStamp = function () {
-    var date = new Date();
-    var seconds = date.getUTCMilliseconds() / 1000;
+    var elapsedMilliseconds = Date.now() - startTime;
+    var elapsedDeciseconds = Math.floor(elapsedMilliseconds / 100);
+    var elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
+    var elapsedMinutes = Math.floor(elapsedSeconds / 60);
+    var elapsedHours = Math.floor(elapsedMinutes / 60);
 
-    return date.getUTCFullYear() + "-" +
-            pad(date.getUTCMonth() + 1) + "-" +
-            pad(date.getUTCDate()) + "T" +
-            pad(date.getUTCHours()) + ":" +
-            pad(date.getUTCMinutes()) + ":" +
-            pad(date.getUTCSeconds()) + "." +
-            seconds.toFixed(3).slice(2, 5);
-};
+    var hours = elapsedHours;
+    var minutes = elapsedMinutes - 60 * elapsedHours;
+    var seconds = elapsedSeconds - 60 * elapsedMinutes;
+    var deciseconds = elapsedDeciseconds - 10 * elapsedSeconds;
 
-var prettyPrint = function (text) {
-    try {
-        return JSON.stringify(JSON.parse(text), null, 2);
-    } catch (ignore) {
-        return timeStamp() + " " + text;
-    }
+    return pad(hours) + ":" +
+            pad(minutes) + ":" +
+            pad(seconds) + "." +
+            deciseconds;
 };
 
 var removeOverflow = function () {
@@ -42,11 +40,18 @@ var removeOverflow = function () {
     }
 };
 
+var createSpan = function (text) {
+    var spanEl = document.createElement("span");
+    var preEl = document.createElement("pre");
+    spanEl.appendChild(preEl).textContent = text;
+    return spanEl;
+};
+
 var append = function (type, text) {
     var liEl = document.createElement("li");
     logEl.appendChild(liEl).setAttribute("class", type);
-    var preEl = document.createElement("pre");
-    liEl.appendChild(preEl).textContent = prettyPrint(text);
+    liEl.appendChild(createSpan(timeStamp()));
+    liEl.appendChild(createSpan(text));
     removeOverflow();
 };
 

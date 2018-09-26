@@ -65,9 +65,14 @@ div.log ul {
 
 div.log ul li {
     white-space: nowrap;
+    width: 100%;
 }
 
-div.log ul li>pre {
+div.log span:nth-child(2) {
+    float: right;
+}
+
+div.log ul li pre {
     display: inline-block;
     vertical-align: top;
     white-space: pre-wrap;

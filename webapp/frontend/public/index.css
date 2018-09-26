@@ -1,7 +1,3 @@
-:root {
-  --dimgray: #444;
-}
-
 html, body {
     width: 100%;
     height: 100%;
@@ -42,7 +38,6 @@ table.matrix {
 
 table.matrix th, table.matrix td {
     border: 1px solid black;
-/* TODO    background: var(--dimgray); */
     text-align: center;
 }
 

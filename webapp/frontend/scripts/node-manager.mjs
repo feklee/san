@@ -235,6 +235,7 @@ var connect = function (pair) {
 };
 
 addRootNode();
+updateForVisualization();
 setInterval(removeExpiredConnections, graphUpdateInterval);
 
 export default {

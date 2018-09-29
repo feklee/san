@@ -12,7 +12,7 @@ const uint8_t pairMessageSize = 3;
 
 // There likely are better ways to calculate a six bit checksum.
 template <uint8_t payloadSize>
-inline uint8_t sixBitChecksum(const char *payload) {
+inline uint8_t sixBitChecksumFromPayload(const char *payload) {
   uint8_t sum = 0;
   for (uint8_t i = 0; i < payloadSize; i ++) {
     sum += payload[i] & B00001111;
@@ -21,11 +21,25 @@ inline uint8_t sixBitChecksum(const char *payload) {
   return sum & B00111111;
 }
 
+inline uint8_t sixBitChecksumFromStartCharacter(char character) {
+  return character & B00111111;
+}
+
+template <uint8_t messageSize>
+inline bool checksumIsCorrect(const char *message) {
+  const char * const payload = message + 1;
+  const char payloadSize = messageSize - 1;
+  return
+    sixBitChecksumFromPayload<payloadSize>(payload) ==
+    sixBitChecksumFromStartCharacter(*message);
+}
+
 template <uint8_t messageSize>
 inline void buildMessage(char * const message, const MessageType type) {
   char * const payload = message + 1;
   const char payloadSize = messageSize - 1;
-  message[0] = B10000000 | uint8_t(type) | sixBitChecksum<payloadSize>(payload);
+  message[0] = B10000000 | uint8_t(type) |
+    sixBitChecksumFromPayload<payloadSize>(payload);
   message[messageSize] = '\0';
 }
 

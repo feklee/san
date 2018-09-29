@@ -34,6 +34,7 @@ char *TransceiverOnPort<t, u>::getMessage() {
   static uint8_t messagePos = 0;
   static char message[maxNumberOfCharsPerTransmission + 1];
   static bool gettingMessage = false;
+  static MessageType messageType;
 
   while (true) {
     char character = transceiver.getNextCharacter();
@@ -44,8 +45,10 @@ char *TransceiverOnPort<t, u>::getMessage() {
 
     if (characterStartsMessage(character)) {
       if (characterStartsAnnouncement(character)) {
+        messageType = MessageType::announcement;
         messageSize = announcementMessageSize;
       } else {
+        messageType = MessageType::pair;
         messageSize = pairMessageSize;
       }
       messagePos = 0;
@@ -58,9 +61,18 @@ char *TransceiverOnPort<t, u>::getMessage() {
         messagePos ++;
       }
       if (messagePos == messageSize) {
-        message[messagePos] = '\0'; // To make it easy to print the message
         gettingMessage = false;
-        return message;
+        message[messagePos] = '\0'; // To make it easy to print the message
+        switch (messageType) {
+        case MessageType::announcement:
+          if (checksumIsCorrect<announcementMessageSize>(message)) {
+            return message;
+          }
+        case MessageType::pair:
+          if (checksumIsCorrect<pairMessageSize>(message)) {
+            return message;
+          }
+        }
       }
     }
   }

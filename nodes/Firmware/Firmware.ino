@@ -15,7 +15,7 @@
 
 Adafruit_NeoPixel neoPixel;
 
-static char nodeId; // TODO: maybe rename to idOfThisNode / myNodeId
+static char myNodeId;
 
 const uint8_t pinNumber1 = 2;
 const uint8_t pinNumber2 = 3;
@@ -76,7 +76,7 @@ void setupColors() {
 void setup() {
   setupColors();
 
-  nodeId = EEPROM.read(0);
+  myNodeId = EEPROM.read(0);
 
   pinMode(ledPin, OUTPUT);
   flashLed();
@@ -208,7 +208,7 @@ static void flashLed() {
 }
 
 static inline bool iAmRoot() {
-  return nodeId == '*';
+  return myNodeId == '*';
 }
 
 static inline bool startsRequest(char c) {
@@ -249,7 +249,7 @@ void setupMultiTransceiver() {
 template <typename T>
 void transmitAnnouncement(T &portPin) {
   char buffer[] = {'!',
-                   encodePort({nodeId, portPin.portNumber}),
+                   encodePort({myNodeId, portPin.portNumber}),
                    '\0'};
   portPin.transceiver.startTransmissionOfCharacters(buffer);
 }
@@ -286,7 +286,7 @@ void parseAnnouncementMessage(T &portPin, const char *message) {
   Port port = portFromPayload(message[1]); // TODO: -> decodePort
   Pair pair;
   pair.parentPort = port;
-  pair.childPort = {nodeId, portPin.portNumber};
+  pair.childPort = {myNodeId, portPin.portNumber};
   enqueuePairMessage(buildPairMessage(pair));
 }
 

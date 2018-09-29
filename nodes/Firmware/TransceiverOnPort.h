@@ -1,11 +1,9 @@
-#ifndef PortPin_h
-#define PortPin_h
+#ifndef TransceiverOnPort_h
+#define TransceiverOnPort_h
 
 #include <MultiTrans.h>
 #include "Arduino.h"
 #include "Port.h"
-
-// TODO: PortPin -> CommunicationPin?
 
 #if 0 // TODO: decide on one
 static const uint8_t maxNumberOfCharsPerTransmission = 5;
@@ -19,7 +17,7 @@ using MT = MultiTrans<bitDurationExp, maxNumberOfCharsPerTransmission>;
 MT multiTransceiver;
 
 template <uint8_t t, uint8_t u>
-class PortPin {
+class TransceiverOnPort {
   static const uint8_t pinNumber = t;
   
 public:
@@ -30,7 +28,7 @@ public:
 };
 
 template <uint8_t t, uint8_t u>
-char *PortPin<t, u>::getMessage() {
+char *TransceiverOnPort<t, u>::getMessage() {
   static uint8_t messageSize = 0;
   static uint8_t messagePos = 0;
   static char message[maxNumberOfCharsPerTransmission + 1];

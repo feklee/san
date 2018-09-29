@@ -51,12 +51,12 @@ char *Port<t>::getMessage() {
 
     switch (character) {
     case '!':
-      messageSize = 3;
+      messageSize = 2;
       messagePos = 0;
       gettingMessage = true;
       break;
     case '%':
-      messageSize = 5;
+      messageSize = 3;
       messagePos = 0;
       gettingMessage = true;
       break;

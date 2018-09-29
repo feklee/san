@@ -15,7 +15,7 @@
 
 Adafruit_NeoPixel neoPixel;
 
-static char nodeId;
+static char nodeId; // TODO: maybe rename to idOfThisNode
 
 const uint8_t pinNumber1 = 2;
 const uint8_t pinNumber2 = 3;
@@ -198,8 +198,12 @@ static inline char charFromDigit(uint8_t digit) {
   return digit + 48;
 }
 
-static inline OtherNode nodeFromPayload(char payload[2]) {
-  return OtherNode(payload[0], digitFromChar(payload[1]));
+static inline OtherNode nodeFromPayload(char payload) {
+  uint8_t encodedNodeId = (payload >> 2) & B11111;
+  uint8_t encodedPortNumber = payload & B11;
+  char otherNodeId = encodedNodeId == 1 ? '*' : (encodedNodeId + 0x3F);
+  uint8_t portNumber = encodedPortNumber + 1;
+  return OtherNode(otherNodeId, portNumber);
 }
 
 static void flashLed() {
@@ -227,13 +231,23 @@ OtherNode I(T &port) {
   return I;
 }
 
+// TODO: maybe create separate communication protocol file, or move to OtherNode.h
+char encodePort(char otherNodeId, uint8_t portNumber) {
+  uint8_t encodedNodeId = otherNodeId == '*' ?
+    1 : // != 0, because otherwise encoding for *1 would be '\0'
+    otherNodeId - 0x3f; // A -> B00010, B -> B00011, ...
+  uint8_t encodedPortNumber =
+    portNumber - 1; // 1 -> B00, 2 -> B01, ...
+  return encodedNodeId << 2 | encodedPortNumber;
+}
+
 template <typename T>
 void sendPairToParent(T &port, const Pair &pair) {
   char buffer[] = {'%',
-                   pair.firstNode.nodeId,
-                   charFromDigit(pair.firstNode.portNumber),
-                   pair.secondNode.nodeId,
-                   charFromDigit(pair.secondNode.portNumber),
+                   encodePort(pair.firstNode.nodeId,
+                              pair.firstNode.portNumber),
+                   encodePort(pair.secondNode.nodeId,
+                              pair.secondNode.portNumber),
                    '\0'};
   port.transceiver.startTransmissionOfCharacters(buffer);
 }
@@ -257,8 +271,7 @@ void setupMultiTransceiver() {
 template <typename T>
 void transmitAnnouncement(T &port) {
   char buffer[] = {'!',
-                   nodeId,
-                   charFromDigit(port.number),
+                   encodePort(nodeId, port.number),
                    '\0'};
   port.transceiver.startTransmissionOfCharacters(buffer);
 }
@@ -293,14 +306,14 @@ void parseAnnouncementPayload(T &port, char *payload) {
   // Create pair, either describing parent-child (I) relationship, or
   // loop:
   OtherNode otherNode;
-  otherNode = nodeFromPayload(payload);
+  otherNode = nodeFromPayload(payload[0]);
   Pair pair(otherNode, I(port));
   enqueuePair(pair);
 }
 
 void parsePairPayload(char *payload) {
-  Pair pair(nodeFromPayload(payload), nodeFromPayload(payload + 2));
-  enqueuePair(pair);
+  Pair pair(nodeFromPayload(payload[0]), nodeFromPayload(payload[1]));
+  enqueuePair(pair); // TODO: maybe enqueue encoded
 }
 
 template <typename T>

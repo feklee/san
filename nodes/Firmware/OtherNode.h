@@ -5,7 +5,8 @@
 
 class OtherNode {
 public:
-  OtherNode(char = '_', uint8_t = 0);
+  OtherNode(char = '_', // TODO: '_' default still needed?
+            uint8_t = 0);
   char nodeId;
   uint8_t portNumber; // port that other node connects with
   boolean operator==(const OtherNode &);

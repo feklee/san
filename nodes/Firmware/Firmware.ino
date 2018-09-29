@@ -115,8 +115,8 @@ void printPair(const Pair &pair) {
 void rootLoop() {
   parseMessage(port1, port1.getMessage());
 
-  Pair pair = dequeuePair();
-  if (!pair.isEmpty()) {
+  if (numberOfQueuedPairs() > 0) {
+    Pair pair = dequeuePair();
     printPair(pair);
   }
 
@@ -144,8 +144,8 @@ void nonRootLoop() {
   }
 
   if (!transmissionToParentIsInProgress()) {
-    Pair pair = dequeuePair();
-    if (!pair.isEmpty()) {
+    if (numberOfQueuedPairs() > 0) {
+      Pair pair = dequeuePair();
       sendPairToParent(pair);
     }
   }
@@ -198,14 +198,6 @@ static inline char charFromDigit(uint8_t digit) {
   return digit + 48;
 }
 
-static inline OtherNode nodeFromPayload(char payload) {
-  uint8_t encodedNodeId = (payload >> 2) & B11111;
-  uint8_t encodedPortNumber = payload & B11;
-  char otherNodeId = encodedNodeId == 1 ? '*' : (encodedNodeId + 0x3F);
-  uint8_t portNumber = encodedPortNumber + 1;
-  return OtherNode(otherNodeId, portNumber);
-}
-
 static void flashLed() {
   if (flashLedIsEnabled) {
     digitalWrite(ledPin, HIGH);
@@ -225,10 +217,10 @@ static inline bool startsRequest(char c) {
 
 template <typename T>
 OtherNode I(T &port) {
-  OtherNode I;
-  I.nodeId = nodeId;
-  I.portNumber = port.number;
-  return I;
+  OtherNode otherNode;
+  otherNode.nodeId = nodeId;
+  otherNode.portNumber = port.number;
+  return otherNode;
 }
 
 // TODO: maybe create separate communication protocol file, or move to OtherNode.h
@@ -305,14 +297,17 @@ void parseAnnouncementPayload(T &port, char *payload) {
 
   // Create pair, either describing parent-child (I) relationship, or
   // loop:
-  OtherNode otherNode;
-  otherNode = nodeFromPayload(payload[0]);
-  Pair pair(otherNode, I(port));
+  OtherNode otherNode = otherNodeFromPayload(payload[0]);
+  Pair pair;
+  pair.firstNode = otherNode;
+  pair.secondNode = I(port);
   enqueuePair(pair);
 }
 
 void parsePairPayload(char *payload) {
-  Pair pair(nodeFromPayload(payload[0]), nodeFromPayload(payload[1]));
+  Pair pair;
+  pair.firstNode = otherNodeFromPayload(payload[0]);
+  pair.secondNode = otherNodeFromPayload(payload[1]);
   enqueuePair(pair); // TODO: maybe enqueue encoded
 }
 

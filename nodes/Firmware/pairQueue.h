@@ -7,5 +7,6 @@
 void enqueuePair(Pair);
 Pair dequeuePair();
 void clearPairQueue();
+uint8_t numberOfQueuedPairs();
 
 #endif

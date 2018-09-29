@@ -3,17 +3,18 @@
 
 #include "Arduino.h"
 
-class OtherNode {
-public:
-  OtherNode(char = '_', // TODO: '_' default still needed?
-            uint8_t = 0);
+struct OtherNode {
   char nodeId;
   uint8_t portNumber; // port that other node connects with
-  boolean operator==(const OtherNode &);
-  boolean operator!=(const OtherNode &);
-  boolean isEmpty();
 };
 
-const OtherNode emptyOtherNode;
+inline OtherNode otherNodeFromPayload(char payload) {
+  OtherNode otherNode;
+  uint8_t encodedNodeId = (payload >> 2) & B11111;
+  uint8_t encodedPortNumber = payload & B11;
+  otherNode.nodeId = encodedNodeId == 1 ? '*' : (encodedNodeId + 0x3F);
+  otherNode.portNumber = encodedPortNumber + 1;
+  return otherNode;
+}
 
 #endif

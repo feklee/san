@@ -25,11 +25,8 @@ void enqueuePair(Pair pair) {
   }
 }
 
+// don't call when queue is empty
 Pair dequeuePair() {
-  if (length == 0) {
-    return emptyPair;
-  }
-
   Pair pair = buffer[first];
   incrementPosition(first);
   decrementLength();
@@ -40,4 +37,8 @@ void clearPairQueue() {
   first = 0;
   last = 0;
   length = 0;
+}
+
+uint8_t numberOfQueuedPairs() {
+  return length;
 }

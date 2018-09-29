@@ -4,6 +4,7 @@
 #include <MultiTrans.h>
 #include "Arduino.h"
 #include "Port.h"
+#include "message.h"
 
 #if 0 // TODO: decide on one
 static const uint8_t maxNumberOfCharsPerTransmission = 5;
@@ -41,19 +42,14 @@ char *TransceiverOnPort<t, u>::getMessage() {
       return 0;
     }
 
-    bool characterStartsMessage = character & B10000000;
-    if (characterStartsMessage) {
-      if (character & B01000000) {
-        // pair message
-        messageSize = 3;
-        messagePos = 0;
-        gettingMessage = true;
+    if (characterStartsMessage(character)) {
+      if (characterStartsAnnouncement(character)) {
+        messageSize = announcementMessageSize;
       } else {
-        // announcement message
-        messageSize = 2;
-        messagePos = 0;
-        gettingMessage = true;
+        messageSize = pairMessageSize;
       }
+      messagePos = 0;
+      gettingMessage = true;
     }
 
     if (gettingMessage) {

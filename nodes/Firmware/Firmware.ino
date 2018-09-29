@@ -11,6 +11,7 @@
 #include "TransceiverOnPort.h"
 #include "Port.h"
 #include "Pair.h"
+#include "message.h"
 #include "pairMessageQueue.h"
 
 Adafruit_NeoPixel neoPixel;
@@ -28,9 +29,6 @@ static TransceiverOnPort<pinNumber4, 4> transceiverOnPort4;
 static uint8_t numberOfPortWithParent = 0; // 0 = no parent
 
 static uint32_t parentExpiryTime = 0; // ms
-
-enum class MessageType : uint8_t {announcement = B00000000,
-                                  pair = B01000000};
 
 ISR(TIMER2_COMPA_vect) {
   transceiverOnPort1.transceiver.handleTimer2Interrupt();
@@ -246,33 +244,6 @@ void transmitAnnouncement(T &transceiverOnPort) {
   );
 }
 
-// There likely are better ways to calculate a six bit checksum.
-template <uint8_t payloadLength>
-uint8_t sixBitChecksum(const char *payload) {
-  uint8_t sum = 0;
-  for (uint8_t i = 0; i < payloadLength; i ++) {
-    sum += payload[i] & B00001111;
-    sum += (payload[i] & B11110000) >> 4;
-  }
-  return sum & B00111111;
-}
-
-template <uint8_t messageLength>
-void buildMessage(char * const message, const MessageType type) {
-  char * const payload = message + 1;
-  const char payloadLength = messageLength - 1;
-  message[0] = B10000000 | uint8_t(type) | sixBitChecksum<payloadLength>(payload);
-  message[messageLength - 1] = '\0';
-}
-
-static char *buildAnnouncementMessage(Port port) {
-  static const uint8_t messageLength = 3;
-  static char message[messageLength];
-  message[1] = encodePort(port);
-  buildMessage<messageLength>(message, MessageType::announcement);
-  return message;
-}
-
 template <typename T>
 void announceMeToChild(T &transceiverOnPort) {
   if (transceiverOnPort.portNumber == numberOfPortWithParent) {
@@ -307,15 +278,6 @@ void parseAnnouncementMessage(T &transceiverOnPort, const char *message) {
   pair.parentPort = port;
   pair.childPort = {myNodeId, transceiverOnPort.portNumber};
   enqueuePairMessage(buildPairMessage(pair));
-}
-
-char *buildPairMessage(Pair pair) {
-  static const uint8_t messageLength = 4;
-  static char message[messageLength];
-  message[1] = encodePort(pair.parentPort);
-  message[2] = encodePort(pair.childPort);
-  buildMessage<messageLength>(message, MessageType::pair);
-  return message;
 }
 
 static inline Pair pairFromPairMessage(const char *message) {

@@ -34,12 +34,31 @@ inline bool checksumIsCorrect(const char *message) {
     sixBitChecksumFromStartCharacter(*message);
 }
 
+// Encoding:
+//
+//     1TCCCCCC
+//
+// With:
+//
+//   * `1`: denotes start of message
+//
+//   * `T`: denotes type (announcement or pair)
+//
+//   * `CCCCCC`: six bit checksum of payload
+template <uint8_t payloadSize>
+inline char buildStartCharacter(const MessageType type,
+                                char * const payload) {
+  return
+    B10000000 |
+    uint8_t(type) |
+    sixBitChecksumFromPayload<payloadSize>(payload);
+}
+
 template <uint8_t messageSize>
 inline void buildMessage(char * const message, const MessageType type) {
   char * const payload = message + 1;
   const char payloadSize = messageSize - 1;
-  message[0] = B10000000 | uint8_t(type) |
-    sixBitChecksumFromPayload<payloadSize>(payload);
+  message[0] = buildStartCharacter<payloadSize>(type, payload);
   message[messageSize] = '\0';
 }
 

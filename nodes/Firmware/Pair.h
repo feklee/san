@@ -2,11 +2,11 @@
 #define Pair_h
 
 #include "Arduino.h"
-#include "OtherNode.h"
+#include "Port.h"
 
 struct Pair {
-  OtherNode firstNode; // TODO: better parentPort, childPort?
-  OtherNode secondNode;
+  Port firstNode; // TODO: better parentPort, childPort?
+  Port secondNode;
 };
 
 #endif

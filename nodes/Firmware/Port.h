@@ -8,6 +8,17 @@ struct Port {
   uint8_t portNumber;
 };
 
+// Encodes as follows:
+//
+//     0IIIII##
+//
+// With:
+//
+//   * `0`: denotes payload
+//
+//   * `IIIII`: 5-bit node ID (*A-Z)
+//
+//   * `##`: 2-bit port number (1-4)
 inline Port decodePort(char data) {
   uint8_t encodedNodeId = (data >> 2) & B11111;
   uint8_t encodedPortNumber = data & B11;

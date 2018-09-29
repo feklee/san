@@ -1,24 +1,24 @@
-#include "pairQueue.h"
+#include "pairMessageQueue.h"
 #include "settings.h"
 
 static uint8_t first = 0;
 static uint8_t last = 0;
 static uint8_t length = 0;
-static Pair buffer[pairBufferSize];
+static char buffer[maxPairMessageQueueSize][4];
 
 static void incrementPosition(uint8_t &position) {
-  position = (position + 1) % pairBufferSize;
+  position = (position + 1) % maxPairMessageQueueSize;
 }
 
 static void decrementLength() {
   length = (length > 0) ? length - 1 : 0;
 }
 
-void enqueuePair(Pair pair) {
-  buffer[last] = pair;
+void enqueuePairMessage(const char *pairMessage) {
+  strcpy(buffer[last], pairMessage);
   incrementPosition(last);
 
-  if (length < pairBufferSize) {
+  if (length < maxPairMessageQueueSize) {
     length ++;
   } else {
     incrementPosition(first);
@@ -26,19 +26,19 @@ void enqueuePair(Pair pair) {
 }
 
 // don't call when queue is empty
-Pair dequeuePair() {
-  Pair pair = buffer[first];
+const char *dequeuePairMessage() {
+  const char *pairMessage = buffer[first];
   incrementPosition(first);
   decrementLength();
-  return pair;
+  return pairMessage;
 }
 
-void clearPairQueue() {
+void clearPairMessageQueue() {
   first = 0;
   last = 0;
   length = 0;
 }
 
-uint8_t numberOfQueuedPairs() {
+uint8_t numberOfQueuedPairMessages() {
   return length;
 }

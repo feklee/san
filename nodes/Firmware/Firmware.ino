@@ -11,7 +11,7 @@
 #include "Port.h"
 #include "OtherNode.h"
 #include "Pair.h"
-#include "pairQueue.h"
+#include "pairMessageQueue.h"
 
 Adafruit_NeoPixel neoPixel;
 
@@ -115,8 +115,9 @@ void printPair(const Pair &pair) {
 void rootLoop() {
   parseMessage(port1, port1.getMessage());
 
-  if (numberOfQueuedPairs() > 0) {
-    Pair pair = dequeuePair();
+  if (numberOfQueuedPairMessages() > 0) {
+    const char *pairMessage = dequeuePairMessage();
+    Pair pair = parsePairPayload(pairMessage + 1);
     printPair(pair);
   }
 
@@ -139,14 +140,13 @@ void nonRootLoop() {
   parseMessages();
 
   if (!iHaveAParent()) {
-    clearPairQueue();
+    clearPairMessageQueue();
     return;
   }
 
   if (!transmissionToParentIsInProgress()) {
-    if (numberOfQueuedPairs() > 0) {
-      Pair pair = dequeuePair();
-      sendPairToParent(pair);
+    if (numberOfQueuedPairMessages() > 0) {
+      sendPairMessageToParent(dequeuePairMessage());
     }
   }
   periodicallyAnnounceMe();
@@ -234,14 +234,8 @@ char encodePort(char otherNodeId, uint8_t portNumber) {
 }
 
 template <typename T>
-void sendPairToParent(T &port, const Pair &pair) {
-  char buffer[] = {'%',
-                   encodePort(pair.firstNode.nodeId,
-                              pair.firstNode.portNumber),
-                   encodePort(pair.secondNode.nodeId,
-                              pair.secondNode.portNumber),
-                   '\0'};
-  port.transceiver.startTransmissionOfCharacters(buffer);
+void sendPairMessageToParent(T &port, const char *pairMessage) {
+  port.transceiver.startTransmissionOfCharacters(pairMessage);
 }
 
 void enablePinChangeInterrupts() {
@@ -301,14 +295,25 @@ void parseAnnouncementPayload(T &port, char *payload) {
   Pair pair;
   pair.firstNode = otherNode;
   pair.secondNode = I(port);
-  enqueuePair(pair);
+  enqueuePairMessage(buildPairMessage(pair));
 }
 
-void parsePairPayload(char *payload) {
+char *buildPairMessage(Pair pair) {
+  static char pairMessage[4];
+  pairMessage[0] = '%';
+  pairMessage[1] = encodePort(pair.firstNode.nodeId,
+                              pair.firstNode.portNumber);
+  pairMessage[2] = encodePort(pair.secondNode.nodeId,
+                              pair.secondNode.portNumber);
+  pairMessage[3] = '\0';
+  return pairMessage;
+}
+
+static inline Pair parsePairPayload(const char *payload) {
   Pair pair;
   pair.firstNode = otherNodeFromPayload(payload[0]);
   pair.secondNode = otherNodeFromPayload(payload[1]);
-  enqueuePair(pair); // TODO: maybe enqueue encoded
+  return pair;
 }
 
 template <typename T>
@@ -319,24 +324,24 @@ bool parseMessage(T &port, char *message) {
   char *payload = message + 1;
   switch (message[0]) {
   case '!':
-    parseAnnouncementPayload(port, payload);
+    parseAnnouncementPayload(port, payload); // TODO: maybe rename
     return true;
   case '%':
-    parsePairPayload(payload);
+    enqueuePairMessage(message);
     return true;
   }
   return false;
 }
 
-void sendPairToParent(const Pair &pair) {
+void sendPairMessageToParent(const char *pairMessage) {
   if (numberOfPortWithParent == port1.number) {
-    sendPairToParent(port1, pair);
+    sendPairMessageToParent(port1, pairMessage);
   } else if (numberOfPortWithParent == port2.number) {
-    sendPairToParent(port2, pair);
+    sendPairMessageToParent(port2, pairMessage);
   } else if (numberOfPortWithParent == port3.number) {
-    sendPairToParent(port3, pair);
+    sendPairMessageToParent(port3, pairMessage);
   } else if (numberOfPortWithParent == port4.number) {
-    sendPairToParent(port4, pair);
+    sendPairMessageToParent(port4, pairMessage);
   }
 }
 

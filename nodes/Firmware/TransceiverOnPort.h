@@ -41,17 +41,19 @@ char *TransceiverOnPort<t, u>::getMessage() {
       return 0;
     }
 
-    switch (character) {
-    case '!':
-      messageSize = 2;
-      messagePos = 0;
-      gettingMessage = true;
-      break;
-    case '%':
-      messageSize = 3;
-      messagePos = 0;
-      gettingMessage = true;
-      break;
+    bool characterStartsMessage = character & B10000000;
+    if (characterStartsMessage) {
+      if (character & B01000000) {
+        // pair message
+        messageSize = 3;
+        messagePos = 0;
+        gettingMessage = true;
+      } else {
+        // announcement message
+        messageSize = 2;
+        messagePos = 0;
+        gettingMessage = true;
+      }
     }
 
     if (gettingMessage) {

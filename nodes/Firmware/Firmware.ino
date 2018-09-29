@@ -238,10 +238,17 @@ void setupMultiTransceiver() {
 
 template <typename T>
 void transmitAnnouncement(T &transceiverOnPort) {
-  char buffer[] = {'!',
-                   encodePort({myNodeId, transceiverOnPort.portNumber}),
-                   '\0'};
-  transceiverOnPort.transceiver.startTransmissionOfCharacters(buffer);
+  transceiverOnPort.transceiver.startTransmissionOfCharacters(
+    buildAnnouncementMessage({myNodeId, transceiverOnPort.portNumber})
+  );
+}
+
+char *buildAnnouncementMessage(Port port) {
+  static char message[3];
+  message[0] = B10000000;
+  message[1] = encodePort(port);
+  message[2] = '\0';
+  return message;
 }
 
 template <typename T>
@@ -281,12 +288,12 @@ void parseAnnouncementMessage(T &transceiverOnPort, const char *message) {
 }
 
 char *buildPairMessage(Pair pair) {
-  static char pairMessage[4];
-  pairMessage[0] = '%';
-  pairMessage[1] = encodePort(pair.parentPort);
-  pairMessage[2] = encodePort(pair.childPort);
-  pairMessage[3] = '\0';
-  return pairMessage;
+  static char message[4];
+  message[0] = B11000000;
+  message[1] = encodePort(pair.parentPort);
+  message[2] = encodePort(pair.childPort);
+  message[3] = '\0';
+  return message;
 }
 
 static inline Pair pairFromPairMessage(const char *message) {
@@ -301,12 +308,14 @@ bool parseMessage(T &transceiverOnPort, char *message) {
   if (message == 0) {
     return false;
   }
-  switch (message[0]) {
-  case '!':
-    parseAnnouncementMessage(transceiverOnPort, message);
-    return true;
-  case '%':
+
+  if (message[0] & B01000000) {
+    // pair message
     enqueuePairMessage(message);
+    return true;
+  } else {
+    // announcement message
+    parseAnnouncementMessage(transceiverOnPort, message);
     return true;
   }
   return false;

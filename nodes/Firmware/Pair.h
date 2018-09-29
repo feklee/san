@@ -5,8 +5,8 @@
 #include "Port.h"
 
 struct Pair {
-  Port firstNode; // TODO: better parentPort, childPort?
-  Port secondNode;
+  Port parentPort;
+  Port childPort;
 };
 
 #endif

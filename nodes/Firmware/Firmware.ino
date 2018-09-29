@@ -15,16 +15,16 @@
 
 Adafruit_NeoPixel neoPixel;
 
-static char nodeId; // TODO: maybe rename to idOfThisNode
+static char nodeId; // TODO: maybe rename to idOfThisNode / myNodeId
 
 const uint8_t pinNumber1 = 2;
 const uint8_t pinNumber2 = 3;
 const uint8_t pinNumber3 = 8;
 const uint8_t pinNumber4 = 9;
-static PortPin<pinNumber1> portPin1(1);
-static PortPin<pinNumber2> portPin2(2);
-static PortPin<pinNumber3> portPin3(3);
-static PortPin<pinNumber4> portPin4(4);
+static PortPin<pinNumber1, 1> portPin1;
+static PortPin<pinNumber2, 2> portPin2;
+static PortPin<pinNumber3, 3> portPin3;
+static PortPin<pinNumber4, 4> portPin4;
 static uint8_t numberOfPortWithParent = 0; // 0 = no parent
 
 static uint32_t parentExpiryTime = 0; // ms
@@ -102,10 +102,10 @@ void loop() {
 
 void printPair(const Pair &pair) {
   char buffer[] = {
-                   pair.firstNode.nodeId,
-                   charFromDigit(pair.firstNode.portNumber),
-                   pair.secondNode.nodeId,
-                   charFromDigit(pair.secondNode.portNumber),
+                   pair.parentPort.nodeId,
+                   charFromDigit(pair.parentPort.portNumber),
+                   pair.childPort.nodeId,
+                   charFromDigit(pair.childPort.portNumber),
                    '\0'
   };
 
@@ -154,16 +154,16 @@ void nonRootLoop() {
 }
 
 bool transmissionToParentIsInProgress() {
-  if (numberOfPortWithParent == portPin1.number) {
+  if (numberOfPortWithParent == portPin1.portNumber) {
     return portPin1.transceiver.transmissionIsInProgress();
   }
-  if (numberOfPortWithParent == portPin2.number) {
+  if (numberOfPortWithParent == portPin2.portNumber) {
     return portPin2.transceiver.transmissionIsInProgress();
   }
-  if (numberOfPortWithParent == portPin3.number) {
+  if (numberOfPortWithParent == portPin3.portNumber) {
     return portPin3.transceiver.transmissionIsInProgress();
   }
-  if (numberOfPortWithParent == portPin4.number) {
+  if (numberOfPortWithParent == portPin4.portNumber) {
     return portPin4.transceiver.transmissionIsInProgress();
   }
   return false;
@@ -215,21 +215,13 @@ static inline bool startsRequest(char c) {
   return c == '!';
 }
 
-template <typename T>
-Port I(T &portPin) {
-  Port port;
-  port.nodeId = nodeId;
-  port.portNumber = portPin.number;
-  return port;
-}
-
 // TODO: maybe create separate communication protocol file, or move to Port.h
-char encodePort(char nodeId, uint8_t portNumber) {
-  uint8_t encodedNodeId = nodeId == '*' ?
+inline char encodePort(Port port) {
+  uint8_t encodedNodeId = port.nodeId == '*' ?
     1 : // != 0, because otherwise encoding for *1 would be '\0'
-    nodeId - 0x3f; // A -> B00010, B -> B00011, ...
+    port.nodeId - 0x3f; // A -> B00010, B -> B00011, ...
   uint8_t encodedPortNumber =
-    portNumber - 1; // 1 -> B00, 2 -> B01, ...
+    port.portNumber - 1; // 1 -> B00, 2 -> B01, ...
   return encodedNodeId << 2 | encodedPortNumber;
 }
 
@@ -257,14 +249,14 @@ void setupMultiTransceiver() {
 template <typename T>
 void transmitAnnouncement(T &portPin) {
   char buffer[] = {'!',
-                   encodePort(nodeId, portPin.number), // TODO: pass port
+                   encodePort({nodeId, portPin.portNumber}),
                    '\0'};
   portPin.transceiver.startTransmissionOfCharacters(buffer);
 }
 
 template <typename T>
 void announceMeToChild(T &portPin) {
-  if (portPin.number == numberOfPortWithParent) {
+  if (portPin.portNumber == numberOfPortWithParent) {
     return;
   }
   transmitAnnouncement(portPin);
@@ -282,37 +274,35 @@ void parseAnnouncementMessage(T &portPin, const char *message) {
   }
 
   if (!iHaveAParent()) {
-    numberOfPortWithParent = portPin.number;
+    numberOfPortWithParent = portPin.portNumber;
   }
 
-  if (portPin.number == numberOfPortWithParent) {
+  if (portPin.portNumber == numberOfPortWithParent) {
     resetParentExpiryTime(); // call regularly to keep parent fresh
   }
 
-  // Create pair, either describing parent-child (I) relationship, or
+  // Create pair, either describing parent-child relationship, or
   // loop:
   Port port = portFromPayload(message[1]); // TODO: -> decodePort
   Pair pair;
-  pair.firstNode = port;
-  pair.secondNode = I(portPin);
+  pair.parentPort = port;
+  pair.childPort = {nodeId, portPin.portNumber};
   enqueuePairMessage(buildPairMessage(pair));
 }
 
 char *buildPairMessage(Pair pair) {
   static char pairMessage[4];
   pairMessage[0] = '%';
-  pairMessage[1] = encodePort(pair.firstNode.nodeId,
-                              pair.firstNode.portNumber);
-  pairMessage[2] = encodePort(pair.secondNode.nodeId,
-                              pair.secondNode.portNumber);
+  pairMessage[1] = encodePort(pair.parentPort);
+  pairMessage[2] = encodePort(pair.childPort);
   pairMessage[3] = '\0';
   return pairMessage;
 }
 
 static inline Pair pairFromPairMessage(const char *message) {
   Pair pair;
-  pair.firstNode = portFromPayload(message[1]);
-  pair.secondNode = portFromPayload(message[2]);
+  pair.parentPort = portFromPayload(message[1]);
+  pair.childPort = portFromPayload(message[2]);
   return pair;
 }
 
@@ -333,13 +323,13 @@ bool parseMessage(T &portPin, char *message) {
 }
 
 void sendPairMessageToParent(const char *pairMessage) {
-  if (numberOfPortWithParent == portPin1.number) {
+  if (numberOfPortWithParent == portPin1.portNumber) {
     sendPairMessageToParent(portPin1, pairMessage);
-  } else if (numberOfPortWithParent == portPin2.number) {
+  } else if (numberOfPortWithParent == portPin2.portNumber) {
     sendPairMessageToParent(portPin2, pairMessage);
-  } else if (numberOfPortWithParent == portPin3.number) {
+  } else if (numberOfPortWithParent == portPin3.portNumber) {
     sendPairMessageToParent(portPin3, pairMessage);
-  } else if (numberOfPortWithParent == portPin4.number) {
+  } else if (numberOfPortWithParent == portPin4.portNumber) {
     sendPairMessageToParent(portPin4, pairMessage);
   }
 }

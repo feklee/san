@@ -246,7 +246,7 @@ void transmitAnnouncement(T &transceiverOnPort) {
   );
 }
 
-// There likely are better ways to calculate a six bit check sum.
+// There likely are better ways to calculate a six bit checksum.
 template <uint8_t payloadLength>
 uint8_t sixBitChecksum(const char *payload) {
   uint8_t sum = 0;
@@ -261,8 +261,7 @@ template <uint8_t messageLength>
 void buildMessage(char * const message, const MessageType type) {
   char * const payload = message + 1;
   const char payloadLength = messageLength - 1;
-  message[0] = B10000000 | uint8_t(type) |
-    sixBitChecksum<payloadLength>(payload);
+  message[0] = B10000000 | uint8_t(type) | sixBitChecksum<payloadLength>(payload);
   message[messageLength - 1] = '\0';
 }
 

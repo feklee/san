@@ -1,5 +1,5 @@
-#ifndef newPairs_h
-#define newPairs_h
+#ifndef pairMessageQueue_h
+#define pairMessageQueue_h
 
 #include "Arduino.h"
 

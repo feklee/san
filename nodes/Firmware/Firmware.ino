@@ -117,7 +117,7 @@ void rootLoop() {
 
   if (numberOfQueuedPairMessages() > 0) {
     const char *pairMessage = dequeuePairMessage();
-    Pair pair = parsePairPayload(pairMessage + 1);
+    Pair pair = pairFromPairMessage(pairMessage);
     printPair(pair);
   }
 
@@ -276,7 +276,7 @@ void resetParentExpiryTime() {
 }
 
 template <typename T>
-void parseAnnouncementPayload(T &port, char *payload) {
+void parseAnnouncementMessage(T &port, const char *message) {
   if (iAmRoot()) {
     return; // root cannot have a parent => ignore announcement
   }
@@ -291,7 +291,7 @@ void parseAnnouncementPayload(T &port, char *payload) {
 
   // Create pair, either describing parent-child (I) relationship, or
   // loop:
-  OtherNode otherNode = otherNodeFromPayload(payload[0]);
+  OtherNode otherNode = otherNodeFromPayload(message[1]);
   Pair pair;
   pair.firstNode = otherNode;
   pair.secondNode = I(port);
@@ -309,10 +309,10 @@ char *buildPairMessage(Pair pair) {
   return pairMessage;
 }
 
-static inline Pair parsePairPayload(const char *payload) {
+static inline Pair pairFromPairMessage(const char *message) {
   Pair pair;
-  pair.firstNode = otherNodeFromPayload(payload[0]);
-  pair.secondNode = otherNodeFromPayload(payload[1]);
+  pair.firstNode = otherNodeFromPayload(message[1]);
+  pair.secondNode = otherNodeFromPayload(message[2]);
   return pair;
 }
 
@@ -321,10 +321,9 @@ bool parseMessage(T &port, char *message) {
   if (message == 0) {
     return false;
   }
-  char *payload = message + 1;
   switch (message[0]) {
   case '!':
-    parseAnnouncementPayload(port, payload); // TODO: maybe rename
+    parseAnnouncementMessage(port, message);
     return true;
   case '%':
     enqueuePairMessage(message);

@@ -123,7 +123,7 @@ Assembly
 
      1. Bend solder tags by 90°.
 
-     2. Test if bent solder tags fit in hemisphere.
+     2. Verify that bent solder tags fit in hemisphere.
 
      3. Tin solder tags.
 

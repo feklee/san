@@ -3,10 +3,7 @@
 Introduction
 ============
 
-Self aware network structure. It understands its own topology. Get started by
-building the construction and running the software.
-
-To get started:
+Self aware network structure. It understands its own topology. To get started:
 
 1. Build nodes, edges, and the root node.
 
@@ -14,7 +11,7 @@ To get started:
 
 3. Connect the root node to the computer.
 
-4. Start the web app.
+4. Run the web app.
 
 ![Construction](images/construction.jpg)
 

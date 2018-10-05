@@ -151,7 +151,7 @@ Assembly
 
           - DIN: yellow cable, tinned on one end
 
-          - VDD: black cable, short, attached to a BNC connector
+          - VDD: black cable, short, attached to a BNC solder connector
 
           - VSS: red y-cable, one of the two tinned ends
 

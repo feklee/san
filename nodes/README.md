@@ -163,8 +163,7 @@ Assembly
 
           - DIN: yellow cable, connected to DOUT on first LED
 
-          - VDD: black cable, short, attached to the BNC connector which is
-            connected to that from the previous step
+          - VDD: black cable, short, connected to the first LED
 
           - VSS: red y-cable, connected to first LED
 

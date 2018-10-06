@@ -56,11 +56,12 @@ div.log {
     line-height: 16px;
     height: 100%;
     box-sizing: border-box;
+    display: flex;
 }
 
 div.log ul {
-    margin-top: auto;
     width: 100%;
+    align-self: flex-end;
 }
 
 div.log ul li {
@@ -114,5 +115,5 @@ div.log ul li.warn::before {
 
 p.link {
     position: absolute;
-    bottom: 10px;
+    bottom: 0px;
 }

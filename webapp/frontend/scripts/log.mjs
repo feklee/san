@@ -31,7 +31,12 @@ var timeStamp = function () {
 var removeOverflow = function () {
     var childNode;
     var parentEl = logEl.parentElement;
-    while (parentEl.scrollHeight > parentEl.clientHeight) {
+    var lineHeight = logEl.clientHeight / logEl.childNodes.length;
+
+    // Leave one line at top, potentially partially cropped:
+    var maxHeight = parentEl.clientHeight + lineHeight;
+
+    while (logEl.clientHeight > maxHeight) {
         childNode = logEl.childNodes[0];
         if (childNode === undefined) {
             return;

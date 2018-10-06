@@ -115,7 +115,7 @@ Assembly
      6. Solder y-cables using the cables that are stripped in the middle plus
         the 60 mm cables that are stripped on just one end.
 
-     7. Put heat shrink tube on connections of y-cables.
+     7. Put 10 mm heat shrink tube on connections of y-cables.
 
  3. BNC connectors:
 

@@ -3,7 +3,7 @@ html, body {
     height: 100%;
     overflow: hidden;
     background: black;
-    color: lightgray;
+    color: white;
 }
 
 body {
@@ -110,4 +110,9 @@ div.log ul li.warn {
 
 div.log ul li.warn::before {
     content: "⚠";
+}
+
+p.link {
+    position: absolute;
+    bottom: 10px;
 }

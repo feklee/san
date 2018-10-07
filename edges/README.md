@@ -12,12 +12,12 @@ Parts
 
   * 2 × RG58 BNC crimp coaxial connector with contact pins: Amphenol RF 112116
 
-  * Aluminum pipe, 6 mm outer diameter, 0.5 mm wall thickness, 100 mm length
+  * Aluminum pipe, 6 mm outer diameter, 0.5 mm wall thickness, 60 mm length
 
   * ABS coated wire, 1.0 mm wire diameter, 1.6 mm outer diameter:
     [Modulor Item #4500359-002-ST][1]
 
-    Isolation cut to a length of 107 mm
+    Isolation cut to a length of 67 mm
 
 Consider adding a resistor as a protection against shorting when nodes are
 connected in loops: [Half Duplex: How to prevent shorting?][2] (Electrical

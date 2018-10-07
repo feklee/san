@@ -27,11 +27,13 @@ Engineering StackExchange)
 Assembly
 ========
 
- 1. Crimp contact pins.
+ 1. Scrape off oxide layer from stripped wires.
 
- 2. Assemble. The contact pins require some force to click into the connectors.
+ 2. Crimp contact pins.
 
- 3. Crimp pipe to fix connectors.
+ 3. Assemble. The contact pins require some force to click into the connectors.
+
+ 4. Crimp pipe to fix connectors.
 
     ![Finished edge](images/finished.jpg)
 

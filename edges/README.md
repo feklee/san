@@ -1,8 +1,8 @@
 Introduction
 ============
 
-Edges are composed of RG58 cables inside metal tubes, connected to BNC
-connectors.
+Edges are basically stiff RG58 cables. The metal shell is connected to
+ground.
 
 
 Parts

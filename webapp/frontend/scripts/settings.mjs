@@ -14,6 +14,6 @@ export default {
     visualization: {
         locationEasingSpeed: 0.1, // (0, 1]
         nodeDiameter: 0.1,
-        edgeColor: "gray"
+        edgeColor: "white"
     }
 };

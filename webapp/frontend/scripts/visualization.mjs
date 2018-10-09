@@ -46,7 +46,7 @@ destroyObject3D = function (object3D) {
     if (object3D.material) {
         object3D.material.dispose();
     }
-    if(object3D.texture) {
+    if (object3D.texture) {
         object3D.texture.dispose();
     }
 };
@@ -94,8 +94,13 @@ var updateEdgeObject3Ds = function () {
 };
 
 var createHemisphere = function (color, index) {
-    var geometry = new SphereGeometry(vSettings.nodeDiameter,
-                                      32, 32, index * Math.PI, Math.PI);
+    var geometry = new SphereGeometry(
+        vSettings.nodeDiameter,
+        32,
+        32,
+        index * Math.PI,
+        Math.PI
+    );
     var material = new MeshBasicMaterial({color: color});
     return new Mesh(geometry, material);
 };

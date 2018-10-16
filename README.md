@@ -13,9 +13,7 @@ Self aware network structure. It understands its own topology. To get started:
 
 4. Run the web app.
 
-![Construction](images/construction.jpg)
-
-![Visualization](images/visualization.png)
+![Photo of setup at Maker Faire Rome 2018](images/2018-10-14+02_Maker_Faire_Rome.jpg)
 
 
 License

@@ -19,4 +19,5 @@ setNodeColor('Q', lime, blue);
 setNodeColor('R', lime, fuchsia);
 setNodeColor('S', aqua, blue);
 setNodeColor('T', aqua, fuchsia);
-setNodeColor('U', fuchsia, aqua);
+setNodeColor('U', blue, fuchsia);
+setNodeColor('V', white, red);

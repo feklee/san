@@ -14,7 +14,7 @@ module.exports = function (onListening) {
         request.addListener("end", function () {
             fileServer.serve(request, response);
         }).resume();
-    }).listen(port);
+    });
 
     httpServer.listen(port, function () {
         cli.log("HTTP server is listening on port " + port);

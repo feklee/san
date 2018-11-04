@@ -213,17 +213,26 @@ Assembly
 
     ![Board](images/board.jpg)
 
-     1. Desolder LED from Arduino Pro Mini (works good with a soldering iron and
-        a little tin on its tip, as shown in the video “Desoldering led and
-        voltage regulator on Arduino Pro
-        Mini”: <https://www.youtube.com/watch?v=7qujkC72dYs>)
+     1. Desolder the power LED from the Arduino Pro Mini (works good
+        with a soldering iron and a little tin on its tip, as shown in
+        the video “Desoldering led and voltage regulator on Arduino
+        Pro Mini”: <https://www.youtube.com/watch?v=7qujkC72dYs>)
+        
+        Desoldering the power LED reduces power consumption, and it
+        avoids an glow inside the sphere.
+        
+     2. Remove the reset button. This can be done simply by cutting
+        its legs with a wire cutter.
+        
+        Removing the reset button saves a little space, and it
+        prevents it from accidentally being pressed.
 
-     2. Bend the six pin connector so that board with the connector fits into a
+     3. Bend the six pin connector so that board with the connector fits into a
         hemisphere. Suggestion: Test by bending one pin first.
 
-     3. Solder six piece connector to board.
+     4. Solder six piece connector to board.
 
-     4. Solder cables into the upper side of the board, after
+     5. Solder cables into the upper side of the board, after
         stripping ends (fixing cables with Blu Tack makes things easier):
 
           - A0: yellow cable
@@ -235,7 +244,7 @@ Assembly
 
           - RAW: orange cable
 
-     5. Solder cables into the bottom side of the board, after stripping ends:
+     6. Solder cables into the bottom side of the board, after stripping ends:
 
           - GND between RST and RAW: remaining black cables
 

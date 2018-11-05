@@ -68,8 +68,8 @@ void setupColors() {
   neoPixel = Adafruit_NeoPixel(numberOfLeds, dataPin, NEO_RGB + NEO_KHZ800);
   neoPixel.begin();
   neoPixel.setPixelColor(0, neoPixelColor(color1));
-  neoPixel.setPixelColor(1, neoPixelColor(color2));
-  neoPixel.setPixelColor(2, neoPixelColor(color1));
+  neoPixel.setPixelColor(1, neoPixelColor(color1));
+  neoPixel.setPixelColor(2, neoPixelColor(color2));
   neoPixel.setPixelColor(3, neoPixelColor(color2));
   neoPixel.show();
 }

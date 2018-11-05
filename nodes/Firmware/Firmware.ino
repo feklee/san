@@ -74,8 +74,13 @@ void setupColors() {
   neoPixel.show();
 }
 
+void setupAccelerometer() {
+  analogReference(EXTERNAL);
+}
+
 void setup() {
   setupColors();
+  setupAccelerometer(); 
 
   myNodeId = EEPROM.read(0);
 

@@ -235,7 +235,7 @@ Assembly
      5. Solder cables into the upper side of the board, after
         stripping ends (fixing cables with Blu Tack makes things easier):
 
-          - A0: yellow cable
+          - Pin 4: yellow cable
 
           - GND between RST and 2: black cable connected to the two
             LEDs with the yellow cable soldered to A0

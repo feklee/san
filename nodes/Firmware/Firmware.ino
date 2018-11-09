@@ -6,13 +6,15 @@
 // node.
 
 #include <EEPROM.h>
-#include <FastLED.h>
+#include <Adafruit_NeoPixel.h>
 #include "settings.h"
 #include "TransceiverOnPort.h"
 #include "Port.h"
 #include "Pair.h"
 #include "message.h"
 #include "pairMessageQueue.h"
+
+Adafruit_NeoPixel neoPixel;
 
 static char myNodeId;
 
@@ -49,26 +51,27 @@ uint8_t adjustForBrightness(uint8_t subColor) {
   return uint32_t(subColor) * ledBrightness / 0xff;
 }
 
+uint32_t neoPixelColor(uint8_t *color) {
+  return neoPixel.Color(
+    adjustForBrightness(color[0]),
+    adjustForBrightness(color[1]),
+    adjustForBrightness(color[2])
+  );
+}
+
 void setupColors() {
-  CRGB color1;
-  CRGB color2;
+  uint8_t color1[3] = {EEPROM.read(1), EEPROM.read(2), EEPROM.read(3)};
+  uint8_t color2[3] = {EEPROM.read(4), EEPROM.read(5), EEPROM.read(6)};
+
   const uint8_t numberOfLeds = 4;
-  CRGB leds[numberOfLeds];
   const uint8_t dataPin = 4;
-
-  color1.red = adjustForBrightness(EEPROM.read(1));
-  color1.green = adjustForBrightness(EEPROM.read(2));
-  color1.blue = adjustForBrightness(EEPROM.read(3));
-  color2.red = adjustForBrightness(EEPROM.read(4));
-  color2.green = adjustForBrightness(EEPROM.read(5));
-  color2.blue = adjustForBrightness(EEPROM.read(6));
-
-  FastLED.addLeds<WS2811, dataPin, RGB>(leds, numberOfLeds);
-  leds[0] = color1;
-  leds[1] = color1;
-  leds[2] = color2;
-  leds[3] = color2;
-  FastLED.show();
+  neoPixel = Adafruit_NeoPixel(numberOfLeds, dataPin, NEO_RGB + NEO_KHZ800);
+  neoPixel.begin();
+  neoPixel.setPixelColor(0, neoPixelColor(color1));
+  neoPixel.setPixelColor(1, neoPixelColor(color1));
+  neoPixel.setPixelColor(2, neoPixelColor(color2));
+  neoPixel.setPixelColor(3, neoPixelColor(color2));
+  neoPixel.show();
 }
 
 void setupAccelerometer() {

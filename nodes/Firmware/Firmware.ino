@@ -60,12 +60,15 @@ uint32_t neoPixelColor(uint8_t *color) {
 }
 
 void setupColors() {
-  uint8_t color1[3] = {EEPROM.read(1), EEPROM.read(2), EEPROM.read(3)};
-  uint8_t color2[3] = {EEPROM.read(4), EEPROM.read(5), EEPROM.read(6)};
+  uint8_t color1[3] =
+    {EEPROM.read(1), EEPROM.read(2), EEPROM.read(3)};
+  uint8_t color2[3] =
+    {EEPROM.read(4), EEPROM.read(5), EEPROM.read(6)};
 
   const uint8_t numberOfLeds = 4;
   const uint8_t dataPin = 4;
-  neoPixel = Adafruit_NeoPixel(numberOfLeds, dataPin, NEO_RGB + NEO_KHZ800);
+  neoPixel = Adafruit_NeoPixel(numberOfLeds, dataPin,
+                               NEO_RGB + NEO_KHZ800);
   neoPixel.begin();
   neoPixel.setPixelColor(0, neoPixelColor(color1));
   neoPixel.setPixelColor(1, neoPixelColor(color1));

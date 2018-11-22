@@ -16,7 +16,7 @@ static void decrementLength() {
 }
 
 void enqueuePairMessage(const byte *pairMessage) {
-  strncpy((char *) buffer[last], (const char *) pairMessage, pairMessageSize);
+  memcpy(buffer[last], pairMessage, pairMessageSize);
   incrementPosition(last);
 
   if (length < maxPairMessageQueueSize) {

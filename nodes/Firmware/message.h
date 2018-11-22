@@ -46,8 +46,7 @@ inline bool checksumIsCorrect(const byte *message) {
 //
 //   * `CCCCCC`: six bit checksum of payload
 template <uint8_t payloadSize>
-inline byte buildStartByte(const MessageType type,
-                                byte * const payload) {
+inline byte buildStartByte(const MessageType type, byte * const payload) {
   return
     B10000000 |
     uint8_t(type) |
@@ -70,11 +69,10 @@ inline byte *buildAnnouncementMessage(Port port) {
 }
 
 inline byte *buildPairMessage(Pair pair) {
-  static byte message[pairMessageSize + 1 /* TODO */];
+  static byte message[pairMessageSize];
   message[1] = encodePort(pair.parentPort);
   message[2] = encodePort(pair.childPort);
   buildMessage<pairMessageSize>(message, MessageType::pair);
-  message[3] = '\0'; // TODO
   return message;
 }
 

@@ -6,7 +6,7 @@
 #include "Port.h"
 #include "message.h"
 
-static const uint8_t maxNumberOfBytesPerTransmission = 5;
+static const uint8_t maxNumberOfBytesPerTransmission = 5; // TODO: 3 not enough?
 static const bool recordDebugData = false;
 static const uint8_t customReceiveBufferSize = 0xff;
 using MT = MultiTrans<bitDurationExp,

@@ -255,8 +255,9 @@ void setupMultiTransceiver() {
 
 template <typename T>
 void transmitAnnouncement(T &transceiverOnPort) {
-  transceiverOnPort.transceiver.startTransmissionOfCharacters(
-    buildAnnouncementMessage({myNodeId, transceiverOnPort.portNumber})
+  transceiverOnPort.transceiver.startTransmissionOfBytes(
+    buildAnnouncementMessage({myNodeId, transceiverOnPort.portNumber}),
+    announcementMessageSize
   );
 }
 
@@ -293,7 +294,7 @@ void parseAnnouncementMessage(T &transceiverOnPort, const char *message) {
   Pair pair;
   pair.parentPort = port;
   pair.childPort = {myNodeId, transceiverOnPort.portNumber};
-  enqueuePairMessage(buildPairMessage(pair));
+  enqueuePairMessage((char *)buildPairMessage(pair));
 }
 
 static inline Pair pairFromPairMessage(const char *message) {
@@ -311,7 +312,7 @@ bool parseMessage(T &transceiverOnPort, char *message) {
 
   if (message[0] & B01000000) {
     // pair message
-    enqueuePairMessage(message);
+    enqueuePairMessage((char *)message);
     return true;
   } else {
     // announcement message

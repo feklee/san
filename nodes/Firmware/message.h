@@ -55,26 +55,27 @@ inline char buildStartCharacter(const MessageType type,
 }
 
 template <uint8_t messageSize>
-inline void buildMessage(char * const message, const MessageType type) {
-  char * const payload = message + 1;
-  const char payloadSize = messageSize - 1;
-  message[0] = buildStartCharacter<payloadSize>(type, (byte *) /*TODO*/ payload);
+inline void buildMessage(byte * const message,
+                         const MessageType type) {
+  byte * const payload = message + 1;
+  const uint8_t payloadSize = messageSize - 1;
+  message[0] = buildStartCharacter<payloadSize>(type, payload);
   message[messageSize] = '\0';
 }
 
 inline char *buildAnnouncementMessage(Port port) {
-  static char message[announcementMessageSize + 1];
+  static byte message[announcementMessageSize];
   message[1] = encodePort(port);
   buildMessage<announcementMessageSize>(message, MessageType::announcement);
-  return message;
+  return (char *) message;
 }
 
 inline char *buildPairMessage(Pair pair) {
-  static char message[pairMessageSize + 1];
+  static byte message[pairMessageSize];
   message[1] = encodePort(pair.parentPort);
   message[2] = encodePort(pair.childPort);
   buildMessage<pairMessageSize>(message, MessageType::pair);
-  return message;
+  return (char *) message;
 }
 
 inline bool byteStartsMessage(const char b) {

@@ -77,12 +77,12 @@ inline char *buildPairMessage(Pair pair) {
   return message;
 }
 
-inline bool characterStartsMessage(const char character) {
-  return character & B10000000;
+inline bool byteStartsMessage(const char b) {
+  return b & B10000000;
 }
 
-inline bool characterStartsAnnouncement(const char character) {
-  return (character & B01000000) == uint8_t(MessageType::announcement);
+inline bool byteStartsAnnouncement(const byte b) {
+  return (b & B01000000) == uint8_t(MessageType::announcement);
 }
 
 #endif

@@ -122,10 +122,10 @@ void printPair(const Pair &pair) {
 }
 
 void rootLoop() {
-  parseMessage(transceiverOnPort1, (char *) transceiverOnPort1.getMessage());
+  parseMessage(transceiverOnPort1, transceiverOnPort1.getMessage());
 
   if (numberOfQueuedPairMessages() > 0) {
-    const char *pairMessage = dequeuePairMessage();
+    const byte *pairMessage = dequeuePairMessage();
     Pair pair = pairFromPairMessage(pairMessage);
     printPair(pair);
   }
@@ -139,17 +139,13 @@ void parseMessages() {
   do {
     messageHasBeenReceived = false;
     messageHasBeenReceived |= 
-      parseMessage(transceiverOnPort1,
-                   (char *) transceiverOnPort1.getMessage());
+      parseMessage(transceiverOnPort1, transceiverOnPort1.getMessage());
     messageHasBeenReceived |=
-      parseMessage(transceiverOnPort2,
-                   (char *) transceiverOnPort2.getMessage());
+      parseMessage(transceiverOnPort2, transceiverOnPort2.getMessage());
     messageHasBeenReceived |=
-      parseMessage(transceiverOnPort3,
-                   (char *) transceiverOnPort3.getMessage());
+      parseMessage(transceiverOnPort3, transceiverOnPort3.getMessage());
     messageHasBeenReceived |=
-      parseMessage(transceiverOnPort4,
-                   (char *) transceiverOnPort4.getMessage());
+      parseMessage(transceiverOnPort4, transceiverOnPort4.getMessage());
   } while (messageHasBeenReceived);
 }
 
@@ -228,13 +224,10 @@ static inline bool iAmRoot() {
   return myNodeId == '*';
 }
 
-static inline bool startsRequest(char c) {
-  return c == '!';
-}
-
 template <typename T>
-void sendPairMessageToParent(T &transceiverOnPort, const char *pairMessage) {
-  transceiverOnPort.transceiver.startTransmissionOfCharacters(pairMessage);
+void sendPairMessageToParent(T &transceiverOnPort, const byte *pairMessage) {
+  transceiverOnPort.transceiver.startTransmissionOfBytes(pairMessage,
+                                                         pairMessageSize);
 }
 
 void enablePinChangeInterrupts() {
@@ -275,7 +268,7 @@ void resetParentExpiryTime() {
 }
 
 template <typename T>
-void parseAnnouncementMessage(T &transceiverOnPort, const char *message) {
+void parseAnnouncementMessage(T &transceiverOnPort, const byte *message) {
   if (iAmRoot()) {
     return; // root cannot have a parent => ignore announcement
   }
@@ -294,10 +287,10 @@ void parseAnnouncementMessage(T &transceiverOnPort, const char *message) {
   Pair pair;
   pair.parentPort = port;
   pair.childPort = {myNodeId, transceiverOnPort.portNumber};
-  enqueuePairMessage((char *)buildPairMessage(pair));
+  enqueuePairMessage(buildPairMessage(pair));
 }
 
-static inline Pair pairFromPairMessage(const char *message) {
+static inline Pair pairFromPairMessage(const byte *message) {
   Pair pair;
   pair.parentPort = decodePort(message[1]);
   pair.childPort = decodePort(message[2]);
@@ -305,14 +298,14 @@ static inline Pair pairFromPairMessage(const char *message) {
 }
 
 template <typename T>
-bool parseMessage(T &transceiverOnPort, char *message) {
+bool parseMessage(T &transceiverOnPort, byte *message) {
   if (message == 0) {
     return false;
   }
 
   if (message[0] & B01000000) {
     // pair message
-    enqueuePairMessage((char *)message);
+    enqueuePairMessage(message);
     return true;
   } else {
     // announcement message
@@ -322,7 +315,7 @@ bool parseMessage(T &transceiverOnPort, char *message) {
   return false;
 }
 
-void sendPairMessageToParent(const char *pairMessage) {
+void sendPairMessageToParent(const byte *pairMessage) {
   if (numberOfPortWithParent == transceiverOnPort1.portNumber) {
     sendPairMessageToParent(transceiverOnPort1, pairMessage);
   } else if (numberOfPortWithParent == transceiverOnPort2.portNumber) {

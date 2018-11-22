@@ -3,8 +3,8 @@
 
 #include "Arduino.h"
 
-void enqueuePairMessage(const char *);
-const char *dequeuePairMessage();
+void enqueuePairMessage(const byte *);
+const byte *dequeuePairMessage();
 void clearPairMessageQueue();
 uint8_t numberOfQueuedPairMessages();
 

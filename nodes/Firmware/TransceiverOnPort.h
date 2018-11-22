@@ -23,14 +23,14 @@ public:
   MT::Transceiver<pinNumber> transceiver;
   static const uint8_t portNumber = u;
 
-  char *getMessage();
+  byte *getMessage();
 };
 
 template <uint8_t t, uint8_t u>
-char *TransceiverOnPort<t, u>::getMessage() {
+byte *TransceiverOnPort<t, u>::getMessage() {
   static uint8_t messageSize = 0;
   static uint8_t messagePos = 0;
-  static char message[maxNumberOfBytesPerTransmission];
+  static byte message[maxNumberOfBytesPerTransmission];
   static bool gettingMessage = false;
   static MessageType messageType;
 

@@ -122,7 +122,7 @@ void printPair(const Pair &pair) {
 }
 
 void rootLoop() {
-  parseMessage(transceiverOnPort1, transceiverOnPort1.getMessage());
+  parseMessage(transceiverOnPort1, (char *) transceiverOnPort1.getMessage());
 
   if (numberOfQueuedPairMessages() > 0) {
     const char *pairMessage = dequeuePairMessage();
@@ -138,10 +138,18 @@ void parseMessages() {
 
   do {
     messageHasBeenReceived = false;
-    messageHasBeenReceived |= parseMessage(transceiverOnPort1, transceiverOnPort1.getMessage());
-    messageHasBeenReceived |= parseMessage(transceiverOnPort2, transceiverOnPort2.getMessage());
-    messageHasBeenReceived |= parseMessage(transceiverOnPort3, transceiverOnPort3.getMessage());
-    messageHasBeenReceived |= parseMessage(transceiverOnPort4, transceiverOnPort4.getMessage());
+    messageHasBeenReceived |= 
+      parseMessage(transceiverOnPort1,
+                   (char *) transceiverOnPort1.getMessage());
+    messageHasBeenReceived |=
+      parseMessage(transceiverOnPort2,
+                   (char *) transceiverOnPort2.getMessage());
+    messageHasBeenReceived |=
+      parseMessage(transceiverOnPort3,
+                   (char *) transceiverOnPort3.getMessage());
+    messageHasBeenReceived |=
+      parseMessage(transceiverOnPort4,
+                   (char *) transceiverOnPort4.getMessage());
   } while (messageHasBeenReceived);
 }
 

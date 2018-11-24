@@ -1,0 +1,1 @@
+constexpr char myNodeId = 'A';

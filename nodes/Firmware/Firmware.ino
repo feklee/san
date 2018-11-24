@@ -5,18 +5,18 @@
 // announcing node and itself. Pairs are propagated up to the root
 // node.
 
-#include <EEPROM.h>
 #include <Adafruit_NeoPixel.h>
+#include "colors.h"
 #include "settings.h"
+#include "myNodeId.h"
 #include "TransceiverOnPort.h"
 #include "Port.h"
 #include "Pair.h"
 #include "message.h"
 #include "pairMessageQueue.h"
+#include "nodeColorsList.h"
 
 Adafruit_NeoPixel neoPixel;
-
-static char myNodeId;
 
 const uint8_t pinNumber1 = 2;
 const uint8_t pinNumber2 = 3;
@@ -51,7 +51,7 @@ uint8_t adjustForBrightness(uint8_t subColor) {
   return uint32_t(subColor) * ledBrightness / 0xff;
 }
 
-uint32_t neoPixelColor(uint8_t *color) {
+uint32_t neoPixelColor(const byte * const color) {
   return neoPixel.Color(
     adjustForBrightness(color[0]),
     adjustForBrightness(color[1]),
@@ -59,21 +59,23 @@ uint32_t neoPixelColor(uint8_t *color) {
   );
 }
 
-void setupColors() {
-  uint8_t color1[3] =
-    {EEPROM.read(1), EEPROM.read(2), EEPROM.read(3)};
-  uint8_t color2[3] =
-    {EEPROM.read(4), EEPROM.read(5), EEPROM.read(6)};
-
+void setupColors() { // TODO: -> colorSetup?
   const uint8_t numberOfLeds = 4;
   const uint8_t dataPin = 4;
+  const uint8_t listIndex = iAmRoot()
+    ? 0
+    : (myNodeId - 0x40);
+  const byte * const * const nodeColors = nodeColorsList[listIndex];
+  const uint32_t color1 = neoPixelColor(nodeColors[0]);
+  const uint32_t color2 = neoPixelColor(nodeColors[1]);
+
   neoPixel = Adafruit_NeoPixel(numberOfLeds, dataPin,
                                NEO_RGB + NEO_KHZ800);
   neoPixel.begin();
-  neoPixel.setPixelColor(0, neoPixelColor(color1));
-  neoPixel.setPixelColor(1, neoPixelColor(color1));
-  neoPixel.setPixelColor(2, neoPixelColor(color2));
-  neoPixel.setPixelColor(3, neoPixelColor(color2));
+  neoPixel.setPixelColor(0, color1);
+  neoPixel.setPixelColor(1, color1);
+  neoPixel.setPixelColor(2, color2);
+  neoPixel.setPixelColor(3, color2);
   neoPixel.show();
 }
 
@@ -84,8 +86,6 @@ void setupAccelerometer() {
 void setup() {
   setupColors();
   setupAccelerometer(); 
-
-  myNodeId = EEPROM.read(0);
 
   pinMode(ledPin, OUTPUT);
   flashLed();

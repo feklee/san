@@ -18,7 +18,7 @@ import {
     graphUpdateInterval, // ms
     connectionExpiryDuration, // ms
     nodeColorsList
-} from "./common-settings.mjs";
+} from "./shared-settings.mjs";
 
 var rootNode;
 

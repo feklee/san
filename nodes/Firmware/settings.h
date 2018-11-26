@@ -5,18 +5,47 @@
 
 #undef DEBUG
 
-#include "commonSettings.h"
+#include "sharedSettings.h"
 
 const uint8_t ledPin = 13;
 const uint8_t maxPairMessageQueueSize = 20;
+const uint8_t ledDataPinList[] =
+  {
+   A0, // *
+   A0, // A
+   A0, // B
+   A0, // ...
+   A0,
+   A0,
+   A0,
+   A0,
+   A0,
+   A0,
+   A0,
+   A0,
+   A0,
+   A0,
+   A0,
+   A0,
+   A0,
+   A0,
+   A0,
+   A0,
+   A0,
+   4,
+   4
+  };
 
 #ifdef DEBUG
+
 const boolean flashLedIsEnabled = true; // takes time
 const uint32_t announcementPeriod = 2000; // ms
 const uint8_t bitDurationExp = 9;
 const uint32_t parentExpiryDuration = 2.5 * 2000; // ms
 const uint8_t ledBrightness = 20;
+
 #else
+
 const boolean flashLedIsEnabled = false;
 
 // The maximum data rate supported by MultiTrans when communicating

@@ -70,12 +70,16 @@ uint32_t neoPixelColor(const byte * const color) {
   );
 }
 
-void setupColors() { // TODO: -> colorSetup?
-  const uint8_t numberOfLeds = 4;
-  const uint8_t dataPin = 4;
-  const uint8_t listIndex = iAmRoot()
+uint8_t listIndexFromIdOfThisNode() {
+  return thisNodeIsRoot()
     ? 0
     : (idOfThisNode - 0x40);
+}
+
+void ledSetup() {
+  const uint8_t numberOfLeds = 4;
+  const uint8_t listIndex = listIndexFromIdOfThisNode();
+  const uint8_t dataPin = ledDataPinList[listIndex];
   const byte * const * const nodeColors = nodeColorsList[listIndex];
   const uint32_t color1 = neoPixelColor(nodeColors[0]);
   const uint32_t color2 = neoPixelColor(nodeColors[1]);
@@ -90,18 +94,18 @@ void setupColors() { // TODO: -> colorSetup?
   neoPixel.show();
 }
 
-void setupAccelerometer() {
+void accelerometerSetup() {
   analogReference(EXTERNAL);
 }
 
 void setup() {
-  setupColors();
-  setupAccelerometer(); 
+  ledSetup();
+  accelerometerSetup(); 
 
   pinMode(ledPin, OUTPUT);
   flashLed();
 
-  if (iAmRoot()) {
+  if (thisNodeIsRoot()) {
     Serial.begin(115200);
   }
 
@@ -113,7 +117,7 @@ bool iHaveAParent() {
 }
 
 void loop() {
-  if (iAmRoot()) {
+  if (thisNodeIsRoot()) {
     rootLoop();
   } else {
     nonRootLoop();
@@ -231,7 +235,7 @@ static void flashLed() {
   }
 }
 
-static inline bool iAmRoot() {
+static inline bool thisNodeIsRoot() {
   return idOfThisNode == '*';
 }
 
@@ -280,7 +284,7 @@ void resetParentExpiryTime() {
 
 template <typename T>
 void parseAnnouncementMessage(T &transceiverOnPort, const byte *message) {
-  if (iAmRoot()) {
+  if (thisNodeIsRoot()) {
     return; // root cannot have a parent => ignore announcement
   }
 
@@ -340,7 +344,7 @@ void sendPairMessageToParent(const byte *pairMessage) {
 
 void announceMeToChildren() {
   announceMeToChild(transceiverOnPort1);
-  if (!iAmRoot()) {
+  if (!thisNodeIsRoot()) {
     announceMeToChild(transceiverOnPort2);
     announceMeToChild(transceiverOnPort3);
     announceMeToChild(transceiverOnPort4);

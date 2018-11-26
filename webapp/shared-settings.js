@@ -8,12 +8,25 @@ var graphUpdateInterval = 0;
 var connectionExpiryDuration = 0;
 
 try {
-    var cData = fs.readFileSync("../nodes/Firmware/commonSettings.h",
+    var cData = fs.readFileSync("../nodes/Firmware/sharedSettings.h",
                                 "utf8");
-    var jsData = cData.replace(/const\s+[^\s]+/g, "");
+    var assignmentsInCpp =
+        cData.match(new RegExp(
+            "^\\s*const[^;]+" +
+                "(graphUpdateInterval|connectionExpiryDuration)" +
+                "\\s+=[^\\;]*;",
+            "gm"
+        ));
+    var jsData = "";
+    assignmentsInCpp.forEach(function (assignmentInCpp) {
+        var assignmentInJs =
+            assignmentInCpp.replace(/const\s+[^\s]+/g, "");
+        jsData += assignmentInJs;
+    });
+    console.log(jsData);
     eval(jsData);
 } catch (ignore) {
-    cli.logError("Cannot load common settings");
+    cli.logError("Cannot load shared settings");
     process.exit(1);
 }
 

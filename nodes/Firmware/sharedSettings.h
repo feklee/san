@@ -1,7 +1,7 @@
-// Common settings, shared between nodes and the web app
+// These settings shared between nodes and the web app.
 
-#ifndef commonSettings_h
-#define commonSettings_h
+#ifndef sharedSettings_h
+#define sharedSettings_h
 
 #include "colors.h"
 

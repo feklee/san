@@ -30,10 +30,10 @@ export default {
     },
     plugins: [
         replace({
-            include: "frontend/scripts/common-settings.mjs",
+            include: "frontend/scripts/shared-settings.mjs",
             patterns: [
                 {
-                    file: "../../../nodes/Firmware/commonSettings.h"
+                    file: "../../../nodes/Firmware/sharedSettings.h"
                 },
                 {
                     test: /\}/g,
@@ -59,44 +59,10 @@ export default {
             ]
         }),
         legacy({
-            "frontend/scripts/common-settings.mjs": {
+            "frontend/scripts/shared-settings.mjs": {
                 graphUpdateInterval: "graphUpdateInterval",
                 connectionExpiryDuration: "connectionExpiryDuration",
                 nodeColorsList: "nodeColorsList"
-            }
-        }),
-        replace({
-            include: "frontend/scripts/node-colors.mjs",
-            patterns: [
-                {
-                    file: "../../../nodes/EepromWriter/nodeColors.h"
-                },
-                {
-                    transform(code) {
-                        var re = new RegExp(
-                            "setNodeColor\\(" +
-                                    "\\s*'(.)'\\s*," +
-                                    "\\s*(\\w+)\\s*," +
-                                    "\\s*(\\w+)\\s*" +
-                                    "\\)\\s*;",
-                            "g"
-                        );
-                        var processedCode = code.replace(
-                            re,
-                            "\"$1\": [\"$2\", \"$3\"],"
-                        );
-                        return (
-                            "var nodeColors = {" +
-                                processedCode +
-                                "}"
-                        );
-                    }
-                }
-            ]
-        }),
-        legacy({
-            "frontend/scripts/node-colors.mjs": {
-                nodeColors: "nodeColors"
             }
         }),
         copy(copyOptions),

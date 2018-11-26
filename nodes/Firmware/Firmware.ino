@@ -8,7 +8,7 @@
 #include <Adafruit_NeoPixel.h>
 #include "colors.h"
 #include "settings.h"
-#include "myNodeId.h"
+#include "id.h" // ID of this node, e.g.: `#define ID A`
 #include "TransceiverOnPort.h"
 #include "Port.h"
 #include "Pair.h"
@@ -16,12 +16,25 @@
 #include "pairMessageQueue.h"
 #include "nodeColorsList.h"
 
+#define IDENTITY(x) x
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+
+constexpr uint16_t angleTableSize = 1024;
+#define ANGLE_TABLE_FILENAME TOSTRING(../IDENTITY(ID).h)
+#if __has_include(ANGLE_TABLE_FILENAME)
+#include ANGLE_TABLE_FILENAME
+#else
+#include "defaultAngleTable.h"
+#endif
+
 Adafruit_NeoPixel neoPixel;
 
-const uint8_t pinNumber1 = 2;
-const uint8_t pinNumber2 = 3;
-const uint8_t pinNumber3 = 8;
-const uint8_t pinNumber4 = 9;
+constexpr char idOfThisNode = TOSTRING(ID)[0];
+constexpr uint8_t pinNumber1 = 2;
+constexpr uint8_t pinNumber2 = 3;
+constexpr uint8_t pinNumber3 = 8;
+constexpr uint8_t pinNumber4 = 9;
 static TransceiverOnPort<pinNumber1, 1> transceiverOnPort1;
 static TransceiverOnPort<pinNumber2, 2> transceiverOnPort2;
 static TransceiverOnPort<pinNumber3, 3> transceiverOnPort3;
@@ -64,7 +77,7 @@ void setupColors() { // TODO: -> colorSetup?
   const uint8_t dataPin = 4;
   const uint8_t listIndex = iAmRoot()
     ? 0
-    : (myNodeId - 0x40);
+    : (idOfThisNode - 0x40);
   const byte * const * const nodeColors = nodeColorsList[listIndex];
   const uint32_t color1 = neoPixelColor(nodeColors[0]);
   const uint32_t color2 = neoPixelColor(nodeColors[1]);
@@ -221,7 +234,7 @@ static void flashLed() {
 }
 
 static inline bool iAmRoot() {
-  return myNodeId == '*';
+  return idOfThisNode == '*';
 }
 
 template <typename T>
@@ -249,7 +262,7 @@ void setupMultiTransceiver() {
 template <typename T>
 void transmitAnnouncement(T &transceiverOnPort) {
   transceiverOnPort.transceiver.startTransmissionOfBytes(
-    buildAnnouncementMessage({myNodeId, transceiverOnPort.portNumber}),
+    buildAnnouncementMessage({idOfThisNode, transceiverOnPort.portNumber}),
     announcementMessageSize
   );
 }
@@ -286,7 +299,7 @@ void parseAnnouncementMessage(T &transceiverOnPort, const byte *message) {
   Port port = decodePort(message[1]);
   Pair pair;
   pair.parentPort = port;
-  pair.childPort = {myNodeId, transceiverOnPort.portNumber};
+  pair.childPort = {idOfThisNode, transceiverOnPort.portNumber};
   enqueuePairMessage(buildPairMessage(pair));
 }
 

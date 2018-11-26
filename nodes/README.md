@@ -331,8 +331,8 @@ Assembly
 Programming
 ===========
 
- 1. Write ID and color on EEPROM of each MCU: `EepromWriter`
+Build and upload firmware to MCU: `Firmware`
 
- 2. Build and upload firmware to MCU: `Firmware`
+Don’t forget to first set the ID for each node using the dedicated include file!
 
 [1]: https://www.amazon.de/dp/B01BI1G88C/ref=cm_sw_em_r_mt_dp_U_CHrbBb90ZM0B4

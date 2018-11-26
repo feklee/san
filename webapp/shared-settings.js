@@ -23,7 +23,6 @@ try {
             assignmentInCpp.replace(/const\s+[^\s]+/g, "");
         jsData += assignmentInJs;
     });
-    console.log(jsData);
     eval(jsData);
 } catch (ignore) {
     cli.logError("Cannot load shared settings");

@@ -8,21 +8,20 @@ var graphUpdateInterval = 0;
 var connectionExpiryDuration = 0;
 
 try {
-    var cData = fs.readFileSync("../nodes/Firmware/sharedSettings.h",
-                                "utf8");
+    var cppData = fs.readFileSync("../nodes/Firmware/sharedSettings.h",
+                                  "utf8");
     var assignmentsInCpp =
-        cData.match(new RegExp(
+        cppData.match(new RegExp(
             "^\\s*const[^;]+" +
                 "(graphUpdateInterval|connectionExpiryDuration)" +
                 "\\s+=[^\\;]*;",
             "gm"
         ));
-    var jsData = "";
-    assignmentsInCpp.forEach(function (assignmentInCpp) {
-        var assignmentInJs =
-            assignmentInCpp.replace(/const\s+[^\s]+/g, "");
-        jsData += assignmentInJs;
-    });
+    var assignmentsInJs = assignmentsInCpp.map(
+        function (assignmentInCpp) {
+            return assignmentInCpp.replace(/const\s+[^\s]+/g, "");
+        });
+    var jsData = assignmentsInJs.join("\n");
     eval(jsData);
 } catch (ignore) {
     cli.logError("Cannot load shared settings");

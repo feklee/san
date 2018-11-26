@@ -36,15 +36,33 @@ export default {
                     file: "../../../nodes/Firmware/commonSettings.h"
                 },
                 {
-                    test: /const\s+[^\s]+/g,
-                    replace: "var"
+                    test: /\}/g,
+                    replace: "]"
+                },
+                {
+                    test: /\{/g,
+                    replace: "["
+                },
+                {
+                    test: /\{\s*(\w+),\s*(\w+)\}/g,
+                    replace: "[\"$1\", \"$2\"]"
+                },
+                {
+                    test:
+                    /^\s*const[*\w\s]+\s(\w+)[\[\]0-9]*\s*(.*)$/gm,
+                    replace: "var $1 $2"
+                },
+                {
+                    test: /^\s*#.*/gm,
+                    replace: ""
                 }
             ]
         }),
         legacy({
             "frontend/scripts/common-settings.mjs": {
                 graphUpdateInterval: "graphUpdateInterval",
-                connectionExpiryDuration: "connectionExpiryDuration"
+                connectionExpiryDuration: "connectionExpiryDuration",
+                nodeColorsList: "nodeColorsList"
             }
         }),
         replace({

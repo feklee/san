@@ -1,5 +1,10 @@
 // Common settings, shared between nodes and the web app
 
+#ifndef commonSettings_h
+#define commonSettings_h
+
+#include "colors.h"
+
 // How often the entire graph is updated / sent:
 const uint32_t graphUpdateInterval = 500; // ms
 
@@ -7,3 +12,32 @@ const uint32_t graphUpdateInterval = 500; // ms
 // without sign of life:
 const uint32_t connectionExpiryDuration =
   2.5 * graphUpdateInterval; // ms
+
+const byte * const nodeColorsList[][2] =
+  {
+   {gray, gray}, // *
+   {red, red}, // A
+   {yellow, yellow}, // B
+   {lime, lime}, // ...
+   {aqua, aqua},
+   {blue, blue},
+   {fuchsia, fuchsia},
+   {red, yellow},
+   {red, lime},
+   {red, aqua},
+   {red, blue},
+   {red, fuchsia},
+   {yellow, lime},
+   {yellow, aqua},
+   {yellow, blue},
+   {yellow, fuchsia},
+   {lime, aqua},
+   {lime, blue},
+   {lime, fuchsia},
+   {aqua, blue},
+   {aqua, fuchsia},
+   {blue, fuchsia},
+   {white, red}
+  };
+
+#endif

@@ -6,7 +6,6 @@
 // node.
 
 #include <Adafruit_NeoPixel.h>
-#include "colors.h"
 #include "settings.h"
 #include "id.h" // ID of this node, e.g.: `#define ID A`
 #include "TransceiverOnPort.h"
@@ -14,7 +13,6 @@
 #include "Pair.h"
 #include "message.h"
 #include "pairMessageQueue.h"
-#include "nodeColorsList.h"
 
 #define IDENTITY(x) x
 #define STRINGIFY(x) #x

@@ -14,10 +14,10 @@ import visualization from "./visualization.mjs";
 import settings from "./settings.mjs";
 import {Vector3} from
         "../../node_modules/three/build/three.module.js";
-import {nodeColors} from "./node-colors.mjs";
 import {
     graphUpdateInterval, // ms
-    connectionExpiryDuration // ms
+    connectionExpiryDuration, // ms
+    nodeColorsList
 } from "./common-settings.mjs";
 
 var rootNode;
@@ -187,11 +187,22 @@ var nodeExists = function (id) {
     return nodes[id] !== undefined;
 };
 
+var nodeIsRootNode = function (id) {
+    return id === "*";
+};
+
+var nodeColorsListIndexFromId = function (id) {
+    return nodeIsRootNode(id)
+        ? 0
+        : id.charCodeAt(0) - 0x40;
+};
+
 var addNode = function (id) {
     if (nodeExists(id)) {
         return;
     }
-    var colors = nodeColors[id] ||
+    var index = nodeColorsListIndexFromId(id);
+    var colors = nodeColorsList[index] ||
             [settings.defaultNodeColor, settings.defaultNodeColor];
     var node = {
         id: id,

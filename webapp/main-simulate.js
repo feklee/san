@@ -29,35 +29,59 @@ function addOrRemovePair(pair, description, action) {
         return false;
     }
     console.log(description, pair);
-    pairs[action](pair);
+    pairs[action](pair + "0"); // "0" = no angle set
     return true;
 }
 
-function addPair(pair) {
+function addPairCommand(pair) {
     return addOrRemovePair(pair, "Adding", "add");
 }
 
-function removePair(pair) {
+function removePairCommand(pair) {
     return addOrRemovePair(pair, "Removing", "delete");
 }
 
-function setOrUnsetAngle(parameters) {
+// [0, 180] -> [1, 127] (0 excluded, because that means: no angle)
+function encodeAngle(angle) {
+    return Math.round(angle * 126 / 180) % 127 + 1;
+}
+
+function assignEncodedAngleToPairs(nodeId, encodedAngle) {
+    console.log(pairs);
+    var pairsToDelete = [];
+    var pairsToAdd = [];
+    pairs.forEach(function (pair) {
+        if (pair.charAt(2) === nodeId) {
+            pairsToDelete.push(pair);
+            pairsToAdd.push(pair.substr(0, 4) + encodedAngle);
+        }
+    });
+    pairsToDelete.forEach((pair) => pairs.delete(pair));
+    pairsToAdd.forEach((pair) => pairs.add(pair));
+    console.log(pairs);
+}
+
+function angleCommand(parameters) {
     if (!(/^[a-zA-Z\^][0-9]*$/).test(parameters)) {
         complainAboutMalformedCommand();
         return false;
     }
     var nodeId = parameters.charAt(0);
     var angleParameter = parameters.substr(1);
+    var encodedAngle;
     if (angleParameter.length > 0) {
         var angle = parseInt(angleParameter);
         console.log(
             `Setting tilt angle of node ${nodeId} to ${angle} degrees`
         );
+        encodedAngle = encodeAngle(angle);
     } else {
         console.log(
             `Removing tilt angle from node ${nodeId}`
         );
+        encodedAngle = 0;
     }
+    assignEncodedAngleToPairs(nodeId, encodedAngle);
 }
 
 setInterval(sendSet, sharedSettings.graphUpdateInterval);
@@ -90,17 +114,17 @@ startWebServer(function () {
         var parameters = command.substr(1);
         switch (command.charAt(0)) {
         case "+":
-            if (!addPair(parameters)) {
+            if (!addPairCommand(parameters)) {
                 return;
             }
             break;
         case "-":
-            if (!removePair(parameters)) {
+            if (!removePairCommand(parameters)) {
                 return;
             }
             break;
         case "/":
-            if (!setOrUnsetAngle(parameters)) {
+            if (!angleCommand(parameters)) {
                 return;
             }
             break;

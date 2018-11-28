@@ -21,11 +21,11 @@
 #define TOSTRING(x) STRINGIFY(x)
 
 constexpr uint16_t angleTableSize = 1024;
-#define ANGLE_TABLE_FILENAME TOSTRING(../IDENTITY(ID).h)
+#define ANGLE_TABLE_FILENAME TOSTRING(angleTables/IDENTITY(ID).h)
 #if __has_include(ANGLE_TABLE_FILENAME)
 #include ANGLE_TABLE_FILENAME
 #else
-#include "defaultAngleTable.h"
+#include "angleTables/default.h"
 #endif
 
 Adafruit_NeoPixel neoPixel;

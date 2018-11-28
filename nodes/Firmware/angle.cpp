@@ -3,17 +3,10 @@
 #include "settings.h"
 
 constexpr uint16_t angleTableSize = 1024;
-#if __has_include("angleTables/x.h")
-#warning hi
-#endif
 
-#if 0
 #define ANGLE_TABLE_FILENAME TOSTRING(angleTables/IDENTITY(ID).h)
 #if __has_include(ANGLE_TABLE_FILENAME)
 #include ANGLE_TABLE_FILENAME
-#else
-#include "angleTables/default.h"
-#endif
 #else
 #include "angleTables/default.h"
 #endif

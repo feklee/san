@@ -70,7 +70,7 @@ var createSpan = function (text, angle) {
 
 var append = function (type, text, angle) {
     var liEl = document.createElement("li");
-    logEl.appendChild(liEl).setAttribute("class", type);
+    logEl.appendChild(liEl).classList.add(type);
     liEl.appendChild(createSpan(timeStamp()));
     liEl.appendChild(createSpan(text, angle));
     removeOverflow();

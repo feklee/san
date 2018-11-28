@@ -113,6 +113,19 @@ div.log ul li.warn::before {
     content: "⚠";
 }
 
+div.log span.angle {
+    display: inline-block;
+    text-align: center;
+    height: 16px;
+    line-height: 14px;
+    width: 16px;
+    margin-left: 5px;
+}
+
+div.log span.unspecified.angle {
+    line-height: 16px;
+}
+
 p.link {
     position: absolute;
     bottom: 0px;

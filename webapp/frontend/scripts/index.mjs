@@ -20,8 +20,23 @@ client.onclose = function () {
     log.append("warn", "WebSocket closed");
 };
 
+var decodeAngle = function (encodedAngle) {
+    var x = parseInt(encodedAngle);
+    var noAngleIsSet = Number.isNaN(x) || x < 1 || x > 127;
+
+    if (noAngleIsSet) {
+        return null;
+    }
+
+    return Math.round((x - 1) * 180 / 126); // [1, 127] -> [0, 180]
+};
+
 var parseData = function (data) {
     var a = data.split("");
+    var encodedAngle = data.substr(4);
+    var angle = decodeAngle(encodedAngle);
+
+    log.append("data", data.substr(0, 4), angle);
 
     var parentNodeId = a[0];
     var parentPortNumber = parseInt(a[1]);
@@ -65,10 +80,10 @@ client.onmessage = function (e) {
         return;
     }
 
-    log.append(message.type, message.text);
-
     if (message.type === "data") {
         parseData(message.text);
+    } else {
+        log.append(message.type, message.text);
     }
 };
 

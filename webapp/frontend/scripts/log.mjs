@@ -45,18 +45,34 @@ var removeOverflow = function () {
     }
 };
 
-var createSpan = function (text) {
+var createAngleEl = function (angle) {
     var spanEl = document.createElement("span");
-    var preEl = document.createElement("pre");
-    spanEl.appendChild(preEl).textContent = text;
+    spanEl.classList.add("angle");
+    if (angle === null) {
+        spanEl.classList.add("unspecified");
+        spanEl.textContent = "◯";
+    } else {
+        spanEl.textContent = "↑";
+        spanEl.style.transform = `rotate(${angle}deg)`;
+    }
     return spanEl;
 };
 
-var append = function (type, text) {
+var createSpan = function (text, angle) {
+    var spanEl = document.createElement("span");
+    var preEl = document.createElement("pre");
+    spanEl.appendChild(preEl).textContent = text;
+    if (angle !== undefined) {
+        spanEl.appendChild(createAngleEl(angle));
+    }
+    return spanEl;
+};
+
+var append = function (type, text, angle) {
     var liEl = document.createElement("li");
     logEl.appendChild(liEl).setAttribute("class", type);
     liEl.appendChild(createSpan(timeStamp()));
-    liEl.appendChild(createSpan(text));
+    liEl.appendChild(createSpan(text, angle));
     removeOverflow();
 };
 

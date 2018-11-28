@@ -1,7 +1,6 @@
 // These settings shared between nodes and the web app.
 
-#ifndef sharedSettings_h
-#define sharedSettings_h
+#pragma once
 
 #include "colors.h"
 
@@ -39,5 +38,3 @@ const byte * const nodeColorsList[][2] =
    {blue, fuchsia},
    {white, red}
   };
-
-#endif

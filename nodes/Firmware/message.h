@@ -1,5 +1,4 @@
-#ifndef message_h
-#define message_h
+#pragma once
 
 #include "Arduino.h"
 #include "Pair.h"
@@ -83,5 +82,3 @@ inline bool byteStartsMessage(const byte b) {
 inline bool byteStartsAnnouncement(const byte b) {
   return (b & B01000000) == uint8_t(MessageType::announcement);
 }
-
-#endif

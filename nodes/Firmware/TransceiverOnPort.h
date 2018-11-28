@@ -1,5 +1,4 @@
-#ifndef TransceiverOnPort_h
-#define TransceiverOnPort_h
+#pragma once
 
 #include <MultiTrans.h>
 #include "Arduino.h"
@@ -75,5 +74,3 @@ byte *TransceiverOnPort<t, u>::getMessage() {
     }
   }
 }
-
-#endif

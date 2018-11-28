@@ -1,5 +1,4 @@
-#ifndef Port_h
-#define Port_h
+#pragma once
 
 #include "Arduino.h"
 
@@ -35,5 +34,3 @@ inline Port decodePort(byte data) {
   uint8_t portNumber = encodedPortNumber + 1;
   return {nodeId, portNumber};
 }
-
-#endif

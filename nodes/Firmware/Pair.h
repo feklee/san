@@ -1,5 +1,4 @@
-#ifndef Pair_h
-#define Pair_h
+#pragma once
 
 #include "Arduino.h"
 #include "Port.h"
@@ -8,5 +7,3 @@ struct Pair {
   Port parentPort;
   Port childPort;
 };
-
-#endif

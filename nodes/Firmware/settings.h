@@ -1,5 +1,4 @@
-#ifndef settings_h
-#define settings_h
+#pragma once
 
 #include "Arduino.h"
 
@@ -75,7 +74,5 @@ const uint32_t parentExpiryDuration = connectionExpiryDuration; // ms
 
 // Avoid exceeding the Arduino's power supply!
 const uint8_t ledBrightness = 20;
-
-#endif
 
 #endif

@@ -6,8 +6,10 @@
 // node.
 
 #include <Adafruit_NeoPixel.h>
+
+#include "id.h" // ID of this node, e.g.: `#define ID A` (no quotes!)
+
 #include "settings.h"
-#include "id.h" // ID of this node, e.g.: `#define ID A`
 #include "TransceiverOnPort.h"
 #include "Port.h"
 #include "Pair.h"

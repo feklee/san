@@ -31,14 +31,10 @@ constexpr uint16_t angleTableSize = 1024;
 Adafruit_NeoPixel neoPixel;
 
 constexpr char idOfThisNode = TOSTRING(ID)[0];
-constexpr uint8_t pinNumber1 = 2;
-constexpr uint8_t pinNumber2 = 3;
-constexpr uint8_t pinNumber3 = 8;
-constexpr uint8_t pinNumber4 = 9;
-static TransceiverOnPort<pinNumber1, 1> transceiverOnPort1;
-static TransceiverOnPort<pinNumber2, 2> transceiverOnPort2;
-static TransceiverOnPort<pinNumber3, 3> transceiverOnPort3;
-static TransceiverOnPort<pinNumber4, 4> transceiverOnPort4;
+static TransceiverOnPort<pinNumberOfPort1, 1> transceiverOnPort1;
+static TransceiverOnPort<pinNumberOfPort2, 2> transceiverOnPort2;
+static TransceiverOnPort<pinNumberOfPort3, 3> transceiverOnPort3;
+static TransceiverOnPort<pinNumberOfPort4, 4> transceiverOnPort4;
 static uint8_t numberOfPortWithParent = 0; // 0 = no parent
 
 static uint32_t parentExpiryTime = 0; // ms

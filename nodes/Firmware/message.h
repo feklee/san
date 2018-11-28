@@ -7,7 +7,7 @@ enum class MessageType : uint8_t {announcement = B00000000,
                                   pair = B01000000};
 
 const uint8_t announcementMessageSize = 2;
-const uint8_t pairMessageSize = 3;
+const uint8_t pairMessageSize = 4;
 
 // There likely are better ways to calculate a six bit checksum.
 template <uint8_t payloadSize>
@@ -71,6 +71,7 @@ inline byte *buildPairMessage(Pair pair) {
   static byte message[pairMessageSize];
   message[1] = encodePort(pair.parentPort);
   message[2] = encodePort(pair.childPort);
+  message[3] = 0; // TODO: read from port connected to accelerometer
   buildMessage<pairMessageSize>(message, MessageType::pair);
   return message;
 }

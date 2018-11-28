@@ -126,12 +126,28 @@ void loop() {
   }
 }
 
+char hexDigit(
+  uint8_t digit // in [0, 16)
+) {
+  return digit < 10 ? digit + 0x30 : digit + 0x37;
+}
+
+void angleToHex(uint8_t angle, char * const hex) {
+  hex[0] = hexDigit(angle / 16);
+  hex[1] = hexDigit(angle & 0xf);
+}
+
 void printPair(const Pair &pair) {
+  char angleInHex[2];
+  angleToHex(pair.childAngle, angleInHex);
+
   char buffer[] = {
                    pair.parentPort.nodeId,
                    charFromDigit(pair.parentPort.portNumber),
                    pair.childPort.nodeId,
                    charFromDigit(pair.childPort.portNumber),
+                   angleInHex[0],
+                   angleInHex[1],
                    '\0'
   };
 
@@ -298,8 +314,7 @@ void parseAnnouncementMessage(T &transceiverOnPort, const byte *message) {
     resetParentExpiryTime(); // call regularly to keep parent fresh
   }
 
-  // Create pair, either describing parent-child relationship, or
-  // loop:
+  // Create pair, either describing a parent-child relationship or a loop:
   Port port = decodePort(message[1]);
   Pair pair;
   pair.parentPort = port;
@@ -311,6 +326,7 @@ static inline Pair pairFromPairMessage(const byte *message) {
   Pair pair;
   pair.parentPort = decodePort(message[1]);
   pair.childPort = decodePort(message[2]);
+  pair.childAngle = message[3];
   return pair;
 }
 

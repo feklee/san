@@ -17,8 +17,24 @@ function sendSet() {
 
 setInterval(sendSet, sharedSettings.graphUpdateInterval);
 
-console.log("Add pair, by example: +*1A3");
-console.log("Remove pair, by example: -A2B1");
+console.log("Add pair, by example:");
+console.log();
+console.log("    +*1A3F3");
+console.log();
+console.log("Here:");
+console.log();
+console.log("  * `*1` is port 1 on node `*`");
+console.log();
+console.log("  * `A3` is port 3 on node `A`");
+console.log();
+console.log(
+    "  * `F3` is hex encoding for the tilt angle of node `F`"
+);
+console.log();
+console.log("Remove pair, by example:");
+console.log();
+console.log("    -A2B1");
+console.log();
 startWebServer(function () {
     cli.enableInput(function (command) {
         if (!(/^[+\-]([a-zA-Z*][1-4][a-zA-Z][1-4])$/).test(command)) {

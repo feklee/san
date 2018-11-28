@@ -9,24 +9,14 @@
 
 #include "id.h" // ID of this node, e.g.: `#define ID A` (no quotes!)
 
+#include "util.h"
 #include "settings.h"
 #include "TransceiverOnPort.h"
 #include "Port.h"
 #include "Pair.h"
 #include "message.h"
 #include "pairMessageQueue.h"
-
-#define IDENTITY(x) x
-#define STRINGIFY(x) #x
-#define TOSTRING(x) STRINGIFY(x)
-
-constexpr uint16_t angleTableSize = 1024;
-#define ANGLE_TABLE_FILENAME TOSTRING(angleTables/IDENTITY(ID).h)
-#if __has_include(ANGLE_TABLE_FILENAME)
-#include ANGLE_TABLE_FILENAME
-#else
-#include "angleTables/default.h"
-#endif
+#include "angle.h"
 
 Adafruit_NeoPixel neoPixel;
 
@@ -250,7 +240,7 @@ static void flashLed() {
 }
 
 static inline bool thisNodeIsRoot() {
-  return idOfThisNode == '*';
+  return idOfThisNode == '^';
 }
 
 template <typename T>
@@ -315,6 +305,7 @@ void parseAnnouncementMessage(T &transceiverOnPort, const byte *message) {
   Pair pair;
   pair.parentPort = port;
   pair.childPort = {idOfThisNode, transceiverOnPort.portNumber};
+  pair.childAngle = angleOfThisNode();
   enqueuePairMessage(buildPairMessage(pair));
 }
 

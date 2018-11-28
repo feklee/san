@@ -38,6 +38,7 @@ constexpr uint8_t pinNumberOfPort1 = 2;
 constexpr uint8_t pinNumberOfPort2 = 3;
 constexpr uint8_t pinNumberOfPort3 = 8;
 constexpr uint8_t pinNumberOfPort4 = 9;
+constexpr uint8_t accelerometerPin = A0;
 
 #ifdef DEBUG
 

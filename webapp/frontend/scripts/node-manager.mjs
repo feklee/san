@@ -188,7 +188,7 @@ var nodeExists = function (id) {
 };
 
 var nodeIsRootNode = function (id) {
-    return id === "*";
+    return id === "^";
 };
 
 var nodeColorsListIndexFromId = function (id) {
@@ -206,7 +206,7 @@ var addNode = function (id) {
             [settings.defaultNodeColor, settings.defaultNodeColor];
     var node = {
         id: id,
-        isVisible: id !== "*",
+        isVisible: !nodeIsRootNode(id),
         connections: {},
         sortedConnections: [],
         visibleConnections: [],
@@ -226,7 +226,7 @@ var addNode = function (id) {
 };
 
 var addRootNode = function () {
-    rootNode = addNode("*");
+    rootNode = addNode("^");
 };
 
 var connect = function (pair) {

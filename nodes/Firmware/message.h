@@ -71,7 +71,7 @@ inline byte *buildPairMessage(Pair pair) {
   static byte message[pairMessageSize];
   message[1] = encodePort(pair.parentPort);
   message[2] = encodePort(pair.childPort);
-  message[3] = 0; // TODO: read from port connected to accelerometer
+  message[3] = pair.childAngle;
   buildMessage<pairMessageSize>(message, MessageType::pair);
   return message;
 }

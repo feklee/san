@@ -19,11 +19,11 @@ setInterval(sendSet, sharedSettings.graphUpdateInterval);
 
 console.log("Add pair, by example:");
 console.log();
-console.log("    +*1A3F3");
+console.log("    +^1A3F3");
 console.log();
 console.log("Here:");
 console.log();
-console.log("  * `*1` is port 1 on node `*`,");
+console.log("  * `^1` is port 1 on node `^` (root node),");
 console.log();
 console.log("  * `A3` is port 3 on node `A`,");
 console.log();
@@ -37,7 +37,7 @@ console.log("    -A2B1");
 console.log();
 startWebServer(function () {
     cli.enableInput(function (command) {
-        if (!(/^[+\-]([a-zA-Z*][1-4][a-zA-Z][1-4])$/).test(command)) {
+        if (!(/^[+\-]([a-zA-Z\^][1-4][a-zA-Z][1-4])$/).test(command)) {
             console.error("Malformed command");
             return;
         }

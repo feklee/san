@@ -57,7 +57,6 @@ function assignEncodedAngleToPairs(nodeId, encodedAngle) {
     });
     pairsToDelete.forEach((pair) => set.delete(pair));
     pairsToAdd.forEach((pair) => set.add(pair));
-    console.log(set);
 }
 
 function angleCommand(parameters) {

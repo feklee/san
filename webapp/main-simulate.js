@@ -5,12 +5,12 @@
 var startWebServer = require("./start-web-server");
 var webSocket = require("./web-socket");
 var cli = require("./cli");
-var pairs = new Set();
+var set = new Set();
 var sharedSettings = require("./shared-settings");
 
 function sendSet() {
-    pairs.forEach(function (pair) {
-        var message = {type: "data", text: pair};
+    set.forEach(function (data) {
+        var message = {type: "data", text: data};
         webSocket.send(message);
     });
 }
@@ -29,7 +29,7 @@ function addOrRemovePair(pair, description, action) {
         return false;
     }
     console.log(description, pair);
-    pairs[action](pair + "0"); // "0" = no angle set
+    set[action](pair + "0"); // "0" = no angle set
     return true;
 }
 
@@ -47,18 +47,17 @@ function encodeAngle(angle) {
 }
 
 function assignEncodedAngleToPairs(nodeId, encodedAngle) {
-    console.log(pairs);
     var pairsToDelete = [];
     var pairsToAdd = [];
-    pairs.forEach(function (pair) {
-        if (pair.charAt(2) === nodeId) {
-            pairsToDelete.push(pair);
-            pairsToAdd.push(pair.substr(0, 4) + encodedAngle);
+    set.forEach(function (data) {
+        if (data.charAt(2) === nodeId) {
+            pairsToDelete.push(data);
+            pairsToAdd.push(data.substr(0, 4) + encodedAngle);
         }
     });
-    pairsToDelete.forEach((pair) => pairs.delete(pair));
-    pairsToAdd.forEach((pair) => pairs.add(pair));
-    console.log(pairs);
+    pairsToDelete.forEach((pair) => set.delete(pair));
+    pairsToAdd.forEach((pair) => set.add(pair));
+    console.log(set);
 }
 
 function angleCommand(parameters) {

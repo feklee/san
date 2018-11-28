@@ -15,6 +15,51 @@ function sendSet() {
     });
 }
 
+function complainAboutMalformedCommand() {
+    console.error("Malformed command");
+}
+
+function pairIsValid(pair) {
+    return /^[a-zA-Z\^][1-4][a-zA-Z][1-4]$/.test(pair);
+}
+
+function addOrRemovePair(pair, description, action) {
+    if (!pairIsValid(pair)) {
+        complainAboutMalformedCommand();
+        return false;
+    }
+    console.log(description, pair);
+    pairs[action](pair);
+    return true;
+}
+
+function addPair(pair) {
+    return addOrRemovePair(pair, "Adding", "add");
+}
+
+function removePair(pair) {
+    return addOrRemovePair(pair, "Removing", "delete");
+}
+
+function setOrUnsetAngle(parameters) {
+    if (!(/^[a-zA-Z\^][0-9]*$/).test(parameters)) {
+        complainAboutMalformedCommand();
+        return false;
+    }
+    var nodeId = parameters.charAt(0);
+    var angleParameter = parameters.substr(1);
+    if (angleParameter.length > 0) {
+        var angle = parseInt(angleParameter);
+        console.log(
+            `Setting tilt angle of node ${nodeId} to ${angle} degrees`
+        );
+    } else {
+        console.log(
+            `Removing tilt angle from node ${nodeId}`
+        );
+    }
+}
+
 setInterval(sendSet, sharedSettings.graphUpdateInterval);
 
 console.log("Add pair, by example:");
@@ -31,24 +76,37 @@ console.log("Remove pair, by example:");
 console.log();
 console.log("    -A2B1");
 console.log();
-console.log("Set tilt angle, by example (D tilted by 125 degrees):");
+console.log("Set tilt angle, by example (C tilted by 125 degrees):");
 console.log();
-console.log("    /D125");
+console.log("    /C125");
+console.log();
+console.log("Unset tilt angle, by example:");
+console.log();
+console.log("    /C");
+console.log();
+
 startWebServer(function () {
     cli.enableInput(function (command) {
-        if (!(/^[+\-]([a-zA-Z\^][1-4][a-zA-Z][1-4])$/).test(command)) {
-            console.error("Malformed command");
-            return;
-        }
-        var pair = command.substr(1);
+        var parameters = command.substr(1);
         switch (command.charAt(0)) {
         case "+":
-            console.log("Adding ", pair);
-            pairs.add(pair);
+            if (!addPair(parameters)) {
+                return;
+            }
             break;
         case "-":
-            pairs.delete(pair);
+            if (!removePair(parameters)) {
+                return;
+            }
             break;
+        case "/":
+            if (!setOrUnsetAngle(parameters)) {
+                return;
+            }
+            break;
+        default:
+            complainAboutMalformedCommand();
+            return;
         }
     });
 });

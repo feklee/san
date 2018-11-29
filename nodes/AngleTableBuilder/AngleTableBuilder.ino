@@ -31,7 +31,8 @@ void printAngleTable() {
   uint16_t readout = 0;
   for (uint8_t row = 0; row < 128; row ++) {
     for (uint8_t column = 0; column < 8; column ++) {
-      Serial.print(encodedAngle(readout));
+      Serial.print("0x");
+      Serial.print(encodedAngle(readout), HEX);
       Serial.print(readout < 1023 ? "," : "");
       Serial.print(column < 7 ? " " : "");
       readout ++;

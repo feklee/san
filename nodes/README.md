@@ -331,6 +331,20 @@ Assembly
 Programming
 ===========
 
-Build and upload firmware to MCU: `Firmware`
+ 1. If accelerometer is connected in the node, then calibrate it:
 
-Don’t forget to first set the ID for each node using the dedicated include file!
+      - Build and upload `AngleTableBuilder` to node.
+
+      - Open the Arduino serial console.
+
+      - Turn the node over its *perfectly horizontal* and over its *upside down*
+        positions. Do so carefully, i.e. without adding measurable acceleration.
+
+      - Create the angle table, and store it in: `Firmware/angleTables` with the
+        ID of the node.
+
+ 2. Install the firmware:
+
+      - Set the ID in `Firmward/id.h`. (described in `Firmware/Firmware.ino`)
+
+      - Build and upload `Firmware`.

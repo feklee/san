@@ -10,8 +10,8 @@ void setup() {
 }
 
 float acceleration(const uint16_t readout) { // g
-  // Based on experimentation, trimming values mitigates issues with
-  // singularities and low angular resolution at the poles:
+  // Based on experimentation, trimming mitigates issues with singularities and
+  // low angular resolution at the poles:
   float trimValue = 1;
   float trimmedMinReadout = minReadout + trimValue;
   float trimmedMaxReadout = maxReadout - trimValue;

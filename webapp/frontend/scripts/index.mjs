@@ -21,7 +21,7 @@ client.onclose = function () {
 };
 
 var decodeAngle = function (encodedAngle) {
-    var x = parseInt(encodedAngle);
+    var x = parseInt(encodedAngle, 16);
     var noAngleIsSet = Number.isNaN(x) || x < 1 || x > 127;
 
     if (noAngleIsSet) {

@@ -10,8 +10,14 @@ void setup() {
 }
 
 float acceleration(const uint16_t readout) { // g
-  uint16_t readoutPerG = (maxReadout - minReadout) / 2;
-  uint16_t zeroGReadout = minReadout + readoutPerG;
+  // Based on experimentation, trimming values mitigates issues with
+  // singularities and low angular resolution at the poles:
+  float trimValue = 1;
+  float trimmedMinReadout = minReadout + trimValue;
+  float trimmedMaxReadout = maxReadout - trimValue;
+
+  float readoutPerG = float(trimmedMaxReadout - trimmedMinReadout) / 2;
+  float zeroGReadout = trimmedMinReadout + readoutPerG;
   return (float(readout) - zeroGReadout) / readoutPerG;
 }
 

@@ -1,5 +1,4 @@
-// Manages the collection of nodes and the connections in between
-// them.
+// Manages the collection of nodes and the connections in between them.
 
 /*jslint browser: true, maxlen: 80 */
 

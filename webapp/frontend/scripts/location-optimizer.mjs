@@ -1,7 +1,6 @@
 // Optimizes the locations of nodes using a genetic algorithm. After
-// optimization, ideally all neighboring nodes have a distance of 1,
-// and the angles between the connecting vectors match those on the
-// spheres.
+// optimization, ideally all neighboring nodes have a distance of 1, and the
+// angles between the connecting vectors match those on the spheres.
 
 /*jslint browser: true, maxlen: 80 */
 

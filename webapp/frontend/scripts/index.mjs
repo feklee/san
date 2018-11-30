@@ -49,7 +49,7 @@ var parseData = function (data) {
     var childPortNumber = parseInt(a[3]);
     var childNode = nodes[childNodeId];
     if (childNode === undefined) {
-        childNode = nodeManager.addNode(childNodeId);
+        childNode = nodeManager.addNode(childNodeId, angle);
     }
 
     var pair = {

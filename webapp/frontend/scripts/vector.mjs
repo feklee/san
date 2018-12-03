@@ -12,6 +12,9 @@ const tetrahedralAngle = Math.acos(-1 / 3);
 
 var angleToZAxis = function (vector) {
     var zAxisVector = new THREE.Vector3(0, 0, 1);
+    if (vector.length() < Number.EPSILON) {
+        return 0;
+    }
     return vector.angleTo(zAxisVector);
 };
 

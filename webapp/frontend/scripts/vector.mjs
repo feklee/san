@@ -18,6 +18,26 @@ var angleToZAxis = function (vector) {
     return vector.angleTo(zAxisVector);
 };
 
+// Returns the angle range that results from the sum of two vectors, *v* and
+// *w*:
+//
+//   * *v*: tilted by `tiltAngle` relative to the z axis
+//
+//   * *w*: at half tetrahedral angle (ca. 55 deg) relative to *v*
+//
+// The result is a range since it is not known in which direction *v* and *w*
+// are pointing.
+var tiltAnglePlusHalfTetAngle = function ( // [min, max]
+    tiltAngle // deg
+) {
+    var hta = tetrahedralAngle / 2;
+    return [Math.max(0, tiltAngle - hta), Math.min(Math.PI, tiltAngle + hta)];
+};
+
+var closestPointInRangeOnSphere = function (minAngle, maxAngle, point) {
+// TODO:    ...
+};
+
 // See article "Generating uniformly distributed numbers on a sphere":
 // http://corysimon.github.io/articles/uniformdistn-on-sphere/
 var randomUnitVector = function () {
@@ -78,5 +98,6 @@ export default {
     normalizedConnectingVector: normalizedConnectingVector,
     areEqual: areEqual,
     tetrahedralAngle: tetrahedralAngle,
-    angleToZAxis: angleToZAxis
+    angleToZAxis: angleToZAxis,
+    tiltAnglePlusHalfTetAngle: tiltAnglePlusHalfTetAngle
 };

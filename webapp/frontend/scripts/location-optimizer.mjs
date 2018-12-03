@@ -21,17 +21,57 @@ var updateExpectedNeighborLocation = function (connection) {
         );
 };
 
-// 1st neighbor -> only constraint is the distance of 1 to node
-var setExpectedNeighborLocation1 = function (connection) {
-    connection.expectedVector = vector.normalizedConnectingVector(
-        connection.fromPort.node.testLocation,
-        connection.toPort.node.testLocation
-    );
-    updateExpectedNeighborLocation(connection);
+// TODO: maybe make `rotateToTetrahedralAngle` use this function
+var rotateToIncludedAngle = function (fixedUnitVector, unitVector, angle) {
+    var rotationAxis = fixedUnitVector.clone().cross(unitVector);
+    var v;
+    while (rotationAxis.length() < Number.EPSILON) {
+        v = vector.randomUnitVector();
+        rotationAxis = fixedUnitVector.clone().cross(v);
+    }
+    rotationAxis.normalize();
+
+    unitVector.fromArray(fixedUnitVector.toArray());
+
+    unitVector.applyAxisAngle(rotationAxis, tetrahedralAngle);
 };
 
-// 2nd neighbor -> this neighbor must be at distance 1 to node and oriented at
-// tetrahedral angle to the first neighbor
+// Node with angle, 1st neighbor: The constraint are:
+//
+//   * the distance of 1 to the node, and
+//
+//   * the tilt angle of the connection between the node and the neighbor. This
+//     angle depends on the tilt angle of the node as well as the position of
+//     the port to which the neighbor is connected.
+var setExpectedNeighborLocation1A = function (connection1) {
+    // TODO: first under the assumption that the connection is pointing upwards
+
+    var node = connection1.fromPort.node;
+
+    var a = new (THREE).Vector3(0, 0, 1);
+    var b = vector.normalizedConnectingVector(
+        node.testLocation,
+        connection1.toPort.node.testLocation
+    );
+
+    vector.normalizeOrRandomize(b);
+    rotateToIncludedAngle(a, b, node.angle);
+    connection1.expectedVector = b;
+
+    updateExpectedNeighborLocation(connection1);
+};
+
+// 1st neighbor: The only constraint is the distance of 1 to the node.
+var setExpectedNeighborLocation1 = function (connection1) {
+    connection1.expectedVector = vector.normalizedConnectingVector(
+        connection1.fromPort.node.testLocation,
+        connection1.toPort.node.testLocation
+    );
+    updateExpectedNeighborLocation(connection1);
+};
+
+// 2nd neighbor: This neighbor must be at distance 1 to the node and oriented at
+// tetrahedral angle to the first neighbor.
 var setExpectedNeighborLocation2 = function (connection2) {
     var node = connection2.fromPort.node;
     var connection1 = node.visibleConnections[0];
@@ -49,8 +89,8 @@ var setExpectedNeighborLocation2 = function (connection2) {
     updateExpectedNeighborLocation(connection2);
 };
 
-// 3nd neighbor -> the reuired position can be calculated exactly based on the
-// position of the first two neighbors and that of the node
+// 3nd neighbor: The reuired position can be calculated exactly based on the
+// expected positions of the first two neighbors and the position of the node.
 var setExpectedNeighborLocation3 = function (connection3) {
     var node = connection3.fromPort.node;
     var connection1 = node.visibleConnections[0];
@@ -87,7 +127,7 @@ var setExpectedNeighborLocation3 = function (connection3) {
     updateExpectedNeighborLocation(connection3);
 };
 
-// 4th neighbor -> the reuired position can be calculated exactly
+// 4th neighbor: The required position can be calculated exactly.
 var setExpectedNeighborLocation4 = function (connection4) {
     var node = connection4.fromPort.node;
     var connection1 = node.visibleConnections[0];

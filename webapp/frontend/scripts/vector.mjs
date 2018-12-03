@@ -10,6 +10,11 @@ if (runningInNode) {
 
 const tetrahedralAngle = Math.acos(-1 / 3);
 
+var angleToZAxis = function (vector) {
+    var zAxisVector = new THREE.Vector3(0, 0, 1);
+    return vector.angleTo(zAxisVector);
+};
+
 // See article "Generating uniformly distributed numbers on a sphere":
 // http://corysimon.github.io/articles/uniformdistn-on-sphere/
 var randomUnitVector = function () {
@@ -69,5 +74,6 @@ export default {
     normalizeOrRandomize: normalizeOrRandomize,
     normalizedConnectingVector: normalizedConnectingVector,
     areEqual: areEqual,
-    tetrahedralAngle: tetrahedralAngle
+    tetrahedralAngle: tetrahedralAngle,
+    angleToZAxis: angleToZAxis
 };

@@ -24,4 +24,10 @@ export default function () {
     r = (vector.tiltAnglePlusHalfTetAngle(a));
     assertEqualNumbers(r[0], 2.186, 0.001);
     assertEqualNumbers(r[1], 3.142, 0.001);
+
+    // 4
+    a = 2.791;
+    r = (vector.tiltAnglePlusHalfTetAngle(a));
+    assertEqualNumbers(r[0], 1.836, 0.001);
+    assertEqualNumbers(r[1], 3.142, 0.001);
 };

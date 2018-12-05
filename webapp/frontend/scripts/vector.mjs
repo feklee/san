@@ -34,8 +34,27 @@ var tiltAnglePlusHalfTetAngle = function ( // [min, max]
     return [Math.max(0, tiltAngle - hta), Math.min(Math.PI, tiltAngle + hta)];
 };
 
-var closestPointInRangeOnSphere = function (minAngle, maxAngle, point) {
-// TODO:    ...
+var closestPointInRangeOnSphere = function (
+    angleRange, // [rad, rad]
+    point) {
+    var a = angleToZAxis(point);
+    var unitVector = point.clone().normalize();
+
+    var pointIsInRange = a >= angleRange[0] && a <= angleRange[1];
+    if (pointIsInRange) {
+        return unitVector;
+    }
+
+    if (a < angleRange[0]) {
+        return new THREE.Vector3(0, 0, 0); // TODO: test
+    }
+
+    if (a > angleRange[1]) {
+        rotateToAngleToZAxis(unitVector, angleRange[1]);
+        return unitVector;
+    }
+
+    return new THREE.Vector3(0, 0, 0);
 };
 
 // See article "Generating uniformly distributed numbers on a sphere":
@@ -64,6 +83,23 @@ var rotateToTetrahedralAngle = function (fixedUnitVector,
     unitVector.fromArray(fixedUnitVector.toArray());
 
     unitVector.applyAxisAngle(rotationAxis, tetrahedralAngle);
+};
+
+var rotateToAngleToZAxis = function (unitVector, angle) {
+    var zAxisVector = new THREE.Vector3(0, 0, 1);
+    var rotationAxis = zAxisVector.clone().cross(unitVector);
+    var v;
+    while (rotationAxis.length() < Number.EPSILON) {
+        v = randomUnitVector();
+        rotationAxis = zAxisVector.clone().cross(v);
+    }
+    rotationAxis.normalize();
+
+    unitVector.fromArray(zAxisVector.toArray());
+
+    unitVector.applyAxisAngle(rotationAxis, angle);
+
+    return unitVector;
 };
 
 var normalizeOrRandomize = function (a) {
@@ -99,5 +135,6 @@ export default {
     areEqual: areEqual,
     tetrahedralAngle: tetrahedralAngle,
     angleToZAxis: angleToZAxis,
-    tiltAnglePlusHalfTetAngle: tiltAnglePlusHalfTetAngle
+    tiltAnglePlusHalfTetAngle: tiltAnglePlusHalfTetAngle,
+    closestPointInRangeOnSphere: closestPointInRangeOnSphere
 };

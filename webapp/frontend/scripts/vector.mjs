@@ -34,29 +34,6 @@ var tiltAnglePlusHalfTetAngle = function ( // [min, max]
     return [Math.max(0, tiltAngle - hta), Math.min(Math.PI, tiltAngle + hta)];
 };
 
-var closestPointInRangeOnSphere = function (
-    angleRange, // [rad, rad]
-    point) {
-    var a = angleToZAxis(point);
-    var unitVector = point.clone().normalize();
-
-    var pointIsInRange = a >= angleRange[0] && a <= angleRange[1];
-    if (pointIsInRange) {
-        return unitVector;
-    }
-
-    if (a < angleRange[0]) {
-        return new THREE.Vector3(0, 0, 0); // TODO: test
-    }
-
-    if (a > angleRange[1]) {
-        rotateToAngleToZAxis(unitVector, angleRange[1]);
-        return unitVector;
-    }
-
-    return new THREE.Vector3(0, 0, 0);
-};
-
 // See article "Generating uniformly distributed numbers on a sphere":
 // http://corysimon.github.io/articles/uniformdistn-on-sphere/
 var randomUnitVector = function () {
@@ -110,6 +87,31 @@ var normalizeOrRandomize = function (a) {
         a.fromArray(randomUnitVector().toArray());
     } else {
         a.normalize();
+    }
+};
+
+var closestPointInRangeOnSphere = function (
+    angleRange, // [rad, rad]
+    point) {
+    if (point.length() === 0) {
+        point = randomUnitVector();
+    }
+    var a = angleToZAxis(point);
+    var unitVector = point.clone().normalize();
+
+    var pointIsInRange = a >= angleRange[0] && a <= angleRange[1];
+    if (pointIsInRange) {
+        return unitVector;
+    }
+
+    if (a < angleRange[0]) {
+        rotateToAngleToZAxis(unitVector, angleRange[0]);
+        return unitVector;
+    }
+
+    if (a > angleRange[1]) {
+        rotateToAngleToZAxis(unitVector, angleRange[1]);
+        return unitVector;
     }
 };
 

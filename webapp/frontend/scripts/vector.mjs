@@ -85,7 +85,10 @@ var rotateToTetrahedralAngle = function (fixedUnitVector,
     unitVector.applyAxisAngle(rotationAxis, tetrahedralAngle);
 };
 
-var rotateToAngleToZAxis = function (unitVector, angle) {
+var rotateToAngleToZAxis = function (
+    unitVector, // vector that gets rotated
+    angle // rad
+) {
     var zAxisVector = new THREE.Vector3(0, 0, 1);
     var rotationAxis = zAxisVector.clone().cross(unitVector);
     var v;
@@ -136,5 +139,6 @@ export default {
     tetrahedralAngle: tetrahedralAngle,
     angleToZAxis: angleToZAxis,
     tiltAnglePlusHalfTetAngle: tiltAnglePlusHalfTetAngle,
-    closestPointInRangeOnSphere: closestPointInRangeOnSphere
+    closestPointInRangeOnSphere: closestPointInRangeOnSphere,
+    rotateToAngleToZAxis: rotateToAngleToZAxis
 };

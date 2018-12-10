@@ -5,72 +5,81 @@ import vector from "../../scripts/vector";
 import {assertEqualNumbers, assertEqualVectors} from "./common";
 
 export default function () {
-    var a;
-    var b;
+    var unitVector;
+    var u;
+    var i;
+    var zAxisVector = new THREE.Vector3(0, 0, 1);
 
     // 1 - see 3dm file
-    a = new THREE.Vector3(0, 1, 0);
-    b = new THREE.Vector3(-1, 0, 0);
-    vector.rotateToAngleToZAxis(a, b);
-    assertEqualVectors(a, new THREE.Vector3(0, 1, 0));
-    assertEqualVectors(b, new THREE.Vector3(-0.942809, -0.333333, 0), 1e-6);
+    unitVector = new THREE.Vector3(0.160, 0.080, 0.984);
 
-#if 0 // TODO
+    // 1-a
+    u = unitVector.clone();
+    vector.rotateToAngleToZAxis(u, 0);
+    assertEqualVectors(u, new THREE.Vector3(0, 0, 1));
+
+    // 1-b
+    u = unitVector.clone();
+    vector.rotateToAngleToZAxis(u, 0.7853981633974483);
+    assertEqualVectors(u, new THREE.Vector3(0.632, 0.316, 0.707), 0.001);
+
+    // 1-c
+    u = unitVector.clone();
+    vector.rotateToAngleToZAxis(u, 1.5707963267948966);
+    assertEqualVectors(u, new THREE.Vector3(0.894, 0.447, 0.000), 0.001);
+
+    // 1-d
+    u = unitVector.clone();
+    vector.rotateToAngleToZAxis(u, 2.356194490192345);
+    assertEqualVectors(u, new THREE.Vector3(0.632, 0.316, -0.707), 0.001);
+
+    // 1-e
+    u = unitVector.clone();
+    vector.rotateToAngleToZAxis(u, 3.141592653589793);
+    assertEqualVectors(u, new THREE.Vector3(0, 0, -1), 0.001);
+
+    // 1-f
+    u = unitVector.clone();
+    vector.rotateToAngleToZAxis(u, 3.9269908169872414);
+    assertEqualVectors(u, new THREE.Vector3(-0.632, -0.316, -0.707), 0.001);
+
     // 2
-    a = new THREE.Vector3(0, 1, 0);
-    b = new THREE.Vector3(-0.707107, -0.707107, 0);
-    vector.rotateToTetrahedralAngle(a, b);
-    assertEqualVectors(b, new THREE.Vector3(-0.942809, -0.333333, 0), 1e-6);
+    u = new THREE.Vector3(-0.160, 0.079, 0.984);
+    vector.rotateToAngleToZAxis(u, 0.7853981633974483);
+    assertEqualVectors(u, new THREE.Vector3(-0.634, 0.313, 0.707), 0.001);
 
     // 3
-    a = new THREE.Vector3(0, 1, 0);
-    b = new THREE.Vector3(0.707107, -0.707107, 0);
-    vector.rotateToTetrahedralAngle(a, b);
-    assertEqualVectors(b, new THREE.Vector3(0.942809, -0.333333, 0), 1e-6);
+    u = new THREE.Vector3(-0.124, -0.129, 0.984);
+    vector.rotateToAngleToZAxis(u, 0.7853981633974483);
+    assertEqualVectors(u, new THREE.Vector3(-0.490, -0.510, 0.707), 0.001);
 
     // 4
-    a = new THREE.Vector3(0, -1, 0);
-    b = new THREE.Vector3(0.707107, 0.707107, 0);
-    vector.rotateToTetrahedralAngle(a, b);
-    assertEqualVectors(b, new THREE.Vector3(0.942809, 0.333333, 0), 1e-6);
+    u = new THREE.Vector3(0.173, -0.046, 0.984);
+    vector.rotateToAngleToZAxis(u, 0.7853981633974483);
+    assertEqualVectors(u, new THREE.Vector3(0.683, -0.182, 0.707), 0.001);
 
     // 5
-    a = new THREE.Vector3(-0.481893, -0.0998726, 0.870519);
-    b = new THREE.Vector3(0.374953, -0.632951, -0.677336);
-    vector.rotateToTetrahedralAngle(a, b);
-    assertEqualVectors(
-        b,
-        new THREE.Vector3(0.206235, -0.904804, -0.372554),
-        1e-6
-    );
+    u = new THREE.Vector3(0.160, 0.080, -0.984);
+    vector.rotateToAngleToZAxis(u, 0.7853981633974483);
+    assertEqualVectors(u, new THREE.Vector3(0.632, 0.316, 0.707), 0.001);
 
     // 6
-    a = new THREE.Vector3(0.320078, -0.740914, 0.590421);
-    b = new THREE.Vector3(0.386823, -0.584146, 0.713541);
-    vector.rotateToTetrahedralAngle(a, b);
-    assertEqualVectors(
-        b,
-        new THREE.Vector3(0.226225, 0.880162, 0.417298),
-        1e-5
-    );
-
-    // 7
-    a = new THREE.Vector3(-0.190738, -0.45128, -0.87176);
-    b = new THREE.Vector3(0.194294, 0.416757, 0.888011);
-    vector.rotateToTetrahedralAngle(a, b);
-    assertEqualVectors(
-        b,
-        new THREE.Vector3(0.15452, -0.690919, 0.706225),
-        1e-5
-    );
-
-    var i = 100;
+    unitVector = new THREE.Vector3(0, 0, 1);
+    i = 100;
     while (i > 0) {
-        a = new THREE.Vector3(0, 0, 1);
-        b = new THREE.Vector3(0, 0, 1); // a || b
-        vector.rotateToTetrahedralAngle(a, b);
-        assertEqualNumbers(b.angleTo(a), tetrahedralAngle, 1e-6);
+        u = unitVector.clone();
+        vector.rotateToAngleToZAxis(u, 0.7853981633974483);
+        assertEqualNumbers(u.angleTo(zAxisVector), 0.7853981633974483, 1e-6);
         i -= 1;
     }
-#endif
+
+    // 7
+    unitVector = new THREE.Vector3(0, 0, -1);
+    i = 100;
+    while (i > 0) {
+        u = unitVector.clone();
+        vector.rotateToAngleToZAxis(u, 0.7853981633974483);
+        assertEqualNumbers(u.angleTo(zAxisVector), 0.7853981633974483, 1e-6);
+        i -= 1;
+    }
 };

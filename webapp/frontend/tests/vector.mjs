@@ -31,8 +31,10 @@ angleToZAxis();
 logWhatIsTested("tiltAnglePlusHalfTetAngle");
 tiltAnglePlusHalfTetAngle();
 
-logWhatIsTested("closestPointInRangeOnSphere");
-closestPointInRangeOnSphere();
-
 logWhatIsTested("rotateToAngleToZAxis");
 rotateToAngleToZAxis();
+
+/* TODO
+logWhatIsTested("closestPointInRangeOnSphere");
+closestPointInRangeOnSphere();
+*/

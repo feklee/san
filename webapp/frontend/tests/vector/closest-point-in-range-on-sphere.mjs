@@ -12,7 +12,7 @@ export default function () {
     // 1 - see 3dm file
     angleRange = [0.8180009138247023, 1.9802156627277263]; // [rad, rad]
 
-    // 1-A
+    // 1-a
     point = new THREE.Vector3(1.190, 0.914, 0.967);
     closestPoint = vector.closestPointInRangeOnSphere(angleRange, point);
     assertEqualVectors(
@@ -21,7 +21,7 @@ export default function () {
         0.001
     );
 
-    // 1-B
+    // 1-b
     point = new THREE.Vector3(-0.279, -0.247, 0.308);
     closestPoint = vector.closestPointInRangeOnSphere(angleRange, point);
     assertEqualVectors(
@@ -30,7 +30,7 @@ export default function () {
         0.001
     );
 
-    // 1-C
+    // 1-c
     point = new THREE.Vector3(-1.081, 0.474, -2.487);
     closestPoint = vector.closestPointInRangeOnSphere(angleRange, point);
     assertEqualVectors(

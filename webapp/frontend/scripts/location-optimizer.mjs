@@ -36,27 +36,31 @@ var rotateToIncludedAngle = function (fixedUnitVector, unitVector, angle) {
     unitVector.applyAxisAngle(rotationAxis, tetrahedralAngle);
 };
 
-// Node with angle, 1st neighbor: The constraint are:
+// This function is for a node where the tilt angle is known.
 //
-//   * the distance of 1 to the node, and
+// Constraints for the neighbor of this node are:
 //
-//   * the tilt angle of the connection between the node and the neighbor. This
-//     angle depends on the tilt angle of the node as well as the position of
-//     the port to which the neighbor is connected.
+//   * a distance of 1, and
+//
+//   * the angle of the connection between the node and the neighbor, measured
+//     relative to the vertical axis. This angle depends 1. on the tilt angle of
+//     the node, and 2. on the position of the port to which the neighbor is
+//     connected.
 var setExpectedNeighborLocation1A = function (connection1) {
-    // TODO: first under the assumption that the connection is pointing upwards
-
     var node = connection1.fromPort.node;
+    var neighbor = connection1.toPort.node;
 
-    var a = new (THREE).Vector3(0, 0, 1);
-    var b = vector.normalizedConnectingVector(
+    var expectedNeighborLocation = vector.closestPointOnUnitSphere({
+        fromPoint: neighbor.testLocation,
+        center: node.testLocation,
+        minAngleToVerticalAxis: node.angle, // TODO: test this case, with equal angles
+        maxAngleToVerticalAxis: node.angle + .1
+    });
+
+    connection1.expectedVector = vector.normalizedConnectingVector(
         node.testLocation,
-        connection1.toPort.node.testLocation
+        expectedNeighborLocation
     );
-
-    vector.normalizeOrRandomize(b);
-    rotateToIncludedAngle(a, b, node.angle);
-    connection1.expectedVector = b;
 
     updateExpectedNeighborLocation(connection1);
 };
@@ -143,9 +147,15 @@ var setExpectedNeighborLocation4 = function (connection4) {
 };
 
 var setExpectedNeighborLocation = function (connection, i) {
+    var node = connection.fromPort.node;
+    var nodeHasAngle = node.angle !== null;
     switch (i) {
     case 0:
-        setExpectedNeighborLocation1(connection);
+        if (nodeHasAngle) {
+            setExpectedNeighborLocation1A(connection);
+        } else {
+            setExpectedNeighborLocation1(connection);
+        }
         break;
     case 1:
         setExpectedNeighborLocation2(connection);

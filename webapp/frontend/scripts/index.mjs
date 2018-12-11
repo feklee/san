@@ -20,7 +20,13 @@ client.onclose = function () {
     log.append("warn", "WebSocket closed");
 };
 
-var decodeAngle = function (encodedAngle) {
+var angleInRad = function ( // rad
+    angleInDeg // deg
+) {
+    return Math.PI * angleInDeg / 180;
+};
+
+var decodeAngle = function (encodedAngle) { // rad
     var x = parseInt(encodedAngle, 16);
     var noAngleIsSet = Number.isNaN(x) || x < 1 || x > 127;
 
@@ -28,13 +34,14 @@ var decodeAngle = function (encodedAngle) {
         return null;
     }
 
-    return Math.round((x - 1) * 180 / 126); // [1, 127] -> [0, 180]
+    var angleInDeg = Math.round((x - 1) * 180 / 126); // [1, 127] -> [0, 180]
+    return angleInRad(angleInDeg);
 };
 
 var parseData = function (data) {
     var a = data.split("");
     var encodedAngle = data.substr(4);
-    var angle = decodeAngle(encodedAngle);
+    var angle = decodeAngle(encodedAngle); // rad
 
     log.append("data", data.substr(0, 4), angle);
 

@@ -53,7 +53,7 @@ var createAngleEl = function (angle) {
         spanEl.textContent = "◯";
     } else {
         spanEl.textContent = "↑";
-        spanEl.style.transform = `rotate(${angle}deg)`;
+        spanEl.style.transform = `rotate(${angle}rad)`;
     }
     return spanEl;
 };

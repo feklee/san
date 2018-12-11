@@ -211,7 +211,7 @@ var addNode = function (id, angle) {
         visibleConnections: [],
         location: null,
         colors: colors,
-        angle: angle
+        angle: angle // rad
     };
 
     nodes[id] = node;

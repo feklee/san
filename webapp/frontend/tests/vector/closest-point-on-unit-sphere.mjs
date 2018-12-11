@@ -134,4 +134,48 @@ export default function () {
         new THREE.Vector3(0.571, 0.625, 0.532),
         0.001
     );
+
+    // 3
+    options = {
+        minAngleToZAxis: 1.1839790046753933, // rad
+        maxAngleToZAxis: Math.PI // rad
+    };
+
+    // 3-a
+    options.point = new THREE.Vector3(0.183, 0.542, 1.122);
+    closestPoint = vector.closestPointOnUnitSphere(options);
+    assertEqualVectors(
+        closestPoint,
+        new THREE.Vector3(0.296, 0.878, 0.377),
+        0.001
+    );
+
+    // 3-b
+    options.point = new THREE.Vector3(0.151, -0.350, -0.456);
+    closestPoint = vector.closestPointOnUnitSphere(options);
+    assertEqualVectors(
+        closestPoint,
+        new THREE.Vector3(0.254, -0.588, -0.768),
+        0.001
+    );
+
+    // 3-c
+    options.point = new THREE.Vector3(0, 0, 1);
+    closestPoint = vector.closestPointOnUnitSphere(options);
+    i = 100;
+    while (i > 0) {
+        closestPoint = vector.closestPointOnUnitSphere(options);
+        assertEqualNumbers(closestPoint.length(), 1, 1e-6);
+        assertEqualNumbers(closestPoint.z, 0.377, 0.001);
+        i -= 1;
+    }
+
+    // 3-d
+    options.point = new THREE.Vector3(0, 0, -1.441);
+    closestPoint = vector.closestPointOnUnitSphere(options);
+    assertEqualVectors(
+        closestPoint,
+        new THREE.Vector3(0, 0, -1),
+        0.001
+    );
 };

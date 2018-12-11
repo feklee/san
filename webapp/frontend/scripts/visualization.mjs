@@ -152,6 +152,22 @@ var updateNodeObject3Ds = function () {
     visibleNodes.forEach(updateNodeObject3D);
 };
 
+var drawCoordinateCross = function () { // TODO: for debugging
+    var g;
+    g = new Geometry();
+    g.vertices.push(new Vector3(0, 0, 0));
+    g.vertices.push(new Vector3(1, 0, 0));
+    scene.add(new Line(g, new LineBasicMaterial({color: "darkred"})));
+    g = new Geometry();
+    g.vertices.push(new Vector3(0, 0, 0));
+    g.vertices.push(new Vector3(0, 1, 0));
+    scene.add(new Line(g, new LineBasicMaterial({color: "darkgreen"})));
+    g = new Geometry();
+    g.vertices.push(new Vector3(0, 0, 0));
+    g.vertices.push(new Vector3(0, 0, 1));
+    scene.add(new Line(g, new LineBasicMaterial({color: "gray"})));
+};
+
 var animate;
 animate = function () {
     window.requestAnimationFrame(animate);
@@ -164,7 +180,10 @@ animate = function () {
 var init = function () {
     camera = new PerspectiveCamera();
 
-    camera.position.z = 3;
+    camera.position.set(0, -3, 0);
+    camera.up.set(0, 0, 1);
+
+    window.c = camera; // TODO
 
     scene = new Scene();
 
@@ -176,6 +195,9 @@ var init = function () {
     controls.autoRotate = true;
     controls.autoRotateSpeed = 0.5;
     controls.update();
+    scene.add(camera); // TODO
+
+    drawCoordinateCross();
 
     visualizationEl.appendChild(renderer.domElement);
 

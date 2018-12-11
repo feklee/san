@@ -11,6 +11,8 @@ import rotateToAngleToZAxis from
         "./vector/rotate-to-angle-to-z-axis.mjs";
 import closestPointOnCenteredUnitSphere from
         "./vector/closest-point-on-centered-unit-sphere.mjs";
+import closestPointOnUnitSphere from
+        "./vector/closest-point-on-unit-sphere.mjs";
 
 var logWhatIsTested = function (whatIsTested) {
     console.log("Testing vector." + whatIsTested + "...");
@@ -36,3 +38,6 @@ rotateToAngleToZAxis();
 
 logWhatIsTested("closestPointOnCenteredUnitSphere");
 closestPointOnCenteredUnitSphere();
+
+logWhatIsTested("closestPointOnUnitSphere");
+closestPointOnUnitSphere();

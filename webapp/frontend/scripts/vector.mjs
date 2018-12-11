@@ -120,16 +120,14 @@ var closestPointOnCenteredUnitSphere = function (options) {
 var closestPointOnUnitSphere = function (options) {
     var fromPoint = options.fromPoint;
     var center = options.center;
-    var minAngleToZAxis = options.minAngleToZAxis; // rad
-    var maxAngleToZAxis = options.maxAngleToZAxis; // rad
+    var minAngleToVerticalAxis = options.minAngleToVerticalAxis; // rad
+    var maxAngleToVerticalAxis = options.maxAngleToVerticalAxis; // rad
 
     var shiftedFromPoint = fromPoint.clone().sub(center);
-    var shiftedCenter = new THREE.Vector3(0, 0, 0);
     var shiftedClosestPoint = closestPointOnCenteredUnitSphere({
         fromPoint: shiftedFromPoint,
-        center: shiftedCenter,
-        minAngleToZAxis: minAngleToZAxis,
-        maxAngleToZAxis: maxAngleToZAxis
+        minAngleToZAxis: minAngleToVerticalAxis, // rad
+        maxAngleToZAxis: maxAngleToVerticalAxis // rad
     });
 
     return shiftedClosestPoint.add(center);
@@ -162,5 +160,6 @@ export default {
     angleToZAxis: angleToZAxis,
     tiltAnglePlusHalfTetAngle: tiltAnglePlusHalfTetAngle,
     closestPointOnCenteredUnitSphere: closestPointOnCenteredUnitSphere,
+    closestPointOnUnitSphere: closestPointOnUnitSphere,
     rotateToAngleToZAxis: rotateToAngleToZAxis
 };

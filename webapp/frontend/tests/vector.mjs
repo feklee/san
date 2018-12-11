@@ -9,8 +9,8 @@ import tiltAnglePlusHalfTetAngle from
         "./vector/tilt-angle-plus-half-tet-angle.mjs";
 import rotateToAngleToZAxis from
         "./vector/rotate-to-angle-to-z-axis.mjs";
-import closestPointOnUnitSphere from
-        "./vector/closest-point-on-unit-sphere.mjs";
+import closestPointOnCenteredUnitSphere from
+        "./vector/closest-point-on-centered-unit-sphere.mjs";
 
 var logWhatIsTested = function (whatIsTested) {
     console.log("Testing vector." + whatIsTested + "...");
@@ -34,5 +34,5 @@ tiltAnglePlusHalfTetAngle();
 logWhatIsTested("rotateToAngleToZAxis");
 rotateToAngleToZAxis();
 
-logWhatIsTested("closestPointOnUnitSphere");
-closestPointOnUnitSphere();
+logWhatIsTested("closestPointOnCenteredUnitSphere");
+closestPointOnCenteredUnitSphere();

@@ -90,11 +90,10 @@ var normalizeOrRandomize = function (a) {
     }
 };
 
-var closestPointOnUnitSphere = function (options) {
+var closestPointOnCenteredUnitSphere = function (options) {
     var fromPoint = options.fromPoint;
     var minAngleToZAxis = options.minAngleToZAxis; // rad
     var maxAngleToZAxis = options.maxAngleToZAxis; // rad
-    var center = options.center;
 
     if (fromPoint.length() === 0) {
         fromPoint = randomUnitVector();
@@ -144,6 +143,6 @@ export default {
     tetrahedralAngle: tetrahedralAngle,
     angleToZAxis: angleToZAxis,
     tiltAnglePlusHalfTetAngle: tiltAnglePlusHalfTetAngle,
-    closestPointOnUnitSphere: closestPointOnUnitSphere,
+    closestPointOnCenteredUnitSphere: closestPointOnCenteredUnitSphere,
     rotateToAngleToZAxis: rotateToAngleToZAxis
 };

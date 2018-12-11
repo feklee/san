@@ -117,6 +117,24 @@ var closestPointOnCenteredUnitSphere = function (options) {
     }
 };
 
+var closestPointOnUnitSphere = function (options) {
+    var fromPoint = options.fromPoint;
+    var center = options.center;
+    var minAngleToZAxis = options.minAngleToZAxis; // rad
+    var maxAngleToZAxis = options.maxAngleToZAxis; // rad
+
+    var shiftedFromPoint = fromPoint.clone().sub(center);
+    var shiftedCenter = new THREE.Vector3(0, 0, 0);
+    var shiftedClosestPoint = closestPointOnCenteredUnitSphere({
+        fromPoint: shiftedFromPoint,
+        center: shiftedCenter,
+        minAngleToZAxis: minAngleToZAxis,
+        maxAngleToZAxis: maxAngleToZAxis
+    });
+
+    return shiftedClosestPoint.add(center);
+};
+
 var normalizedConnectingVector = function (a, b) {
     var c = b.clone().sub(a);
     normalizeOrRandomize(c);

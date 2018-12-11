@@ -90,27 +90,29 @@ var normalizeOrRandomize = function (a) {
     }
 };
 
-var closestPointInRangeOnSphere = function (
-    angleRange, // [rad, rad]
-    point) {
+var closestPointOnUnitSphere = function (options) {
+    var point = options.point;
+    var minAngleToZAxis = options.minAngleToZAxis; // rad
+    var maxAngleToZAxis = options.maxAngleToZAxis; // rad
+
     if (point.length() === 0) {
         point = randomUnitVector();
     }
     var a = angleToZAxis(point);
     var unitVector = point.clone().normalize();
 
-    var pointIsInRange = a >= angleRange[0] && a <= angleRange[1];
+    var pointIsInRange = a >= minAngleToZAxis && a <= maxAngleToZAxis;
     if (pointIsInRange) {
         return unitVector;
     }
 
-    if (a < angleRange[0]) {
-        rotateToAngleToZAxis(unitVector, angleRange[0]);
+    if (a < maxAngleToZAxis) {
+        rotateToAngleToZAxis(unitVector, minAngleToZAxis);
         return unitVector;
     }
 
-    if (a > angleRange[1]) {
-        rotateToAngleToZAxis(unitVector, angleRange[1]);
+    if (a > maxAngleToZAxis) {
+        rotateToAngleToZAxis(unitVector, maxAngleToZAxis);
         return unitVector;
     }
 };
@@ -141,6 +143,6 @@ export default {
     tetrahedralAngle: tetrahedralAngle,
     angleToZAxis: angleToZAxis,
     tiltAnglePlusHalfTetAngle: tiltAnglePlusHalfTetAngle,
-    closestPointInRangeOnSphere: closestPointInRangeOnSphere,
+    closestPointOnUnitSphere: closestPointOnUnitSphere,
     rotateToAngleToZAxis: rotateToAngleToZAxis
 };

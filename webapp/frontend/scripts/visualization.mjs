@@ -183,8 +183,6 @@ var init = function () {
     camera.position.set(0, -3, 0);
     camera.up.set(0, 0, 1);
 
-    window.c = camera; // TODO
-
     scene = new Scene();
 
     renderer = new WebGLRenderer({antialias: true});
@@ -195,7 +193,6 @@ var init = function () {
     controls.autoRotate = true;
     controls.autoRotateSpeed = 0.5;
     controls.update();
-    scene.add(camera); // TODO
 
     drawCoordinateCross();
 

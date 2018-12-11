@@ -21,7 +21,7 @@ export default function () {
     };
 
     // 1-a
-    options.point = new THREE.Vector3(1.190, 0.914, 0.967);
+    options.fromPoint = new THREE.Vector3(1.190, 0.914, 0.967);
     closestPoint = vector.closestPointOnUnitSphere(options);
     assertEqualVectors(
         closestPoint,
@@ -30,7 +30,7 @@ export default function () {
     );
 
     // 1-b
-    options.point = new THREE.Vector3(-0.279, -0.247, 0.308);
+    options.fromPoint = new THREE.Vector3(-0.279, -0.247, 0.308);
     closestPoint = vector.closestPointOnUnitSphere(options);
     assertEqualVectors(
         closestPoint,
@@ -39,7 +39,7 @@ export default function () {
     );
 
     // 1-c
-    options.point = new THREE.Vector3(-1.081, 0.474, -2.487);
+    options.fromPoint = new THREE.Vector3(-1.081, 0.474, -2.487);
     closestPoint = vector.closestPointOnUnitSphere(options);
     assertEqualVectors(
         closestPoint,
@@ -48,7 +48,7 @@ export default function () {
     );
 
     // 1-d
-    options.point = new THREE.Vector3(0.029, 0.060, 0.594);
+    options.fromPoint = new THREE.Vector3(0.029, 0.060, 0.594);
     closestPoint = vector.closestPointOnUnitSphere(options);
     assertEqualVectors(
         closestPoint,
@@ -57,7 +57,7 @@ export default function () {
     );
 
     // 1-e
-    options.point = new THREE.Vector3(0.667, 0.489, -0.563);
+    options.fromPoint = new THREE.Vector3(0.667, 0.489, -0.563);
     closestPoint = vector.closestPointOnUnitSphere(options);
     assertEqualVectors(
         closestPoint,
@@ -66,7 +66,7 @@ export default function () {
     );
 
     // 1-f
-    options.point = new THREE.Vector3(0, 0, 0);
+    options.fromPoint = new THREE.Vector3(0, 0, 0);
     i = 100;
     while (i > 0) {
         closestPoint = vector.closestPointOnUnitSphere(options);
@@ -87,7 +87,7 @@ export default function () {
     };
 
     // 2-a
-    options.point = new THREE.Vector3(1.190, 0.914, 0.967);
+    options.fromPoint = new THREE.Vector3(1.190, 0.914, 0.967);
     closestPoint = vector.closestPointOnUnitSphere(options);
     assertEqualVectors(
         closestPoint,
@@ -96,7 +96,7 @@ export default function () {
     );
 
     // 2-b
-    options.point = new THREE.Vector3(0, 0, 2);
+    options.fromPoint = new THREE.Vector3(0, 0, 2);
     closestPoint = vector.closestPointOnUnitSphere(options);
     assertEqualVectors(
         closestPoint,
@@ -105,7 +105,7 @@ export default function () {
     );
 
     // 2-c
-    options.point = new THREE.Vector3(0, 0, 0);
+    options.fromPoint = new THREE.Vector3(0, 0, 0);
     i = 100;
     while (i > 0) {
         closestPoint = vector.closestPointOnUnitSphere(options);
@@ -118,7 +118,7 @@ export default function () {
     }
 
     // 2-d
-    options.point = new THREE.Vector3(-0.424, 0.292, -0.574);
+    options.fromPoint = new THREE.Vector3(-0.424, 0.292, -0.574);
     closestPoint = vector.closestPointOnUnitSphere(options);
     assertEqualVectors(
         closestPoint,
@@ -127,7 +127,7 @@ export default function () {
     );
 
     // 2-e
-    options.point = new THREE.Vector3(0.267, 0.292, 0.249);
+    options.fromPoint = new THREE.Vector3(0.267, 0.292, 0.249);
     closestPoint = vector.closestPointOnUnitSphere(options);
     assertEqualVectors(
         closestPoint,
@@ -142,7 +142,7 @@ export default function () {
     };
 
     // 3-a
-    options.point = new THREE.Vector3(0.183, 0.542, 1.122);
+    options.fromPoint = new THREE.Vector3(0.183, 0.542, 1.122);
     closestPoint = vector.closestPointOnUnitSphere(options);
     assertEqualVectors(
         closestPoint,
@@ -151,7 +151,7 @@ export default function () {
     );
 
     // 3-b
-    options.point = new THREE.Vector3(0.151, -0.350, -0.456);
+    options.fromPoint = new THREE.Vector3(0.151, -0.350, -0.456);
     closestPoint = vector.closestPointOnUnitSphere(options);
     assertEqualVectors(
         closestPoint,
@@ -160,7 +160,7 @@ export default function () {
     );
 
     // 3-c
-    options.point = new THREE.Vector3(0, 0, 1);
+    options.fromPoint = new THREE.Vector3(0, 0, 1);
     closestPoint = vector.closestPointOnUnitSphere(options);
     i = 100;
     while (i > 0) {
@@ -171,7 +171,7 @@ export default function () {
     }
 
     // 3-d
-    options.point = new THREE.Vector3(0, 0, -1.441);
+    options.fromPoint = new THREE.Vector3(0, 0, -1.441);
     closestPoint = vector.closestPointOnUnitSphere(options);
     assertEqualVectors(
         closestPoint,

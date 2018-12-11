@@ -91,15 +91,16 @@ var normalizeOrRandomize = function (a) {
 };
 
 var closestPointOnUnitSphere = function (options) {
-    var point = options.point;
+    var fromPoint = options.fromPoint;
     var minAngleToZAxis = options.minAngleToZAxis; // rad
     var maxAngleToZAxis = options.maxAngleToZAxis; // rad
+    var center = options.center;
 
-    if (point.length() === 0) {
-        point = randomUnitVector();
+    if (fromPoint.length() === 0) {
+        fromPoint = randomUnitVector();
     }
-    var a = angleToZAxis(point);
-    var unitVector = point.clone().normalize();
+    var a = angleToZAxis(fromPoint);
+    var unitVector = fromPoint.clone().normalize();
 
     var pointIsInRange = a >= minAngleToZAxis && a <= maxAngleToZAxis;
     if (pointIsInRange) {

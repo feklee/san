@@ -79,4 +79,59 @@ export default function () {
         assert(pointIsInRange);
         i -= 1;
     }
+
+    // 2
+    options = {
+        minAngleToZAxis: 0, // rad
+        maxAngleToZAxis: 1.0710387487788402 // rad
+    };
+
+    // 2-a
+    options.point = new THREE.Vector3(1.190, 0.914, 0.967);
+    closestPoint = vector.closestPointOnUnitSphere(options);
+    assertEqualVectors(
+        closestPoint,
+        new THREE.Vector3(0.667, 0.512, 0.542),
+        0.001
+    );
+
+    // 2-b
+    options.point = new THREE.Vector3(0, 0, 2);
+    closestPoint = vector.closestPointOnUnitSphere(options);
+    assertEqualVectors(
+        closestPoint,
+        new THREE.Vector3(0, 0, 1),
+        0.001
+    );
+
+    // 2-c
+    options.point = new THREE.Vector3(0, 0, 0);
+    i = 100;
+    while (i > 0) {
+        closestPoint = vector.closestPointOnUnitSphere(options);
+        assertEqualNumbers(closestPoint.length(), 1, 1e-6);
+        angle = closestPoint.angleTo(zAxisVector);
+        epsilon = 0.001;
+        pointIsInRange = angle < options.maxAngleToZAxis + epsilon;
+        assert(pointIsInRange);
+        i -= 1;
+    }
+
+    // 2-d
+    options.point = new THREE.Vector3(-0.424, 0.292, -0.574);
+    closestPoint = vector.closestPointOnUnitSphere(options);
+    assertEqualVectors(
+        closestPoint,
+        new THREE.Vector3(-0.722, 0.499, 0.479),
+        0.01
+    );
+
+    // 2-e
+    options.point = new THREE.Vector3(0.267, 0.292, 0.249);
+    closestPoint = vector.closestPointOnUnitSphere(options);
+    assertEqualVectors(
+        closestPoint,
+        new THREE.Vector3(0.571, 0.625, 0.532),
+        0.001
+    );
 };

@@ -57,6 +57,8 @@ var parseData = function (data) {
     var childNode = nodes[childNodeId];
     if (childNode === undefined) {
         childNode = nodeManager.addNode(childNodeId, angle);
+    } else {
+        childNode.angle = angle;
     }
 
     var pair = {

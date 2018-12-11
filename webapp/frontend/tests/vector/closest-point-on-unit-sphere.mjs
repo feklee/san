@@ -2,7 +2,6 @@
 
 import THREE from "../global-three";
 import vector from "../../scripts/vector";
-import assert from "assert";
 import {assertEqualVectors, assertEqualNumbers} from "./common";
 
 export default function () {

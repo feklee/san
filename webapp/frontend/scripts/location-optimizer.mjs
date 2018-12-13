@@ -60,8 +60,8 @@ var setExpectedNeighborLocation1A = function (connection1) {
     connection1.expectedNeighborLocation = vector.closestPointOnUnitSphere({
         center: thisNode.testLocation,
         fromPoint: neighbor.testLocation,
-        minAngleToVerticalAxis: thisNode.angle, // TODO: test this case, with equal angles
-        maxAngleToVerticalAxis: thisNode.angle + .1
+        minAngleToVerticalAxis: thisNode.angle,
+        maxAngleToVerticalAxis: thisNode.angle
     });
 
     updateExpectedVector(connection1);

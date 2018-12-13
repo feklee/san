@@ -105,18 +105,11 @@ var createHemisphere = function (color, index) {
     return new Mesh(geometry, material);
 };
 
-var randomlyRotateSphere = function (object3D) {
-    // hemispheres have rotational symmetry about z-axis
-    object3D.rotation.x = 2 * Math.PI * Math.random();
-    object3D.rotation.y = Math.acos(2 * Math.random() - 1);
-};
-
 var createNodeObject3D = function (node) {
     var sphere = new THREE.Group();
     [0, 1].forEach(function (i) {
         sphere.add(createHemisphere(node.colors[i], i));
     });
-    randomlyRotateSphere(sphere);
     scene.add(sphere);
     node.object3D = sphere;
 };
@@ -139,13 +132,29 @@ var updateAnimatedLocation = function (node) {
     ));
 };
 
-var updateNodeObject3D = function (node) {
-    updateAnimatedLocation(node);
+var setLocationOfNodeObject3D = function (node) {
     node.object3D.position.set(
         node.animatedLocation.x,
         node.animatedLocation.y,
         node.animatedLocation.z
     );
+};
+
+var rotateNodeObject3D = function (node) {
+    if (node.angle !== null) {
+        node.object3D.rotation.x = node.angle;
+        // TODO: rotate about z matching the connections to neighbor(s)
+    }
+/* TODO:
+    node.object3D.rotation.x = 2 * Math.PI * Math.random();
+    node.object3D.rotation.y = Math.acos(2 * Math.random() - 1);
+*/
+};
+
+var updateNodeObject3D = function (node) {
+    updateAnimatedLocation(node);
+    setLocationOfNodeObject3D(node);
+    rotateNodeObject3D(node);
 };
 
 var updateNodeObject3Ds = function () {
@@ -156,15 +165,15 @@ var drawCoordinateCross = function () { // TODO: for debugging
     var g;
     g = new Geometry();
     g.vertices.push(new Vector3(0, 0, 0));
-    g.vertices.push(new Vector3(1, 0, 0));
+    g.vertices.push(new Vector3(.25, 0, 0));
     scene.add(new Line(g, new LineBasicMaterial({color: "darkred"})));
     g = new Geometry();
     g.vertices.push(new Vector3(0, 0, 0));
-    g.vertices.push(new Vector3(0, 1, 0));
+    g.vertices.push(new Vector3(0, .25, 0));
     scene.add(new Line(g, new LineBasicMaterial({color: "darkgreen"})));
     g = new Geometry();
     g.vertices.push(new Vector3(0, 0, 0));
-    g.vertices.push(new Vector3(0, 0, 1));
+    g.vertices.push(new Vector3(0, 0, .25));
     scene.add(new Line(g, new LineBasicMaterial({color: "gray"})));
 };
 

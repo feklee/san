@@ -113,7 +113,7 @@ div.log ul li.warn::before {
     content: "⚠";
 }
 
-div.log span.angle {
+div.log span.tilt-angle {
     display: inline-block;
     text-align: center;
     height: 16px;
@@ -122,7 +122,7 @@ div.log span.angle {
     margin-left: 5px;
 }
 
-div.log span.unspecified.angle {
+div.log span.unspecified.tilt-angle {
     line-height: 16px;
 }
 

@@ -141,8 +141,8 @@ var setLocationOfNodeObject3D = function (node) {
 };
 
 var rotateNodeObject3D = function (node) {
-    if (node.angle !== null) {
-        node.object3D.rotation.x = node.angle;
+    if (node.tiltAngle !== null) {
+        node.object3D.rotation.x = node.tiltAngle;
         // TODO: rotate about z matching the connections to neighbor(s)
     }
 /* TODO:

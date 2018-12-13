@@ -53,15 +53,16 @@ var rotateToIncludedAngle = function (fixedUnitVector, unitVector, angle) {
 //     relative to the vertical axis. This angle depends 1. on the tilt angle of
 //     the node, and 2. on the position of the port to which the neighbor is
 //     connected.
-var setExpectedNeighborLocation1A = function (connection1) {
+var setExpectedNeighborLocation1TA = function (connection1) {
     var thisNode = connection1.fromPort.node;
     var neighbor = connection1.toPort.node;
+    var angleRange = vector.tiltAnglePlusHalfTetAngle(thisNode.tiltAngle);
 
     connection1.expectedNeighborLocation = vector.closestPointOnUnitSphere({
         center: thisNode.testLocation,
         fromPoint: neighbor.testLocation,
-        minAngleToVerticalAxis: thisNode.angle,
-        maxAngleToVerticalAxis: thisNode.angle
+        minAngleToVerticalAxis: angleRange[0],
+        maxAngleToVerticalAxis: angleRange[1]
     });
 
     updateExpectedVector(connection1);
@@ -150,11 +151,11 @@ var setExpectedNeighborLocation4 = function (connection4) {
 
 var setExpectedNeighborLocation = function (connection, i) {
     var node = connection.fromPort.node;
-    var nodeHasAngle = node.angle !== null;
+    var nodeHasTiltAngle = node.tiltAngle !== null;
     switch (i) {
     case 0:
-        if (nodeHasAngle) {
-            setExpectedNeighborLocation1A(connection);
+        if (nodeHasTiltAngle) {
+            setExpectedNeighborLocation1TA(connection);
         } else {
             setExpectedNeighborLocation1(connection);
         }

@@ -45,34 +45,34 @@ var removeOverflow = function () {
     }
 };
 
-var createAngleEl = function (angle) {
+var createTiltAngleEl = function (tiltAngle) {
     var spanEl = document.createElement("span");
-    spanEl.classList.add("angle");
-    if (angle === null) {
+    spanEl.classList.add("tilt-angle");
+    if (tiltAngle === null) {
         spanEl.classList.add("unspecified");
         spanEl.textContent = "◯";
     } else {
         spanEl.textContent = "↑";
-        spanEl.style.transform = `rotate(${angle}rad)`;
+        spanEl.style.transform = `rotate(${tiltAngle}rad)`;
     }
     return spanEl;
 };
 
-var createSpan = function (text, angle) {
+var createSpan = function (text, tiltAngle) {
     var spanEl = document.createElement("span");
     var preEl = document.createElement("pre");
     spanEl.appendChild(preEl).textContent = text;
-    if (angle !== undefined) {
-        spanEl.appendChild(createAngleEl(angle));
+    if (tiltAngle !== undefined) {
+        spanEl.appendChild(createTiltAngleEl(tiltAngle));
     }
     return spanEl;
 };
 
-var append = function (type, text, angle) {
+var append = function (type, text, tiltAngle) {
     var liEl = document.createElement("li");
     logEl.appendChild(liEl).classList.add(type);
     liEl.appendChild(createSpan(timeStamp()));
-    liEl.appendChild(createSpan(text, angle));
+    liEl.appendChild(createSpan(text, tiltAngle));
     removeOverflow();
 };
 

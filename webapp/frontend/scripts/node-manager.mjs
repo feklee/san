@@ -196,7 +196,7 @@ var nodeColorsListIndexFromId = function (id) {
         : id.charCodeAt(0) - 0x40;
 };
 
-var addNode = function (id, angle) {
+var addNode = function (id, tiltAngle) {
     if (nodeExists(id)) {
         return;
     }
@@ -211,7 +211,7 @@ var addNode = function (id, angle) {
         visibleConnections: [],
         location: null,
         colors: colors,
-        angle: angle // rad
+        tiltAngle: tiltAngle // rad
     };
 
     nodes[id] = node;

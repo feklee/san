@@ -40,10 +40,10 @@ var decodeAngle = function (encodedAngle) { // rad
 
 var parseData = function (data) {
     var a = data.split("");
-    var encodedAngle = data.substr(4);
-    var angle = decodeAngle(encodedAngle); // rad
+    var encodedTiltAngle = data.substr(4);
+    var tiltAngle = decodeAngle(encodedTiltAngle); // rad
 
-    log.append("data", data.substr(0, 4), angle);
+    log.append("data", data.substr(0, 4), tiltAngle);
 
     var parentNodeId = a[0];
     var parentPortNumber = parseInt(a[1]);
@@ -56,9 +56,9 @@ var parseData = function (data) {
     var childPortNumber = parseInt(a[3]);
     var childNode = nodes[childNodeId];
     if (childNode === undefined) {
-        childNode = nodeManager.addNode(childNodeId, angle);
+        childNode = nodeManager.addNode(childNodeId, tiltAngle);
     } else {
-        childNode.angle = angle;
+        childNode.tiltAngle = tiltAngle;
     }
 
     var pair = {

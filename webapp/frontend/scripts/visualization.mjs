@@ -143,30 +143,6 @@ var setLocationOfNodeObject3D = function (node) {
 
 var rotateNodeObject3D = function (node) {
     node.object3D.lookAt(node.location.clone().add(node.axis));
-    return; // TODO
-
-    if (node.tiltAngle !== null) {
-//        node.object3D.rotation.x = node.tiltAngle;
-        // TOOO: Create separate function that rotates according to axis orientation
-
-        if (node.visibleConnections[0]) { // TODO: better create an axis first (the vector pointing upwards when the node is not tilted)
-            var connection = node.visibleConnections[0];
-            node.object3D.lookAt(connection.toPort.node.location);
-//            node.object3D.rotation.z =
-//                vector.angleInXYPlane(connection.vector);
-        }
-        // TODO: rotate about z matching the connections to neighbor(s)
-    }
-/* TODO
-    node.visibleConnections.forEach(function (connection) {
-        
-    });
-*/
-
-/* TODO:
-    node.object3D.rotation.x = 2 * Math.PI * Math.random();
-    node.object3D.rotation.y = Math.acos(2 * Math.random() - 1);
-*/
 };
 
 var updateNodeObject3D = function (node) {

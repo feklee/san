@@ -236,6 +236,14 @@ var updateConnectionVectors = function () {
     });
 };
 
+var updateNodeAxes = function () {
+    visibleNodes.forEach(function (node) {
+        if (node.visibleConnections.length > 0) {
+            node.axis = node.visibleConnections[0].vector;
+        }
+    });
+};
+
 var fitness = function (individual) {
     assignLocationsToNodes("testLocation", individual);
     return -sumOfDeviations();
@@ -335,6 +343,7 @@ var updateNodeLocations = function (generation) {
     assignLocationsToNodes("location", generation.best.params);
     moveCenterToOrigin();
     updateConnectionVectors();
+    updateNodeAxes();
 };
 
 var run = function () {

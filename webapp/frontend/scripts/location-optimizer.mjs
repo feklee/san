@@ -21,26 +21,20 @@ var updateExpectedNeighborLocation = function (connection) {
         );
 };
 
-var updateExpectedVector = function (connection) {
+var setExpectedVector = function (connection) {
     connection.expectedVector =
         connection.expectedNeighborLocation.clone().sub(
             connection.fromPort.node.testLocation
         );
 };
 
-// TODO: maybe make `rotateToTetrahedralAngle` use this function
-var rotateToIncludedAngle = function (fixedUnitVector, unitVector, angle) {
-    var rotationAxis = fixedUnitVector.clone().cross(unitVector);
-    var v;
-    while (rotationAxis.length() < Number.EPSILON) {
-        v = vector.randomUnitVector();
-        rotationAxis = fixedUnitVector.clone().cross(v);
-    }
-    rotationAxis.normalize();
-
-    unitVector.fromArray(fixedUnitVector.toArray());
-
-    unitVector.applyAxisAngle(rotationAxis, tetrahedralAngle);
+// Calculates the possible node axes that satisfy:
+//
+//   * node tilt angle
+//
+//   * neighbor location
+var possibleAxes = function (nodeLocation, tiltAngle, neighborLocation) {
+    return [neighborLocation.clone().sub(nodeLocation)]; // TODO: implement
 };
 
 // This function is for a node where the tilt angle is known.
@@ -66,7 +60,13 @@ var setExpectedNeighborLocation1TA = function (connection1) {
         maxAngleToVerticalAxis: angleRange[1]
     });
 
-    updateExpectedVector(connection1);
+    thisNode.possibleAxes = possibleAxes(
+        thisNode.location,
+        thisNode.tiltAngle,
+        connection1.expectedNeighborLocation
+    );
+    thisNode.axis = possibleAxes[0]; // TODO
+    setExpectedVector(connection1);
 };
 
 // 1st neighbor: The only constraint is the distance of 1 to the node.

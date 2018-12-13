@@ -178,7 +178,6 @@ export default function () {
         0.001
     );
 
-
     // 4
     options = {
         minAngleToZAxis: 0.7366336640967267, // rad
@@ -202,6 +201,31 @@ export default function () {
         closestPoint = vector.closestPointOnCenteredUnitSphere(options);
         assertEqualNumbers(closestPoint.length(), 1, 1e-6);
         assertEqualNumbers(closestPoint.z, 0.741, 0.001);
+        i -= 1;
+    }
+
+    // 5: invalid angle range => angle range ignored => whole sphere used
+    options = {
+        minAngleToZAxis: 0.6, // rad
+        maxAngleToZAxis: 0.4 // rad
+    };
+
+    // 5-a
+    options.fromPoint = new THREE.Vector3(1.190, 0.914, 0.967);
+    closestPoint = vector.closestPointOnCenteredUnitSphere(options);
+    assertEqualVectors(
+        closestPoint,
+        new THREE.Vector3(0.667, 0.512, 0.542),
+        0.001
+    );
+
+    // 5-b
+    options.fromPoint = new THREE.Vector3(0, 0, 0);
+    i = 100;
+    while (i > 0) {
+        closestPoint = vector.closestPointOnCenteredUnitSphere(options);
+        assertEqualNumbers(closestPoint.length(), 1, 1e-6);
+        angle = closestPoint.angleTo(zAxisVector);
         i -= 1;
     }
 };

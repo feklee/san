@@ -95,14 +95,20 @@ var closestPointOnCenteredUnitSphere = function (options) {
     var minAngleToZAxis = options.minAngleToZAxis; // rad
     var maxAngleToZAxis = options.maxAngleToZAxis; // rad
 
+    var rangeIsInvalid = minAngleToZAxis > maxAngleToZAxis;
+    if (rangeIsInvalid) {
+        minAngleToZAxis = 0;
+        maxAngleToZAxis = Math.PI;
+    }
+
     if (fromPoint.length() === 0) {
         fromPoint = randomUnitVector();
     }
     var a = angleToZAxis(fromPoint);
     var unitVector = fromPoint.clone().normalize();
 
-    var pointIsInRange = a >= minAngleToZAxis && a <= maxAngleToZAxis;
-    if (pointIsInRange) {
+    var fromPointIsInRange = a >= minAngleToZAxis && a <= maxAngleToZAxis;
+    if (fromPointIsInRange) {
         return unitVector;
     }
 

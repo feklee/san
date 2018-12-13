@@ -156,6 +156,12 @@ var areEqual = function (a, b, epsilon) {
     ) < epsilon;
 };
 
+var angleInXYPlane = // rad, measured against positive x axis (2D, projected)
+    function (vector) {
+        var projectedVector = new THREE.Vector2(vector.x, vector.y);
+        return projectedVector.angle();
+    };
+
 export default {
     rotateToTetrahedralAngle: rotateToTetrahedralAngle,
     randomUnitVector: randomUnitVector,
@@ -167,5 +173,6 @@ export default {
     tiltAnglePlusHalfTetAngle: tiltAnglePlusHalfTetAngle,
     closestPointOnCenteredUnitSphere: closestPointOnCenteredUnitSphere,
     closestPointOnUnitSphere: closestPointOnUnitSphere,
-    rotateToAngleToZAxis: rotateToAngleToZAxis
+    rotateToAngleToZAxis: rotateToAngleToZAxis,
+    angleInXYPlane: angleInXYPlane
 };

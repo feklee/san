@@ -145,6 +145,12 @@ var rotateNodeObject3D = function (node) {
         node.object3D.rotation.x = node.tiltAngle;
         // TODO: rotate about z matching the connections to neighbor(s)
     }
+/* TODO
+    node.visibleConnections.forEach(function (connection) {
+        
+    });
+*/
+
 /* TODO:
     node.object3D.rotation.x = 2 * Math.PI * Math.random();
     node.object3D.rotation.y = Math.acos(2 * Math.random() - 1);

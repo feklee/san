@@ -13,6 +13,8 @@ import closestPointOnCenteredUnitSphere from
         "./vector/closest-point-on-centered-unit-sphere.mjs";
 import closestPointOnUnitSphere from
         "./vector/closest-point-on-unit-sphere.mjs";
+import angleInXYPlane from
+        "./vector/angle-in-x-y-plane.mjs";
 
 var logWhatIsTested = function (whatIsTested) {
     console.log("Testing vector." + whatIsTested + "...");
@@ -41,3 +43,6 @@ closestPointOnCenteredUnitSphere();
 
 logWhatIsTested("closestPointOnUnitSphere");
 closestPointOnUnitSphere();
+
+logWhatIsTested("angleInXYPlane");
+angleInXYPlane();

@@ -56,7 +56,8 @@ var rotateToIncludedAngle = function (fixedUnitVector, unitVector, angle) {
 var setExpectedNeighborLocation1TA = function (connection1) {
     var thisNode = connection1.fromPort.node;
     var neighbor = connection1.toPort.node;
-    var angleRange = vector.tiltAnglePlusHalfTetAngle(thisNode.tiltAngle);
+//    var angleRange = vector.tiltAnglePlusHalfTetAngle(thisNode.tiltAngle);
+    var angleRange = [thisNode.tiltAngle, thisNode.tiltAngle]; // TODO, just for testing
 
     connection1.expectedNeighborLocation = vector.closestPointOnUnitSphere({
         center: thisNode.testLocation,
@@ -224,6 +225,17 @@ var assignLocationsToNodes = function (locationType, individual) {
     });
 };
 
+var updateConnectionVectors = function () {
+    visibleNodes.forEach(function (node) {
+        node.visibleConnections.forEach(function (connection) {
+            connection.vector =
+                connection.toPort.node.location.clone().sub(
+                    connection.fromPort.node.location
+                );
+        });
+    });
+};
+
 var fitness = function (individual) {
     assignLocationsToNodes("testLocation", individual);
     return -sumOfDeviations();
@@ -322,6 +334,7 @@ var updateNodeLocations = function (generation) {
     }
     assignLocationsToNodes("location", generation.best.params);
     moveCenterToOrigin();
+    updateConnectionVectors();
 };
 
 var run = function () {

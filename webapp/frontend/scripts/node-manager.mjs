@@ -119,11 +119,14 @@ var disconnectOnBothSides = function (port) {
 };
 
 var setNeighbor = function (port, neighborPort) {
+    var arbitraryDefaultVector = new Vector3(0, 0, 1);
+
     var newConnection = {
         fromPort: port,
         toPort: neighborPort,
         expiryTime: expiryTime(),
-        isVisible: port.node.isVisible && neighborPort.node.isVisible
+        isVisible: port.node.isVisible && neighborPort.node.isVisible,
+        vector: arbitraryDefaultVector
     };
 
     port.node.connections[port.portNumber] = newConnection;

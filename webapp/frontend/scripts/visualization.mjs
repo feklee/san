@@ -3,6 +3,7 @@
 import settings from "./settings.mjs";
 import visibleNodes from "./visible-nodes.mjs";
 import edges from "./edges.mjs";
+import vector from "./vector.mjs";
 import {
     Vector3,
     Geometry,
@@ -142,7 +143,15 @@ var setLocationOfNodeObject3D = function (node) {
 
 var rotateNodeObject3D = function (node) {
     if (node.tiltAngle !== null) {
-        node.object3D.rotation.x = node.tiltAngle;
+//        node.object3D.rotation.x = node.tiltAngle;
+        // TOOO: Create separate function that rotates according to axis orientation
+
+        if (node.visibleConnections[0]) { // TODO: better create an axis first (the angle between the axis and z is the tilt angle)
+            var connection = node.visibleConnections[0];
+            node.object3D.lookAt(connection.toPort.node.location);
+//            node.object3D.rotation.z =
+//                vector.angleInXYPlane(connection.vector);
+        }
         // TODO: rotate about z matching the connections to neighbor(s)
     }
 /* TODO

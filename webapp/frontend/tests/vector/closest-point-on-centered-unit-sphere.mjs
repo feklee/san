@@ -161,7 +161,6 @@ export default function () {
 
     // 3-c
     options.fromPoint = new THREE.Vector3(0, 0, 1);
-    closestPoint = vector.closestPointOnCenteredUnitSphere(options);
     i = 100;
     while (i > 0) {
         closestPoint = vector.closestPointOnCenteredUnitSphere(options);
@@ -178,4 +177,31 @@ export default function () {
         new THREE.Vector3(0, 0, -1),
         0.001
     );
+
+
+    // 4
+    options = {
+        minAngleToZAxis: 0.7366336640967267, // rad
+        maxAngleToZAxis: 0.7366336640967267 // rad
+    };
+
+    // 4-a
+    options.fromPoint = new THREE.Vector3(1.190, 0.914, 0.967);
+    closestPoint = vector.closestPointOnCenteredUnitSphere(options);
+    assertEqualVectors(
+        closestPoint,
+        new THREE.Vector3(0.533, 0.409, 0.741),
+        0.001
+    );
+
+    // 4-b
+    options.fromPoint = new THREE.Vector3(0, 0, 0);
+    closestPoint = vector.closestPointOnCenteredUnitSphere(options);
+    i = 100;
+    while (i > 0) {
+        closestPoint = vector.closestPointOnCenteredUnitSphere(options);
+        assertEqualNumbers(closestPoint.length(), 1, 1e-6);
+        assertEqualNumbers(closestPoint.z, 0.741, 0.001);
+        i -= 1;
+    }
 };

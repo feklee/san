@@ -172,9 +172,6 @@ var angleInXYPlane = // rad, measured against positive x axis (2D, projected)
 //
 // For this function, it is assumed that the axis of the tetrahedral cone
 // coincides with the world x-axis when projected along the world z-axis.
-//
-// If the cones don't intersect, then the result is a list with one unit vector,
-// namely the one that lies between (any of) the two closest points.
 var intVerticalConeWTetrahedralConeX =
     function (
         apertureOfVerticalCone, // in [0, 2 pi rad]
@@ -185,8 +182,11 @@ var intVerticalConeWTetrahedralConeX =
         var z = axisOfTetrahedralCone.z;
         var w = Math.cos(a);
         var u = (Math.sqrt(1 / 3) - z * w) / x;
-        var v = Math.sqrt(1 - u * u - w * w);
-
+        var radicant = 1 - u * u - w * w;
+        if (radicant < 0) {
+            return [];
+        }
+        var v = Math.sqrt(radicant);
         if (v === 0) {
             return [new THREE.Vector3(u, v, w)];
         } else {

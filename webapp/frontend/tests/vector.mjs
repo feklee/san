@@ -15,6 +15,8 @@ import closestPointOnUnitSphere from
         "./vector/closest-point-on-unit-sphere.mjs";
 import angleInXYPlane from
         "./vector/angle-in-x-y-plane.mjs";
+import intVerticalConeWTetrahedralConeX from
+        "./vector/int-vertical-cone-w-tetrahedral-cone-x.mjs";
 
 var logWhatIsTested = function (whatIsTested) {
     console.log("Testing vector." + whatIsTested + "...");
@@ -46,3 +48,6 @@ closestPointOnUnitSphere();
 
 logWhatIsTested("angleInXYPlane");
 angleInXYPlane();
+
+logWhatIsTested("intVerticalConeWTetrahedralConeX");
+intVerticalConeWTetrahedralConeX();

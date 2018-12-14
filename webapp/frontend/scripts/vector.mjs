@@ -162,6 +162,41 @@ var angleInXYPlane = // rad, measured against positive x axis (2D, projected)
         return projectedVector.angle();
     };
 
+// Returns an array of unit vectors that go along the intersection of two cones:
+//
+//   * The apex of both cones is in the origin.
+//
+//   * One cone is vertical.
+//
+//   * The tetrahedral cone has a fixed aperture equaling the tetrahedral angle.
+//
+// For this function, it is assumed that the axis of the tetrahedral cone
+// coincides with the world x-axis when projected along the world z-axis.
+//
+// If the cones don't intersect, then the result is a list with one unit vector,
+// namely the one that lies between (any of) the two closest points.
+var intVerticalConeWTetrahedralConeX =
+    function (
+        apertureOfVerticalCone, // in [0, 2 pi rad]
+        axisOfTetrahedralCone // unit vector (zero y component)
+    ) {
+        var a = apertureOfVerticalCone / 2;
+        var x = axisOfTetrahedralCone.x;
+        var z = axisOfTetrahedralCone.z;
+        var w = Math.cos(a);
+        var u = (Math.sqrt(1 / 3) - z * w) / x;
+        var v = Math.sqrt(1 - u * u - w * w);
+
+        if (v === 0) {
+            return [new THREE.Vector3(u, v, w)];
+        } else {
+            return [
+                new THREE.Vector3(u, -v, w),
+                new THREE.Vector3(u, v, w)
+            ];
+        }
+    };
+
 export default {
     rotateToTetrahedralAngle: rotateToTetrahedralAngle,
     randomUnitVector: randomUnitVector,
@@ -174,5 +209,6 @@ export default {
     closestPointOnCenteredUnitSphere: closestPointOnCenteredUnitSphere,
     closestPointOnUnitSphere: closestPointOnUnitSphere,
     rotateToAngleToZAxis: rotateToAngleToZAxis,
-    angleInXYPlane: angleInXYPlane
+    angleInXYPlane: angleInXYPlane,
+    intVerticalConeWTetrahedralConeX: intVerticalConeWTetrahedralConeX
 };

@@ -33,9 +33,10 @@ var setExpectedVector = function (connection) {
 //   * node tilt angle
 //
 //   * neighbor location
-var possibleAxes = function (nodeLocation, tiltAngle, neighborLocation) {
-    return [neighborLocation.clone().sub(nodeLocation)]; // TODO: implement
-};
+var axesOfNodeWithOneNeighbor =
+    function (nodeLocation, tiltAngle, neighborLocation) {
+        return [neighborLocation.clone().sub(nodeLocation)]; // TODO: implement
+    };
 
 // This function is for a node where the tilt angle is known.
 //
@@ -59,14 +60,6 @@ var setExpectedNeighborLocation1TA = function (connection1) {
         minAngleToVerticalAxis: angleRange[0],
         maxAngleToVerticalAxis: angleRange[1]
     });
-
-    thisNode.possibleAxes = possibleAxes(
-        thisNode.location,
-        thisNode.tiltAngle,
-        connection1.expectedNeighborLocation
-    );
-    thisNode.axis = possibleAxes[0]; // TODO
-    setExpectedVector(connection1);
 };
 
 // 1st neighbor: The only constraint is the distance of 1 to the node.
@@ -151,15 +144,9 @@ var setExpectedNeighborLocation4 = function (connection4) {
 };
 
 var setExpectedNeighborLocation = function (connection, i) {
-    var node = connection.fromPort.node;
-    var nodeHasTiltAngle = node.tiltAngle !== null;
     switch (i) {
     case 0:
-        if (nodeHasTiltAngle) {
-            setExpectedNeighborLocation1TA(connection);
-        } else {
-            setExpectedNeighborLocation1(connection);
-        }
+        setExpectedNeighborLocation1(connection);
         break;
     case 1:
         setExpectedNeighborLocation2(connection);
@@ -169,6 +156,23 @@ var setExpectedNeighborLocation = function (connection, i) {
         break;
     case 3:
         setExpectedNeighborLocation4(connection);
+        break;
+    }
+};
+
+var setExpectedNeighborLocationTA = function (connection, i) {
+    switch (i) {
+    case 0:
+        setExpectedNeighborLocation1TA(connection);
+        break;
+    case 1:
+        setExpectedNeighborLocation2TA(connection);
+        break;
+    case 2:
+        setExpectedNeighborLocation3TA(connection);
+        break;
+    case 3:
+        setExpectedNeighborLocation4TA(connection);
         break;
     }
 };
@@ -184,7 +188,12 @@ var addDeviation = function (deviations, connection) {
 
 var addDeviationsForNode = function (deviations, node) {
     node.visibleConnections.forEach(function (connection, i) {
-        setExpectedNeighborLocation(connection, i);
+        var nodeHasTiltAngle = node.tiltAngle !== null;
+        if (nodeHasTiltAngle) {
+            setExpectedNeighborLocationTA(connection, i);
+        } else {
+            setExpectedNeighborLocation(connection, i);
+        }
         addDeviation(deviations, connection);
     });
 };

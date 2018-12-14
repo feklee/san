@@ -9,13 +9,13 @@ if (runningInNode) {
 }
 
 const tetrahedralAngle = Math.acos(-1 / 3);
+const zAxis = new THREE.Vector3(0, 0, 1);
 
 var angleToZAxis = function (vector) {
-    var zAxisVector = new THREE.Vector3(0, 0, 1);
     if (vector.length() < Number.EPSILON) {
         return 0;
     }
-    return vector.angleTo(zAxisVector);
+    return vector.angleTo(zAxis);
 };
 
 // Returns the angle range that results from the sum of two vectors, *v* and
@@ -175,7 +175,7 @@ var angleInXYPlane = // rad, measured against positive x axis (2D, projected)
 var intVerticalConeWTetrahedralConeX =
     function (
         apertureOfVerticalCone, // in [0, 2 pi rad]
-        axisOfTetrahedralCone // unit vector (zero y component)
+        axisOfTetrahedralCone // unit vector (zero y component) // TODO: maybe use angle instead
     ) {
         var a = apertureOfVerticalCone / 2;
         var x = axisOfTetrahedralCone.x;
@@ -197,6 +197,26 @@ var intVerticalConeWTetrahedralConeX =
         }
     };
 
+var intVerticalConeWTetrahedralCone = // TODO: maybe also make it work when cones are close, maybe use different function for that
+    function (
+        apertureOfVerticalCone,
+        axisOfTetrahedralCone
+    ) {
+        var a = angleInXYPlane(axisOfTetrahedralCone);
+        var rotatedAxis = axisOfTetrahedralCone.clone().
+            applyAxisAngle(zAxis, -a);
+        var intersections = intVerticalConeWTetrahedralConeX(
+            apertureOfVerticalCone,
+            rotatedAxis
+        );
+        intersections.forEach(
+            function (intersection) {
+                intersection.applyAxisAngle(zAxis, a);
+            }
+        );
+        return intersections;
+    };
+
 export default {
     rotateToTetrahedralAngle: rotateToTetrahedralAngle,
     randomUnitVector: randomUnitVector,
@@ -210,5 +230,6 @@ export default {
     closestPointOnUnitSphere: closestPointOnUnitSphere,
     rotateToAngleToZAxis: rotateToAngleToZAxis,
     angleInXYPlane: angleInXYPlane,
-    intVerticalConeWTetrahedralConeX: intVerticalConeWTetrahedralConeX
+    intVerticalConeWTetrahedralConeX: intVerticalConeWTetrahedralConeX,
+    intVerticalConeWTetrahedralCone: intVerticalConeWTetrahedralCone
 };

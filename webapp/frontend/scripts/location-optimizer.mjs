@@ -33,9 +33,18 @@ var setExpectedVector = function (connection) {
 //   * node tilt angle
 //
 //   * neighbor location
-var axesOfNodeWithOneNeighbor =
-    function (nodeLocation, tiltAngle, neighborLocation) {
-        return [neighborLocation.clone().sub(nodeLocation)]; // TODO: implement
+var axesOfNodeWithOneVisibleNeighbor =
+    function (nodeLocation, tiltAngle, vectorToNeighbor) {
+        // TODO: make this work on both sides
+
+        var intersections = vector.intVerticalConeWTetrahedralCone(
+            2 * tiltAngle,
+            vectorToNeighbor
+        );
+        if (intersections.length === 0) {
+            return [new Vector3(0, 0, 1)]; // TODO
+        }
+        return intersections;
     };
 
 // This function is for a node where the tilt angle is known.
@@ -245,12 +254,27 @@ var updateConnectionVectors = function () {
     });
 };
 
-var updateNodeAxes = function () {
-    visibleNodes.forEach(function (node) {
-        if (node.visibleConnections.length > 0) {
-            node.axis = node.visibleConnections[0].vector;
+var updateNodeAxis = function (node) {
+    var nodeHasTiltAngle = node.tiltAngle !== null;
+    if (nodeHasTiltAngle) {
+        var numberOfVisibleNeighbors = node.visibleConnections.length;
+        if (numberOfVisibleNeighbors === 1) {
+            var possibleAxes = axesOfNodeWithOneVisibleNeighbor(
+                node.location,
+                node.tiltAngle,
+                node.visibleConnections[0].vector
+            );
+            node.axis = possibleAxes[0];
+            return;
         }
-    });
+    }
+
+    var defaultAxis = new Vector3(0, 0, 1);
+    node.axis = defaultAxis;
+};
+
+var updateNodeAxes = function () {
+    visibleNodes.forEach(updateNodeAxis);
 };
 
 var fitness = function (individual) {

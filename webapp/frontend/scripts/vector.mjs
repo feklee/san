@@ -221,7 +221,7 @@ var intVerticalConeWTetrahedralConeX =
         }
     };
 
-var intVerticalConeWTetrahedralCone = // TODO: maybe also make it work when cones are close, maybe use different function for that
+var intVerticalConeWTetrahedralCone =
     function (
         apertureOfVerticalCone,
         axisOfTetrahedralCone

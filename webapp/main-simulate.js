@@ -34,11 +34,27 @@ function addOrRemovePair(pair, description, action) {
 }
 
 function addPairCommand(pair) {
-    return addOrRemovePair(pair, "Adding", "add");
+    if (!pairIsValid(pair)) {
+        complainAboutMalformedCommand();
+        return false;
+    }
+    console.log("Adding", pair);
+    set.add(pair + "0"); // "0" = no angle set
+    return true;
 }
 
 function removePairCommand(pair) {
-    return addOrRemovePair(pair, "Removing", "delete");
+    if (!pairIsValid(pair)) {
+        complainAboutMalformedCommand();
+        return false;
+    }
+    console.log("Removing", pair);
+    set.forEach(function (data) {
+        if (data.substr(0, 4) === pair) {
+            set.delete(data);
+        }
+    });
+    return true;
 }
 
 // [0, 180] -> [1, 127] (0 excluded, because that means: no angle)

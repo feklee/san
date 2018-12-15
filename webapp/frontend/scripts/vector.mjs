@@ -177,14 +177,20 @@ var intVerticalConeWTetrahedralConeX =
         apertureOfVerticalCone, // in [0, 2 pi rad]
         axisAngleOfTetrahedralCone // angle to z axis, in direction of x axis
     ) {
-        var a = apertureOfVerticalCone / 2;
-        var x = Math.sin(axisAngleOfTetrahedralCone); // TODO: possibly optimize calculations
+        var a = apertureOfVerticalCone / 2; // rad
+        var x = Math.sin(axisAngleOfTetrahedralCone);
         var z = Math.cos(axisAngleOfTetrahedralCone);
         var w = Math.cos(a);
         var u = (Math.sqrt(1 / 3) - z * w) / x;
         var radicant = 1 - u * u - w * w;
         if (radicant < 0) {
-            return [];
+            var intAngle =
+                axisAngleOfTetrahedralCone - tetrahedralAngle / 2; // rad
+            return [new THREE.Vector3(
+                Math.sin(intAngle),
+                0,
+                Math.cos(intAngle)
+            )];
         }
         var v = Math.sqrt(radicant);
         if (v === 0) {

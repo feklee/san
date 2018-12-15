@@ -33,8 +33,8 @@ export default function () {
 
     // b: cones that touch
     //
-    // Due to rounding errors the result is not very precise. Slightly different
-    // numbers lead to no interesection points. Ideally there is just one.
+    // Ideally there is just one intersection point, but there are rounding
+    // errors.
     axisAngleOfTetrahedralCone = 2.168728675235634; // rad
     intersections = vector.intVerticalConeWTetrahedralConeX(
         apertureOfVerticalCone,
@@ -52,7 +52,21 @@ export default function () {
         0.1
     );
 
-    // c
+    // c: cones that touch, but due to rounding errors they are slightly
+    // separate
+    axisAngleOfTetrahedralCone = 2.1687635818206736; // rad
+    intersections = vector.intVerticalConeWTetrahedralConeX(
+        apertureOfVerticalCone,
+        axisAngleOfTetrahedralCone
+    );
+    assert(intersections.length === 1);
+    assertEqualVectors(
+        intersections[0],
+        new THREE.Vector3(0.937, 0, 0.350),
+        0.1
+    );
+
+    // d
     axisAngleOfTetrahedralCone = 0; // rad
     intersections = vector.intVerticalConeWTetrahedralConeX(
         apertureOfVerticalCone,
@@ -60,7 +74,7 @@ export default function () {
     );
     assert(intersections.length === 0);
 
-    // d
+    // e
     axisAngleOfTetrahedralCone = 2.546016499639248; // rad
     intersections = vector.intVerticalConeWTetrahedralConeX(
         apertureOfVerticalCone,
@@ -134,6 +148,7 @@ export default function () {
     assert(intersections.length === 0);
 
     // 7
+// TODO: test cones that almost touch in all constellations
 /* TODO
     apertureOfVerticalCone = 6.178465552059927; // rad
     axisAngleOfTetrahedralCone = new THREE.Vector3(0, -0.8, 0.6);

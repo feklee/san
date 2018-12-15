@@ -17,6 +17,8 @@ import angleInXYPlane from
         "./vector/angle-in-x-y-plane.mjs";
 import intVerticalConeWTetrahedralConeX from
         "./vector/int-vertical-cone-w-tetrahedral-cone-x.mjs";
+import intVerticalConeWTetrahedralCone from
+        "./vector/int-vertical-cone-w-tetrahedral-cone.mjs";
 
 var logWhatIsTested = function (whatIsTested) {
     console.log("Testing vector." + whatIsTested + "...");
@@ -51,3 +53,6 @@ angleInXYPlane();
 
 logWhatIsTested("intVerticalConeWTetrahedralConeX");
 intVerticalConeWTetrahedralConeX();
+
+logWhatIsTested("intVerticalConeWTetrahedralCone");
+intVerticalConeWTetrahedralCone();

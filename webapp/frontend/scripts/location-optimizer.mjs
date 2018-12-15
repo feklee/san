@@ -28,22 +28,30 @@ var setExpectedVector = function (connection) {
         );
 };
 
+var axisOfNodeWithNoVisibleNeighbor =
+    function (
+        nodeLocation,
+        tiltAngle // rad
+    ) {
+        // just one of inifinitely many possibilities:
+        return vector.zAxis.clone().applyAxisAngle(vector.yAxis, tiltAngle);
+    };
+
 // Calculates the possible node axes that satisfy:
 //
 //   * node tilt angle
 //
 //   * neighbor location
 var axesOfNodeWithOneVisibleNeighbor =
-    function (nodeLocation, tiltAngle, vectorToNeighbor) {
-        // TODO: make this work on both sides
-
+    function (
+        nodeLocation,
+        tiltAngle, // rad
+        vectorToNeighbor
+    ) {
         var intersections = vector.intVerticalConeWTetrahedralCone(
             2 * tiltAngle,
             vectorToNeighbor
         );
-        if (intersections.length === 0) {
-            return [new Vector3(0, 0, 1)]; // TODO
-        }
         return intersections;
     };
 
@@ -260,6 +268,12 @@ var updateNodeAxis = function (node) {
     }
 
     var numberOfVisibleNeighbors = node.visibleConnections.length;
+    if (numberOfVisibleNeighbors === 0) {
+        node.axis = axisOfNodeWithNoVisibleNeighbor(
+            node.location,
+            node.tiltAngle
+        );
+    }
     if (numberOfVisibleNeighbors === 1) {
         var possibleAxes = axesOfNodeWithOneVisibleNeighbor(
             node.location,
@@ -317,8 +331,8 @@ var createSeedFromNodeLocations = function (seedSize) {
 
 var update = function () {
     var numberOfVisibleNodes = visibleNodes.length;
-    var nothingToBeDone = numberOfVisibleNodes <= 1;
-    if (nothingToBeDone) {
+    var noNodesToPlaceAndOrient = numberOfVisibleNodes === 0;
+    if (noNodesToPlaceAndOrient) {
         return;
     }
 

@@ -9,6 +9,8 @@ if (runningInNode) {
 }
 
 const tetrahedralAngle = Math.acos(-1 / 3);
+const xAxis = new THREE.Vector3(1, 0, 0);
+const yAxis = new THREE.Vector3(0, 1, 0);
 const zAxis = new THREE.Vector3(0, 0, 1);
 
 var angleToZAxis = function (vector) {
@@ -253,5 +255,8 @@ export default {
     rotateToAngleToZAxis: rotateToAngleToZAxis,
     angleInXYPlane: angleInXYPlane,
     intVerticalConeWTetrahedralConeX: intVerticalConeWTetrahedralConeX,
-    intVerticalConeWTetrahedralCone: intVerticalConeWTetrahedralCone
+    intVerticalConeWTetrahedralCone: intVerticalConeWTetrahedralCone,
+    xAxis: xAxis,
+    yAxis: yAxis,
+    zAxis: zAxis
 };

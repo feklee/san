@@ -177,23 +177,39 @@ var intVerticalConeWTetrahedralConeX =
         apertureOfVerticalCone, // in [0, 2 pi rad]
         axisAngleOfTetrahedralCone // angle to z axis, in direction of x axis
     ) {
-        var a = apertureOfVerticalCone / 2; // rad
-        var x = Math.sin(axisAngleOfTetrahedralCone);
-        var z = Math.cos(axisAngleOfTetrahedralCone);
-        var w = Math.cos(a);
-        var u = (Math.sqrt(1 / 3) - z * w) / x;
-        var radicant = 1 - u * u - w * w;
-        if (radicant < 0) {
-            // no intersection points found => rounding errors assumed =>
-            // assumption that cones barely touch => calculate result using
-            // angles
-            var intAngle = Math.sign(x) * apertureOfVerticalCone / 2;
+        const a = apertureOfVerticalCone / 2; // rad
+        const x = Math.sin(axisAngleOfTetrahedralCone);
+        const z = Math.cos(axisAngleOfTetrahedralCone);
+        var angle;
+
+        if (Math.abs(x) < Number.EPSILON) {
+            // tedrahedral cone vertical => cones coincide (following the
+            // assumption that they intersect) => chose a point on the vertical
+            // cone
+            angle = apertureOfVerticalCone / 2;
             return [new THREE.Vector3(
-                Math.sin(intAngle),
+                Math.sin(angle),
                 0,
-                Math.cos(intAngle)
+                Math.cos(angle)
             )];
         }
+
+        const w = Math.cos(a);
+        const u = (Math.sqrt(1 / 3) - z * w) / x;
+        const radicant = 1 - u * u - w * w;
+
+        if (radicant < 0) {
+            // no intersection points found => assumption: this is due to
+            // rounding errors which can happen when cones barely touch =>
+            // choose closest point on vertical cone
+            angle = Math.sign(x) * apertureOfVerticalCone / 2;
+            return [new THREE.Vector3(
+                Math.sin(angle),
+                0,
+                Math.cos(angle)
+            )];
+        }
+
         var v = Math.sqrt(radicant);
         if (v === 0) {
             return [new THREE.Vector3(u, v, w)];

@@ -60,8 +60,7 @@ var axesOfNodeWithOneVisibleNeighbor =
 var setExpectedNeighborLocation1TA = function (connection1) {
     var thisNode = connection1.fromPort.node;
     var neighbor = connection1.toPort.node;
-//    var angleRange = vector.tiltAnglePlusHalfTetAngle(thisNode.tiltAngle);
-    var angleRange = [thisNode.tiltAngle, thisNode.tiltAngle]; // TODO, just for testing
+    var angleRange = vector.tiltAnglePlusHalfTetAngle(thisNode.tiltAngle);
 
     connection1.expectedNeighborLocation = vector.closestPointOnUnitSphere({
         center: thisNode.testLocation,

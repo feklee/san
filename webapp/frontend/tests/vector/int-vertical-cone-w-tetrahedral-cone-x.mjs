@@ -7,17 +7,17 @@ import assert from "assert";
 
 export default function () {
     var apertureOfVerticalCone;
-    var axisOfTetrahedralCone;
+    var axisAngleOfTetrahedralCone;
     var intersections;
 
     // 1 - see 3dm file
     apertureOfVerticalCone = 2.4268803248981152; // rad
 
     // a
-    axisOfTetrahedralCone = new THREE.Vector3(0.945, 0, -0.326);
+    axisAngleOfTetrahedralCone = 1.9033688157624162; // rad
     intersections = vector.intVerticalConeWTetrahedralConeX(
         apertureOfVerticalCone,
-        axisOfTetrahedralCone
+        axisAngleOfTetrahedralCone
     );
     assert(intersections.length === 2);
     assertEqualVectors(
@@ -35,10 +35,10 @@ export default function () {
     //
     // Due to rounding errors the result is not very precise. Slightly different
     // numbers lead to no interesection points. Ideally there is just one.
-    axisOfTetrahedralCone = new THREE.Vector3(0.827, 0, -0.563);
+    axisAngleOfTetrahedralCone = 2.168728675235634; // rad
     intersections = vector.intVerticalConeWTetrahedralConeX(
         apertureOfVerticalCone,
-        axisOfTetrahedralCone
+        axisAngleOfTetrahedralCone
     );
     assert(intersections.length === 2);
     assertEqualVectors(
@@ -53,36 +53,36 @@ export default function () {
     );
 
     // c
-    axisOfTetrahedralCone = new THREE.Vector3(0, 0, 1);
+    axisAngleOfTetrahedralCone = 0; // rad
     intersections = vector.intVerticalConeWTetrahedralConeX(
         apertureOfVerticalCone,
-        axisOfTetrahedralCone
+        axisAngleOfTetrahedralCone
     );
     assert(intersections.length === 0);
 
     // d
-    axisOfTetrahedralCone = new THREE.Vector3(0.561, 0, -0.828);
+    axisAngleOfTetrahedralCone = 2.546016499639248; // rad
     intersections = vector.intVerticalConeWTetrahedralConeX(
         apertureOfVerticalCone,
-        axisOfTetrahedralCone
+        axisAngleOfTetrahedralCone
     );
     assert(intersections.length === 0);
 
     // 2: Cones that coincide
     apertureOfVerticalCone = 109.471; // rad
-    axisOfTetrahedralCone = new THREE.Vector3(0, 0, 1);
+    axisAngleOfTetrahedralCone = 0; // rad
     intersections = vector.intVerticalConeWTetrahedralConeX(
         apertureOfVerticalCone,
-        axisOfTetrahedralCone
+        axisAngleOfTetrahedralCone
     );
     assert(intersections.length === 0); // no results due to rounding errors
 
     // 3: Flat vertical cone
     apertureOfVerticalCone = Math.PI; // rad
-    axisOfTetrahedralCone = new THREE.Vector3(1, 0, 0);
+    axisAngleOfTetrahedralCone = Math.PI / 2; // rad
     intersections = vector.intVerticalConeWTetrahedralConeX(
         apertureOfVerticalCone,
-        axisOfTetrahedralCone
+        axisAngleOfTetrahedralCone
     );
     assert(intersections.length === 2);
     assertEqualVectors(
@@ -98,10 +98,10 @@ export default function () {
 
     // 4
     apertureOfVerticalCone = 3 / 2 * Math.PI; // rad
-    axisOfTetrahedralCone = new THREE.Vector3(0.991, 0, 0.133);
+    axisAngleOfTetrahedralCone = 1.4373135456023705; // rad
     intersections = vector.intVerticalConeWTetrahedralConeX(
         apertureOfVerticalCone,
-        axisOfTetrahedralCone
+        axisAngleOfTetrahedralCone
     );
     assert(intersections.length === 2);
     assertEqualVectors(
@@ -117,19 +117,26 @@ export default function () {
 
     // 5: infinitely thin cone pointing upwards
     apertureOfVerticalCone = 0; // rad
-    axisOfTetrahedralCone = new THREE.Vector3(0.991, 0, 0.133);
+    axisAngleOfTetrahedralCone = 1.4373135456023705; // rad
     intersections = vector.intVerticalConeWTetrahedralConeX(
         apertureOfVerticalCone,
-        axisOfTetrahedralCone
+        axisAngleOfTetrahedralCone
     );
     assert(intersections.length === 0);
 
     // 6: infinitely thin cone pointing downwards
     apertureOfVerticalCone = 2 * Math.PI; // rad
-    axisOfTetrahedralCone = new THREE.Vector3(0.991, 0, 0.133);
+    axisAngleOfTetrahedralCone = 1.4373135456023705; // rad
     intersections = vector.intVerticalConeWTetrahedralConeX(
         apertureOfVerticalCone,
-        axisOfTetrahedralCone
+        axisAngleOfTetrahedralCone
     );
     assert(intersections.length === 0);
+
+    // 7
+/* TODO
+    apertureOfVerticalCone = 6.178465552059927; // rad
+    axisAngleOfTetrahedralCone = new THREE.Vector3(0, -0.8, 0.6);
+*/
+    // TODO: Test angles out of range
 };

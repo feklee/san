@@ -170,16 +170,16 @@ var angleInXYPlane = // rad, measured against positive x axis (2D, projected)
 //
 //   * The tetrahedral cone has a fixed aperture equaling the tetrahedral angle.
 //
-// For this function, it is assumed that the axis of the tetrahedral cone
-// coincides with the world x-axis when projected along the world z-axis.
+//   * The cones are assumed to intersect. (or to intersect almost, possibly due
+//     to rounding errors)
 var intVerticalConeWTetrahedralConeX =
     function (
         apertureOfVerticalCone, // in [0, 2 pi rad]
-        axisOfTetrahedralCone // unit vector (zero y component) // TODO: maybe use angle instead
+        axisAngleOfTetrahedralCone // angle to z axis, in direction of x axis
     ) {
         var a = apertureOfVerticalCone / 2;
-        var x = axisOfTetrahedralCone.x;
-        var z = axisOfTetrahedralCone.z;
+        var x = Math.sin(axisAngleOfTetrahedralCone); // TODO: possibly optimize calculations
+        var z = Math.cos(axisAngleOfTetrahedralCone);
         var w = Math.cos(a);
         var u = (Math.sqrt(1 / 3) - z * w) / x;
         var radicant = 1 - u * u - w * w;
@@ -203,11 +203,9 @@ var intVerticalConeWTetrahedralCone = // TODO: maybe also make it work when cone
         axisOfTetrahedralCone
     ) {
         var a = angleInXYPlane(axisOfTetrahedralCone);
-        var rotatedAxis = axisOfTetrahedralCone.clone().
-            applyAxisAngle(zAxis, -a);
         var intersections = intVerticalConeWTetrahedralConeX(
             apertureOfVerticalCone,
-            rotatedAxis
+            angleToZAxis(axisOfTetrahedralCone)
         );
         intersections.forEach(
             function (intersection) {

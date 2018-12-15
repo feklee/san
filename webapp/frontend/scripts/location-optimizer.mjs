@@ -14,7 +14,7 @@ import jsga from "jsga-feklee";
 
 var loSettings = settings.locationOptimizer;
 
-// TODO: is that consistent with instructions for building nodes?
+// TODO: is that consistent with instructions for building nodes? Create graphic with port labels and labels of hemispheres
 var portIsOnUpperHemisphere = function (port) {
     return port.portNumber > 2;
 };
@@ -47,17 +47,26 @@ var axisOfNodeWithNoVisibleNeighbor =
 //   * node tilt angle
 //
 //   * neighbor location
-var axesOfNodeWithOneVisibleNeighbor =
-    function (
-        tiltAngle, // rad
+var axesOfNodeWithOneVisibleNeighbor = function (
+    tiltAngle, // rad
+    vectorToNeighbor
+) {
+    var intersections = vector.intVerticalConeWTetrahedralCone(
+        2 * tiltAngle,
         vectorToNeighbor
-    ) {
-        var intersections = vector.intVerticalConeWTetrahedralCone(
-            2 * tiltAngle,
-            vectorToNeighbor
-        );
-        return intersections;
-    };
+    );
+    return intersections;
+};
+
+var axisOfNodeWithTwoVisibleNeighbors = function (
+    tiltAngle, // rad
+    vectorToNeighbor1,
+    vectorToNeighbor2
+) {
+    var possibleAxes =
+        axesOfNodeWithOneVisibleNeighbor(tiltAngle, vectorToNeighbor1);
+    return possibleAxes[0]; // TODO: select the one that matches the neighbors most closely
+};
 
 // 1st neighbor
 //
@@ -134,11 +143,11 @@ var setExpectedNeighborLocation2TA = function (connection2) {
         node, connection1, connection2
     );
 
-    connection1.expectedNeighborLocation = vector.closestPoint(
+    connection2.expectedNeighborLocation = vector.closestPoint(
         neighbor2.testLocation, possibleLocations
     );
 
-    setExpectedVector(connection1);
+    setExpectedVector(connection2);
 };
 
 // 1st neighbor: The only constraint is the distance of 1 to the node.
@@ -343,6 +352,12 @@ var updateNodeAxis = function (node) {
             node.visibleConnections[0].vector
         );
         node.axis = possibleAxes[0];
+    }
+    if (numberOfVisibleNeighbors === 2) {
+        node.axis = axisOfNodeWithTwoVisibleNeighbors(
+            node.tiltAngle,
+            node.visibleConnections[0].vector
+        );
     }
 };
 

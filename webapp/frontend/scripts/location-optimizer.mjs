@@ -256,21 +256,19 @@ var updateConnectionVectors = function () {
 
 var updateNodeAxis = function (node) {
     var nodeHasTiltAngle = node.tiltAngle !== null;
-    if (nodeHasTiltAngle) {
-        var numberOfVisibleNeighbors = node.visibleConnections.length;
-        if (numberOfVisibleNeighbors === 1) {
-            var possibleAxes = axesOfNodeWithOneVisibleNeighbor(
-                node.location,
-                node.tiltAngle,
-                node.visibleConnections[0].vector
-            );
-            node.axis = possibleAxes[0];
-            return;
-        }
+    if (!nodeHasTiltAngle) {
+        return;
     }
 
-    var defaultAxis = new Vector3(0, 0, 1);
-    node.axis = defaultAxis;
+    var numberOfVisibleNeighbors = node.visibleConnections.length;
+    if (numberOfVisibleNeighbors === 1) {
+        var possibleAxes = axesOfNodeWithOneVisibleNeighbor(
+            node.location,
+            node.tiltAngle,
+            node.visibleConnections[0].vector
+        );
+        node.axis = possibleAxes[0];
+    }
 };
 
 var updateNodeAxes = function () {

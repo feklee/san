@@ -206,7 +206,6 @@ var addNode = function (id, tiltAngle) {
     var index = nodeColorsListIndexFromId(id);
     var colors = nodeColorsList[index] ||
             [settings.defaultNodeColor, settings.defaultNodeColor];
-    var arbitraryUnitVector = new Vector3(0, 0, 1);
     var node = {
         id: id,
         isVisible: !nodeIsRootNode(id),
@@ -214,8 +213,8 @@ var addNode = function (id, tiltAngle) {
         sortedConnections: [],
         visibleConnections: [],
         location: null,
-        axis: arbitraryUnitVector, // The axis is the vector pointing upwards
-                                   // when the node is not tilted.
+        axis: vector.randomUnitVector(), // The node axis is the vector pointing
+                                         // upwards when the node is not tilted.
         colors: colors,
         tiltAngle: tiltAngle // rad
     };

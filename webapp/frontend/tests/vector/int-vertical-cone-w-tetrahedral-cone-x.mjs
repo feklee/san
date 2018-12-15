@@ -67,20 +67,19 @@ export default function () {
     );
 
     // d
-    axisAngleOfTetrahedralCone = 0; // rad
+    axisAngleOfTetrahedralCone = 4.114421725358913; // rad
     intersections = vector.intVerticalConeWTetrahedralConeX(
         apertureOfVerticalCone,
         axisAngleOfTetrahedralCone
     );
-    assert(intersections.length === 0);
+    assert(intersections.length === 1);
+    assertEqualVectors(
+        intersections[0],
+        new THREE.Vector3(-0.937, 0, 0.350),
+        0.1
+    );
 
-    // e
-    axisAngleOfTetrahedralCone = 2.546016499639248; // rad
-    intersections = vector.intVerticalConeWTetrahedralConeX(
-        apertureOfVerticalCone,
-        axisAngleOfTetrahedralCone
-    );
-    assert(intersections.length === 0);
+return; // TODO
 
     // 2: Cones that coincide
     apertureOfVerticalCone = 109.471; // rad

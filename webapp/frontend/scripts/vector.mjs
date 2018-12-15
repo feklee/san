@@ -184,8 +184,10 @@ var intVerticalConeWTetrahedralConeX =
         var u = (Math.sqrt(1 / 3) - z * w) / x;
         var radicant = 1 - u * u - w * w;
         if (radicant < 0) {
-            var intAngle =
-                axisAngleOfTetrahedralCone - tetrahedralAngle / 2; // rad
+            // no intersection points found => rounding errors assumed =>
+            // assumption that cones barely touch => calculate result using
+            // angles
+            var intAngle = Math.sign(x) * apertureOfVerticalCone / 2;
             return [new THREE.Vector3(
                 Math.sin(intAngle),
                 0,

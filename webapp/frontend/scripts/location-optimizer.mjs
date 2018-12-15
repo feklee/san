@@ -66,9 +66,14 @@ var axesOfNodeWithOneVisibleNeighbor =
 //     the node, and 2. on the position of the port to which the neighbor is
 //     connected.
 var setExpectedNeighborLocation1TA = function (connection1) {
-    var thisNode = connection1.fromPort.node;
-    var neighbor = connection1.toPort.node;
-    var angleRange = vector.tiltAnglePlusHalfTetAngle(thisNode.tiltAngle);
+    const thisNode = connection1.fromPort.node;
+    const neighbor = connection1.toPort.node;
+    var angle = thisNode.tiltAngle;
+    const portIsOnTheSecondHemisphere = connection1.fromPort.portNumber > 2;
+    if (portIsOnTheSecondHemisphere) {
+        angle += Math.PI;
+    }
+    var angleRange = vector.tiltAnglePlusHalfTetAngle(angle);
 
     connection1.expectedNeighborLocation = vector.closestPointOnUnitSphere({
         center: thisNode.testLocation,

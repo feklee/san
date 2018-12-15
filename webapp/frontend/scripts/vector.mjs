@@ -241,6 +241,19 @@ var intVerticalConeWTetrahedralCone =
         return intersections;
     };
 
+var closestPoint = function (fromPoint, pointsToSelectFrom) {
+    var selectedPoint;
+    var shortestDistance = Number.MAX_VALUE;
+    pointsToSelectFrom.forEach(function (point) {
+        const distance = fromPoint.distanceTo(point);
+        if (distance < shortestDistance) {
+            shortestDistance = distance;
+            selectedPoint = point;
+        }
+    });
+    return selectedPoint;
+};
+
 export default {
     rotateToTetrahedralAngle: rotateToTetrahedralAngle,
     randomUnitVector: randomUnitVector,
@@ -258,5 +271,6 @@ export default {
     intVerticalConeWTetrahedralCone: intVerticalConeWTetrahedralCone,
     xAxis: xAxis,
     yAxis: yAxis,
-    zAxis: zAxis
+    zAxis: zAxis,
+    closestPoint: closestPoint
 };

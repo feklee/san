@@ -19,6 +19,7 @@ import intVerticalConeWTetrahedralConeX from
         "./vector/int-vertical-cone-w-tetrahedral-cone-x.mjs";
 import intVerticalConeWTetrahedralCone from
         "./vector/int-vertical-cone-w-tetrahedral-cone.mjs";
+import closestPoint from "./vector/closest-point.mjs";
 
 var logWhatIsTested = function (whatIsTested) {
     console.log("Testing vector." + whatIsTested + "...");
@@ -56,3 +57,6 @@ intVerticalConeWTetrahedralConeX();
 
 logWhatIsTested("intVerticalConeWTetrahedralCone");
 intVerticalConeWTetrahedralCone();
+
+logWhatIsTested("closestPoint");
+closestPoint();

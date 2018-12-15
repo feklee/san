@@ -14,6 +14,11 @@ import jsga from "jsga-feklee";
 
 var loSettings = settings.locationOptimizer;
 
+// TODO: is that consistent with instructions for building nodes?
+var portIsOnUpperHemisphere = function (port) {
+    return port.portNumber > 2;
+};
+
 var updateExpectedNeighborLocation = function (connection) {
     connection.expectedNeighborLocation =
         connection.fromPort.node.testLocation.clone().add(
@@ -44,7 +49,6 @@ var axisOfNodeWithNoVisibleNeighbor =
 //   * neighbor location
 var axesOfNodeWithOneVisibleNeighbor =
     function (
-        nodeLocation,
         tiltAngle, // rad
         vectorToNeighbor
     ) {
@@ -55,6 +59,8 @@ var axesOfNodeWithOneVisibleNeighbor =
         return intersections;
     };
 
+// 1st neighbor
+//
 // This function is for a node where the tilt angle is known.
 //
 // Constraints for the neighbor of this node are:
@@ -69,8 +75,7 @@ var setExpectedNeighborLocation1TA = function (connection1) {
     const thisNode = connection1.fromPort.node;
     const neighbor = connection1.toPort.node;
     var angle = thisNode.tiltAngle;
-    const portIsOnTheSecondHemisphere = connection1.fromPort.portNumber > 2;
-    if (portIsOnTheSecondHemisphere) {
+    if (portIsOnUpperHemisphere(connection1.fromPort)) {
         angle += Math.PI;
     }
     var angleRange = vector.tiltAnglePlusHalfTetAngle(angle);
@@ -81,6 +86,59 @@ var setExpectedNeighborLocation1TA = function (connection1) {
         minAngleToVerticalAxis: angleRange[0],
         maxAngleToVerticalAxis: angleRange[1]
     });
+    setExpectedVector(connection1);
+};
+
+var possibleVectorsToNeighbor2TA = function (node, connection1, connection2) {
+    var vectorToNeighbor1 = connection1.expectedVector;
+
+    var possibleNodeAxes = axesOfNodeWithOneVisibleNeighbor(
+        node.tiltAngle,
+        vectorToNeighbor1
+    );
+    var portsAreOnSameHemisphere =
+        (portIsOnUpperHemisphere(connection1.fromPort) &&
+         portIsOnUpperHemisphere(connection2.fromPort)) ||
+        (!portIsOnUpperHemisphere(connection1.fromPort) &&
+         !portIsOnUpperHemisphere(connection2.fromPort));
+
+    return possibleNodeAxes.map(function (axis) {
+        if (portsAreOnSameHemisphere) {
+            return vectorToNeighbor1.clone().applyAxisAngle(axis, Math.PI);
+        }
+        // TODO: take care of other situations
+    });
+};
+
+var possibleNeighbor2LocationsTA = function (node, connection1, connection2) {
+    const possibleVectors = possibleVectorsToNeighbor2TA(
+        node, connection1, connection2
+    );
+    return possibleVectors.map(function (vector) {
+        return node.testLocation.clone().add(vector);
+    });
+};
+
+// 2nd neighbor
+//
+// This function is for a node where the tilt angle is known.
+//
+// The tilt angle and the position of the first neighbor allow up to two
+// possible locations for the second neighbor.
+var setExpectedNeighborLocation2TA = function (connection2) {
+    const node = connection2.fromPort.node;
+    const connection1 = node.visibleConnections[0];
+    const neighbor2 = connection2.toPort.node;
+
+    const possibleLocations = possibleNeighbor2LocationsTA(
+        node, connection1, connection2
+    );
+
+    connection1.expectedNeighborLocation = vector.closestPoint(
+        neighbor2.testLocation, possibleLocations
+    );
+
+    setExpectedVector(connection1);
 };
 
 // 1st neighbor: The only constraint is the distance of 1 to the node.
@@ -111,7 +169,7 @@ var setExpectedNeighborLocation2 = function (connection2) {
     updateExpectedNeighborLocation(connection2);
 };
 
-// 3nd neighbor: The reuired position can be calculated exactly based on the
+// 3nd neighbor: The required position can be calculated exactly based on the
 // expected positions of the first two neighbors and the position of the node.
 var setExpectedNeighborLocation3 = function (connection3) {
     var node = connection3.fromPort.node;
@@ -281,7 +339,6 @@ var updateNodeAxis = function (node) {
     }
     if (numberOfVisibleNeighbors === 1) {
         var possibleAxes = axesOfNodeWithOneVisibleNeighbor(
-            node.location,
             node.tiltAngle,
             node.visibleConnections[0].vector
         );

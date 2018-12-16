@@ -143,6 +143,8 @@ var setExpectedNeighborLocation2TA = function (connection2) {
         node, connection1, connection2
     );
 
+    // TODO: location sometimes wrong
+
     connection2.expectedNeighborLocation = vector.closestPoint(
         neighbor2.testLocation, possibleLocations
     );

@@ -14,7 +14,7 @@ const uint32_t connectionExpiryDuration =
 
 const byte * const nodeColorsList[][2] =
   {
-   {gray, gray}, // *
+   {gray, gray}, // ^: {color of top hemisphere, color of bottom hemisphere}
    {red, red}, // A
    {yellow, yellow}, // B
    {lime, lime}, // ...

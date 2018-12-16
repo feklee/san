@@ -69,16 +69,16 @@ void ledSetup() {
   const uint8_t listIndex = listIndexFromIdOfThisNode();
   const uint8_t dataPin = ledDataPinList[listIndex];
   const byte * const * const nodeColors = nodeColorsList[listIndex];
-  const uint32_t color1 = neoPixelColor(nodeColors[0]);
-  const uint32_t color2 = neoPixelColor(nodeColors[1]);
+  const uint32_t colorOfTopHemisphere = neoPixelColor(nodeColors[0]);
+  const uint32_t colorOfBottomHemisphere = neoPixelColor(nodeColors[1]);
 
   neoPixel = Adafruit_NeoPixel(numberOfLeds, dataPin,
                                NEO_RGB + NEO_KHZ800);
   neoPixel.begin();
-  neoPixel.setPixelColor(0, color1);
-  neoPixel.setPixelColor(1, color1);
-  neoPixel.setPixelColor(2, color2);
-  neoPixel.setPixelColor(3, color2);
+  neoPixel.setPixelColor(0, colorOfTopHemisphere);
+  neoPixel.setPixelColor(1, colorOfTopHemisphere);
+  neoPixel.setPixelColor(2, colorOfBottomHemisphere);
+  neoPixel.setPixelColor(3, colorOfBottomHemisphere);
   neoPixel.show();
 }
 

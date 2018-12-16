@@ -21,10 +21,12 @@ float acceleration(const uint16_t readout) { // g
   return (float(readout) - zeroGReadout) / readoutPerG;
 }
 
+// Tilt angle measured against the z axis pointing upwards. With the node's
+// top sphere up, the tilt angle should be zero.
 float angle(uint16_t readout) { // deg
   float acc = acceleration(readout);
   float clippedAcc = min(1, max(-1, acc)); // [-1, 1]
-  return acos(clippedAcc) * 360 / 2 / PI;
+  return acos(-clippedAcc) * 360 / 2 / PI;
 }
 
 // [0, 180] -> [1, 127] (0 excluded, because that means: no angle)

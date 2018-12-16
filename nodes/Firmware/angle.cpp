@@ -20,6 +20,9 @@ static uint8_t lookedUpAngle(const uint16_t readout) {
 //   * 0: undefined, i.e. no tilt angle measured
 //
 //   * [1, 0x7f]: maps to tilt angles in [0, 180°]
+//
+// The tilt angle is measured against the z axis, pointing upwards. With the
+// upper sphere up, the tilt angle is zero.
 uint8_t angleOfThisNode() {
   uint16_t readout = analogRead(accelerometerPin);
   uint8_t angle = lookedUpAngle(readout);

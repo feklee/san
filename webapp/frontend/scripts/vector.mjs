@@ -34,6 +34,11 @@ var tiltAnglePlusHalfTetAngle = function ( // [min, max]
 ) {
     tiltAngle = tiltAngle % (2 * Math.PI);
 
+    if (tiltAngle < 0) {
+        // may happen due to rounding errors in certain edge cases
+        tiltAngle += 2 * Math.PI;
+    }
+
     var angleIsExcludedAngle = tiltAngle > Math.PI;
     if (angleIsExcludedAngle) {
         // may happen due to rounding errors in certain edge cases

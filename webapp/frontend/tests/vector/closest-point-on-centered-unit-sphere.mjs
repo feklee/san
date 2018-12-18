@@ -207,7 +207,7 @@ export default function () {
     // 5: invalid angle range => min angle used for max angle
     options = {
         minAngleToZAxis: 0.6, // rad
-        maxAngleToZAxis: 0.59 // rad
+        maxAngleToZAxis: 0.59 // rad (e.g. due to a rounding error)
     };
 
     // 5-a

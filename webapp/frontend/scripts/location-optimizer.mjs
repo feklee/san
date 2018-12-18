@@ -91,13 +91,13 @@ var possibleVectorsTo2ndNeighbor = function (
 };
 
 var possible2ndNeighborLocations = function (
-    node, vectorTo1stNeighbor, possibleNodeAxes
+    node, nodeLocation, vectorTo1stNeighbor, possibleNodeAxes
 ) {
     const possibleVectors = possibleVectorsTo2ndNeighbor(
         node, vectorTo1stNeighbor, possibleNodeAxes
     );
     return possibleVectors.map(function (vector) {
-        return node.testLocation.clone().add(vector);
+        return nodeLocation.clone().add(vector);
     });
 };
 
@@ -112,7 +112,7 @@ var axisOfNodeWithTwoVisibleNeighbors = function (node) {
         vectorTo1stNeighbor
     );
     var possibleLocations = possible2ndNeighborLocations(
-        node, vectorTo1stNeighbor, possibleNodeAxes
+        node, node.location, vectorTo1stNeighbor, possibleNodeAxes
     );
     var i = vector.indexOfClosestPoint(
         locationOf2ndNeighbor, possibleLocations
@@ -167,7 +167,7 @@ var setExpectedNeighbor2LocationTA = function (node) {
         vectorTo1stNeighbor
     );
     const possibleLocations = possible2ndNeighborLocations(
-        node, vectorTo1stNeighbor, possibleNodeAxes
+        node, node.testLocation, vectorTo1stNeighbor, possibleNodeAxes
     );
 
     // TODO: location sometimes wrong

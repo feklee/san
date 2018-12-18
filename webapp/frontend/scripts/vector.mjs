@@ -32,6 +32,14 @@ var angleToZAxis = function (vector) {
 var tiltAnglePlusHalfTetAngle = function ( // [min, max]
     tiltAngle // rad
 ) {
+    tiltAngle = tiltAngle % (2 * Math.PI);
+
+    var angleIsExcludedAngle = tiltAngle > Math.PI;
+    if (angleIsExcludedAngle) {
+        // may happen due to rounding errors in certain edge cases
+        tiltAngle = 2 * Math.PI - tiltAngle;
+    }
+
     var hta = tetrahedralAngle / 2; // rad
     var min = tiltAngle - hta; // rad
     var max = tiltAngle + hta; // rad

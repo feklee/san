@@ -70,24 +70,38 @@ var axisOfNodeWithOneVisibleNeighbor = function (node) {
                                 // there is more than one axis
 };
 
+var possibleVectorTo2ndNeighbor = function (node, vectorTo1stNeighbor, axis) {
+    const connection1 = node.visibleConnections[0];
+    const connection2 = node.visibleConnections[1];
+    const port1 = connection1.fromPort;
+    const port2 = connection2.fromPort;
+
+    var portsAreOnSameHemisphere =
+        (portIsOnTopHemisphere(port1) && portIsOnTopHemisphere(port2)) ||
+        (portIsOnBottomHemisphere(port1) && portIsOnBottomHemisphere(port2));
+
+    var v = vectorTo1stNeighbor.clone();
+
+    if (portsAreOnSameHemisphere) {
+        return v.applyAxisAngle(axis, Math.PI);
+    }
+
+    if ((port1 === 1 && port2 === 3) ||
+        (port1 === 2 && port2 === 4) ||
+        (port1 === 3 && port2 === 2) ||
+        (port1 === 4 && port2 === 1)) {
+            return v.reflect(axis).applyAxisAngle(axis, Math.PI / 2);
+    }
+
+    return v.reflect(axis).applyAxisAngle(axis, -Math.PI / 2);
+};
+
 var possibleVectorsTo2ndNeighbor = function (
     node, vectorTo1stNeighbor, possibleNodeAxes
 ) {
-    const connection1 = node.visibleConnections[0];
-    const connection2 = node.visibleConnections[1];
-
-    var portsAreOnSameHemisphere =
-        (portIsOnTopHemisphere(connection1.fromPort) &&
-         portIsOnTopHemisphere(connection2.fromPort)) ||
-        (!portIsOnTopHemisphere(connection1.fromPort) &&
-         !portIsOnTopHemisphere(connection2.fromPort));
-
-    return possibleNodeAxes.map(function (axis) {
-        if (portsAreOnSameHemisphere) {
-            return vectorTo1stNeighbor.clone().applyAxisAngle(axis, Math.PI);
-        }
-        // TODO: take care of other situations
-    });
+    return possibleNodeAxes.map(
+        (axis) => possibleVectorTo2ndNeighbor(node, vectorTo1stNeighbor, axis)
+    );
 };
 
 var possible2ndNeighborLocations = function (
@@ -169,8 +183,6 @@ var setExpectedNeighbor2LocationTA = function (node) {
     const possibleLocations = possible2ndNeighborLocations(
         node, node.testLocation, vectorTo1stNeighbor, possibleNodeAxes
     );
-
-    // TODO: location sometimes wrong
 
     connection2.expectedNeighborLocation = vector.closestPoint(
         neighbor2.testLocation, possibleLocations

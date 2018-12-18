@@ -13,6 +13,11 @@ export default function () {
     assertEqualNumbers(r[0], 0.2581, 0.001);
     assertEqualNumbers(r[1], 2.169, 0.001);
 
+    a = 5.069745144730529; // excluded angle, should give same result
+    r = vector.tiltAnglePlusHalfTetAngle(a);
+    assertEqualNumbers(r[0], 0.2581, 0.001);
+    assertEqualNumbers(r[1], 2.169, 0.001);
+
     // 2
     a = 0.81253803326596;
     r = vector.tiltAnglePlusHalfTetAngle(a);

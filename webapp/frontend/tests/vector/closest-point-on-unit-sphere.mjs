@@ -40,7 +40,7 @@ export default function () {
 
     // 3
     options = {
-        center: new THREE.Vector3(2, 1.4, 1.4),
+        center: new THREE.Vector3(2.6, 1.4, 1.4),
         minAngleToVerticalAxis: 2.186276035465284, // rad
         maxAngleToVerticalAxis: 2.186276035465284, // rad
         fromPoint: new THREE.Vector3(2, 0.6, 1.4)
@@ -48,7 +48,7 @@ export default function () {
     closestPoint = vector.closestPointOnUnitSphere(options);
     assertEqualVectors(
         closestPoint,
-        new THREE.Vector3(2.000, 0.584, 0.823),
+        new THREE.Vector3(2.110, 0.747, 0.823),
         0.001
     );
 };

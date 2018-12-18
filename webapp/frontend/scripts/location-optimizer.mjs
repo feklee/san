@@ -86,11 +86,14 @@ var possibleVectorTo2ndNeighbor = function (node, vectorTo1stNeighbor, axis) {
         return v.applyAxisAngle(axis, Math.PI);
     }
 
-    if ((port1 === 1 && port2 === 3) ||
-        (port1 === 2 && port2 === 4) ||
-        (port1 === 3 && port2 === 2) ||
-        (port1 === 4 && port2 === 1)) {
-            return v.reflect(axis).applyAxisAngle(axis, Math.PI / 2);
+    const portNumber1 = port1.portNumber;
+    const portNumber2 = port2.portNumber;
+
+    if ((portNumber1 === 1 && portNumber2 === 4) ||
+        (portNumber1 === 2 && portNumber2 === 3) ||
+        (portNumber1 === 3 && portNumber2 === 1) ||
+        (portNumber1 === 4 && portNumber2 === 2)) {
+        return v.reflect(axis).applyAxisAngle(axis, Math.PI / 2);
     }
 
     return v.reflect(axis).applyAxisAngle(axis, -Math.PI / 2);

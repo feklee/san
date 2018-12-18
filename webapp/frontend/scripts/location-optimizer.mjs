@@ -62,30 +62,58 @@ var axesOfNodeWithOneVisibleNeighbor = function (
 };
 
 var axisOfNodeWithOneVisibleNeighbor = function (node) {
-    var possibleAxes = axesOfNodeWithOneVisibleNeighbor(
+    var possibleNodeAxes = axesOfNodeWithOneVisibleNeighbor(
         node.tiltAngle,
         node.visibleConnections[0].vector
     );
-    return possibleAxes[0]; // any axis is OK => simply pick the 1st one, if
-                            // there is more than one axis
+    return possibleNodeAxes[0]; // any axis is OK => simply pick the 1st one, if
+                                // there is more than one axis
 };
 
-var axisOfNodeWithTwoVisibleNeighbors = function (
-    tiltAngle, // rad
-    vectorToNeighbor1,
-    vectorToNeighbor2
+var possibleVectorsTo2ndNeighbor = function (
+    node, vectorTo1stNeighbor, possibleNodeAxes
 ) {
-    var possibleAxes =
-        axesOfNodeWithOneVisibleNeighbor(tiltAngle, vectorToNeighbor1);
-/*TODO    var possibleLocations = possible2ndNeighborLocations(
-        node,
-        possibleNodeAxes,
-        
+    const connection1 = node.visibleConnections[0];
+    const connection2 = node.visibleConnections[1];
+
+    var portsAreOnSameHemisphere =
+        (portIsOnTopHemisphere(connection1.fromPort) &&
+         portIsOnTopHemisphere(connection2.fromPort)) ||
+        (!portIsOnTopHemisphere(connection1.fromPort) &&
+         !portIsOnTopHemisphere(connection2.fromPort));
+
+    return possibleNodeAxes.map(function (axis) {
+        if (portsAreOnSameHemisphere) {
+            return vectorTo1stNeighbor.clone().applyAxisAngle(axis, Math.PI);
+        }
+        // TODO: take care of other situations
+    });
+};
+
+var possible2ndNeighborLocations = function (
+    node, vectorTo1stNeighbor, possibleNodeAxes
+) {
+    const possibleVectors = possibleVectorsTo2ndNeighbor(
+        node, vectorTo1stNeighbor, possibleNodeAxes
     );
-    var i = vector.indexOfClosestPoint(
+    return possibleVectors.map(function (vector) {
+        return node.testLocation.clone().add(vector);
+    });
+};
+
+var axisOfNodeWithTwoVisibleNeighbors = function (node) {
+    var vectorTo1stNeighbor = node.visibleConnections[0].vector;
+    var possibleNodeAxes = axesOfNodeWithOneVisibleNeighbor(
+        node.tiltAngle,
+        vectorTo1stNeighbor
+    );
+    var possibleLocation = possible2ndNeighborLocations(
+        node, vectorTo1stNeighbor, possibleNodeAxes
+    );
+/* TODO    var i = vector.indexOfClosestPoint(
         neighbor2.testLocation, possibleLocations
     );*/
-    return possibleAxes[0]; // TODO: select the one that matches the neighbors most closely
+    return possibleNodeAxes[0]; // TODO: select the one that matches the neighbors most closely
 };
 
 // 1st neighbor
@@ -118,36 +146,6 @@ var setExpectedNeighbor1LocationTA = function (node) {
     setExpectedVector(connection1);
 };
 
-var possibleVectorsTo2ndNeighbor = function (node, connection1, connection2) {
-    var vectorToNeighbor1 = connection1.expectedVector;
-
-    var possibleNodeAxes = axesOfNodeWithOneVisibleNeighbor(
-        node.tiltAngle,
-        vectorToNeighbor1
-    );
-    var portsAreOnSameHemisphere =
-        (portIsOnTopHemisphere(connection1.fromPort) &&
-         portIsOnTopHemisphere(connection2.fromPort)) ||
-        (!portIsOnTopHemisphere(connection1.fromPort) &&
-         !portIsOnTopHemisphere(connection2.fromPort));
-
-    return possibleNodeAxes.map(function (axis) {
-        if (portsAreOnSameHemisphere) {
-            return vectorToNeighbor1.clone().applyAxisAngle(axis, Math.PI);
-        }
-        // TODO: take care of other situations
-    });
-};
-
-var possible2ndNeighborLocations = function (node, connection1, connection2) {
-    const possibleVectors = possibleVectorsTo2ndNeighbor(
-        node, connection1, connection2
-    );
-    return possibleVectors.map(function (vector) {
-        return node.testLocation.clone().add(vector);
-    });
-};
-
 // 2nd neighbor
 //
 // This function is for a node where the tilt angle is known.
@@ -159,8 +157,13 @@ var setExpectedNeighbor2LocationTA = function (node) {
     const connection2 = node.visibleConnections[1];
     const neighbor2 = connection2.toPort.node;
 
+    var vectorTo1stNeighbor = connection1.expectedVector;
+    var possibleNodeAxes = axesOfNodeWithOneVisibleNeighbor(
+        node.tiltAngle,
+        vectorTo1stNeighbor
+    );
     const possibleLocations = possible2ndNeighborLocations(
-        node, connection1, connection2
+        node, vectorTo1stNeighbor, possibleNodeAxes
     );
 
     // TODO: location sometimes wrong
@@ -373,10 +376,7 @@ var updateNodeAxis = function (node) {
         node.axis = axisOfNodeWithOneVisibleNeighbor(node);
     }
     if (numberOfVisibleNeighbors === 2) {
-        node.axis = axisOfNodeWithTwoVisibleNeighbors(
-            node.tiltAngle,
-            node.visibleConnections[0].vector
-        );
+        node.axis = axisOfNodeWithTwoVisibleNeighbors(node);
     }
 };
 

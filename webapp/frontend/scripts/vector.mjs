@@ -110,8 +110,8 @@ var closestPointOnCenteredUnitSphere = function (options) {
 
     var rangeIsInvalid = minAngleToZAxis > maxAngleToZAxis;
     if (rangeIsInvalid) {
-        minAngleToZAxis = 0;
-        maxAngleToZAxis = Math.PI;
+        // can happen due to rounding errors when angles are nearby
+        maxAngleToZAxis = minAngleToZAxis;
     }
 
     if (fromPoint.length() === 0) {

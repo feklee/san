@@ -42,7 +42,7 @@ export default function () {
     options = {
         center: new THREE.Vector3(2.6, 1.4, 1.4),
         minAngleToVerticalAxis: 2.186276035465284, // rad
-        maxAngleToVerticalAxis: 2.186276035465284, // rad
+        maxAngleToVerticalAxis: 2.1862760354652835, // rad
         fromPoint: new THREE.Vector3(2, 0.6, 1.4)
     };
     closestPoint = vector.closestPointOnUnitSphere(options);

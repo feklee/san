@@ -204,10 +204,10 @@ export default function () {
         i -= 1;
     }
 
-    // 5: invalid angle range => angle range ignored => whole sphere used
+    // 5: invalid angle range => min angle used for max angle
     options = {
         minAngleToZAxis: 0.6, // rad
-        maxAngleToZAxis: 0.4 // rad
+        maxAngleToZAxis: 0.59 // rad
     };
 
     // 5-a
@@ -215,7 +215,7 @@ export default function () {
     closestPoint = vector.closestPointOnCenteredUnitSphere(options);
     assertEqualVectors(
         closestPoint,
-        new THREE.Vector3(0.667, 0.512, 0.542),
+        new THREE.Vector3(0.448, 0.344, 0.825),
         0.001
     );
 
@@ -225,7 +225,7 @@ export default function () {
     while (i > 0) {
         closestPoint = vector.closestPointOnCenteredUnitSphere(options);
         assertEqualNumbers(closestPoint.length(), 1, 1e-6);
-        angle = closestPoint.angleTo(zAxisVector);
+        assertEqualNumbers(closestPoint.z, 0.825, 0.001);
         i -= 1;
     }
 };

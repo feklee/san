@@ -252,17 +252,23 @@ var intVerticalConeWTetrahedralCone =
         return intersections;
     };
 
-var closestPoint = function (fromPoint, pointsToSelectFrom) {
-    var selectedPoint;
+var indexOfClosestPoint = function (fromPoint, pointsToSelectFrom) {
+    var selectedIndex;
     var shortestDistance = Number.MAX_VALUE;
-    pointsToSelectFrom.forEach(function (point) {
+    pointsToSelectFrom.forEach(function (point, i) {
         const distance = fromPoint.distanceTo(point);
         if (distance < shortestDistance) {
             shortestDistance = distance;
-            selectedPoint = point;
+            selectedIndex = i;
         }
     });
-    return selectedPoint;
+    return selectedIndex;
+};
+
+var closestPoint = function (fromPoint, pointsToSelectFrom) {
+    return pointsToSelectFrom[indexOfClosestPoint(
+        fromPoint, pointsToSelectFrom
+    )];
 };
 
 export default {
@@ -283,5 +289,6 @@ export default {
     xAxis: xAxis,
     yAxis: yAxis,
     zAxis: zAxis,
+    indexOfClosestPoint: indexOfClosestPoint,
     closestPoint: closestPoint
 };

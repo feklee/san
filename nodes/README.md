@@ -8,6 +8,12 @@ Parametric design (Fusion 360): http://a360.co/2FMH0TC
 Inside of each node there is a tiny microcontroller, an Arduino Pro Mini.
 
 
+Geometry
+========
+
+![Annotated illustration of the node geometry](images/geometry.png)
+
+
 Parts
 =====
 

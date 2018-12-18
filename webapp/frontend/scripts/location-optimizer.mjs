@@ -276,6 +276,14 @@ var setExpectedNeighbor4Location = function (node) {
     updateExpectedNeighborLocation(connection4);
 };
 
+var setExpectedNeighbor3LocationTA = function (node) {
+    setExpectedNeighbor3Location(node);
+};
+
+var setExpectedNeighbor4LocationTA = function (node) {
+    setExpectedNeighbor4Location(node);
+};
+
 var setExpectedNeighborLocation = function (node, i) {
     switch (i) {
     case 0:

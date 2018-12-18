@@ -37,4 +37,18 @@ export default function () {
         assertEqualNumbers(closestPoint.z, -2.595, 0.001);
         i -= 1;
     }
+
+    // 3
+    options = {
+        center: new THREE.Vector3(2, 1.4, 1.4),
+        minAngleToVerticalAxis: 2.186276035465284, // rad
+        maxAngleToVerticalAxis: 2.186276035465284, // rad
+        fromPoint: new THREE.Vector3(2, 0.6, 1.4)
+    };
+    closestPoint = vector.closestPointOnUnitSphere(options);
+    assertEqualVectors(
+        closestPoint,
+        new THREE.Vector3(2.000, 0.584, 0.823),
+        0.001
+    );
 };

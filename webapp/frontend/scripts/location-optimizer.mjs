@@ -18,6 +18,10 @@ var portIsOnBottomHemisphere = function (port) {
     return port.portNumber > 2;
 };
 
+var portIsOnTopHemisphere = function (port) {
+    return !portIsOnBottomHemisphere(port);
+};
+
 var updateExpectedNeighborLocation = function (connection) {
     connection.expectedNeighborLocation =
         connection.fromPort.node.testLocation.clone().add(
@@ -57,6 +61,15 @@ var axesOfNodeWithOneVisibleNeighbor = function (
     return intersections;
 };
 
+var axisOfNodeWithOneVisibleNeighbor = function (node) {
+    var possibleAxes = axesOfNodeWithOneVisibleNeighbor(
+        node.tiltAngle,
+        node.visibleConnections[0].vector
+    );
+    return possibleAxes[0]; // any axis is OK => simply pick the 1st one, if
+                            // there is more than one axis
+};
+
 var axisOfNodeWithTwoVisibleNeighbors = function (
     tiltAngle, // rad
     vectorToNeighbor1,
@@ -64,6 +77,14 @@ var axisOfNodeWithTwoVisibleNeighbors = function (
 ) {
     var possibleAxes =
         axesOfNodeWithOneVisibleNeighbor(tiltAngle, vectorToNeighbor1);
+/*TODO    var possibleLocations = possible2ndNeighborLocations(
+        node,
+        possibleNodeAxes,
+        
+    );
+    var i = vector.indexOfClosestPoint(
+        neighbor2.testLocation, possibleLocations
+    );*/
     return possibleAxes[0]; // TODO: select the one that matches the neighbors most closely
 };
 
@@ -79,17 +100,17 @@ var axisOfNodeWithTwoVisibleNeighbors = function (
 //     relative to the vertical axis. This angle depends 1. on the tilt angle of
 //     the node, and 2. on the position of the port to which the neighbor is
 //     connected.
-var setExpectedNeighborLocation1TA = function (connection1) {
-    const thisNode = connection1.fromPort.node;
+var setExpectedNeighbor1LocationTA = function (node) {
+    const connection1 = node.visibleConnections[0];
     const neighbor = connection1.toPort.node;
-    var angle = thisNode.tiltAngle;
+    var angle = node.tiltAngle;
     if (portIsOnBottomHemisphere(connection1.fromPort)) {
         angle += Math.PI;
     }
     var angleRange = vector.tiltAnglePlusHalfTetAngle(angle);
 
     connection1.expectedNeighborLocation = vector.closestPointOnUnitSphere({
-        center: thisNode.testLocation,
+        center: node.testLocation,
         fromPoint: neighbor.testLocation,
         minAngleToVerticalAxis: angleRange[0],
         maxAngleToVerticalAxis: angleRange[1]
@@ -97,7 +118,7 @@ var setExpectedNeighborLocation1TA = function (connection1) {
     setExpectedVector(connection1);
 };
 
-var possibleVectorsToNeighbor2TA = function (node, connection1, connection2) {
+var possibleVectorsTo2ndNeighbor = function (node, connection1, connection2) {
     var vectorToNeighbor1 = connection1.expectedVector;
 
     var possibleNodeAxes = axesOfNodeWithOneVisibleNeighbor(
@@ -105,10 +126,10 @@ var possibleVectorsToNeighbor2TA = function (node, connection1, connection2) {
         vectorToNeighbor1
     );
     var portsAreOnSameHemisphere =
-        (portIsOnUpperHemisphere(connection1.fromPort) &&
-         portIsOnUpperHemisphere(connection2.fromPort)) ||
-        (!portIsOnUpperHemisphere(connection1.fromPort) &&
-         !portIsOnUpperHemisphere(connection2.fromPort));
+        (portIsOnTopHemisphere(connection1.fromPort) &&
+         portIsOnTopHemisphere(connection2.fromPort)) ||
+        (!portIsOnTopHemisphere(connection1.fromPort) &&
+         !portIsOnTopHemisphere(connection2.fromPort));
 
     return possibleNodeAxes.map(function (axis) {
         if (portsAreOnSameHemisphere) {
@@ -118,8 +139,8 @@ var possibleVectorsToNeighbor2TA = function (node, connection1, connection2) {
     });
 };
 
-var possibleNeighbor2LocationsTA = function (node, connection1, connection2) {
-    const possibleVectors = possibleVectorsToNeighbor2TA(
+var possible2ndNeighborLocations = function (node, connection1, connection2) {
+    const possibleVectors = possibleVectorsTo2ndNeighbor(
         node, connection1, connection2
     );
     return possibleVectors.map(function (vector) {
@@ -133,12 +154,12 @@ var possibleNeighbor2LocationsTA = function (node, connection1, connection2) {
 //
 // The tilt angle and the position of the first neighbor allow up to two
 // possible locations for the second neighbor.
-var setExpectedNeighborLocation2TA = function (connection2) {
-    const node = connection2.fromPort.node;
+var setExpectedNeighbor2LocationTA = function (node) {
     const connection1 = node.visibleConnections[0];
+    const connection2 = node.visibleConnections[1];
     const neighbor2 = connection2.toPort.node;
 
-    const possibleLocations = possibleNeighbor2LocationsTA(
+    const possibleLocations = possible2ndNeighborLocations(
         node, connection1, connection2
     );
 
@@ -152,7 +173,8 @@ var setExpectedNeighborLocation2TA = function (connection2) {
 };
 
 // 1st neighbor: The only constraint is the distance of 1 to the node.
-var setExpectedNeighborLocation1 = function (connection1) {
+var setExpectedNeighbor1Location = function (node) {
+    const connection1 = node.visibleConnections[0];
     connection1.expectedVector = vector.normalizedConnectingVector(
         connection1.fromPort.node.testLocation,
         connection1.toPort.node.testLocation
@@ -162,9 +184,9 @@ var setExpectedNeighborLocation1 = function (connection1) {
 
 // 2nd neighbor: This neighbor must be at distance 1 to the node and oriented at
 // tetrahedral angle to the first neighbor.
-var setExpectedNeighborLocation2 = function (connection2) {
-    var node = connection2.fromPort.node;
-    var connection1 = node.visibleConnections[0];
+var setExpectedNeighbor2Location = function (node) {
+    const connection1 = node.visibleConnections[0];
+    const connection2 = node.visibleConnections[1];
 
     var a = connection1.expectedVector;
     var b = vector.normalizedConnectingVector(
@@ -181,10 +203,10 @@ var setExpectedNeighborLocation2 = function (connection2) {
 
 // 3nd neighbor: The required position can be calculated exactly based on the
 // expected positions of the first two neighbors and the position of the node.
-var setExpectedNeighborLocation3 = function (connection3) {
-    var node = connection3.fromPort.node;
-    var connection1 = node.visibleConnections[0];
-    var connection2 = node.visibleConnections[1];
+var setExpectedNeighbor3Location = function (node) {
+    const connection1 = node.visibleConnections[0];
+    const connection2 = node.visibleConnections[1];
+    const connection3 = node.visibleConnections[2];
 
     var a = connection1.expectedVector;
     var b = connection2.expectedVector;
@@ -218,10 +240,10 @@ var setExpectedNeighborLocation3 = function (connection3) {
 };
 
 // 4th neighbor: The required position can be calculated exactly.
-var setExpectedNeighborLocation4 = function (connection4) {
-    var node = connection4.fromPort.node;
-    var connection1 = node.visibleConnections[0];
-    var connection2 = node.visibleConnections[1];
+var setExpectedNeighbor4Location = function (node) {
+    const connection1 = node.visibleConnections[0];
+    const connection2 = node.visibleConnections[1];
+    const connection4 = node.visibleConnections[3];
 
     var a = connection1.expectedVector;
     var b = connection2.expectedVector;
@@ -232,36 +254,36 @@ var setExpectedNeighborLocation4 = function (connection4) {
     updateExpectedNeighborLocation(connection4);
 };
 
-var setExpectedNeighborLocation = function (connection, i) {
+var setExpectedNeighborLocation = function (node, i) {
     switch (i) {
     case 0:
-        setExpectedNeighborLocation1(connection);
+        setExpectedNeighbor1Location(node);
         break;
     case 1:
-        setExpectedNeighborLocation2(connection);
+        setExpectedNeighbor2Location(node);
         break;
     case 2:
-        setExpectedNeighborLocation3(connection);
+        setExpectedNeighbor3Location(node);
         break;
     case 3:
-        setExpectedNeighborLocation4(connection);
+        setExpectedNeighbor4Location(node);
         break;
     }
 };
 
-var setExpectedNeighborLocationTA = function (connection, i) {
+var setExpectedNeighborLocationTA = function (node, i) {
     switch (i) {
     case 0:
-        setExpectedNeighborLocation1TA(connection);
+        setExpectedNeighbor1LocationTA(node);
         break;
     case 1:
-        setExpectedNeighborLocation2TA(connection);
+        setExpectedNeighbor2LocationTA(node);
         break;
     case 2:
-        setExpectedNeighborLocation3TA(connection);
+        setExpectedNeighbor3LocationTA(node);
         break;
     case 3:
-        setExpectedNeighborLocation4TA(connection);
+        setExpectedNeighbor4LocationTA(node);
         break;
     }
 };
@@ -279,9 +301,9 @@ var addDeviationsForNode = function (deviations, node) {
     node.visibleConnections.forEach(function (connection, i) {
         var nodeHasTiltAngle = node.tiltAngle !== null;
         if (nodeHasTiltAngle) {
-            setExpectedNeighborLocationTA(connection, i);
+            setExpectedNeighborLocationTA(node, i);
         } else {
-            setExpectedNeighborLocation(connection, i);
+            setExpectedNeighborLocation(node, i);
         }
         addDeviation(deviations, connection);
     });
@@ -348,11 +370,7 @@ var updateNodeAxis = function (node) {
         );
     }
     if (numberOfVisibleNeighbors === 1) {
-        var possibleAxes = axesOfNodeWithOneVisibleNeighbor(
-            node.tiltAngle,
-            node.visibleConnections[0].vector
-        );
-        node.axis = possibleAxes[0]; // TODO: take the one actually used
+        node.axis = axisOfNodeWithOneVisibleNeighbor(node);
     }
     if (numberOfVisibleNeighbors === 2) {
         node.axis = axisOfNodeWithTwoVisibleNeighbors(

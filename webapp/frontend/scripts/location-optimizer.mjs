@@ -14,8 +14,7 @@ import jsga from "jsga-feklee";
 
 var loSettings = settings.locationOptimizer;
 
-// TODO: is that consistent with instructions for building nodes? Create graphic with port labels and labels of hemispheres
-var portIsOnUpperHemisphere = function (port) {
+var portIsOnBottomHemisphere = function (port) {
     return port.portNumber > 2;
 };
 
@@ -84,7 +83,7 @@ var setExpectedNeighborLocation1TA = function (connection1) {
     const thisNode = connection1.fromPort.node;
     const neighbor = connection1.toPort.node;
     var angle = thisNode.tiltAngle;
-    if (portIsOnUpperHemisphere(connection1.fromPort)) {
+    if (portIsOnBottomHemisphere(connection1.fromPort)) {
         angle += Math.PI;
     }
     var angleRange = vector.tiltAnglePlusHalfTetAngle(angle);
@@ -353,7 +352,7 @@ var updateNodeAxis = function (node) {
             node.tiltAngle,
             node.visibleConnections[0].vector
         );
-        node.axis = possibleAxes[0];
+        node.axis = possibleAxes[0]; // TODO: take the one actually used
     }
     if (numberOfVisibleNeighbors === 2) {
         node.axis = axisOfNodeWithTwoVisibleNeighbors(

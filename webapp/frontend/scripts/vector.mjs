@@ -8,7 +8,7 @@ if (runningInNode) {
     THREE = global.THREE;
 }
 
-const tetrahedralAngle = Math.acos(-1 / 3);
+const tetrahedralAngle = Math.acos(-1 / 3); // rad
 const xAxis = new THREE.Vector3(1, 0, 0);
 const yAxis = new THREE.Vector3(0, 1, 0);
 const zAxis = new THREE.Vector3(0, 0, 1);
@@ -30,10 +30,21 @@ var angleToZAxis = function (vector) {
 // The result is a range since it is not known in which direction *v* and *w*
 // are pointing.
 var tiltAnglePlusHalfTetAngle = function ( // [min, max]
-    tiltAngle // deg
+    tiltAngle // rad
 ) {
-    var hta = tetrahedralAngle / 2;
-    return [Math.max(0, tiltAngle - hta), Math.min(Math.PI, tiltAngle + hta)];
+    var hta = tetrahedralAngle / 2; // rad
+    var min = tiltAngle - hta; // rad
+    var max = tiltAngle + hta; // rad
+
+    if (min < 0) {
+        min = -min;
+    }
+
+    if (max > Math.PI) {
+        max = 2 * Math.PI - max;
+    }
+
+    return [min, max];
 };
 
 // See article "Generating uniformly distributed numbers on a sphere":

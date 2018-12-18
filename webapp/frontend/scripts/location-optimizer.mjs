@@ -102,18 +102,22 @@ var possible2ndNeighborLocations = function (
 };
 
 var axisOfNodeWithTwoVisibleNeighbors = function (node) {
-    var vectorTo1stNeighbor = node.visibleConnections[0].vector;
+    const connection1 = node.visibleConnections[0];
+    const connection2 = node.visibleConnections[1];
+    var vectorTo1stNeighbor = connection1.vector;
+    var neighbor2 = connection2.toPort;
+    var locationOf2ndNeighbor = neighbor2.node.location;
     var possibleNodeAxes = axesOfNodeWithOneVisibleNeighbor(
         node.tiltAngle,
         vectorTo1stNeighbor
     );
-    var possibleLocation = possible2ndNeighborLocations(
+    var possibleLocations = possible2ndNeighborLocations(
         node, vectorTo1stNeighbor, possibleNodeAxes
     );
-/* TODO    var i = vector.indexOfClosestPoint(
-        neighbor2.testLocation, possibleLocations
-    );*/
-    return possibleNodeAxes[0]; // TODO: select the one that matches the neighbors most closely
+    var i = vector.indexOfClosestPoint(
+        locationOf2ndNeighbor, possibleLocations
+    );
+    return possibleNodeAxes[i];
 };
 
 // 1st neighbor

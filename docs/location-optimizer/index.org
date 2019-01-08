@@ -1,0 +1,18 @@
+* Introduction
+
+Just another test.
+
+* Math
+
+Here I'll try typesetting math, taking an example from the org-mode manual:
+
+\begin{equation}                        % arbitrary environments,
+x=\sqrt{b}                              % even tables, figures
+\end{equation}                          % etc
+
+If $a^2=b$ and \( b=2 \), then the solution must be
+either $$ a=+\sqrt{2} $$ or \[ a=-\sqrt{2} \].
+
+* Images
+
+[[./geometry.png]]

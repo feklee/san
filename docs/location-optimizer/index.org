@@ -58,6 +58,15 @@ Properties of a node:
   writing there is only one sphere that contains an accelerometer.
 
 
+* Current algorithm
+
+1. 
+
+
+* Problem
+
+
+
 * Simulation
 
 Assembling the structure can be simulated. This is useful for testing
@@ -72,7 +81,11 @@ Setup:
 3. Install all necessary dependencies and build the frontend (on
    Windows call ~rollup.cmd~ instead of ~rollup~):
 
-   #+INCLUDE: "data/build.bash" src shell
+   #+BEGIN_SRC shell
+   $ cd webapp
+   $ yarn install
+   $ ./node_modules/.bin/rollup --config
+   #+END_SRC
 
 4. Start the simulation:
 
@@ -105,3 +118,28 @@ Setup:
 
 ** 1:1 connection
 
+Just two nodes connected.
+
+** Hexagon
+
+This is the smallest loop that can be built.
+
+** Pentagon
+
+Note that the angle inside of a pentagon.
+
+** Triangle
+
+The genetic algorithm is flexible enough to allow even constructions
+that are impossible, well unless you bend the rods that connect the
+spheres.
+
+** Dodecahedron
+
+The dodecahedron consists of twelve pentagon sufaces. There are 20
+unknown edges, i.e. nodes in the network. This means 60 variables have
+to be found.
+
+** Dodecahedron with tilt angles
+
+Tilt angles provide

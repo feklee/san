@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-01-08 Tue 15:53 -->
+<!-- 2019-01-08 Tue 21:27 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: Location Optimizer</title>
@@ -234,15 +234,27 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org74b31db">1. Abstract</a></li>
-<li><a href="#org8ccc511">2. Nodes</a></li>
-<li><a href="#org9ea6587">3. Simulation</a></li>
+<li><a href="#org10ccea6">1. Abstract</a></li>
+<li><a href="#orgc4d8646">2. Nodes</a></li>
+<li><a href="#org41ce65b">3. Current algorithm</a></li>
+<li><a href="#org33eb10d">4. Problem</a></li>
+<li><a href="#org3da331b">5. Simulation</a></li>
+<li><a href="#org09b8ea7">6. Examples</a>
+<ul>
+<li><a href="#orgcc93d00">6.1. 1:1 connection</a></li>
+<li><a href="#orgdc22bf1">6.2. Hexagon</a></li>
+<li><a href="#org4a26a34">6.3. Pentagon</a></li>
+<li><a href="#orgea8a3cd">6.4. Triangle</a></li>
+<li><a href="#org1487e54">6.5. Dodecahedron</a></li>
+<li><a href="#org216e2cd">6.6. Dodecahedron with tilt angles</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org74b31db" class="outline-2">
-<h2 id="org74b31db"><span class="section-number-2">1</span> Abstract</h2>
+<div id="outline-container-org10ccea6" class="outline-2">
+<h2 id="org10ccea6"><span class="section-number-2">1</span> Abstract</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The <i>location optimizer</i> takes all the data that is available and
@@ -288,11 +300,11 @@ current at the time this document was published.
 </div>
 
 
-<div id="outline-container-org8ccc511" class="outline-2">
-<h2 id="org8ccc511"><span class="section-number-2">2</span> Nodes</h2>
+<div id="outline-container-orgc4d8646" class="outline-2">
+<h2 id="orgc4d8646"><span class="section-number-2">2</span> Nodes</h2>
 <div class="outline-text-2" id="text-2">
 
-<div id="org20c97bf" class="figure">
+<div id="orgd0c8cc1" class="figure">
 <p><img src="./images/geometry.png" alt="geometry.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Geometry of a node with ports 1–4</p>
@@ -330,9 +342,25 @@ writing there is only one sphere that contains an accelerometer.</li>
 </div>
 
 
-<div id="outline-container-org9ea6587" class="outline-2">
-<h2 id="org9ea6587"><span class="section-number-2">3</span> Simulation</h2>
+<div id="outline-container-org41ce65b" class="outline-2">
+<h2 id="org41ce65b"><span class="section-number-2">3</span> Current algorithm</h2>
 <div class="outline-text-2" id="text-3">
+<ol class="org-ol">
+<li></li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-org33eb10d" class="outline-2">
+<h2 id="org33eb10d"><span class="section-number-2">4</span> Problem</h2>
+</div>
+
+
+
+<div id="outline-container-org3da331b" class="outline-2">
+<h2 id="org3da331b"><span class="section-number-2">5</span> Simulation</h2>
+<div class="outline-text-2" id="text-5">
 <p>
 Assembling the structure can be simulated. This is useful for testing
 the location optimizer without the physical construction kit.
@@ -381,7 +409,7 @@ Go back to the command line and connect a node to the root node:
 
 <p>
 This connects port <code>C1</code> (port 1 on node C) with <code>^1</code> (port 1 on the
-root node). The result should be visible in the web app.
+root node). The result is immediately visible in the web app.
 </p></li>
 
 <li><p>
@@ -400,10 +428,74 @@ This connects <code>B3</code> (port 3 on node B) to <code>C2</code> and <code>D4
 </ol>
 </div>
 </div>
+
+
+<div id="outline-container-org09b8ea7" class="outline-2">
+<h2 id="org09b8ea7"><span class="section-number-2">6</span> Examples</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-orgcc93d00" class="outline-3">
+<h3 id="orgcc93d00"><span class="section-number-3">6.1</span> 1:1 connection</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+Just two nodes connected.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdc22bf1" class="outline-3">
+<h3 id="orgdc22bf1"><span class="section-number-3">6.2</span> Hexagon</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+This is the smallest loop that can be built.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4a26a34" class="outline-3">
+<h3 id="org4a26a34"><span class="section-number-3">6.3</span> Pentagon</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+Note that the angle inside of a pentagon.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgea8a3cd" class="outline-3">
+<h3 id="orgea8a3cd"><span class="section-number-3">6.4</span> Triangle</h3>
+<div class="outline-text-3" id="text-6-4">
+<p>
+The genetic algorithm is flexible enough to allow even constructions
+that are impossible, well unless you bend the rods that connect the
+spheres.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1487e54" class="outline-3">
+<h3 id="org1487e54"><span class="section-number-3">6.5</span> Dodecahedron</h3>
+<div class="outline-text-3" id="text-6-5">
+<p>
+The dodecahedron consists of twelve pentagon sufaces. There are 20
+unknown edges, i.e. nodes in the network. This means 60 variables have
+to be found.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org216e2cd" class="outline-3">
+<h3 id="org216e2cd"><span class="section-number-3">6.6</span> Dodecahedron with tilt angles</h3>
+<div class="outline-text-3" id="text-6-6">
+<p>
+Tilt angles provide
+</p>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-01-08 Tue 15:53</p>
+<p class="date">Created: 2019-01-08 Tue 21:27</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

@@ -1,7 +1,28 @@
 #+TITLE: SAN: Location Optimizer
 
-* Introduction
+* Abstract
 
+The /location optimizer/ takes all the data that is available and
+tries to find the coordinates of the nodes in space.
+
+Input:
+
+- which node is connected to which node and on which port
+
+- tilt angle of nodes (optional)
+
+Output:
+
+- coordinates of nodes in space
+
+- tilt angle of spheres for display (optional)
+
+The location optimizer does its calculations under the assumptions
+that:
+
+- the distance of a connection is 1,
+
+- the angle between connections is the tetrahedral angle (109.5°).
 
 
 * Math

@@ -89,7 +89,7 @@ Setup:
    #+END_SRC
 
    This connects port ~C1~ (port 1 on node C) with ~^1~ (port 1 on the
-   root node). The result should be visible in the web app.
+   root node). The result is immediately visible in the web app.
 
 7. Add additional nodes:
 
@@ -99,4 +99,9 @@ Setup:
    #+END_SRC
 
    This connects ~B3~ (port 3 on node B) to ~C2~ and ~D4~ to ~B3~.
+
+
+* Examples
+
+** 1:1 connection
 

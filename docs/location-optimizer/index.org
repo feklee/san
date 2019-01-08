@@ -1,10 +1,13 @@
+#+TITLE: SAN: Location Optimizer
+
 * Introduction
 
-Just another test.
+
 
 * Math
 
-Here I'll try typesetting math, taking an example from the org-mode manual:
+Here I'll try typesetting math, taking an example from the org-mode
+manual:
 
 \begin{equation}                        % arbitrary environments,
 x=\sqrt{b}                              % even tables, figures

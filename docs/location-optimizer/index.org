@@ -1,42 +1,60 @@
 #+TITLE: SAN: Location Optimizer
 
-* Abstract
+#+BEGIN_abstract
 
 The /location optimizer/ takes all the data that is available and
 tries to find the coordinates of the nodes in space.
 
 Input:
 
-- which node is connected to which node and on which port
+- which node is connected to which node and on which port,
 
-- tilt angle of nodes (optional)
+- tilt angle of nodes (optional).
 
 Output:
 
-- coordinates of nodes in space
+- coordinates of nodes in space,
 
-- tilt angle of spheres for display (optional)
+- tilt angle of spheres for display (optional).
 
 The location optimizer does its calculations under the assumptions
 that:
 
 - the distance of a connection is 1,
 
-- the angle between connections is the tetrahedral angle (109.5°).
+- the angle between connections is the tetrahedral angle (≈ 109.5°).
+
+#+END_abstract
 
 
-* Math
+* Nodes
 
-Here I'll try typesetting math, taking an example from the org-mode
-manual:
+  #+CAPTION: Geometry of a node with ports 1–4
+  #+NAME:   fig:node
+  [[./images/geometry.png]]
 
-\begin{equation}                        % arbitrary environments,
-x=\sqrt{b}                              % even tables, figures
-\end{equation}                          % etc
+Properties of a node:
 
-If $a^2=b$ and \( b=2 \), then the solution must be
-either $$ a=+\sqrt{2} $$ or \[ a=-\sqrt{2} \].
+- A node may also be called a /sphere/, referring to the look of the
+  physical implementation.
+
+- There is one special node, the root node:
+
+  + It connects the computer to the network.
+
+  + It has one USB port that connects to the computer.
+
+  + It has only one port: 1
+
+  + It’s ID is: ~^~
+
+- Non-root nodes have four ports: 1, 2, 3, and 4
+
+- Each non-root node has a unique ID: A–Z
+
+- A node’s /axis/ is relevant if there is information about its tilt
+  angle. The tilt angle is measured by an accelerometer. As of this
+  writing there is only one sphere that contains an accelerometer.
+
 
 * Images
-
-[[./geometry.png]]

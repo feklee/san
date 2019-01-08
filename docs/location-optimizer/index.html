@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-01-08 Tue 15:10 -->
+<!-- 2019-01-08 Tue 15:53 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: Location Optimizer</title>
@@ -226,28 +226,6 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        displayIndent: "0em",
-
-        "HTML-CSS": { scale: 100,
-                        linebreaks: { automatic: "false" },
-                        webFont: "TeX"
-                       },
-        SVG: {scale: 100,
-              linebreaks: { automatic: "false" },
-              font: "TeX"},
-        NativeMML: {scale: 100},
-        TeX: { equationNumbers: {autoNumber: "AMS"},
-               MultLineWidth: "85%",
-               TagSide: "right",
-               TagIndent: ".8em"
-             }
-});
-</script>
-<script type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
 <div id="content">
@@ -256,15 +234,15 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgbc20bbd">1. Abstract</a></li>
-<li><a href="#orgac7338a">2. Math</a></li>
-<li><a href="#orgd5a0ca5">3. Images</a></li>
+<li><a href="#org74b31db">1. Abstract</a></li>
+<li><a href="#org8ccc511">2. Nodes</a></li>
+<li><a href="#org9ea6587">3. Simulation</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgbc20bbd" class="outline-2">
-<h2 id="orgbc20bbd"><span class="section-number-2">1</span> Abstract</h2>
+<div id="outline-container-org74b31db" class="outline-2">
+<h2 id="org74b31db"><span class="section-number-2">1</span> Abstract</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The <i>location optimizer</i> takes all the data that is available and
@@ -276,9 +254,9 @@ Input:
 </p>
 
 <ul class="org-ul">
-<li>which node is connected to which node and on which port</li>
+<li>which node is connected to which node and on which port,</li>
 
-<li>tilt angle of nodes (optional)</li>
+<li>tilt angle of nodes (optional).</li>
 </ul>
 
 <p>
@@ -286,9 +264,9 @@ Output:
 </p>
 
 <ul class="org-ul">
-<li>coordinates of nodes in space</li>
+<li>coordinates of nodes in space,</li>
 
-<li>tilt angle of spheres for display (optional)</li>
+<li>tilt angle of spheres for display (optional).</li>
 </ul>
 
 <p>
@@ -299,47 +277,133 @@ that:
 <ul class="org-ul">
 <li>the distance of a connection is 1,</li>
 
-<li>the angle between connections is the tetrahedral angle (109.5°).</li>
+<li>the angle between connections is the tetrahedral angle (≈ 109.5°).</li>
+</ul>
+
+<p>
+The information here is only relevant for the version of SAN that was
+current at the time this document was published.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org8ccc511" class="outline-2">
+<h2 id="org8ccc511"><span class="section-number-2">2</span> Nodes</h2>
+<div class="outline-text-2" id="text-2">
+
+<div id="org20c97bf" class="figure">
+<p><img src="./images/geometry.png" alt="geometry.png" />
+</p>
+<p><span class="figure-number">Figure 1: </span>Geometry of a node with ports 1–4</p>
+</div>
+
+<p>
+Properties of a node:
+</p>
+
+<ul class="org-ul">
+<li>A node may also be called a <i>sphere</i>, referring to the physical
+elements in the SAN construction kit.</li>
+
+<li>There is one special node, the root node:
+
+<ul class="org-ul">
+<li>It connects the computer to the network.</li>
+
+<li>It has one USB port that connects to the computer.</li>
+
+<li>It has only one port: 1</li>
+
+<li>It’s ID is: <code>^</code></li>
+</ul></li>
+
+<li>Non-root nodes have four ports: 1, 2, 3, and 4</li>
+
+<li>Each non-root node has a unique ID: A–Z</li>
+
+<li>A node’s <i>axis</i> is relevant if there is information about its tilt
+angle. The tilt angle is measured by an accelerometer. As of this
+writing there is only one sphere that contains an accelerometer.</li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-orgac7338a" class="outline-2">
-<h2 id="orgac7338a"><span class="section-number-2">2</span> Math</h2>
-<div class="outline-text-2" id="text-2">
-<p>
-Here I'll try typesetting math, taking an example from the org-mode
-manual:
-</p>
-
-<p>
-\begin{equation}                        % arbitrary environments,
-x=\sqrt{b}                              % even tables, figures
-\end{equation}                          % etc
-</p>
-
-<p>
-If \(a^2=b\) and \( b=2 \), then the solution must be
-either \[ a=+\sqrt{2} \] or \[ a=-\sqrt{2} \].
-</p>
-</div>
-</div>
-
-<div id="outline-container-orgd5a0ca5" class="outline-2">
-<h2 id="orgd5a0ca5"><span class="section-number-2">3</span> Images</h2>
+<div id="outline-container-org9ea6587" class="outline-2">
+<h2 id="org9ea6587"><span class="section-number-2">3</span> Simulation</h2>
 <div class="outline-text-2" id="text-3">
-
-<div class="figure">
-<p><img src="./geometry.png" alt="geometry.png" />
+<p>
+Assembling the structure can be simulated. This is useful for testing
+the location optimizer without the physical construction kit.
 </p>
+
+<p>
+Setup:
+</p>
+
+<ol class="org-ol">
+<li>Install Node.js and the Yarn package manager.</li>
+
+<li>Clone the SAN repository from: <a href="https://github.com/feklee/san/">https://github.com/feklee/san/</a></li>
+
+<li><p>
+Install all necessary dependencies and build the frontend (on
+Windows call <code>rollup.cmd</code> instead of <code>rollup</code>):
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">$ cd webapp
+$ yarn install
+$ ./node_modules/.bin/rollup --config
+</pre>
+</div></li>
+
+<li><p>
+Start the simulation:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell">yarn start
+</pre>
+</div></li>
+
+<li>Open the SAN web app: <a href="http://localhost:8080">http://localhost:8080</a></li>
+
+<li><p>
+Go back to the command line and connect a node to the root node:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text">+^1C1
+</pre>
 </div>
+
+<p>
+This connects port <code>C1</code> (port 1 on node C) with <code>^1</code> (port 1 on the
+root node). The result should be visible in the web app.
+</p></li>
+
+<li><p>
+Add additional nodes:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-text">+C2B1
++B3D4
+</pre>
+</div>
+
+<p>
+This connects <code>B3</code> (port 3 on node B) to <code>C2</code> and <code>D4</code> to <code>B3</code>.
+</p></li>
+</ol>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-01-08 Tue 15:10</p>
+<p class="date">Created: 2019-01-08 Tue 15:53</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

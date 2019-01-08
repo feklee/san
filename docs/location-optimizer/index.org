@@ -1,6 +1,6 @@
 #+TITLE: SAN: Location Optimizer
 
-#+BEGIN_abstract
+* Abstract
 
 The /location optimizer/ takes all the data that is available and
 tries to find the coordinates of the nodes in space.
@@ -24,7 +24,8 @@ that:
 
 - the angle between connections is the tetrahedral angle (≈ 109.5°).
 
-#+END_abstract
+The information here is only relevant for the version of SAN that was
+current at the time this document was published.
 
 
 * Nodes
@@ -35,8 +36,8 @@ that:
 
 Properties of a node:
 
-- A node may also be called a /sphere/, referring to the look of the
-  physical implementation.
+- A node may also be called a /sphere/, referring to the physical
+  elements in the SAN construction kit.
 
 - There is one special node, the root node:
 
@@ -57,4 +58,45 @@ Properties of a node:
   writing there is only one sphere that contains an accelerometer.
 
 
-* Images
+* Simulation
+
+Assembling the structure can be simulated. This is useful for testing
+the location optimizer without the physical construction kit.
+
+Setup:
+
+1. Install Node.js and the Yarn package manager.
+
+2. Clone the SAN repository from: https://github.com/feklee/san/
+
+3. Install all necessary dependencies and build the frontend (on
+   Windows call ~rollup.cmd~ instead of ~rollup~):
+
+   #+INCLUDE: "data/build.bash" src shell
+
+4. Start the simulation:
+
+   #+BEGIN_SRC shell
+   yarn start
+   #+END_SRC
+   
+5. Open the SAN web app: http://localhost:8080
+
+6. Go back to the command line and connect a node to the root node:
+
+   #+BEGIN_SRC text
+   +^1C1
+   #+END_SRC
+
+   This connects port ~C1~ (port 1 on node C) with ~^1~ (port 1 on the
+   root node). The result should be visible in the web app.
+
+7. Add additional nodes:
+
+   #+BEGIN_SRC text
+   +C2B1
+   +B3D4
+   #+END_SRC
+
+   This connects ~B3~ (port 3 on node B) to ~C2~ and ~D4~ to ~B3~.
+

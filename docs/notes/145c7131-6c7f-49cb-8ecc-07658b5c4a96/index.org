@@ -60,6 +60,9 @@ Properties of a node:
 
 * Current algorithm
 
+A genetic algorithm is used to approximate the positions of the points
+in space.
+
 1. 
 
 

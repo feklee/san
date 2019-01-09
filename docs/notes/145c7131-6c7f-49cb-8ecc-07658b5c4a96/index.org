@@ -32,7 +32,7 @@ current at the time this document was published.
 
   #+CAPTION: Geometry of a node with ports 1–4
   #+NAME:   fig:node
-  [[./images/geometry.png][Geometry of node with ports 1-4]]
+  [[./images/geometry.png]]
 
 Properties of a node:
 
@@ -135,7 +135,7 @@ Setup:
 
 1. Install Node.js and the Yarn package manager.
 
-2. Clone the SAN repository from: https://github.com/feklee/san/
+2. Clone the SAN repository from: [[https://github.com/feklee/san/]]
 
 3. Install all necessary dependencies and build the frontend (on
    Windows call ~rollup.cmd~ instead of ~rollup~):
@@ -154,7 +154,7 @@ Setup:
    
 5. Open the SAN web app: http://localhost:8080
 
-   [[./images/webapp-with-no-node.png][Screenshot of empty webapp]]
+   [[./images/webapp-with-no-node.png]]
 
    To navigate in 3D in the canvas on the left side, use the mouse.
 
@@ -167,7 +167,7 @@ Setup:
    This connects port ~C1~ (port 1 on node C) with ~^1~ (port 1 on the
    root node). The result is immediately visible in the web app.
 
-   [[./images/webapp-with-one-node.png][Screenshot of webapp with one node]]
+   [[./images/webapp-with-one-node.png]]
 
    On the top right side you see an adjacency matrix. The numbers in
    the matrix refer to the connected ports. On the bottom righ side
@@ -185,7 +185,7 @@ Setup:
 
    This connects ~B3~ (port 3 on node B) to ~C2~ and ~D4~ to ~B3~.
 
-   [[Screenshot of webapp with three nodes][Screenshot of webapp with three nodes]]
+   [[./images/webapp-with-three-nodes.png]]
 
 * Examples
 
@@ -206,7 +206,7 @@ Adjacency matrix (numbers are ports): [[./data/1-1-adjacency.tsv][1-1-adjacency.
 
 *** Example solution 
 
-[[./images/1-1.png][Screenshot of 1:1 connection]]
+[[./images/1-1.png]]
 
 Coordinates: [[./data/1-1-coordinates.tsv][1-1-coordinates.tsv]]
 
@@ -234,7 +234,7 @@ Adjacency matrix (numbers are ports): [[./data/hexagon-adjacency.tsv][hexagon-ad
 
 *** Example solution
 
-[[./images/hexagon.png][Screenshot of hexagon]]
+[[./images/hexagon.png]]
 
 Coordinates: [[./data/hexagon-coordinates.tsv][hexagon-coordinates.tsv]]
 
@@ -261,7 +261,7 @@ in a triangle it finds a solution!
 
 *** Example solution
 
-[[./images/pentagon.png][Screenshot of pentagon]]
+[[./images/pentagon.png]]
 
 Coordinates: [[./data/pentagon-coordinates.tsv][pentagon-coordinates.tsv]]
 

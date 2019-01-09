@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-01-09 Wed 16:25 -->
+<!-- 2019-01-09 Wed 17:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: Location Optimizer</title>
@@ -256,27 +256,32 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgcbffec2">1. Abstract</a></li>
-<li><a href="#org4b62e37">2. Nodes</a></li>
-<li><a href="#orgccae4c7">3. Current algorithm</a></li>
-<li><a href="#org09cb4cc">4. Problem</a></li>
-<li><a href="#org3359a94">5. Simulation</a></li>
-<li><a href="#orgecacc28">6. Examples</a>
+<li><a href="#orgccca144">1. Abstract</a></li>
+<li><a href="#orgd3b3fe7">2. Nodes</a></li>
+<li><a href="#org65e6ec2">3. Current algorithm</a></li>
+<li><a href="#org446afa5">4. Problem</a></li>
+<li><a href="#orgcdf3800">5. Simulation</a></li>
+<li><a href="#org1280ff5">6. Examples</a>
 <ul>
-<li><a href="#orgd413cb0">6.1. 1:1 connection</a></li>
-<li><a href="#org759a137">6.2. Hexagon</a></li>
-<li><a href="#org4a3b3f0">6.3. Pentagon</a></li>
-<li><a href="#orga3dbad4">6.4. Triangle</a></li>
-<li><a href="#org088df42">6.5. Dodecahedron</a></li>
-<li><a href="#org274b301">6.6. Dodecahedron with tilt angles</a></li>
+<li><a href="#org254d07a">6.1. 1:1 connection</a>
+<ul>
+<li><a href="#org6131c92">6.1.1. Input</a></li>
+<li><a href="#orga3b8617">6.1.2. Example solution</a></li>
+</ul>
+</li>
+<li><a href="#org58a110d">6.2. Hexagon</a></li>
+<li><a href="#orgfffa743">6.3. Pentagon</a></li>
+<li><a href="#orgc42dd03">6.4. Triangle</a></li>
+<li><a href="#org959ea21">6.5. Dodecahedron</a></li>
+<li><a href="#org8597967">6.6. Dodecahedron with tilt angles</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgcbffec2" class="outline-2">
-<h2 id="orgcbffec2"><span class="section-number-2">1</span> Abstract</h2>
+<div id="outline-container-orgccca144" class="outline-2">
+<h2 id="orgccca144"><span class="section-number-2">1</span> Abstract</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The <i>location optimizer</i> takes all the data that is available and
@@ -322,11 +327,11 @@ current at the time this document was published.
 </div>
 
 
-<div id="outline-container-org4b62e37" class="outline-2">
-<h2 id="org4b62e37"><span class="section-number-2">2</span> Nodes</h2>
+<div id="outline-container-orgd3b3fe7" class="outline-2">
+<h2 id="orgd3b3fe7"><span class="section-number-2">2</span> Nodes</h2>
 <div class="outline-text-2" id="text-2">
 
-<div id="orgb911ac9" class="figure">
+<div id="orgf3b76e6" class="figure">
 <p><img src="./images/geometry.png" alt="geometry.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Geometry of a node with ports 1–4</p>
@@ -364,8 +369,8 @@ writing there is only one sphere that contains an accelerometer.</li>
 </div>
 
 
-<div id="outline-container-orgccae4c7" class="outline-2">
-<h2 id="orgccae4c7"><span class="section-number-2">3</span> Current algorithm</h2>
+<div id="outline-container-org65e6ec2" class="outline-2">
+<h2 id="org65e6ec2"><span class="section-number-2">3</span> Current algorithm</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 A genetic algorithm is used to approximate the positions of the points
@@ -449,8 +454,8 @@ and assigned to each child.
 </div>
 
 
-<div id="outline-container-org09cb4cc" class="outline-2">
-<h2 id="org09cb4cc"><span class="section-number-2">4</span> Problem</h2>
+<div id="outline-container-org446afa5" class="outline-2">
+<h2 id="org446afa5"><span class="section-number-2">4</span> Problem</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Genetic algorithms tend to get stuck in local minima. In that case all
@@ -462,8 +467,8 @@ don’t carry over to the next generation. Evolution has stopped.
 </div>
 
 
-<div id="outline-container-org3359a94" class="outline-2">
-<h2 id="org3359a94"><span class="section-number-2">5</span> Simulation</h2>
+<div id="outline-container-orgcdf3800" class="outline-2">
+<h2 id="orgcdf3800"><span class="section-number-2">5</span> Simulation</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Assembling the structure can be simulated. This is useful for testing
@@ -566,21 +571,52 @@ This connects <code>B3</code> (port 3 on node B) to <code>C2</code> and <code>D4
 </div>
 </div>
 
-<div id="outline-container-orgecacc28" class="outline-2">
-<h2 id="orgecacc28"><span class="section-number-2">6</span> Examples</h2>
+<div id="outline-container-org1280ff5" class="outline-2">
+<h2 id="org1280ff5"><span class="section-number-2">6</span> Examples</h2>
 <div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-orgd413cb0" class="outline-3">
-<h3 id="orgd413cb0"><span class="section-number-3">6.1</span> 1:1 connection</h3>
+<div id="outline-container-org254d07a" class="outline-3">
+<h3 id="org254d07a"><span class="section-number-3">6.1</span> 1:1 connection</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
 Just two nodes connected.
 </p>
 </div>
+
+<div id="outline-container-org6131c92" class="outline-4">
+<h4 id="org6131c92"><span class="section-number-4">6.1.1</span> Input</h4>
+<div class="outline-text-4" id="text-6-1-1">
+<div class="org-src-container">
+<pre class="src src-text">+^1A1
++A2B1
+</pre>
 </div>
 
-<div id="outline-container-org759a137" class="outline-3">
-<h3 id="org759a137"><span class="section-number-3">6.2</span> Hexagon</h3>
+<p>
+Adjacency matrix (numbers are ports): <a href="./data/1-1-adjacency.tsv">1-1-adjacency.tsv</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga3b8617" class="outline-4">
+<h4 id="orga3b8617"><span class="section-number-4">6.1.2</span> Example solution</h4>
+<div class="outline-text-4" id="text-6-1-2">
+
+<div class="figure">
+<p><img src="./images/1-1.png" alt="1-1.png" />
+</p>
+</div>
+
+<p>
+Coordinates: <a href="./data/1-1-coordinates.tsv">1-1-coordinates.tsv</a>
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org58a110d" class="outline-3">
+<h3 id="org58a110d"><span class="section-number-3">6.2</span> Hexagon</h3>
 <div class="outline-text-3" id="text-6-2">
 <p>
 This is the smallest loop that can be built.
@@ -588,8 +624,8 @@ This is the smallest loop that can be built.
 </div>
 </div>
 
-<div id="outline-container-org4a3b3f0" class="outline-3">
-<h3 id="org4a3b3f0"><span class="section-number-3">6.3</span> Pentagon</h3>
+<div id="outline-container-orgfffa743" class="outline-3">
+<h3 id="orgfffa743"><span class="section-number-3">6.3</span> Pentagon</h3>
 <div class="outline-text-3" id="text-6-3">
 <p>
 Note that the angle inside of a pentagon.
@@ -597,8 +633,8 @@ Note that the angle inside of a pentagon.
 </div>
 </div>
 
-<div id="outline-container-orga3dbad4" class="outline-3">
-<h3 id="orga3dbad4"><span class="section-number-3">6.4</span> Triangle</h3>
+<div id="outline-container-orgc42dd03" class="outline-3">
+<h3 id="orgc42dd03"><span class="section-number-3">6.4</span> Triangle</h3>
 <div class="outline-text-3" id="text-6-4">
 <p>
 The genetic algorithm is flexible enough to allow even constructions
@@ -608,8 +644,8 @@ spheres.
 </div>
 </div>
 
-<div id="outline-container-org088df42" class="outline-3">
-<h3 id="org088df42"><span class="section-number-3">6.5</span> Dodecahedron</h3>
+<div id="outline-container-org959ea21" class="outline-3">
+<h3 id="org959ea21"><span class="section-number-3">6.5</span> Dodecahedron</h3>
 <div class="outline-text-3" id="text-6-5">
 <p>
 The dodecahedron consists of twelve pentagon sufaces. There are 20
@@ -619,11 +655,12 @@ to be found.
 </div>
 </div>
 
-<div id="outline-container-org274b301" class="outline-3">
-<h3 id="org274b301"><span class="section-number-3">6.6</span> Dodecahedron with tilt angles</h3>
+<div id="outline-container-org8597967" class="outline-3">
+<h3 id="org8597967"><span class="section-number-3">6.6</span> Dodecahedron with tilt angles</h3>
 <div class="outline-text-3" id="text-6-6">
 <p>
-Tilt angles provide
+Tilt angles provide additional information. This reduces the space of
+unknown variables. Therefore it should be easier to find a solution.
 </p>
 </div>
 </div>
@@ -631,7 +668,7 @@ Tilt angles provide
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-01-09 Wed 16:25</p>
+<p class="date">Created: 2019-01-09 Wed 17:25</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

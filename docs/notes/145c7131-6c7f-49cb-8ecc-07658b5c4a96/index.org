@@ -32,7 +32,7 @@ current at the time this document was published.
 
   #+CAPTION: Geometry of a node with ports 1–4
   #+NAME:   fig:node
-  [[./images/geometry.png]]
+  [[./images/geometry.png][Geometry of node with ports 1-4]]
 
 Properties of a node:
 
@@ -154,7 +154,7 @@ Setup:
    
 5. Open the SAN web app: http://localhost:8080
 
-   [[./images/webapp-with-no-node.png]]
+   [[./images/webapp-with-no-node.png][Screenshot of empty webapp]]
 
    To navigate in 3D in the canvas on the left side, use the mouse.
 
@@ -167,7 +167,7 @@ Setup:
    This connects port ~C1~ (port 1 on node C) with ~^1~ (port 1 on the
    root node). The result is immediately visible in the web app.
 
-   [[./images/webapp-with-one-node.png]]
+   [[./images/webapp-with-one-node.png][Screenshot of webapp with one node]]
 
    On the top right side you see an adjacency matrix. The numbers in
    the matrix refer to the connected ports. On the bottom righ side
@@ -185,7 +185,7 @@ Setup:
 
    This connects ~B3~ (port 3 on node B) to ~C2~ and ~D4~ to ~B3~.
 
-   [[./images/webapp-with-three-nodes.png]]
+   [[Screenshot of webapp with three nodes][Screenshot of webapp with three nodes]]
 
 * Examples
 
@@ -193,27 +193,91 @@ Setup:
 
 Just two nodes connected.
 
+*** Input
+
+Simulation:
+
+#+BEGIN_SRC text
++^1A1
++A2B1
+#+END_SRC
+
+Adjacency matrix (numbers are ports): [[./data/1-1-adjacency.tsv][1-1-adjacency.tsv]]
+
+*** Example solution 
+
+[[./images/1-1.png][Screenshot of 1:1 connection]]
+
+Coordinates: [[./data/1-1-coordinates.tsv][1-1-coordinates.tsv]]
+
+
 ** Hexagon
 
-This is the smallest loop that can be built.
+This is the smallest loop that can be built without violating the
+tetrahedral angles.
+
+*** Input
+
+Simulation:
+
+#+BEGIN_SRC text
++^1A1
++A2B1
++B2C1
++C2D1
++D2E1
++E2F1
++F2A3
+#+END_SRC
+
+Adjacency matrix (numbers are ports): [[./data/hexagon-adjacency.tsv][hexagon-adjacency.tsv]]
+
+*** Example solution
+
+[[./images/hexagon.png][Screenshot of hexagon]]
+
+Coordinates: [[./data/hexagon-coordinates.tsv][hexagon-coordinates.tsv]]
+
 
 ** Pentagon
 
-Note that the angle inside of a pentagon.
+Simulation:
 
-** Triangle
+#+BEGIN_SRC text
++^1A1
++A2B1
++B2C1
++C2D1
++D2E1
++E2A3
+#+END_SRC
 
-The genetic algorithm is flexible enough to allow even constructions
-that are impossible, well unless you bend the rods that connect the
-spheres.
+Adjacency matrix (numbers are ports): [[./data/pentagon-adjacency.tsv][pentagon-adjacency.tsv]]
 
-** Dodecahedron
+Note that the interior angles of a pentagon are 108° are close to but
+not identical to the tetrahedral angle of 109.5°. Nevertheless the
+algorithm is able to approximate a solution. Even for nodes connected
+in a triangle it finds a solution!
 
-The dodecahedron consists of twelve pentagon sufaces. There are 20
-unknown edges, i.e. nodes in the network. This means 60 variables have
-to be found.
+*** Example solution
 
-** Dodecahedron with tilt angles
+[[./images/pentagon.png][Screenshot of pentagon]]
 
-Tilt angles provide additional information. This reduces the space of
-unknown variables. Therefore it should be easier to find a solution.
+Coordinates: [[./data/pentagon-coordinates.tsv][pentagon-coordinates.tsv]]
+
+# ** Triangle
+
+# The genetic algorithm is flexible enough to allow even constructions
+# that are impossible, well unless you bend the rods that connect the
+# spheres.
+
+# ** Dodecahedron
+
+# The dodecahedron consists of twelve pentagon sufaces. There are 20
+# unknown edges, i.e. nodes in the network. This means 60 variables have
+# to be found.
+
+# ** Dodecahedron with tilt angles
+
+# Tilt angles provide additional information. This reduces the space of
+# unknown variables. Therefore it should be easier to find a solution.

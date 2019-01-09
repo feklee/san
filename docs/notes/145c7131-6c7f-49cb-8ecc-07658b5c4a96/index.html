@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-01-08 Tue 21:27 -->
+<!-- 2019-01-09 Wed 16:25 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: Location Optimizer</title>
@@ -226,6 +226,28 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
 <div id="content">
@@ -234,27 +256,27 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org10ccea6">1. Abstract</a></li>
-<li><a href="#orgc4d8646">2. Nodes</a></li>
-<li><a href="#org41ce65b">3. Current algorithm</a></li>
-<li><a href="#org33eb10d">4. Problem</a></li>
-<li><a href="#org3da331b">5. Simulation</a></li>
-<li><a href="#org09b8ea7">6. Examples</a>
+<li><a href="#orgcbffec2">1. Abstract</a></li>
+<li><a href="#org4b62e37">2. Nodes</a></li>
+<li><a href="#orgccae4c7">3. Current algorithm</a></li>
+<li><a href="#org09cb4cc">4. Problem</a></li>
+<li><a href="#org3359a94">5. Simulation</a></li>
+<li><a href="#orgecacc28">6. Examples</a>
 <ul>
-<li><a href="#orgcc93d00">6.1. 1:1 connection</a></li>
-<li><a href="#orgdc22bf1">6.2. Hexagon</a></li>
-<li><a href="#org4a26a34">6.3. Pentagon</a></li>
-<li><a href="#orgea8a3cd">6.4. Triangle</a></li>
-<li><a href="#org1487e54">6.5. Dodecahedron</a></li>
-<li><a href="#org216e2cd">6.6. Dodecahedron with tilt angles</a></li>
+<li><a href="#orgd413cb0">6.1. 1:1 connection</a></li>
+<li><a href="#org759a137">6.2. Hexagon</a></li>
+<li><a href="#org4a3b3f0">6.3. Pentagon</a></li>
+<li><a href="#orga3dbad4">6.4. Triangle</a></li>
+<li><a href="#org088df42">6.5. Dodecahedron</a></li>
+<li><a href="#org274b301">6.6. Dodecahedron with tilt angles</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org10ccea6" class="outline-2">
-<h2 id="org10ccea6"><span class="section-number-2">1</span> Abstract</h2>
+<div id="outline-container-orgcbffec2" class="outline-2">
+<h2 id="orgcbffec2"><span class="section-number-2">1</span> Abstract</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The <i>location optimizer</i> takes all the data that is available and
@@ -300,11 +322,11 @@ current at the time this document was published.
 </div>
 
 
-<div id="outline-container-orgc4d8646" class="outline-2">
-<h2 id="orgc4d8646"><span class="section-number-2">2</span> Nodes</h2>
+<div id="outline-container-org4b62e37" class="outline-2">
+<h2 id="org4b62e37"><span class="section-number-2">2</span> Nodes</h2>
 <div class="outline-text-2" id="text-2">
 
-<div id="orgd0c8cc1" class="figure">
+<div id="orgb911ac9" class="figure">
 <p><img src="./images/geometry.png" alt="geometry.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Geometry of a node with ports 1–4</p>
@@ -342,24 +364,106 @@ writing there is only one sphere that contains an accelerometer.</li>
 </div>
 
 
-<div id="outline-container-org41ce65b" class="outline-2">
-<h2 id="org41ce65b"><span class="section-number-2">3</span> Current algorithm</h2>
+<div id="outline-container-orgccae4c7" class="outline-2">
+<h2 id="orgccae4c7"><span class="section-number-2">3</span> Current algorithm</h2>
 <div class="outline-text-2" id="text-3">
+<p>
+A genetic algorithm is used to approximate the positions of the points
+in space. This algorithm is called <i>location optimizer.</i> After
+optimization, ideally all neighboring nodes have a distance of 1, and
+the angles between the connecting vectors match those on the
+spheres. The algorithm however is flexible enough to find solutions
+even if distances or angles have been violated. See examples below.
+</p>
+
+<p>
+Steps:
+</p>
+
 <ol class="org-ol">
-<li></li>
+<li><p>
+<i>Initialize:</i> Generate a population \(P\) of \(n\) individuals. Each
+individual is described by a chromosome. A chromosome contains a
+list of coordinates. The coordinates describe a distribution of
+points in space. Initially the coordinates are chosen randomly.
+</p>
+
+<p>
+Example with nodes \(C\), \(B\), and \(D\) in the network:
+</p>
+
+\begin{equation}
+P_1 = ((x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D))\\
+P_2 = ((x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D))\\
+…\\
+P_n = ((x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D))
+\end{equation}</li>
+
+<li><i>Reproduce:</i>
+
+<ol class="org-ol">
+<li><i>Pair:</i> Randomly select pairs of individuals. These individuals
+will act as parents in the next step.</li>
+
+<li><i>Create offspring.</i> For each pair of parents:
+
+<ol class="org-ol">
+<li><i>Crossover:</i> Form a child chromosome by taking one part of
+the chromosome from the first parent and the other part from
+the second parent.</li>
+
+<li><i>Mutate:</i> Randomly change coordinates in the child
+chromosome.</li>
+</ol></li>
+</ol></li>
+
+<li><p>
+<i>Find fitness:</i> For each child determine how close the points in
+the chromosome are to an optimal distribution. An optimal
+distribution is one where:
+</p>
+
+<ul class="org-ul">
+<li>the distance between each two nodes is 1,</li>
+
+<li>the angle between each two connections from one node is the
+tetrahedral angle.</li>
+</ul>
+
+<p>
+The deviation to the optimal distribution is quantified as fitness
+and assigned to each child.
+</p></li>
+
+<li><i>Natural selection:</i> Create a new population by combining:
+
+<ul class="org-ul">
+<li>the \(n - 1\) best children,</li>
+
+<li>the best individual from the previous generation.</li>
+</ul></li>
+
+<li><i>Iterate:</i> go to step 2.</li>
 </ol>
 </div>
 </div>
 
 
-<div id="outline-container-org33eb10d" class="outline-2">
-<h2 id="org33eb10d"><span class="section-number-2">4</span> Problem</h2>
+<div id="outline-container-org09cb4cc" class="outline-2">
+<h2 id="org09cb4cc"><span class="section-number-2">4</span> Problem</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Genetic algorithms tend to get stuck in local minima. In that case all
+individuals have converged to the same non-optimal solution. Mutation
+of single coordinates worsens the fitness of individuals, and so they
+don’t carry over to the next generation. Evolution has stopped.
+</p>
+</div>
 </div>
 
 
-
-<div id="outline-container-org3da331b" class="outline-2">
-<h2 id="org3da331b"><span class="section-number-2">5</span> Simulation</h2>
+<div id="outline-container-org3359a94" class="outline-2">
+<h2 id="org3359a94"><span class="section-number-2">5</span> Simulation</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Assembling the structure can be simulated. This is useful for testing
@@ -392,11 +496,23 @@ Start the simulation:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-shell">yarn start
+<pre class="src src-shell">yarn start simulate
 </pre>
 </div></li>
 
-<li>Open the SAN web app: <a href="http://localhost:8080">http://localhost:8080</a></li>
+<li><p>
+Open the SAN web app: <a href="http://localhost:8080">http://localhost:8080</a>
+</p>
+
+
+<div class="figure">
+<p><img src="./images/webapp-with-no-node.png" alt="webapp-with-no-node.png" />
+</p>
+</div>
+
+<p>
+To navigate in 3D in the canvas on the left side, use the mouse.
+</p></li>
 
 <li><p>
 Go back to the command line and connect a node to the root node:
@@ -410,6 +526,21 @@ Go back to the command line and connect a node to the root node:
 <p>
 This connects port <code>C1</code> (port 1 on node C) with <code>^1</code> (port 1 on the
 root node). The result is immediately visible in the web app.
+</p>
+
+
+<div class="figure">
+<p><img src="./images/webapp-with-one-node.png" alt="webapp-with-one-node.png" />
+</p>
+</div>
+
+<p>
+On the top right side you see an adjacency matrix. The numbers in
+the matrix refer to the connected ports. On the bottom righ side
+you see a log of the information that the webapp receives from the
+structure. On each line there is a timestamp on the left side. The
+circle on the right means that there is no information about a tilt
+angle for the connected node.
 </p></li>
 
 <li><p>
@@ -424,18 +555,23 @@ Add additional nodes:
 
 <p>
 This connects <code>B3</code> (port 3 on node B) to <code>C2</code> and <code>D4</code> to <code>B3</code>.
-</p></li>
+</p>
+
+
+<div class="figure">
+<p><img src="./images/webapp-with-three-nodes.png" alt="webapp-with-three-nodes.png" />
+</p>
+</div></li>
 </ol>
 </div>
 </div>
 
-
-<div id="outline-container-org09b8ea7" class="outline-2">
-<h2 id="org09b8ea7"><span class="section-number-2">6</span> Examples</h2>
+<div id="outline-container-orgecacc28" class="outline-2">
+<h2 id="orgecacc28"><span class="section-number-2">6</span> Examples</h2>
 <div class="outline-text-2" id="text-6">
 </div>
-<div id="outline-container-orgcc93d00" class="outline-3">
-<h3 id="orgcc93d00"><span class="section-number-3">6.1</span> 1:1 connection</h3>
+<div id="outline-container-orgd413cb0" class="outline-3">
+<h3 id="orgd413cb0"><span class="section-number-3">6.1</span> 1:1 connection</h3>
 <div class="outline-text-3" id="text-6-1">
 <p>
 Just two nodes connected.
@@ -443,8 +579,8 @@ Just two nodes connected.
 </div>
 </div>
 
-<div id="outline-container-orgdc22bf1" class="outline-3">
-<h3 id="orgdc22bf1"><span class="section-number-3">6.2</span> Hexagon</h3>
+<div id="outline-container-org759a137" class="outline-3">
+<h3 id="org759a137"><span class="section-number-3">6.2</span> Hexagon</h3>
 <div class="outline-text-3" id="text-6-2">
 <p>
 This is the smallest loop that can be built.
@@ -452,8 +588,8 @@ This is the smallest loop that can be built.
 </div>
 </div>
 
-<div id="outline-container-org4a26a34" class="outline-3">
-<h3 id="org4a26a34"><span class="section-number-3">6.3</span> Pentagon</h3>
+<div id="outline-container-org4a3b3f0" class="outline-3">
+<h3 id="org4a3b3f0"><span class="section-number-3">6.3</span> Pentagon</h3>
 <div class="outline-text-3" id="text-6-3">
 <p>
 Note that the angle inside of a pentagon.
@@ -461,8 +597,8 @@ Note that the angle inside of a pentagon.
 </div>
 </div>
 
-<div id="outline-container-orgea8a3cd" class="outline-3">
-<h3 id="orgea8a3cd"><span class="section-number-3">6.4</span> Triangle</h3>
+<div id="outline-container-orga3dbad4" class="outline-3">
+<h3 id="orga3dbad4"><span class="section-number-3">6.4</span> Triangle</h3>
 <div class="outline-text-3" id="text-6-4">
 <p>
 The genetic algorithm is flexible enough to allow even constructions
@@ -472,8 +608,8 @@ spheres.
 </div>
 </div>
 
-<div id="outline-container-org1487e54" class="outline-3">
-<h3 id="org1487e54"><span class="section-number-3">6.5</span> Dodecahedron</h3>
+<div id="outline-container-org088df42" class="outline-3">
+<h3 id="org088df42"><span class="section-number-3">6.5</span> Dodecahedron</h3>
 <div class="outline-text-3" id="text-6-5">
 <p>
 The dodecahedron consists of twelve pentagon sufaces. There are 20
@@ -483,8 +619,8 @@ to be found.
 </div>
 </div>
 
-<div id="outline-container-org216e2cd" class="outline-3">
-<h3 id="org216e2cd"><span class="section-number-3">6.6</span> Dodecahedron with tilt angles</h3>
+<div id="outline-container-org274b301" class="outline-3">
+<h3 id="org274b301"><span class="section-number-3">6.6</span> Dodecahedron with tilt angles</h3>
 <div class="outline-text-3" id="text-6-6">
 <p>
 Tilt angles provide
@@ -495,7 +631,7 @@ Tilt angles provide
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-01-08 Tue 21:27</p>
+<p class="date">Created: 2019-01-09 Wed 16:25</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

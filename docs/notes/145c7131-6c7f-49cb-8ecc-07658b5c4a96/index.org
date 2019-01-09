@@ -61,13 +61,69 @@ Properties of a node:
 * Current algorithm
 
 A genetic algorithm is used to approximate the positions of the points
-in space.
+in space. This algorithm is called /location optimizer./ After
+optimization, ideally all neighboring nodes have a distance of 1, and
+the angles between the connecting vectors match those on the
+spheres. The algorithm however is flexible enough to find solutions
+even if distances or angles have been violated. See examples below.
 
-1. 
+Steps:
+
+1. /Initialize:/ Generate a population $P$ of $n$ individuals. Each
+   individual is described by a chromosome. A chromosome contains a
+   list of coordinates. The coordinates describe a distribution of
+   points in space. Initially the coordinates are chosen randomly.
+
+   Example with nodes $C$, $B$, and $D$ in the network:
+
+   \begin{equation}
+   P_1 = ((x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D))\\
+   P_2 = ((x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D))\\
+   …\\
+   P_n = ((x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D))
+   \end{equation}
+
+2. /Reproduce:/
+
+   1. /Pair:/ Randomly select pairs of individuals. These individuals
+      will act as parents in the next step.
+
+   2. /Create offspring./ For each pair of parents:
+
+      1. /Crossover:/ Form a child chromosome by taking one part of
+         the chromosome from the first parent and the other part from
+         the second parent.
+
+      2. /Mutate:/ Randomly change coordinates in the child
+         chromosome.
+
+3. /Find fitness:/ For each child determine how close the points in
+   the chromosome are to an optimal distribution. An optimal
+   distribution is one where:
+
+   - the distance between each two nodes is 1,
+
+   - the angle between each two connections from one node is the
+     tetrahedral angle.
+
+   The deviation to the optimal distribution is quantified as fitness
+   and assigned to each child.
+
+4. /Natural selection:/ Create a new population by combining:
+
+   - the $n - 1$ best children,
+
+   - the best individual from the previous generation.
+
+5. /Iterate:/ go to step 2.
 
 
 * Problem
 
+Genetic algorithms tend to get stuck in local minima. In that case all
+individuals have converged to the same non-optimal solution. Mutation
+of single coordinates worsens the fitness of individuals, and so they
+don’t carry over to the next generation. Evolution has stopped.
 
 
 * Simulation
@@ -93,10 +149,14 @@ Setup:
 4. Start the simulation:
 
    #+BEGIN_SRC shell
-   yarn start
+   yarn start simulate
    #+END_SRC
    
 5. Open the SAN web app: http://localhost:8080
+
+   [[./images/webapp-with-no-node.png]]
+
+   To navigate in 3D in the canvas on the left side, use the mouse.
 
 6. Go back to the command line and connect a node to the root node:
 
@@ -107,6 +167,15 @@ Setup:
    This connects port ~C1~ (port 1 on node C) with ~^1~ (port 1 on the
    root node). The result is immediately visible in the web app.
 
+   [[./images/webapp-with-one-node.png]]
+
+   On the top right side you see an adjacency matrix. The numbers in
+   the matrix refer to the connected ports. On the bottom righ side
+   you see a log of the information that the webapp receives from the
+   structure. On each line there is a timestamp on the left side. The
+   circle on the right means that there is no information about a tilt
+   angle for the connected node.
+
 7. Add additional nodes:
 
    #+BEGIN_SRC text
@@ -116,6 +185,7 @@ Setup:
 
    This connects ~B3~ (port 3 on node B) to ~C2~ and ~D4~ to ~B3~.
 
+   [[./images/webapp-with-three-nodes.png]]
 
 * Examples
 
@@ -145,4 +215,5 @@ to be found.
 
 ** Dodecahedron with tilt angles
 
-Tilt angles provide
+Tilt angles provide additional information. This reduces the space of
+unknown variables. Therefore it should be easier to find a solution.

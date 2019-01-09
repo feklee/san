@@ -58,7 +58,9 @@ Properties of a node:
   writing there is only one sphere that contains an accelerometer.
 
 
-* Current algorithm
+* Genetic algorithm for location optimization
+
+** Summary
 
 A genetic algorithm is used to approximate the positions of the points
 in space. This algorithm is called /location optimizer./ After
@@ -67,7 +69,7 @@ the angles between the connecting vectors match those on the
 spheres. The algorithm however is flexible enough to find solutions
 even if distances or angles have been violated. See examples below.
 
-Steps:
+** Steps
 
 1. /Initialize:/ Generate a population $P$ of $n$ individuals. Each
    individual is described by a chromosome. A chromosome contains a
@@ -101,7 +103,7 @@ Steps:
    the chromosome are to an optimal distribution. An optimal
    distribution is one where:
 
-   - the distance between each two nodes is 1,
+   - the distance between each two neighboring nodes is 1,
 
    - the angle between each two connections from one node is the
      tetrahedral angle.
@@ -117,8 +119,7 @@ Steps:
 
 5. /Iterate:/ go to step 2.
 
-
-* Problem
+** Problem
 
 Genetic algorithms tend to get stuck in local minima. In that case all
 individuals have converged to the same non-optimal solution. Mutation

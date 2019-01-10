@@ -344,11 +344,11 @@ Simulation:
 
 Adjacency matrix (numbers are ports): [[./data/dodecahedron-adjacency.tsv][dodecahedron-adjacency.tsv]]
 
-# *** Example solution
+*** Example solution
 
-# [[./images/pentagon.png]]
+[[./images/dodecahedron.png]]
 
-# Coordinates: [[./data/pentagon-coordinates.tsv][pentagon-coordinates.tsv]]
+Coordinates: [[./data/dodecahedron-coordinates.tsv][dodecahedron-coordinates.tsv]]
 
 # ** 1:4
 

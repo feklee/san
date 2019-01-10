@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-01-10 Thu 08:24 -->
+<!-- 2019-01-10 Thu 12:27 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: Location Optimizer</title>
@@ -257,34 +257,34 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org27f11bd">1. Abstract</a></li>
-<li><a href="#org084e81f">2. Nodes</a></li>
-<li><a href="#org0c71bae">3. Genetic algorithm for location optimization</a>
+<li><a href="#org2c61dc2">1. Abstract</a></li>
+<li><a href="#org77d9ad6">2. Nodes</a></li>
+<li><a href="#org6ca1db7">3. Genetic algorithm for location optimization</a>
 <ul>
-<li><a href="#orgf5b2ab4">3.1. Summary</a></li>
-<li><a href="#orgc5705ba">3.2. Steps</a></li>
-<li><a href="#org95e14cf">3.3. Problem</a></li>
+<li><a href="#org08eb6db">3.1. Summary</a></li>
+<li><a href="#orge7af743">3.2. Steps</a></li>
+<li><a href="#org73218af">3.3. Problem</a></li>
 </ul>
 </li>
-<li><a href="#org5135f1c">4. Simulation</a></li>
-<li><a href="#org28050f2">5. Examples</a>
+<li><a href="#org80eb419">4. Simulation</a></li>
+<li><a href="#org90dec20">5. Examples</a>
 <ul>
-<li><a href="#org36e10a9">5.1. 1:1 connection</a>
+<li><a href="#org5fb9965">5.1. 1:1 connection</a>
 <ul>
-<li><a href="#org019e3ac">5.1.1. Input</a></li>
-<li><a href="#org2276b33">5.1.2. Example solution</a></li>
+<li><a href="#orge30d6fb">5.1.1. Input</a></li>
+<li><a href="#orgb3e8b4d">5.1.2. Example solution</a></li>
 </ul>
 </li>
-<li><a href="#org32bc9de">5.2. Hexagon</a>
+<li><a href="#org7f4c8fc">5.2. Hexagon</a>
 <ul>
-<li><a href="#orgb472ff2">5.2.1. Input</a></li>
-<li><a href="#org8d13a78">5.2.2. Example solution</a></li>
+<li><a href="#orgf4e9f91">5.2.1. Input</a></li>
+<li><a href="#orgf296c9c">5.2.2. Example solution</a></li>
 </ul>
 </li>
-<li><a href="#org6c8216e">5.3. Pentagon</a>
+<li><a href="#orgdb11096">5.3. Pentagon</a>
 <ul>
-<li><a href="#org2aede3d">5.3.1. Input</a></li>
-<li><a href="#org8815fde">5.3.2. Example solution</a></li>
+<li><a href="#orgcb14e11">5.3.1. Input</a></li>
+<li><a href="#orgb4eaa70">5.3.2. Example solution</a></li>
 </ul>
 </li>
 </ul>
@@ -293,8 +293,8 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-org27f11bd" class="outline-2">
-<h2 id="org27f11bd"><span class="section-number-2">1</span> Abstract</h2>
+<div id="outline-container-org2c61dc2" class="outline-2">
+<h2 id="org2c61dc2"><span class="section-number-2">1</span> Abstract</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 The <i>location optimizer</i> takes all the data that is available and
@@ -340,11 +340,11 @@ current at the time this document was published.
 </div>
 
 
-<div id="outline-container-org084e81f" class="outline-2">
-<h2 id="org084e81f"><span class="section-number-2">2</span> Nodes</h2>
+<div id="outline-container-org77d9ad6" class="outline-2">
+<h2 id="org77d9ad6"><span class="section-number-2">2</span> Nodes</h2>
 <div class="outline-text-2" id="text-2">
 
-<div id="orgf32908a" class="figure">
+<div id="orgeaddcfb" class="figure">
 <p><img src="./images/geometry.png" alt="geometry.png" />
 </p>
 <p><span class="figure-number">Figure 1: </span>Geometry of a node with ports 1–4</p>
@@ -382,12 +382,12 @@ writing there is only one sphere that contains an accelerometer.</li>
 </div>
 
 
-<div id="outline-container-org0c71bae" class="outline-2">
-<h2 id="org0c71bae"><span class="section-number-2">3</span> Genetic algorithm for location optimization</h2>
+<div id="outline-container-org6ca1db7" class="outline-2">
+<h2 id="org6ca1db7"><span class="section-number-2">3</span> Genetic algorithm for location optimization</h2>
 <div class="outline-text-2" id="text-3">
 </div>
-<div id="outline-container-orgf5b2ab4" class="outline-3">
-<h3 id="orgf5b2ab4"><span class="section-number-3">3.1</span> Summary</h3>
+<div id="outline-container-org08eb6db" class="outline-3">
+<h3 id="org08eb6db"><span class="section-number-3">3.1</span> Summary</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 A genetic algorithm is used to approximate the positions of the points
@@ -400,8 +400,8 @@ even if distances or angles have been violated. See examples below.
 </div>
 </div>
 
-<div id="outline-container-orgc5705ba" class="outline-3">
-<h3 id="orgc5705ba"><span class="section-number-3">3.2</span> Steps</h3>
+<div id="outline-container-orge7af743" class="outline-3">
+<h3 id="orge7af743"><span class="section-number-3">3.2</span> Steps</h3>
 <div class="outline-text-3" id="text-3-2">
 <ol class="org-ol">
 <li><p>
@@ -412,15 +412,101 @@ points in space. Initially the coordinates are chosen randomly.
 </p>
 
 <p>
-Example with nodes \(C\), \(B\), and \(D\) in the network:
+Example for a network composed of nodes \(C\), \(B\), and \(D\):
 </p>
 
-\begin{equation}
-P_1 = (x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D)\\
-P_2 = (x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D)\\
-…\\
-P_n = (x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D)
-\end{equation}</li>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-right">\(x_C\)</th>
+<th scope="col" class="org-right">\(y_C\)</th>
+<th scope="col" class="org-right">\(z_C\)</th>
+<th scope="col" class="org-right">\(x_B\)</th>
+<th scope="col" class="org-right">\(y_B\)</th>
+<th scope="col" class="org-right">\(z_B\)</th>
+<th scope="col" class="org-right">\(x_D\)</th>
+<th scope="col" class="org-right">\(y_D\)</th>
+<th scope="col" class="org-right">\(z_D\)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">\(P_1\)</td>
+<td class="org-right">-0.87</td>
+<td class="org-right">-0.59</td>
+<td class="org-right">0.51</td>
+<td class="org-right">0.01</td>
+<td class="org-right">-0.18</td>
+<td class="org-right">0.92</td>
+<td class="org-right">-0.88</td>
+<td class="org-right">-0.45</td>
+<td class="org-right">-0.61</td>
+</tr>
+
+<tr>
+<td class="org-left">\(P_2\)</td>
+<td class="org-right">0.14</td>
+<td class="org-right">0.39</td>
+<td class="org-right">0.37</td>
+<td class="org-right">0.30</td>
+<td class="org-right">-0.61</td>
+<td class="org-right">-0.25</td>
+<td class="org-right">0.40</td>
+<td class="org-right">0.21</td>
+<td class="org-right">0.75</td>
+</tr>
+
+<tr>
+<td class="org-left">…</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">\(P_n\)</td>
+<td class="org-right">0.08</td>
+<td class="org-right">-1.00</td>
+<td class="org-right">0.71</td>
+<td class="org-right">-0.68</td>
+<td class="org-right">-0.26</td>
+<td class="org-right">0.33</td>
+<td class="org-right">-0.64</td>
+<td class="org-right">0.94</td>
+<td class="org-right">0.95</td>
+</tr>
+</tbody>
+</table></li>
 
 <li><i>Reproduce:</i>
 
@@ -473,8 +559,8 @@ and assigned to each child.
 </div>
 </div>
 
-<div id="outline-container-org95e14cf" class="outline-3">
-<h3 id="org95e14cf"><span class="section-number-3">3.3</span> Problem</h3>
+<div id="outline-container-org73218af" class="outline-3">
+<h3 id="org73218af"><span class="section-number-3">3.3</span> Problem</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 Genetic algorithms tend to get stuck in local minima. In that case all
@@ -487,8 +573,8 @@ don’t carry over to the next generation. Evolution has stopped.
 </div>
 
 
-<div id="outline-container-org5135f1c" class="outline-2">
-<h2 id="org5135f1c"><span class="section-number-2">4</span> Simulation</h2>
+<div id="outline-container-org80eb419" class="outline-2">
+<h2 id="org80eb419"><span class="section-number-2">4</span> Simulation</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Assembling the structure can be simulated. This is useful for testing
@@ -591,20 +677,20 @@ This connects <code>B3</code> (port 3 on node B) to <code>C2</code> and <code>D4
 </div>
 </div>
 
-<div id="outline-container-org28050f2" class="outline-2">
-<h2 id="org28050f2"><span class="section-number-2">5</span> Examples</h2>
+<div id="outline-container-org90dec20" class="outline-2">
+<h2 id="org90dec20"><span class="section-number-2">5</span> Examples</h2>
 <div class="outline-text-2" id="text-5">
 </div>
-<div id="outline-container-org36e10a9" class="outline-3">
-<h3 id="org36e10a9"><span class="section-number-3">5.1</span> 1:1 connection</h3>
+<div id="outline-container-org5fb9965" class="outline-3">
+<h3 id="org5fb9965"><span class="section-number-3">5.1</span> 1:1 connection</h3>
 <div class="outline-text-3" id="text-5-1">
 <p>
 Just two nodes connected.
 </p>
 </div>
 
-<div id="outline-container-org019e3ac" class="outline-4">
-<h4 id="org019e3ac"><span class="section-number-4">5.1.1</span> Input</h4>
+<div id="outline-container-orge30d6fb" class="outline-4">
+<h4 id="orge30d6fb"><span class="section-number-4">5.1.1</span> Input</h4>
 <div class="outline-text-4" id="text-5-1-1">
 <p>
 Simulation:
@@ -622,8 +708,8 @@ Adjacency matrix (numbers are ports): <a href="./data/1-1-adjacency.tsv">1-1-adj
 </div>
 </div>
 
-<div id="outline-container-org2276b33" class="outline-4">
-<h4 id="org2276b33"><span class="section-number-4">5.1.2</span> Example solution</h4>
+<div id="outline-container-orgb3e8b4d" class="outline-4">
+<h4 id="orgb3e8b4d"><span class="section-number-4">5.1.2</span> Example solution</h4>
 <div class="outline-text-4" id="text-5-1-2">
 
 <div class="figure">
@@ -639,8 +725,8 @@ Coordinates: <a href="./data/1-1-coordinates.tsv">1-1-coordinates.tsv</a>
 </div>
 
 
-<div id="outline-container-org32bc9de" class="outline-3">
-<h3 id="org32bc9de"><span class="section-number-3">5.2</span> Hexagon</h3>
+<div id="outline-container-org7f4c8fc" class="outline-3">
+<h3 id="org7f4c8fc"><span class="section-number-3">5.2</span> Hexagon</h3>
 <div class="outline-text-3" id="text-5-2">
 <p>
 This is the smallest loop that can be built without violating the
@@ -648,8 +734,8 @@ tetrahedral angles.
 </p>
 </div>
 
-<div id="outline-container-orgb472ff2" class="outline-4">
-<h4 id="orgb472ff2"><span class="section-number-4">5.2.1</span> Input</h4>
+<div id="outline-container-orgf4e9f91" class="outline-4">
+<h4 id="orgf4e9f91"><span class="section-number-4">5.2.1</span> Input</h4>
 <div class="outline-text-4" id="text-5-2-1">
 <p>
 Simulation:
@@ -672,8 +758,8 @@ Adjacency matrix (numbers are ports): <a href="./data/hexagon-adjacency.tsv">hex
 </div>
 </div>
 
-<div id="outline-container-org8d13a78" class="outline-4">
-<h4 id="org8d13a78"><span class="section-number-4">5.2.2</span> Example solution</h4>
+<div id="outline-container-orgf296c9c" class="outline-4">
+<h4 id="orgf296c9c"><span class="section-number-4">5.2.2</span> Example solution</h4>
 <div class="outline-text-4" id="text-5-2-2">
 
 <div class="figure">
@@ -689,8 +775,8 @@ Coordinates: <a href="./data/hexagon-coordinates.tsv">hexagon-coordinates.tsv</a
 </div>
 
 
-<div id="outline-container-org6c8216e" class="outline-3">
-<h3 id="org6c8216e"><span class="section-number-3">5.3</span> Pentagon</h3>
+<div id="outline-container-orgdb11096" class="outline-3">
+<h3 id="orgdb11096"><span class="section-number-3">5.3</span> Pentagon</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 Note that the interior angles of a pentagon are 108°. That is close to
@@ -700,8 +786,8 @@ in a triangle it finds a solution!
 </p>
 </div>
 
-<div id="outline-container-org2aede3d" class="outline-4">
-<h4 id="org2aede3d"><span class="section-number-4">5.3.1</span> Input</h4>
+<div id="outline-container-orgcb14e11" class="outline-4">
+<h4 id="orgcb14e11"><span class="section-number-4">5.3.1</span> Input</h4>
 <div class="outline-text-4" id="text-5-3-1">
 <p>
 Simulation:
@@ -723,8 +809,8 @@ Adjacency matrix (numbers are ports): <a href="./data/pentagon-adjacency.tsv">pe
 </div>
 </div>
 
-<div id="outline-container-org8815fde" class="outline-4">
-<h4 id="org8815fde"><span class="section-number-4">5.3.2</span> Example solution</h4>
+<div id="outline-container-orgb4eaa70" class="outline-4">
+<h4 id="orgb4eaa70"><span class="section-number-4">5.3.2</span> Example solution</h4>
 <div class="outline-text-4" id="text-5-3-2">
 
 <div class="figure">
@@ -742,7 +828,7 @@ Coordinates: <a href="./data/pentagon-coordinates.tsv">pentagon-coordinates.tsv<
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-01-10 Thu 08:24</p>
+<p class="date">Created: 2019-01-10 Thu 12:27</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

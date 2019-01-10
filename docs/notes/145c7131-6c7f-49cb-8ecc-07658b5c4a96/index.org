@@ -78,14 +78,14 @@ even if distances or angles have been violated. See examples below.
    list of coordinates. The coordinates describe a distribution of
    points in space. Initially the coordinates are chosen randomly.
 
-   Example with nodes $C$, $B$, and $D$ in the network:
+   Example for a network composed of nodes $C$, $B$, and $D$:
 
-   \begin{equation}
-   P_1 = (x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D)\\
-   P_2 = (x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D)\\
-   …\\
-   P_n = (x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D)
-   \end{equation}
+   |       | $x_C$ | $y_C$ | $z_C$ | $x_B$ | $y_B$ | $z_B$ | $x_D$ | $y_D$ | $z_D$ |
+   |-------+-------+-------+-------+-------+-------+-------+-------+-------+-------|
+   | $P_1$ | -0.87 | -0.59 |  0.51 |  0.01 | -0.18 |  0.92 | -0.88 | -0.45 | -0.61 |
+   | $P_2$ |  0.14 |  0.39 |  0.37 |  0.30 | -0.61 | -0.25 |  0.40 |  0.21 |  0.75 |
+   | …     |       |       |       |       |       |       |       |       |       |
+   | $P_n$ |  0.08 | -1.00 |  0.71 | -0.68 | -0.26 |  0.33 | -0.64 |  0.94 |  0.95 |
 
 2. /Reproduce:/
 

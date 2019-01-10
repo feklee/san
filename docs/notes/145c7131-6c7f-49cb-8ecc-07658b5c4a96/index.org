@@ -190,7 +190,7 @@ Deviation:
 
 $D_{A,2} = 0.28$
 
-*** Deviation of third and fourth neighbors
+*** Deviations of third and fourth neighbor
 
 Based on the positions of the first two expected neighbors $1'$ and
 $2'$, we can calculate the positions of the remaining expected

@@ -117,7 +117,7 @@ even if distances or angles have been violated. See examples below.
       2. /Mutate:/ Randomly change coordinates in the child
          chromosome.
 
-         Example, modifying the above child:
+         Example mutation of the above child:
 
          0.40 -0.54 *-1.50* -0.43 0.94 0.29 0.37 -0.45 *0.40*
 
@@ -151,9 +151,59 @@ individuals have converged to the same non-optimal solution. Mutation
 of single coordinates worsens the fitness of individuals, and so they
 don’t carry over to the next generation. Evolution has stopped.
 
-** Fitness calculation
+** Fitness
 
-The fitness of an individual is calculated in up to four steps…
+The fitness of an individual is calculated as a sum of deviations. The
+lower the value, the better. For each node up to four deviations are
+calculated, depending on how many neighbors it has.
+
+What follows is an example of the calculation of the deviations for a
+node with a full four neighbors.
+
+*** Deviation of first neighbor
+
+Correct neighbor positions lie on a sphere of radius 1. As the
+position of the /expected neighbor/ $1'$, we take the point that is
+closest to the position of the existing neighbor $1$ (deviation
+highlighted in red):
+
+
+
+The deviation is the difference between the two positions:
+
+$D_1 = 0.50$
+
+
+*** Deviation of second neighbor
+
+Correct neighbor positions are at the tedrahedral angle to the
+connection between the center of the node and the position of its
+first expected neighbor $1'$. As they are required to have a distance
+of 1 from the center, the set of all correct positions lies on a
+circle. As the position of the expected neighbor $2'$, from this set
+we choose the point that is closest to the exising neighbor $2$.
+
+
+Deviation:
+
+$D_2 = 0.28$
+
+*** Deviation of third and fourth neighbors
+
+Based on the positions of the first two expected neighbors $1'$ and
+$2'$, we can calculate the positions of the remaining expected
+neighbors $3'$ and $4'$.
+
+Deviations:
+
+$D_3 = …, $D_4 = …$
+
+Now we can calculate the total deviation of all the neighbors of the
+node:
+
+$D = D_1 + D_2 + D_3 + D_4 = …$
+
+The sum of this value for all the nodes is the fitness.
 
 * Simulation
 
@@ -357,10 +407,10 @@ Coordinates: [[./data/dodecahedron-coordinates.tsv][dodecahedron-coordinates.tsv
 
 *** Example bad solution
 
-In most runs, maybe nine out of ten times, the gentic algorithm does
-not find a good solution. It gets stuck in a local minimum.
+In most runs, at least nine out of ten times, the genetic algorithm
+does not find a good solution. It gets stuck in a local minimum.
 
-
+[[./images/dodecahedron-failure.png]]
 
 # ** 1:4
 

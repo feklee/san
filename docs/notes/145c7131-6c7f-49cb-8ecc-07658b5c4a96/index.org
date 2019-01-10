@@ -1,4 +1,4 @@
-#+HTML_HEAD: <style>img{max-width:100%}</style>
+#+HTML_HEAD: <style>img{max-width:100%}.figure-number{display:none}</style>
 
 #+TITLE: SAN: Location Optimizer
 
@@ -29,10 +29,12 @@ that:
 The information here is only relevant for the version of SAN that was
 current at the time this document was published.
 
+  #+CAPTION: Dodecahedron built by two little girls at the end of Maker Faire Rome: Convergence successful!
+  [[./images/Maker-Faire-Rome-2018.jpg]]
+
 * Nodes
 
   #+CAPTION: Geometry of a node with ports 1–4
-  #+NAME:   fig:node
   [[./images/geometry.png]]
 
 Properties of a node:
@@ -115,7 +117,7 @@ even if distances or angles have been violated. See examples below.
 
          Example, modifying the above child:
 
-         0.40 -0.54 *-1.50* -0.43 0.94 0.29 0.37 -0.45 *0.4*
+         0.40 -0.54 *-1.50* -0.43 0.94 0.29 0.37 -0.45 *0.40*
 
 3. /Find fitness:/ For each child determine how close the points in
    the chromosome are to an optimal distribution. An optimal

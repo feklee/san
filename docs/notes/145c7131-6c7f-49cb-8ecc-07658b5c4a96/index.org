@@ -119,7 +119,9 @@ even if distances or angles have been violated. See examples below.
 
    - the best individual from the previous generation.
 
-5. /Iterate:/ go to step 2.
+5. /Display:/ Render the best individual on screen.
+
+6. /Iterate:/ go to step 2.
 
 ** Problem
 

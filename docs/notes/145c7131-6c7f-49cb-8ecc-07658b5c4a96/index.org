@@ -1,3 +1,5 @@
+#+HTML_HEAD: <style>img{max-width:100%}</style>
+
 #+TITLE: SAN: Location Optimizer
 
 * Abstract
@@ -79,10 +81,10 @@ even if distances or angles have been violated. See examples below.
    Example with nodes $C$, $B$, and $D$ in the network:
 
    \begin{equation}
-   P_1 = ((x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D))\\
-   P_2 = ((x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D))\\
+   P_1 = (x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D)\\
+   P_2 = (x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D)\\
    …\\
-   P_n = ((x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D))
+   P_n = (x_C, y_C, z_C, x_B, y_B, z_B, x_D, y_D, z_D)
    \end{equation}
 
 2. /Reproduce:/
@@ -242,6 +244,13 @@ Coordinates: [[./data/hexagon-coordinates.tsv][hexagon-coordinates.tsv]]
 
 ** Pentagon
 
+Note that the interior angles of a pentagon are 108°. That is close to
+but not identical to the tetrahedral angle of 109.5°. Nevertheless the
+algorithm is able to approximate a solution. Even for nodes connected
+in a triangle it finds a solution!
+
+*** Input
+
 Simulation:
 
 #+BEGIN_SRC text
@@ -254,11 +263,6 @@ Simulation:
 #+END_SRC
 
 Adjacency matrix (numbers are ports): [[./data/pentagon-adjacency.tsv][pentagon-adjacency.tsv]]
-
-Note that the interior angles of a pentagon are 108° are close to but
-not identical to the tetrahedral angle of 109.5°. Nevertheless the
-algorithm is able to approximate a solution. Even for nodes connected
-in a triangle it finds a solution!
 
 *** Example solution
 

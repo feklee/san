@@ -29,7 +29,6 @@ that:
 The information here is only relevant for the version of SAN that was
 current at the time this document was published.
 
-
 * Nodes
 
   #+CAPTION: Geometry of a node with ports 1–4
@@ -59,7 +58,6 @@ Properties of a node:
   angle. The tilt angle is measured by an accelerometer. As of this
   writing there is only one sphere that contains an accelerometer.
 
-
 * Genetic algorithm for location optimization
 
 ** Summary
@@ -70,6 +68,7 @@ optimization, ideally all neighboring nodes have a distance of 1, and
 the angles between the connecting vectors match those on the
 spheres. The algorithm however is flexible enough to find solutions
 even if distances or angles have been violated. See examples below.
+
 
 ** Steps
 
@@ -119,7 +118,8 @@ even if distances or angles have been violated. See examples below.
 
    - the best individual from the previous generation.
 
-5. /Display:/ Render the best individual on screen.
+5. /Display:/ Render the best individual in the new population on
+   screen.
 
 6. /Iterate:/ go to step 2.
 
@@ -129,7 +129,6 @@ Genetic algorithms tend to get stuck in local minima. In that case all
 individuals have converged to the same non-optimal solution. Mutation
 of single coordinates worsens the fitness of individuals, and so they
 don’t carry over to the next generation. Evolution has stopped.
-
 
 * Simulation
 
@@ -207,6 +206,8 @@ Simulation:
 +A2B1
 #+END_SRC
 
+[[./images/1-1-input.png]]
+
 Adjacency matrix (numbers are ports): [[./data/1-1-adjacency.tsv][1-1-adjacency.tsv]]
 
 *** Example solution 
@@ -235,6 +236,8 @@ Simulation:
 +F2A3
 #+END_SRC
 
+[[./images/hexagon-input.png]]
+
 Adjacency matrix (numbers are ports): [[./data/hexagon-adjacency.tsv][hexagon-adjacency.tsv]]
 
 *** Example solution
@@ -242,7 +245,6 @@ Adjacency matrix (numbers are ports): [[./data/hexagon-adjacency.tsv][hexagon-ad
 [[./images/hexagon.png]]
 
 Coordinates: [[./data/hexagon-coordinates.tsv][hexagon-coordinates.tsv]]
-
 
 ** Pentagon
 
@@ -263,6 +265,8 @@ Simulation:
 +D2E1
 +E2A3
 #+END_SRC
+
+[[./images/pentagon-input.png]]
 
 Adjacency matrix (numbers are ports): [[./data/pentagon-adjacency.tsv][pentagon-adjacency.tsv]]
 

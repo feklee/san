@@ -11,7 +11,7 @@ Input:
 
 - which node is connected to which node and on which port,
 
-- tilt angle of nodes (optional).
+- tilt angles of nodes (optional).
 
 Output:
 

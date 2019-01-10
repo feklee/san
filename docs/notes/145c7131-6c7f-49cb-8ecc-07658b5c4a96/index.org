@@ -83,6 +83,7 @@ even if distances or angles have been violated. See examples below.
    |-------+-------+-------+-------+-------+-------+-------+-------+-------+-------|
    | $P_1$ | -0.87 | -0.59 |  0.51 |  0.01 | -0.18 |  0.92 | -0.88 | -0.45 | -0.61 |
    | $P_2$ |  0.14 |  0.39 |  0.37 |  0.30 | -0.61 | -0.25 |  0.40 |  0.21 |  0.75 |
+   | $P_3$ |  0.40 | -0.54 |  0.00 | -0.43 |  0.94 |  0.29 |  0.37 |  0.76 | -0.74 |
    | …     |       |       |       |       |       |       |       |       |       |
    | $P_n$ |  0.08 | -1.00 |  0.71 | -0.68 | -0.26 |  0.33 | -0.64 |  0.94 |  0.95 |
 
@@ -91,14 +92,30 @@ even if distances or angles have been violated. See examples below.
    1. /Pair:/ Randomly select pairs of individuals. These individuals
       will act as parents in the next step.
 
+      Example pair: $(P_3, P_1)$ (third individual and first
+      individual)
+
    2. /Create offspring./ For each pair of parents:
 
       1. /Crossover:/ Form a child chromosome by taking one part of
          the chromosome from the first parent and the other part from
          the second parent.
 
+         Child created from a crossover of the above example pair:
+
+         | $P_3$: $x_C$ … $x_D$                   | $P_1$: $y_D$ … $z_D$ |
+         |----------------------------------------+----------------------|
+         | /                                      | <                    |
+         | 0.40 -0.54 0.00 -0.43  0.94  0.29 0.37 | -0.45 -0.61          |
+
+         The location of the crossover is random.
+
       2. /Mutate:/ Randomly change coordinates in the child
          chromosome.
+
+         Example, modifying the above child:
+
+         0.40 -0.54 *-1.50* -0.43 0.94 0.29 0.37 -0.45 *0.4*
 
 3. /Find fitness:/ For each child determine how close the points in
    the chromosome are to an optimal distribution. An optimal
@@ -276,17 +293,68 @@ Adjacency matrix (numbers are ports): [[./data/pentagon-adjacency.tsv][pentagon-
 
 Coordinates: [[./data/pentagon-coordinates.tsv][pentagon-coordinates.tsv]]
 
+** Dodecahedron
+
+The dodecahedron consists of twelve pentagon sufaces. There are 20
+unknown edges, i.e. nodes in the network. This means 60 variables have
+to be found. In most runs the gentic algorithm fails, i.e. gets stuck
+in a local minima without finding a satisfactory solution.
+
+*** Input
+
+Simulation:
+
+#+BEGIN_SRC text
++^1A4
++A1B2
++A2E1
++A3F1
++B1C2
++B3H1
++C1D2
++C3J1
++D1E2
++D3L1
++E3N1
++F2O2
++F3G3
++G1P1
++G2H2
++H3I3
++I1Q1
++I2J2
++J3K3
++K1R1
++K2L2
++L3M3
++M1S1
++M2N2
++N3O3
++O1T1
++P2T3
++P3Q2
++Q3R2
++R3S2
++S3T2
+#+END_SRC
+
+[[./images/dodecahedron-input.png]]
+
+Adjacency matrix (numbers are ports): [[./data/dodecahedron-adjacency.tsv][dodecahedron-adjacency.tsv]]
+
+*** Example solution
+
+[[./images/pentagon.png]]
+
+Coordinates: [[./data/pentagon-coordinates.tsv][pentagon-coordinates.tsv]]
+
+# ** 1:4
+
 # ** Triangle
 
 # The genetic algorithm is flexible enough to allow even constructions
 # that are impossible, well unless you bend the rods that connect the
 # spheres.
-
-# ** Dodecahedron
-
-# The dodecahedron consists of twelve pentagon sufaces. There are 20
-# unknown edges, i.e. nodes in the network. This means 60 variables have
-# to be found.
 
 # ** Dodecahedron with tilt angles
 

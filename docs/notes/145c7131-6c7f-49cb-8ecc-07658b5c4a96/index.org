@@ -74,27 +74,29 @@ even if distances or angles have been violated. See examples below.
 
 ** Steps
 
-1. /Initialize:/ Generate a population $P$ of $n$ individuals. Each
-   individual is described by a chromosome. A chromosome contains a
-   list of coordinates. The coordinates describe a distribution of
-   points in space. Initially the coordinates are chosen randomly.
+1. /Initialize:/ Generate a population of $n$ individuals. Each
+   individual $i$ is described by a chromosome $X_i$. A chromosome
+   contains a list of coordinates. The coordinates describe a
+   distribution of points in space. Initially the coordinates are
+   chosen randomly.
 
-   Example for a network composed of nodes $C$, $B$, and $D$:
+   Example population for a network composed of nodes $C$, $B$, and
+   $D$:
 
    |       | $x_C$ | $y_C$ | $z_C$ | $x_B$ | $y_B$ | $z_B$ | $x_D$ | $y_D$ | $z_D$ |
    |-------+-------+-------+-------+-------+-------+-------+-------+-------+-------|
-   | $P_1$ | -0.87 | -0.59 |  0.51 |  0.01 | -0.18 |  0.92 | -0.88 | -0.45 | -0.61 |
-   | $P_2$ |  0.14 |  0.39 |  0.37 |  0.30 | -0.61 | -0.25 |  0.40 |  0.21 |  0.75 |
-   | $P_3$ |  0.40 | -0.54 |  0.00 | -0.43 |  0.94 |  0.29 |  0.37 |  0.76 | -0.74 |
+   | $X_1$ | -0.87 | -0.59 |  0.51 |  0.01 | -0.18 |  0.92 | -0.88 | -0.45 | -0.61 |
+   | $X_2$ |  0.14 |  0.39 |  0.37 |  0.30 | -0.61 | -0.25 |  0.40 |  0.21 |  0.75 |
+   | $X_3$ |  0.40 | -0.54 |  0.00 | -0.43 |  0.94 |  0.29 |  0.37 |  0.76 | -0.74 |
    | …     |       |       |       |       |       |       |       |       |       |
-   | $P_n$ |  0.08 | -1.00 |  0.71 | -0.68 | -0.26 |  0.33 | -0.64 |  0.94 |  0.95 |
+   | $X_n$ |  0.08 | -1.00 |  0.71 | -0.68 | -0.26 |  0.33 | -0.64 |  0.94 |  0.95 |
 
 2. /Reproduce:/
 
    1. /Pair:/ Randomly select pairs of individuals. These individuals
       will act as parents in the next step.
 
-      Example pair: $(P_3, P_1)$ (third individual and first
+      Example pair: $(X_3, X_1)$ (third individual and first
       individual)
 
    2. /Create offspring./ For each pair of parents:
@@ -105,7 +107,7 @@ even if distances or angles have been violated. See examples below.
 
          Child created from a crossover of the above example pair:
 
-         | $P_3$: $x_C$ … $x_D$                   | $P_1$: $y_D$ … $z_D$ |
+         | $X_3$: $x_C$ … $x_D$                   | $X_1$: $y_D$ … $z_D$ |
          |----------------------------------------+----------------------|
          | /                                      | <                    |
          | 0.40 -0.54 0.00 -0.43  0.94  0.29 0.37 | -0.45 -0.61          |
@@ -148,6 +150,10 @@ Genetic algorithms tend to get stuck in local minima. In that case all
 individuals have converged to the same non-optimal solution. Mutation
 of single coordinates worsens the fitness of individuals, and so they
 don’t carry over to the next generation. Evolution has stopped.
+
+** Fitness calculation
+
+The fitness of an individual is calculated in up to four steps…
 
 * Simulation
 
@@ -299,8 +305,7 @@ Coordinates: [[./data/pentagon-coordinates.tsv][pentagon-coordinates.tsv]]
 
 The dodecahedron consists of twelve pentagon sufaces. There are 20
 unknown edges, i.e. nodes in the network. This means 60 variables have
-to be found. In most runs the gentic algorithm fails, i.e. gets stuck
-in a local minima without finding a satisfactory solution.
+to be found.
 
 *** Input
 
@@ -349,6 +354,13 @@ Adjacency matrix (numbers are ports): [[./data/dodecahedron-adjacency.tsv][dodec
 [[./images/dodecahedron.png]]
 
 Coordinates: [[./data/dodecahedron-coordinates.tsv][dodecahedron-coordinates.tsv]]
+
+*** Example bad solution
+
+In most runs, maybe nine out of ten times, the gentic algorithm does
+not find a good solution. It gets stuck in a local minimum.
+
+
 
 # ** 1:4
 

@@ -153,12 +153,12 @@ don’t carry over to the next generation. Evolution has stopped.
 
 ** Fitness
 
-The fitness of an individual is calculated based on the sum of all
-/deviations/. For each node up to four deviations are calculated,
-depending on how many neighbors it has.
+Fitness is a measure for the deviation from the optimum. But how do we
+calculate the deviation if we don’t know the optimum? Let’s see!
 
-What follows is an example of the calculation of the deviations for
-node $A$ with a full four neighbors $B$, $C$, $D$, and $E$.
+The idea is to calculate the deviation from the optimum for each node,
+then sum all deviations. What follows is an example for node $A$ with
+a full set of neighbors, $B$, $C$, $D$, and $E$.
 
 [[./images/fitness.png]]
 
@@ -207,9 +207,9 @@ node:
 
 $D_A = D_{A,1} + D_{A,2} + D_{A,3} + D_{A,4} = 1.90$
 
-After $D$ has been calculated for every node, the sum of all these
-values can be calculated. For a network with nodes $A$, $B$, $C$, $D$,
-and $E$ that would be:
+After the deviation has been calculated for every node, the total
+deviation can be calculated. For a network with nodes $A$, $B$, $C$,
+$D$, and $E$ that would be:
 
 $D = D_A + D_B + D_C + D_D + D_E$
 

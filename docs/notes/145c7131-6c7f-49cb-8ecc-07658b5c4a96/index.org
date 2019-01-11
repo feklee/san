@@ -319,9 +319,9 @@ For experimentation, custom locations may be assigned to nodes.
 
 * Examples
 
-** 1:1 connection
+** 1:1
 
-Just two nodes connected.
+Just two nodes are connected.
 
 *** Input
 
@@ -342,6 +342,31 @@ Adjacency matrix (numbers are ports): [[./data/1-1-adjacency.tsv][1-1-adjacency.
 
 Coordinates: [[./data/1-1-coordinates.tsv][1-1-coordinates.tsv]]
 
+** 1:4
+
+One node has all of its four neighbors connected.
+
+*** Input
+
+Simulation:
+
+#+BEGIN_SRC text
++^1B2
++B1A1
++A2C1
++A3D1
++A4E1
+#+END_SRC
+
+[[./images/1-4-input.png]]
+
+Adjacency matrix (numbers are ports): [[./data/1-4-adjacency.tsv][1-4-adjacency.tsv]]
+
+*** Example solution 
+
+[[./images/1-4.png]]
+
+Coordinates: [[./data/1-4-coordinates.tsv][1-4-coordinates.tsv]]
 
 ** Hexagon
 
@@ -536,11 +561,3 @@ Simulation (~/A92~ sets the tilt angle of node $A$ to 92°):
 /S135
 /T135
 #+END_SRC
-
-# ** 1:4
-
-# ** Triangle
-
-# The genetic algorithm is flexible enough to allow even constructions
-# that are impossible, well unless you bend the rods that connect the
-# spheres.

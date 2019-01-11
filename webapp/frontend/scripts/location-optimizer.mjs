@@ -549,13 +549,15 @@ var setLocations = function (locations) {
 
 run();
 
-var exports = {
+export default {
+    update: update
+}
+
+var exportsForDebugging = {
     update: update,
     run: run,
     stop: stop,
     setLocations: setLocations
 }
 
-export default exports;
-
-window.locationOptimizer = exports;
+window.locationOptimizer = exportsForDebugging;

@@ -119,7 +119,7 @@ even if distances or angles have been violated. See examples below.
 
          Example mutation of the above child:
 
-         0.40 -0.54 *-1.50* -0.43 0.94 0.29 0.37 -0.45 *0.40*
+         0.40 -0.54 *-1.50* -0.43 0.94 0.29 0.37 -0.45 *0.40*
 
 3. /Find fitness:/ For each child determine how close the coordinates
    in the chromosome are to an optimal distribution. An optimal

@@ -543,7 +543,9 @@ var setLocations = function (locations) {
     Object.keys(locations).forEach(function (nodeId) {
         var location = locations[nodeId];
         var node = nodes[nodeId];
-        node.location.set(location[0], location[1], location[2]);
+        if (node !== undefined) {
+            node.location.set(location[0], location[1], location[2]);
+        }
     });
 };
 

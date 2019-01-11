@@ -201,7 +201,7 @@ neighbors $3'$ and $4'$.
 
 Deviations:
 
-$D_{A,3} = 0.49, $D_{A,4} = 0.63$
+$D_{A,3} = 0.49, D_{A,4} = 0.63$
 
 Now we can calculate the total deviation of all the neighbors of the
 node:

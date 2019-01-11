@@ -5,6 +5,7 @@
 /*jslint browser: true, maxlen: 80 */
 
 import visibleNodes from "./visible-nodes.mjs";
+import nodes from "./nodes.mjs";
 import settings from "./settings.mjs";
 import vector from "./vector.mjs";
 import {
@@ -437,6 +438,7 @@ var moveCenterToOrigin = function () {
 };
 
 var iterator;
+var stopHasBeenRequested;
 
 var createSeedFromNodeLocations = function (seedSize) {
     var individual = [];
@@ -516,7 +518,11 @@ var updateNodeLocations = function (generation) {
 var run = function () {
     var item;
     var iterate;
+    stopHasBeenRequested = false;
     iterate = function () {
+        if (stopHasBeenRequested) {
+            return;
+        }
         if (iterator === undefined) {
             setTimeout(iterate, 0);
             return;
@@ -529,8 +535,27 @@ var run = function () {
     iterate();
 };
 
+var stop = function () {
+    stopHasBeenRequested = true;
+};
+
+var setLocations = function (locations) {
+    Object.keys(locations).forEach(function (nodeId) {
+        var location = locations[nodeId];
+        var node = nodes[nodeId];
+        node.location.set(location[0], location[1], location[2]);
+    });
+};
+
 run();
 
-export default {
-    update: update
-};
+var exports = {
+    update: update,
+    run: run,
+    stop: stop,
+    setLocations: setLocations
+}
+
+export default exports;
+
+window.locationOptimizer = exports;

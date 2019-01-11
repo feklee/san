@@ -5,7 +5,7 @@
 * Abstract
 
 The /location optimizer/ takes all the data that is available and
-tries to find the coordinates of the nodes in space.
+guesses the locations of the nodes in space.
 
 Input:
 
@@ -15,19 +15,19 @@ Input:
 
 Output:
 
-- coordinates of nodes in space,
+- locations of the nodes in space,
 
 - tilt angle of spheres for display (optional).
 
-The location optimizer does its calculations under the assumptions
+The location optimizer does its calculations under the assumption
 that:
 
-- the distance of a connection is 1,
+- the length of a connection is 1,
 
 - the angle between connections is the tetrahedral angle (≈ 109.5°).
 
-The information here is only relevant for the version of SAN that was
-current at the time this document was published.
+Note that the information in this document is only relevant for the
+version of SAN that was current at the time of publication.
 
   #+CAPTION: Dodecahedron built by two little girls at the end of Maker Faire Rome: Convergence successful!
   [[./images/Maker-Faire-Rome-2018.jpg]]
@@ -67,10 +67,9 @@ Properties of a node:
 A genetic algorithm is used to approximate the positions of the points
 in space. This algorithm is called /location optimizer./ After
 optimization, ideally all neighboring nodes have a distance of 1, and
-the angles between the connecting vectors match those on the
-spheres. The algorithm however is flexible enough to find solutions
+the angles between the connecting edges match those on the
+spheres. The algorithm, however, is flexible enough to find solutions
 even if distances or angles have been violated. See examples below.
-
 
 ** Steps
 
@@ -96,8 +95,7 @@ even if distances or angles have been violated. See examples below.
    1. /Pair:/ Randomly select pairs of individuals. These individuals
       will act as parents in the next step.
 
-      Example pair: $(X_3, X_1)$ (third individual and first
-      individual)
+      Example pair: $(X_3, X_1)$
 
    2. /Create offspring./ For each pair of parents:
 
@@ -107,22 +105,24 @@ even if distances or angles have been violated. See examples below.
 
          Child created from a crossover of the above example pair:
 
-         | $X_3$: $x_C$ … $x_D$                   | $X_1$: $y_D$ … $z_D$ |
-         |----------------------------------------+----------------------|
-         | /                                      | <                    |
-         | 0.40 -0.54 0.00 -0.43  0.94  0.29 0.37 | -0.45 -0.61          |
+         | $X_3$: $x_C$ … $x_D$                 | $X_1$: $y_D$ … $z_D$ |
+         |--------------------------------------+----------------------|
+         | /                                    | <                    |
+         | 0.40 -0.54 0.00 -0.43 0.94 0.29 0.37 | -0.45 -0.61          |
 
-         The location of the crossover is random.
+         The location of the crossover is random. More than one
+         crossover may happen, i.e. switching multiple times from the
+         chromosome of one parent to that of the other.
 
       2. /Mutate:/ Randomly change coordinates in the child
          chromosome.
 
          Example mutation of the above child:
 
-         0.40 -0.54 *-1.50* -0.43 0.94 0.29 0.37 -0.45 *0.40*
+         0.40 -0.54 *-1.50* -0.43 0.94 0.29 0.37 -0.45 *0.40*
 
-3. /Find fitness:/ For each child determine how close the points in
-   the chromosome are to an optimal distribution. An optimal
+3. /Find fitness:/ For each child determine how close the coordinates
+   in the chromosome are to an optimal distribution. An optimal
    distribution is one where:
 
    - the distance between each two neighboring nodes is 1,
@@ -139,17 +139,18 @@ even if distances or angles have been violated. See examples below.
 
    - the best individual from the previous generation.
 
-5. /Display:/ Render the best individual in the new population on
-   screen.
+5. /Visualization:/ Render the best individual in the new population
+   on screen.
 
 6. /Iterate:/ go to step 2.
 
 ** Problem
 
 Genetic algorithms tend to get stuck in local minima. In that case all
-individuals have converged to the same non-optimal solution. Mutation
-of single coordinates worsens the fitness of individuals, and so they
-don’t carry over to the next generation. Evolution has stopped.
+individuals have converged close to the same non-optimal
+solution. Mutation of single coordinates worsen the fitness of an
+individual. Therefore, differing individuals don’t carry over to the
+next generation. Evolution has stopped.
 
 ** Fitness
 
@@ -164,25 +165,25 @@ a full set of neighbors, $B$, $C$, $D$, and $E$.
 
 *** Deviation of first neighbor
 
-Correct neighbor positions lie on a sphere of radius 1. As the
-position of the /expected neighbor/ $1'$, we take the point that is
-closest to the position of the existing neighbor $1$ (deviation
+Correct neighbor locations lie on a sphere of radius 1. As the
+location of the /expected neighbor/ $1'$, we take the point that is
+closest to the location of the existing neighbor $1$ (deviation
 highlighted in red):
 
 [[./images/fitness-1.png]]
 
-The deviation is the difference between the two positions:
+The deviation is the difference between the two locations:
 
 $D_{A,1} = 0.50$
 
 *** Deviation of second neighbor
 
-Correct neighbor positions are at the tedrahedral angle to the
-connection between the center of the node and the position of its
-first expected neighbor $1'$. As they are required to have a distance
-of 1 from the center, the set of all correct positions lies on a
-circle. As the position of the expected neighbor $2'$, from this set
-we choose the point that is closest to the exising neighbor $2$.
+Correct neighbor locations are at the tedrahedral angle to the edge
+connecting the node and its first expected neighbor $1'$. In addition,
+correct neighbor locations are required to have a distance of 1 from
+the center. Therefore, the set of all correct locations lies on a
+circle. As the location of the expected neighbor $2'$ we select from
+this set the point that is closest to the exising neighbor $2$.
 
 [[./images/fitness-2.png]]
 
@@ -192,8 +193,8 @@ $D_{A,2} = 0.28$
 
 *** Deviations of third and fourth neighbor
 
-Based on the positions of the first two expected neighbors $1'$ and
-$2'$, we can calculate the positions of the remaining expected
+Based on the locations of the first two expected neighbors $1'$ and
+$2'$, we can calculate the locations of the remaining expected
 neighbors $3'$ and $4'$.
 
 [[./images/fitness-3-4.png]]
@@ -265,11 +266,11 @@ Setup:
    [[./images/webapp-with-one-node.png]]
 
    On the top right side you see an adjacency matrix. The numbers in
-   the matrix refer to the connected ports. On the bottom righ side
+   the matrix refer to the connected ports. On the bottom right side
    you see a log of the information that the webapp receives from the
-   structure. On each line there is a timestamp on the left side. The
-   circle on the right means that there is no information about a tilt
-   angle for the connected node.
+   structure. Each line begins with a timestamp. The circle on the
+   right means that there is no information about a tilt angle for the
+   connected node.
 
 7. Add additional nodes:
 
@@ -496,13 +497,13 @@ find a solution. On the other hand, calculation of fitness is more
 cumbersome and, at least in the current implementation, more time
 consuming.
 
-Results have been mixed: The problem of the algorithm frequently
-getting stuck persists. However, it has not yet been researched if
-that happens at a lower frequency than without the tilt information.
+Results have been mixed. In fact it looks like convergence now is
+almost unachievable.
 
-Tilt information is also desirable to increase the likelihood of
-getting a result that closely matches what the user actually built out
-of rods and spheres.
+Another purpose for tilt information is to get a more accurate
+represantation of what the user actually built. Without tilt
+information, for example, the displayed structure may be upside down
+compared to what the user sees sitting on the table.
 
 *** Input
 

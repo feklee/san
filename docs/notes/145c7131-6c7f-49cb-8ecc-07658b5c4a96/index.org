@@ -282,6 +282,41 @@ Setup:
 
    [[./images/webapp-with-three-nodes.png]]
 
+* Experimentation
+
+For experimentation, custom locations may be assigned to nodes.
+
+1. Open the SAN web app.
+
+2. Make sure that you see the network that you want to work with.
+
+3. Open your browser’s JavaScript console.
+
+4. Stop the location optimizer:
+
+   #+BEGIN_SRC js
+   locationOptimizer.stop();
+   #+END_SRC
+
+5. Assign the locations, for example:
+
+   #+BEGIN_SRC js
+   locationOptimizer.setLocations({
+       A: [0, 0, 0],
+       B: [1, 0, 0],
+       C: [1, 1, 0],
+       D: [0, 1, 0]
+   });
+   #+END_SRC
+
+6. Optionally, update the locations in the location optimizer and
+   resume optimization:
+
+   #+BEGIN_SRC js
+   locationOptimizer.update();
+   locationOptimizer.run();
+   #+END_SRC
+
 * Examples
 
 ** 1:1 connection

@@ -489,7 +489,7 @@ does not find a good solution. It gets stuck in a local minimum.
 
 [[./images/dodecahedron-failure.png]]
 
-* Dodecahedron with tilt angles
+** Dodecahedron with tilt angles
 
 Tilt angles provide additional information. The idea is to reduce the
 space of unknown variables from 60 to 40, thereby making it easier to

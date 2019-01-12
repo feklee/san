@@ -318,6 +318,10 @@ For experimentation, custom locations may be assigned to nodes.
    locationOptimizer.run();
    #+END_SRC
 
+   Caution: If your locations cannot compete with the locations in the
+   current population, you will not see them in the next
+   generation. They will disappear immediately.
+
 * Examples
 
 ** 1:1

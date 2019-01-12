@@ -38,3 +38,11 @@ Coding conventions
   * Comments in Markdown
 
   * JavaScript passes JSLint.
+
+
+Reading
+=======
+
+[SAN: Location Optimizer][1]
+
+[1]: https://feklee.github.io/san/notes/145c7131-6c7f-49cb-8ecc-07658b5c4a96/

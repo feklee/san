@@ -203,8 +203,14 @@ Deviations:
 
 $D_{A,3} = 0.49, D_{A,4} = 0.63$
 
-Now we can calculate the total deviation of all the neighbors of the
-node:
+Note that for calculating the positions of connections 3 and 4, the
+position of the ports is relevant. The following structures are not
+identical!
+
+[[./images/1-4-structure-comparison.png]]
+
+Anyhow, now we can calculate the total deviation of all the neighbors
+of the node:
 
 $D_A = D_{A,1} + D_{A,2} + D_{A,3} + D_{A,4} = 1.90$
 

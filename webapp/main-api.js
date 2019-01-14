@@ -75,7 +75,9 @@ var parseSequence = function (sequence) {
         if (location === null) {
             return {error: "bad location in `" + fullMatch + "`"};
         }
-        result.locations[newNodeId] = location;
+        if (result.locations[newNodeId] === undefined) {
+            result.locations[newNodeId] = location;
+        }
 
         addPairWithLocation(fullMatch.substr(1));
 

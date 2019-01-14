@@ -43,17 +43,21 @@ How to use the fitness API
 
     http://localhost:8080
 
- 4. Query the API, for example:
+ 4. Query the API. Examples:
 
-    http://localhost:8081/fitness/+^1D3(-.5,.1,.2),+D2B2(.5,.7,-.3)
+      - http://localhost:8081/fitness/+^1D3(-.5,.1,.2),+D2B2(.5,.7,-.3)
 
-    This connects `D3` to root, then `B2` to `D2`. The location of `D`
-    is (-.5, .1, .2), and that of `B` is (.5, .7, -.3).
+        This connects `D3` to root, then `B2` to `D2`. The location of
+        `D` is (-.5, .1, .2), and that of `B` is (.5, .7, -.3).
 
-    The same network with maximum fitness 0:
+       - The same network with maximum fitness 0:
 
-    http://localhost:8081/fitness/+^1D3(-.5,0,0),+D2B2(.5,0,0)
+         http://localhost:8081/fitness/+^1D3(-.5,0,0),+D2B2(.5,0,0)
 
+       - http://localhost:8081/fitness/+%5E1A1(1,0,0),+A2B1(1,1,1),+B2C1(0,1,0.5),+C2A3(0,0,0)
+         
+         Nodes connected in a loop. Note that the location of A is
+         specified twice. Only the first location is interpreted.
 
 Coding conventions
 ==================

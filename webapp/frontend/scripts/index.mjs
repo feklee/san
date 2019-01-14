@@ -70,6 +70,10 @@ var parseData = function (data) {
         return;
     }
 
+    if (nodeManager.nodeIsRootNode(parentNodeId)) {
+        nodeManager.clear();
+    }
+
     var childNodeId = a[2];
     var childPortNumber = parseInt(a[3]);
     var childNode = nodes[childNodeId];
@@ -90,9 +94,7 @@ var parseData = function (data) {
         }
     };
 
-    if (nodeManager.connectionExists(pair)) {
-        nodeManager.refreshConnection(pair);
-    } else {
+    if (!nodeManager.connectionExists(pair)) {
         nodeManager.connect(pair);
     }
 };

@@ -5,15 +5,12 @@
 var startWebServer = require("./start-web-server");
 var webSocket = require("./web-socket");
 var cli = require("./cli");
-var set = new Set();
 var sharedSettings = require("./shared-settings");
 
-function sendSet() {
-    set.forEach(function (data) {
-        var message = {type: "data", text: data};
-        webSocket.send(message);
-    });
-}
+function sendPair(pair) {
+    var message = {type: "data", text: pair};
+    webSocket.send(message);
+};
 
 function requestFitness() {
     webSocket.send({
@@ -24,12 +21,9 @@ function requestFitness() {
 
 function addPairWithLocation(pair) {
     console.log("Adding", pair);
-    set.add(pair);
-    sendSet(); // right away, so that fitness can be requested immediately
+    sendPair(pair);
     return true;
 }
-
-setInterval(sendSet, sharedSettings.graphUpdateInterval);
 
 startWebServer();
 
@@ -66,7 +60,6 @@ var parseSequence = function (sequence) {
     var newNodeId;
     var encodedLocation;
     var location;
-    set.clear();
     while (s !== "") {
         match = s.match(regex);
         if (match === null) {
@@ -143,7 +136,7 @@ var httpServer = http.createServer(function (request, response) {
 });
 
 webSocket.onMessage(function (message) {
-    console.log(JSON.stringify(message));
+    console.log(message.utf8Data);
 });
 
 webSocket.create(httpServer);

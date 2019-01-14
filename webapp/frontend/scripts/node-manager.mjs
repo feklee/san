@@ -14,16 +14,10 @@ import settings from "./settings.mjs";
 import {Vector3} from
         "../../node_modules/three/build/three.module.js";
 import {
-    graphUpdateInterval, // ms
-    connectionExpiryDuration, // ms
     nodeColorsList
 } from "./shared-settings.mjs";
 
 var rootNode;
-
-var expiryTime = function () { // ms
-    return Date.now() + connectionExpiryDuration;
-};
 
 var locationAtRandomOrientation = function (origin) {
     return origin.clone().add(vector.randomUnitVector());
@@ -124,7 +118,6 @@ var setNeighbor = function (port, neighborPort) {
     var newConnection = {
         fromPort: port,
         toPort: neighborPort,
-        expiryTime: expiryTime(),
         isVisible: port.node.isVisible && neighborPort.node.isVisible,
         vector: arbitraryDefaultVector
     };
@@ -133,47 +126,10 @@ var setNeighbor = function (port, neighborPort) {
     sortConnections(port.node);
 };
 
-var connectionIsExpired = function (connection) {
-    return Date.now() > connection.expiryTime;
-};
-
 var updateForVisualization = function () {
     updateEdges();
     renderMatrix();
     locationOptimizer.update();
-};
-
-var removeExpiredConnections = function () {
-    var connectionsWereRemoved = false;
-
-    Object.values(nodes).forEach(function (node) {
-        Object.values(node.connections).forEach(
-            function (connection) {
-                if (connectionIsExpired(connection)) {
-                    removeConnection(connection);
-                    connectionsWereRemoved = true;
-                }
-            }
-        );
-    });
-
-    if (connectionsWereRemoved) {
-        removeNodesNotConnectedToRoot();
-        updateForVisualization();
-    }
-};
-
-var resetExpiryTime = function (connection) {
-    connection.expiryTime = expiryTime();
-};
-
-var refreshConnection = function (pair) {
-    Object.values(pair).forEach(function (port) {
-        var connection = connectionOnPort(port);
-        if (connection) {
-            resetExpiryTime(connection);
-        }
-    });
 };
 
 var connectionExists = function (pair) {
@@ -255,13 +211,23 @@ var connect = function (pair) {
     updateForVisualization();
 };
 
+var clear = function () {
+    console.log("clearing..."); // TODO
+    Object.values(nodes).forEach(function (node) {
+        if (!nodeIsRootNode(node.id)) {
+            visualization.destroyNodeObject3D(node);
+            delete nodes[node.id];
+        }
+    });
+};
+
 addRootNode();
 updateForVisualization();
-setInterval(removeExpiredConnections, graphUpdateInterval);
 
 export default {
     addNode: addNode,
     connectionExists: connectionExists,
-    refreshConnection: refreshConnection,
-    connect: connect
+    connect: connect,
+    clear: clear,
+    nodeIsRootNode: nodeIsRootNode
 };

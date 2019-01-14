@@ -4,6 +4,7 @@ import log from "./log.mjs";
 import nodeManager from "./node-manager.mjs";
 import settings from "./settings.mjs";
 import nodes from "./nodes.mjs";
+import locationOptimizer from "./location-optimizer";
 
 var hostname = window.location.hostname;
 var client = new window.WebSocket("ws://" + hostname + ":8080/");
@@ -96,6 +97,14 @@ var parseData = function (data) {
     }
 };
 
+var returnFitness = function () {
+    var fitness = locationOptimizer.currentFitness();
+    client.send(JSON.stringify({
+        type: "fitness",
+        text: fitness
+    }));
+};
+
 client.onmessage = function (e) {
     var message;
     var json;
@@ -106,9 +115,15 @@ client.onmessage = function (e) {
         return;
     }
 
-    if (message.type === "data") {
+    switch (message.type) {
+    case "data":
         parseData(message.text);
-    } else {
+        break;
+    case "fitness":
+        log.append(message.type, message.text);
+        returnFitness();
+        break;
+    default:
         log.append(message.type, message.text);
     }
 };

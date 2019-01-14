@@ -15,6 +15,13 @@ function sendSet() {
     });
 }
 
+function requestFitness() {
+    webSocket.send({
+        type: "fitness",
+        text: "fitness requested"
+    });
+}
+
 function addPairWithLocation(pair) {
     console.log("Adding", pair);
     set.add(pair);
@@ -59,6 +66,7 @@ var parseSequence = function (sequence) {
     var newNodeId;
     var encodedLocation;
     var location;
+    set.clear();
     while (s !== "") {
         match = s.match(regex);
         if (match === null) {
@@ -88,7 +96,11 @@ var getFitness = function (params) {
         return {error: "incomplete fitness parameters"};
     }
 
-    return parseSequence(params[0]);
+    var result = parseSequence(params[0]);
+
+    requestFitness();
+
+    return result;
 };
 
 var apiPort = 8081;
@@ -128,6 +140,10 @@ var httpServer = http.createServer(function (request, response) {
     }, 1000);
 }).listen(apiPort, function () {
     cli.log("API is listening on port " + apiPort + " (HTTP)");
+});
+
+webSocket.onMessage(function (message) {
+    console.log(JSON.stringify(message));
 });
 
 webSocket.create(httpServer);

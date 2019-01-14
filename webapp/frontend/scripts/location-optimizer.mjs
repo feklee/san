@@ -376,6 +376,12 @@ var assignLocationsToNodes = function (locationType, individual) {
     });
 };
 
+var assignCurrentLocationsToNodes = function (locationType) {
+    visibleNodes.forEach(function (node, i) {
+        node.testLocation = node.location.clone();
+    });
+};
+
 var updateConnectionVectors = function () {
     visibleNodes.forEach(function (node) {
         node.visibleConnections.forEach(function (connection) {
@@ -414,6 +420,11 @@ var updateNodeAxes = function () {
 
 var fitness = function (individual) {
     assignLocationsToNodes("testLocation", individual);
+    return -sumOfDeviations();
+};
+
+var currentFitness = function () {
+    assignCurrentLocationsToNodes();
     return -sumOfDeviations();
 };
 
@@ -552,7 +563,8 @@ var setLocations = function (locations) {
 // run();
 
 export default {
-    update: update
+    update: update,
+    currentFitness: currentFitness
 };
 
 var exportsForDebugging = {

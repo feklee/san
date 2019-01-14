@@ -7,6 +7,7 @@
 var WebSocketServer = require("websocket").server;
 var cli = require("./cli");
 var connection;
+var messageCallback;
 
 function send(message) {
     if (connection !== undefined) {
@@ -23,10 +24,18 @@ function create(httpServer) {
     wsServer.on("request", function (request) {
         connection = request.accept(null, request.origin);
         cli.log("WebSocket connection from browser accepted");
+        connection.on("message", function (message) {
+            messageCallback(message);
+        });
     });
+}
+
+function onMessage(callback) {
+    messageCallback = callback;
 }
 
 module.exports = {
     create: create,
-    send: send
+    send: send,
+    onMessage: onMessage
 };

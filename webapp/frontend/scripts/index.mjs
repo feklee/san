@@ -38,12 +38,17 @@ var decodeAngle = function (encodedAngle) { // rad
     return angleInRad(angleInDeg);
 };
 
+var decodeLocation = function (encodedLocation) {
+    return [0, 0, 0];
+};
+
 var parseData = function (data) {
     var a = data.split("");
-    var encodedTiltAngle = data.substr(4);
-    var tiltAngle = decodeAngle(encodedTiltAngle); // rad
+    var tiltAngle = null; // rad
+    var encodedLocation = data.substr(4);
+    var location = decodeLocation(encodedLocation);
 
-    log.append("data", data.substr(0, 4), tiltAngle);
+    log.append("data", data.substr(0, 4), tiltAngle, location);
 
     var parentNodeId = a[0];
     var parentPortNumber = parseInt(a[1]);

@@ -15,88 +15,18 @@ function sendSet() {
     });
 }
 
-function complainAboutMalformedCommand() {
-    console.error("Malformed command");
-}
-
 function pairIsValid(pair) {
     return /^[a-zA-Z\^][1-4][a-zA-Z][1-4]$/.test(pair);
 }
 
-function addOrRemovePair(pair, description, action) {
+function addPair(pair) {
     if (!pairIsValid(pair)) {
-        complainAboutMalformedCommand();
-        return false;
-    }
-    console.log(description, pair);
-    set[action](pair + "0"); // "0" = no angle set
-    return true;
-}
-
-function sendPairToFrontend(pair) {
-    if (!pairIsValid(pair)) {
-        complainAboutMalformedCommand();
+        console.error("Invalid pair");
         return false;
     }
     console.log("Adding", pair);
-    set.add(pair + "0"); // "0" = no angle set
+    set.add(pair);
     return true;
-}
-
-function removePairCommand(pair) {
-    if (!pairIsValid(pair)) {
-        complainAboutMalformedCommand();
-        return false;
-    }
-    console.log("Removing", pair);
-    set.forEach(function (data) {
-        if (data.substr(0, 4) === pair) {
-            set.delete(data);
-        }
-    });
-    return true;
-}
-
-// [0, 180] -> [1, 127] (0 excluded, because that means: no angle)
-function encodeAngle(angle) {
-    return Math.round(angle * 126 / 180) % 127 + 1;
-}
-
-function assignEncodedAngleToPairs(nodeId, encodedAngle) {
-    var pairsToDelete = [];
-    var pairsToAdd = [];
-    set.forEach(function (data) {
-        if (data.charAt(2) === nodeId) {
-            pairsToDelete.push(data);
-            pairsToAdd.push(data.substr(0, 4) +
-                            encodedAngle.toString(16));
-        }
-    });
-    pairsToDelete.forEach((pair) => set.delete(pair));
-    pairsToAdd.forEach((pair) => set.add(pair));
-}
-
-function angleCommand(parameters) {
-    if (!(/^[a-zA-Z\^][0-9]*$/).test(parameters)) {
-        complainAboutMalformedCommand();
-        return false;
-    }
-    var nodeId = parameters.charAt(0);
-    var angleParameter = parameters.substr(1);
-    var encodedAngle;
-    if (angleParameter.length > 0) {
-        var angle = parseInt(angleParameter);
-        console.log(
-            `Setting tilt angle of node ${nodeId} to ${angle} degrees`
-        );
-        encodedAngle = encodeAngle(angle);
-    } else {
-        console.log(
-            `Removing tilt angle from node ${nodeId}`
-        );
-        encodedAngle = 0;
-    }
-    assignEncodedAngleToPairs(nodeId, encodedAngle);
 }
 
 setInterval(sendSet, sharedSettings.graphUpdateInterval);
@@ -110,72 +40,59 @@ var resultDescribesAnError = function (result) {
     return result.error !== undefined;
 };
 
-var parseSequence = function (sequence) {
-    var s = sequence;
-    var command;
-    var pair;
-    var result = [];
-    while (s !== "") {
-        command = s.charAt(0);
-        if (command !== "+") {
-            return {error: "bad sequence `" + sequence + "`"};
-        }
-        pair = s.substr(1, 4);
-        result.push(pair);
-        s = s.substr(5);
-        sendPairToFrontend(pair);
+var parseEncodedLocation = function (encodedLocation) {
+    var x = parseFloat(encodedLocation[0]);
+    var y = parseFloat(encodedLocation[1]);
+    var z = parseFloat(encodedLocation[2]);
+    if (Number.isNaN(x) || Number.isNaN(y) || Number.isNaN(z)) {
+        return null;
     }
-    return result;
+    return [x, y, z];
 };
 
-var parseEncodedLocations = function (encodedLocations) {
-    var s = encodedLocations;
-    var result = {};
-    var regex =
-            /^([A-Z])(-?[0-9]*.?[0-9]*),(-?[0-9]*.?[0-9]*),(-?[0-9]*.?[0-9]*)/;
+var parseSequence = function (sequence) {
+    var s = sequence;
+    var pair;
+    var result = {
+        pairs: [],
+        locations: {}
+    };
+    var pairRegex = "\\+([\\^A-Z][1-4][A-Z][1-4])";
+    var locationRegex =
+            "\\((-?[0-9]*.?[0-9]*),(-?[0-9]*.?[0-9]*),(-?[0-9]*.?[0-9]*)\\)";
+    var regex = "^" + pairRegex + locationRegex;
     var match;
-    var nodeId;
-    var x;
-    var y;
-    var z;
-    var encodedLocation;
+    var fullMatch;
+    var newNodeId;
+    var location;
     while (s !== "") {
         match = s.match(regex);
         if (match === null) {
-            return {error: "bad location `" + encodedLocation + "`"};
+            return {error: "bad sequence `" + sequence + "`"};
         }
-        encodedLocation = match[0];
-        nodeId = match[1];
-        x = parseFloat(match[2]);
-        y = parseFloat(match[3]);
-        z = parseFloat(match[4]);
-        if (Number.isNaN(x) || Number.isNaN(y) || Number.isNaN(z)) {
-            return {error: "bad location `" + encodedLocation + "`"};
+        fullMatch = match[0];
+        pair = match[1];
+        result.pairs.push(pair);
+        addPair(pair);
+
+        newNodeId = pair.charAt(2);
+        location = parseEncodedLocation(match.splice(2));
+        if (location === null) {
+            return {error: "bad location in `" + fullMatch + "`"};
         }
-        result[nodeId] = [x, y, z];
-        s = s.substr(encodedLocation.length);
+        result.locations[newNodeId] = location;
+
+        s = s.substr(fullMatch.length + 1);
     }
     return result;
 };
 
 var getFitness = function (params) {
-    if (params.length < 2) {
+    if (params.length < 1) {
         return {error: "incomplete fitness parameters"};
     }
 
-    var result1 = parseSequence(params[0]);
-    if (resultDescribesAnError(result1)) {
-        return result1;
-    }
-
-    var result2 = parseEncodedLocations(params[1]);
-    if (resultDescribesAnError(result2)) {
-        return result2;
-    }
-    return {
-        sequence: result1,
-        locations: result2
-    };
+    return parseSequence(params[0]);
 };
 
 var apiPort = 8081;
@@ -203,7 +120,7 @@ var httpServer = http.createServer(function (request, response) {
     }
 
     if (resultDescribesAnError(result)) {
-        result.example = "/fitness/+^1D3+D2B2/B1.5,1.2,-3.4D-.5,1,4.";
+        result.example = "/fitness/+^1D3(1.5,1.2,-3.4),+D2B2(-.5,1,4.)";
     }
 
     response.writeHead(200, {

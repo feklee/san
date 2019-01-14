@@ -30,6 +30,30 @@ Running the webapp
  3. Connect to the web server with a browser.
 
 
+How to use the fitness API
+==========================
+
+ 1. Make sure that the webapp is built. (see above)
+
+ 2. Start the backend:
+
+        $ yarn start api
+
+ 3. Open the frontend in the browser: (tested with Chrome)
+
+    http://localhost:8080
+
+ 4. Query the API, for example:
+
+    http://localhost:8081/fitness/+^1D3(-.5,.1,.2),+D2B2(.5,.7,-.3)
+
+    This connects `D3` to root, then `B2` to `D2`.
+
+    The same network with maximum fitness 0:
+
+    http://localhost:8081/fitness/+^1D3(-.5,0,0),+D2B2(.5,0,0)
+
+
 Coding conventions
 ==================
 

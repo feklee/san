@@ -33,7 +33,7 @@ function addOrRemovePair(pair, description, action) {
     return true;
 }
 
-function addPairCommand(pair) {
+function sendPairToFrontend(pair) {
     if (!pairIsValid(pair)) {
         complainAboutMalformedCommand();
         return false;
@@ -101,54 +101,7 @@ function angleCommand(parameters) {
 
 setInterval(sendSet, sharedSettings.graphUpdateInterval);
 
-console.log("Add pair, by example:");
-console.log();
-console.log("    +^1A3");
-console.log();
-console.log("Here:");
-console.log();
-console.log("  * `^1` is port 1 on node `^` (root node).");
-console.log();
-console.log("  * `A3` is port 3 on node `A`.");
-console.log();
-console.log("Remove pair, by example:");
-console.log();
-console.log("    -A2B1");
-console.log();
-console.log("Set tilt angle, by example (C tilted by 125 degrees):");
-console.log();
-console.log("    /C125");
-console.log();
-console.log("Unset tilt angle, by example:");
-console.log();
-console.log("    /C");
-console.log();
-
-startWebServer(function () {
-    cli.enableInput(function (command) {
-        var parameters = command.substr(1);
-        switch (command.charAt(0)) {
-        case "+":
-            if (!addPairCommand(parameters)) {
-                return;
-            }
-            break;
-        case "-":
-            if (!removePairCommand(parameters)) {
-                return;
-            }
-            break;
-        case "/":
-            if (!angleCommand(parameters)) {
-                return;
-            }
-            break;
-        default:
-            complainAboutMalformedCommand();
-            return;
-        }
-    });
-});
+startWebServer();
 
 var http = require("http");
 const url = require("url");
@@ -170,7 +123,7 @@ var parseSequence = function (sequence) {
         pair = s.substr(1, 4);
         result.push(pair);
         s = s.substr(5);
-        addPairCommand(pair);
+        sendPairToFrontend(pair);
     }
     return result;
 };
@@ -225,6 +178,7 @@ var getFitness = function (params) {
     };
 };
 
+var apiPort = 8081;
 var httpServer = http.createServer(function (request, response) {
     var pathName = url.parse(request.url).pathname;
     var pathElements = pathName.split("/");
@@ -257,6 +211,8 @@ var httpServer = http.createServer(function (request, response) {
     });
     response.write(JSON.stringify(result));
     response.end();
-}).listen(8081);
+}).listen(apiPort, function () {
+    cli.log("API is listening on port " + apiPort + " (HTTP)");
+});
 
 webSocket.create(httpServer);

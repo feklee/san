@@ -17,7 +17,7 @@ module.exports = function (onListening) {
     });
 
     httpServer.listen(port, function () {
-        cli.log("HTTP server is listening on port " + port);
+        cli.log("Please open in your browser: http://localhost:" + port);
         if (onListening !== undefined) {
             onListening();
         }

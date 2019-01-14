@@ -152,33 +152,77 @@ startWebServer(function () {
 
 var http = require("http");
 const url = require("url");
-var badRequest = {
-    error: "bad request"
+
+var resultDescribesAnError = function (result) {
+    return result.error !== undefined;
 };
 
-var callGetFitness = function (params) {
-    if (params.length < 2) {
-        return badRequest;
-    }
-
-    var sequence = params[0];
+var parseSequence = function (sequence) {
+    var s = sequence;
     var command;
     var pair;
     var result = [];
-    while (true) {
-        if (sequence.indexOf("+") < 0) {
-            break;
-        }
-        command = sequence.charAt(0);
+    while (s !== "") {
+        command = s.charAt(0);
         if (command !== "+") {
-            return badRequest;
+            return {error: "bad sequence `" + sequence + "`"};
         }
-        pair = sequence.substr(1, 4);
+        pair = s.substr(1, 4);
         result.push(pair);
-        sequence = sequence.substr(5);
+        s = s.substr(5);
         addPairCommand(pair);
     }
     return result;
+};
+
+var parseEncodedLocations = function (encodedLocations) {
+    var s = encodedLocations;
+    var result = {};
+    var regex =
+            /^([A-Z])(-?[0-9]*.?[0-9]*),(-?[0-9]*.?[0-9]*),(-?[0-9]*.?[0-9]*)/;
+    var match;
+    var nodeId;
+    var x;
+    var y;
+    var z;
+    var encodedLocation;
+    while (s !== "") {
+        match = s.match(regex);
+        if (match === null) {
+            return {error: "bad location `" + encodedLocation + "`"};
+        }
+        encodedLocation = match[0];
+        nodeId = match[1];
+        x = parseFloat(match[2]);
+        y = parseFloat(match[3]);
+        z = parseFloat(match[4]);
+        if (Number.isNaN(x) || Number.isNaN(y) || Number.isNaN(z)) {
+            return {error: "bad location `" + encodedLocation + "`"};
+        }
+        result[nodeId] = [x, y, z];
+        s = s.substr(encodedLocation.length);
+    }
+    return result;
+};
+
+var getFitness = function (params) {
+    if (params.length < 2) {
+        return {error: "incomplete fitness parameters"};
+    }
+
+    var result1 = parseSequence(params[0]);
+    if (resultDescribesAnError(result1)) {
+        return result1;
+    }
+
+    var result2 = parseEncodedLocations(params[1]);
+    if (resultDescribesAnError(result2)) {
+        return result2;
+    }
+    return {
+        sequence: result1,
+        locations: result2
+    };
 };
 
 var httpServer = http.createServer(function (request, response) {
@@ -192,16 +236,20 @@ var httpServer = http.createServer(function (request, response) {
     });
 
     if (pathElements.length === 0) {
-        result = badRequest;
+        result = {error: "missing parameters"};
     } else {
         var functionName = pathElements[0];
         switch (functionName) {
-        case "get-fitness":
-            result = callGetFitness(pathElements.splice(1));
+        case "fitness":
+            result = getFitness(pathElements.splice(1));
             break;
         default:
-            result = badRequest;
+            result = {error: "unknown API function `" + functionName + "`"};
         }
+    }
+
+    if (resultDescribesAnError(result)) {
+        result.example = "/fitness/+^1D3+D2B2/B1.5,1.2,-3.4D-.5,1,4.";
     }
 
     response.writeHead(200, {

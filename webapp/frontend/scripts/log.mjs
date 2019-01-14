@@ -58,9 +58,13 @@ var createTiltAngleEl = function (tiltAngle) {
     return spanEl;
 };
 
-var createSpan = function (text, tiltAngle) {
+var createSpan = function (text, tiltAngle, location) {
     var spanEl = document.createElement("span");
     var preEl = document.createElement("pre");
+    if (location !== undefined) {
+        var newNodeId = text.charAt(2);
+        text = newNodeId + "(" + location.join(",") + ") " + text;
+    }
     spanEl.appendChild(preEl).textContent = text;
     if (tiltAngle !== undefined) {
         spanEl.appendChild(createTiltAngleEl(tiltAngle));
@@ -68,11 +72,11 @@ var createSpan = function (text, tiltAngle) {
     return spanEl;
 };
 
-var append = function (type, text, tiltAngle) {
+var append = function (type, text, tiltAngle, location) {
     var liEl = document.createElement("li");
     logEl.appendChild(liEl).classList.add(type);
     liEl.appendChild(createSpan(timeStamp()));
-    liEl.appendChild(createSpan(text, tiltAngle));
+    liEl.appendChild(createSpan(text, tiltAngle, location));
     removeOverflow();
 };
 

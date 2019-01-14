@@ -549,17 +549,17 @@ var setLocations = function (locations) {
     });
 };
 
-run();
+// run();
 
 export default {
     update: update
-}
+};
 
 var exportsForDebugging = {
     update: update,
     run: run,
     stop: stop,
     setLocations: setLocations
-}
+};
 
 window.locationOptimizer = exportsForDebugging;

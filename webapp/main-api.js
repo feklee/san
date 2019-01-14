@@ -15,17 +15,10 @@ function sendSet() {
     });
 }
 
-function pairIsValid(pair) {
-    return /^[a-zA-Z\^][1-4][a-zA-Z][1-4]$/.test(pair);
-}
-
-function addPair(pair) {
-    if (!pairIsValid(pair)) {
-        console.error("Invalid pair");
-        return false;
-    }
+function addPairWithLocation(pair) {
     console.log("Adding", pair);
     set.add(pair);
+    sendSet(); // right away, so that fitness can be requested immediately
     return true;
 }
 
@@ -64,6 +57,7 @@ var parseSequence = function (sequence) {
     var match;
     var fullMatch;
     var newNodeId;
+    var encodedLocation;
     var location;
     while (s !== "") {
         match = s.match(regex);
@@ -73,14 +67,16 @@ var parseSequence = function (sequence) {
         fullMatch = match[0];
         pair = match[1];
         result.pairs.push(pair);
-        addPair(pair);
 
         newNodeId = pair.charAt(2);
-        location = parseEncodedLocation(match.splice(2));
+        encodedLocation = match.splice(2);
+        location = parseEncodedLocation(encodedLocation);
         if (location === null) {
             return {error: "bad location in `" + fullMatch + "`"};
         }
         result.locations[newNodeId] = location;
+
+        addPairWithLocation(fullMatch.substr(1));
 
         s = s.substr(fullMatch.length + 1);
     }
@@ -123,11 +119,13 @@ var httpServer = http.createServer(function (request, response) {
         result.example = "/fitness/+^1D3(1.5,1.2,-3.4),+D2B2(-.5,1,4.)";
     }
 
-    response.writeHead(200, {
-        "Content-Type": "application/json"
-    });
-    response.write(JSON.stringify(result));
-    response.end();
+    setTimeout(function () {
+        response.writeHead(200, {
+            "Content-Type": "application/json"
+        });
+        response.write(JSON.stringify(result));
+        response.end();
+    }, 1000);
 }).listen(apiPort, function () {
     cli.log("API is listening on port " + apiPort + " (HTTP)");
 });

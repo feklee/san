@@ -39,7 +39,19 @@ var decodeAngle = function (encodedAngle) { // rad
 };
 
 var decodeLocation = function (encodedLocation) {
-    return [0, 0, 0];
+    var regex =
+            "^\\((-?[0-9]*.?[0-9]*),(-?[0-9]*.?[0-9]*),(-?[0-9]*.?[0-9]*)\\)";
+    var match = encodedLocation.match(regex);
+    if (match === 0) {
+        return null;
+    }
+    var x = parseFloat(match[1]);
+    var y = parseFloat(match[2]);
+    var z = parseFloat(match[3]);
+    if (Number.isNaN(x) || Number.isNaN(y) || Number.isNaN(z)) {
+        return null;
+    }
+    return [x, y, z];
 };
 
 var parseData = function (data) {
@@ -61,7 +73,7 @@ var parseData = function (data) {
     var childPortNumber = parseInt(a[3]);
     var childNode = nodes[childNodeId];
     if (childNode === undefined) {
-        childNode = nodeManager.addNode(childNodeId, tiltAngle);
+        childNode = nodeManager.addNode(childNodeId, tiltAngle, location);
     } else {
         childNode.tiltAngle = tiltAngle;
     }

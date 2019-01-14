@@ -199,20 +199,25 @@ var nodeColorsListIndexFromId = function (id) {
         : id.charCodeAt(0) - 0x40;
 };
 
-var addNode = function (id, tiltAngle) {
+var addNode = function (id, tiltAngle, location) {
     if (nodeExists(id)) {
         return;
     }
     var index = nodeColorsListIndexFromId(id);
     var colors = nodeColorsList[index] ||
             [settings.defaultNodeColor, settings.defaultNodeColor];
+
+    var locationVector = location === null
+        ? null
+        : new Vector3(location[0], location[1], location[2]);
+
     var node = {
         id: id,
         isVisible: !nodeIsRootNode(id),
         connections: {},
         sortedConnections: [],
         visibleConnections: [],
-        location: null,
+        location: locationVector,
         axis: vector.randomUnitVector(), // The node axis is the vector pointing
                                          // upwards when the node is not tilted.
         colors: colors,
@@ -231,7 +236,7 @@ var addNode = function (id, tiltAngle) {
 };
 
 var addRootNode = function () {
-    rootNode = addNode("^");
+    rootNode = addNode("^", null, null);
 };
 
 var connect = function (pair) {

@@ -96,11 +96,32 @@ var getFitness = function (params) {
     return result;
 };
 
+var parseFitnessMessage = function (message) {
+    var data = JSON.parse(message.utf8Data);
+    if (data.type !== "fitness") {
+        return null;
+    }
+    var fitness = parseFloat(data.text);
+    if (Number.isNaN(fitness)) {
+        return null;
+    }
+    return fitness;
+};
+
+var writeResult = function (response, result) {
+    response.writeHead(200, {
+        "Content-Type": "application/json"
+    });
+    response.write(JSON.stringify(result));
+    response.end();
+};
+
 var apiPort = 8081;
 var httpServer = http.createServer(function (request, response) {
     var pathName = url.parse(request.url).pathname;
     var pathElements = pathName.split("/");
     var result;
+    var exampleQuery = "/fitness/+^1D3(1.5,1.2,-3.4),+D2B2(-.5,1,4.)";
 
     pathElements.shift();
     pathElements = pathElements.map(function (el) {
@@ -109,34 +130,34 @@ var httpServer = http.createServer(function (request, response) {
 
     if (pathElements.length === 0) {
         result = {error: "missing parameters"};
-    } else {
-        var functionName = pathElements[0];
-        switch (functionName) {
-        case "fitness":
-            result = getFitness(pathElements.splice(1));
-            break;
-        default:
-            result = {error: "unknown API function `" + functionName + "`"};
-        }
+        writeResult(response, result);
+        return;
     }
 
-    if (resultDescribesAnError(result)) {
-        result.example = "/fitness/+^1D3(1.5,1.2,-3.4),+D2B2(-.5,1,4.)";
-    }
-
-    setTimeout(function () {
-        response.writeHead(200, {
-            "Content-Type": "application/json"
+    var functionName = pathElements[0];
+    if (functionName === "fitness") {
+        webSocket.onMessage(function (message) {
+            var fitness = parseFitnessMessage(message);
+            if (fitness === null) {
+                result = {error: "failure retrieving fitness"};
+            } else {
+                result.fitness = fitness;
+            }
+            writeResult(response, result);
         });
-        response.write(JSON.stringify(result));
-        response.end();
-    }, 1000);
+        result = getFitness(pathElements.splice(1));
+        if (resultDescribesAnError(result)) {
+            result.exampleQuery = exampleQuery;
+            writeResult(response, result);
+        }
+        return;
+    }
+
+    result = {error: "unknown API function `" + functionName + "`"};
+    result.exampleQuery = exampleQuery;
+    writeResult(response, result);
 }).listen(apiPort, function () {
     cli.log("API is listening on port " + apiPort + " (HTTP)");
-});
-
-webSocket.onMessage(function (message) {
-    console.log(message.utf8Data);
 });
 
 webSocket.create(httpServer);

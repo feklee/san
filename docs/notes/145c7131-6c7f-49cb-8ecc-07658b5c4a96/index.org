@@ -288,9 +288,9 @@ works in David’s implementation.
 
 \begin{equation}
 F_C =
-    \sum_{n=1}^L ((\vec{v_1} × \vec{v_2}) ⋅ \vec{v_3} -
+    \sum_{n=1}^L ((\vec{v}_{n,1} × \vec{v}_{n,2}) ⋅ \vec{v}_{n,3} -
     cos(\frac{π}{2} - \frac{1}{2} arccos(-⅓)))^2 + \\
-    \sum_{n=1}^R ((\vec{v_1} × \vec{v_2}) ⋅ \vec{v_3} -
+    \sum_{n=1}^R ((\vec{v}_{n,1} × \vec{v}_{n,2}) ⋅ \vec{v}_{n,3} -
     cos(\frac{π}{2} + \frac{1}{2} arccos(-⅓)))^2
 \end{equation}
 

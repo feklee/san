@@ -296,9 +296,9 @@ F_C =
 
 Where:
 
-- $L$: number of nodes with right handed chirality
+- $L$: number of nodes with left handed chirality
 
-- $R$: number of nodes with left handed chirality
+- $R$: number of nodes with right handed chirality
 
 - $v_{n,i}$: normalized vector connecting node number $n$ to its
   neighbor number $i$

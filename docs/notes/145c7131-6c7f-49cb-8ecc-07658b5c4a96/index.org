@@ -242,67 +242,6 @@ structures. They are not identical!
 
 [[./images/1-4-structure-comparison.png]]
 
-* Simulation
-
-Assembling the structure can be simulated. This is useful for testing
-the location optimizer without the physical construction kit.
-
-Setup:
-
-1. Install Node.js and the Yarn package manager.
-
-2. Clone the SAN repository from: [[https://github.com/feklee/san/]]
-
-3. Install all necessary dependencies and build the frontend (on
-   Windows call ~rollup.cmd~ instead of ~rollup~):
-
-   #+BEGIN_SRC shell
-   $ cd webapp
-   $ yarn install
-   $ ./node_modules/.bin/rollup --config
-   #+END_SRC
-
-4. Start the simulation:
-
-   #+BEGIN_SRC shell
-   yarn start simulate
-   #+END_SRC
-   
-5. Open the SAN web app: http://localhost:8080
-
-   [[./images/webapp-with-no-node.png]]
-
-   To navigate in 3D in the canvas on the left side, use the mouse.
-
-6. Go back to the command line and connect a node to the root node:
-
-   #+BEGIN_SRC text
-   +^1C1
-   #+END_SRC
-
-   This connects port ~C1~ (port 1 on node C) with ~^1~ (port 1 on the
-   root node). The result is immediately visible in the web app.
-
-   [[./images/webapp-with-one-node.png]]
-
-   On the top right side you see an adjacency matrix. The numbers in
-   the matrix refer to the connected ports. On the bottom right side
-   you see a log of the information that the webapp receives from the
-   structure. Each line begins with a timestamp. The circle on the
-   right means that there is no information about a tilt angle for the
-   connected node.
-
-7. Add additional nodes:
-
-   #+BEGIN_SRC text
-   +C2B1
-   +B3D4
-   #+END_SRC
-
-   This connects ~B3~ (port 3 on node B) to ~C2~ and ~D4~ to ~B3~.
-
-   [[./images/webapp-with-three-nodes.png]]
-
 ** Alternative fitness proposal
 
 The following proposal creates the fitness based on the sum of
@@ -376,6 +315,67 @@ F = w_D F_D + w_A F_A + w_C F_C
 \end{equation}
 
 Where $w_i$ are weights.
+
+* Simulation
+
+Assembling the structure can be simulated. This is useful for testing
+the location optimizer without the physical construction kit.
+
+Setup:
+
+1. Install Node.js and the Yarn package manager.
+
+2. Clone the SAN repository from: [[https://github.com/feklee/san/]]
+
+3. Install all necessary dependencies and build the frontend (on
+   Windows call ~rollup.cmd~ instead of ~rollup~):
+
+   #+BEGIN_SRC shell
+   $ cd webapp
+   $ yarn install
+   $ ./node_modules/.bin/rollup --config
+   #+END_SRC
+
+4. Start the simulation:
+
+   #+BEGIN_SRC shell
+   yarn start simulate
+   #+END_SRC
+   
+5. Open the SAN web app: http://localhost:8080
+
+   [[./images/webapp-with-no-node.png]]
+
+   To navigate in 3D in the canvas on the left side, use the mouse.
+
+6. Go back to the command line and connect a node to the root node:
+
+   #+BEGIN_SRC text
+   +^1C1
+   #+END_SRC
+
+   This connects port ~C1~ (port 1 on node C) with ~^1~ (port 1 on the
+   root node). The result is immediately visible in the web app.
+
+   [[./images/webapp-with-one-node.png]]
+
+   On the top right side you see an adjacency matrix. The numbers in
+   the matrix refer to the connected ports. On the bottom right side
+   you see a log of the information that the webapp receives from the
+   structure. Each line begins with a timestamp. The circle on the
+   right means that there is no information about a tilt angle for the
+   connected node.
+
+7. Add additional nodes:
+
+   #+BEGIN_SRC text
+   +C2B1
+   +B3D4
+   #+END_SRC
+
+   This connects ~B3~ (port 3 on node B) to ~C2~ and ~D4~ to ~B3~.
+
+   [[./images/webapp-with-three-nodes.png]]
 
 * Experimentation
 

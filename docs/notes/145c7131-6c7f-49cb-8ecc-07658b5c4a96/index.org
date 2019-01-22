@@ -222,6 +222,80 @@ $F = -D$
 As the value of the deviations is negative, it holds that: The higher
 the fitness, the closer the individual is to an optimal solution.
 
+** Alternative fitness proposal
+
+The following proposal creates the fitness based on the sum of
+independent terms. The terms may possibly be multiplied by
+weights. With the first two terms, this fitness has been used as cost
+function in David’s [[https://github.com/davidblitz/san-optimizer][San-Optimizer]] based on the gradient descend
+algorithm.
+
+*** Distance
+
+\begin{equation}
+F_D = \sum_{n=1}^N (l_n^2 - 1)^2
+\end{equation}
+
+Where:
+
+- $N$: number of all edges
+
+- $l_n$: length of edge $n$
+
+$1$ is the expected distance.
+
+*** Angle
+
+\begin{equation}
+F_A = \sum_{n=1}^N \sum_{i=1}^{I_n} \sum_{j=1\\j≠i}^{I_n} (\vec{v}_{n,i}
+⋅ \vec{v}_{n,j} + ⅓)^2
+\end{equation}
+
+Where:
+
+- $N$: number of nodes
+
+- $I_n$: number of neighbors attached to node number $n$
+
+- $v_{n,i}$: vector connecting node number $n$ to neighbor number $i$
+
+$-⅓$ is the cosine of the required tedrahedral angle.
+
+Note that the vectors are not normalized. Nevertheless optimization
+works in David’s implementation.
+
+*** Chirality
+
+\begin{equation}
+F_C =
+    \sum_{n=1}^L ((\vec{v_1} × \vec{v_2}) ⋅ \vec{v_3} -
+    cos(\frac{π}{2} - \frac{1}{2} arccos(-⅓)))^2 + \\
+    \sum_{n=1}^R ((\vec{v_1} × \vec{v_2}) ⋅ \vec{v_3} -
+    cos(\frac{π}{2} + \frac{1}{2} arccos(-⅓)))^2
+\end{equation}
+
+Where:
+
+- $L$: number of nodes with right handed chirality
+
+- $R$: number of nodes with left handed chirality
+
+- $v_{n,i}$: normalized vector connecting node number $n$ to its
+  neighbor number $i$
+
+Only nodes with at least three neighbors are included. The other nodes
+don’t have chirality.
+
+*** Total fitness
+
+The total fitness is:
+
+\begin{equation}
+F = w_D F_D + w_A F_A + w_C F_C
+\end{equation}
+
+Where $w_i$ are weights.
+
 * Simulation
 
 Assembling the structure can be simulated. This is useful for testing

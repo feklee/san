@@ -311,7 +311,7 @@ don’t have chirality.
 The total fitness is:
 
 \begin{equation}
-F = w_D F_D + w_A F_A + w_C F_C
+F = -(w_D F_D + w_A F_A + w_C F_C)
 \end{equation}
 
 Where $w_i$ are weights.

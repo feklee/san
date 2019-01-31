@@ -3,7 +3,7 @@
 Introduction
 ============
 
-SAN, the self aware network, is an experiment about the [future of
+SAN (Self Aware Network) is an experiment about the [future of
 architecture][1]. The network understands its own topology. To get
 started:
 

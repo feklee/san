@@ -264,11 +264,12 @@ Assembly
             cable (top hemisphere)
 
           - Second cable, purple: same hemisphere as the above white
-            cable (bottom hemisphere)
+            cable (top hemisphere)
 
-          - Third cable, white: other hemisphere, next to the gray cable
+          - Third cable, white: other hemisphere, next to the gray cable (bottom
+            hemisphere)
 
-          - Fourth cable, black: remaining position
+          - Fourth cable, purple: remaining position (bottom hemisphere)
 
      2. Screw onto each connector from the inside, but not super tight yet:
 

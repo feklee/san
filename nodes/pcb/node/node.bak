@@ -968,7 +968,7 @@ L Connector_Generic:Conn_01x08 J6
 U 1 1 5CE34C2D
 P 7250 5700
 F 0 "J6" H 7250 5200 50  0000 C CNN
-F 1 "Other Hemisphere" H 6950 6100 50  0000 C CNN
+F 1 "Bottom Hemisphere" H 6950 6100 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical" H 7250 5700 50  0001 C CNN
 F 3 "~" H 7250 5700 50  0001 C CNN
 	1    7250 5700
@@ -1000,7 +1000,7 @@ L Connector_Generic:Conn_01x08 J1
 U 1 1 5CE73098
 P 1150 6350
 F 0 "J1" H 1150 5850 50  0000 C CNN
-F 1 "Other Hemisphere" H 850 6750 50  0000 C CNN
+F 1 "Top Hemisphere" H 850 6750 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical" H 1150 6350 50  0001 C CNN
 F 3 "~" H 1150 6350 50  0001 C CNN
 	1    1150 6350
@@ -1224,7 +1224,7 @@ U 1 1 5C8E9BC5
 P 2200 6800
 F 0 "BT1" H 2318 6896 50  0000 L CNN
 F 1 "Battery_Cell" H 2318 6805 50  0000 L CNN
-F 2 "" V 2200 6860 50  0001 C CNN
+F 2 "Common-Parts-Library:MPD_BK-912-TR" V 2200 6860 50  0001 C CNN
 F 3 "~" V 2200 6860 50  0001 C CNN
 	1    2200 6800
 	1    0    0    -1  
@@ -1235,7 +1235,7 @@ U 1 1 5C8E9CBF
 P 8750 5700
 F 0 "BT2" H 8868 5796 50  0000 L CNN
 F 1 "Battery_Cell" H 8868 5705 50  0000 L CNN
-F 2 "" V 8750 5760 50  0001 C CNN
+F 2 "Common-Parts-Library:MPD_BK-912-TR" V 8750 5760 50  0001 C CNN
 F 3 "~" V 8750 5760 50  0001 C CNN
 	1    8750 5700
 	1    0    0    -1  

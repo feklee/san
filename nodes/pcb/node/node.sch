@@ -968,7 +968,7 @@ L Connector_Generic:Conn_01x08 J6
 U 1 1 5CE34C2D
 P 7250 5700
 F 0 "J6" H 7250 5200 50  0000 C CNN
-F 1 "Other Hemisphere" H 6950 6100 50  0000 C CNN
+F 1 "Bottom Hemisphere" H 6900 6100 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical" H 7250 5700 50  0001 C CNN
 F 3 "~" H 7250 5700 50  0001 C CNN
 	1    7250 5700
@@ -1000,7 +1000,7 @@ L Connector_Generic:Conn_01x08 J1
 U 1 1 5CE73098
 P 1150 6350
 F 0 "J1" H 1150 5850 50  0000 C CNN
-F 1 "Other Hemisphere" H 850 6750 50  0000 C CNN
+F 1 "Top Hemisphere" H 850 6750 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_2x04_P2.54mm_Vertical" H 1150 6350 50  0001 C CNN
 F 3 "~" H 1150 6350 50  0001 C CNN
 	1    1150 6350

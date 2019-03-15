@@ -1,0 +1,47 @@
+Sources of components:
+
+* BK-912 / BK-912.STEP:
+
+  http://www.memoryprotectiondevices.com/3d/download.php?pn=BK-912
+
+* APFA3010LSEEZGKQBKC / APFA3010.STEP:
+
+  http://www.kingbrightusa.com/images/catalog/3D/STEP/APFA3010.STEP
+
+* Molex PicoBlade 0533980271 / 533980271.stp:
+
+  https://www.molex.com/pdm_docs/stp/53398-0271_stp.zip
+
+* TE AMP Mini CT 292228-2 / c-0292228-02-a-3d.stp:
+
+  <https://www.te.com/commerce/DocumentDelivery/DDEController?Action=showdoc&
+  DocId=Customer+View+Model%7F292228-2%7FA%7F3d_stp.zip%7FEnglish%7FENG_CVM_
+  292228-2_A.3d_stp.zip%7F292228-2>
+
+* Amphenol 10118193-0001LF / 10118193-0001lfc.stp:
+
+  https://cdn.amphenol-icc.com/media/wysiwyg/files/3d/s10118193.zip
+
+* Amphenol SFW8R-2STE1LF / ssfw08r_2_4st_lf.stp:
+
+  https://cdn.amphenol-icc.com/media/wysiwyg/files/3d/ssfw08r_2_4stlf.zip
+
+* ATMega 328P-AU / 32A.step:
+
+  https://digikey.ultralibrarian.com (Ultra Librarian for Digi-Key)
+
+* BNC connectors:
+
+  Amphenol
+
+Felix E. Klee <felix.klee@inka.de>
+
+-- 
+The following settings are interpreted by EMACS, do not remove them.
+Local Variables:
+mode: text
+fill-column: 80
+sentence-end-double-space: nil
+coding: utf-8
+End:
+Local IspellDict: american

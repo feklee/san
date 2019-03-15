@@ -1,0 +1,19 @@
+#+HTML_HEAD: <style>img{max-width:100%}.figure-number{display:none}</style>
+
+#+TITLE: SAN: PCB Dimensions
+
+* 3D mockup
+
+#+BEGIN_EXPORT html
+<iframe allowfullscreen id="irisModel" width="100%" height="600px"
+src="mockup.iris/index.html" frameBorder="0"></iframe>
+#+END_EXPORT
+
+* Introduction
+
+The idea is to get dimensions of the PCBs which can then be used with
+KiCad.
+
+The 3D model has been exported from Rhino 3D using the [[https://mcneel.github.io/Iris/][Iris
+plugin]]. Via the menu layers can be turned on and off to reveal the
+inside of the sphere.

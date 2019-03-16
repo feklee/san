@@ -6,7 +6,7 @@
 
 - Find dimensions of PCBs that can then be used with KiCad.
 
-- Check the Schema designed with KiCad.
+- Check the schematic designed with KiCad.
 
 - Create a manufacturing ready board layout.
 
@@ -87,11 +87,6 @@ project [[https://github.com/feklee/san/tree/master/nodes/pcb/node][node]] in th
 
   The issue is that the WS2811 outputs 5 V (PWM), while the LEDs
   require somewhere between 1.5 V and 3.5 V.
-
-- /Is the MCU the correct one?/
-
-  It should be the same as for the Arduino Pro Mini. A smaller form
-  factor may be an option.
 
 - /Add holes for regular through hole NeoPixel LEDs?/
 

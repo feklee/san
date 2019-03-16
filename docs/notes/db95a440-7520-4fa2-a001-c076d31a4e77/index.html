@@ -3,10 +3,10 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-03-16 Sat 17:04 -->
+<!-- 2019-03-16 Sat 17:33 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SAN: PCB Dimensions</title>
+<title>SAN: PCB Design</title>
 <meta name="generator" content="Org mode" />
 <meta name="author" content="Felix E. Klee" />
 <style type="text/css">
@@ -243,37 +243,62 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">SAN: PCB Dimensions</h1>
+<h1 class="title">SAN: PCB Design</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org0635f89">1. 3D mockup</a></li>
-<li><a href="#orgb919f8a">2. Objectives</a></li>
-<li><a href="#org2b6ac72">3. Open questions</a></li>
-<li><a href="#orgc24ca7e">4. Source of 3D compontents</a></li>
+<li><a href="#org76cd83d">1. 3D mockup</a></li>
+<li><a href="#org3a80000">2. Schema</a></li>
+<li><a href="#org702114f">3. Objectives</a></li>
+<li><a href="#orgd691bb7">4. Open questions</a></li>
+<li><a href="#orgcc6ff40">5. Source of 3D compontents</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org0635f89" class="outline-2">
-<h2 id="org0635f89"><span class="section-number-2">1</span> 3D mockup</h2>
+<div id="outline-container-org76cd83d" class="outline-2">
+<h2 id="org76cd83d"><span class="section-number-2">1</span> 3D mockup</h2>
 <div class="outline-text-2" id="text-1">
 <iframe allowfullscreen id="irisModel" width="100%" height="600px"
 src="mockup.iris/index.html" frameBorder="0"></iframe>
 
 <p>
-The 3D model has been exported from Rhino 3D using the <a href="https://mcneel.github.io/Iris/">Iris
-plugin</a>. Via the menu, layers can be turned off to reveal the inside of
-the sphere. Only certain large components are part of the mockup.
+Via the top left menu, layers can be turned off to reveal the inside
+of the sphere. Only certain large components are part of the mockup.
+</p>
+
+<p>
+The 3D model <a href="./mockup.3dm">mockup.3dm</a> has been exported from Rhino 3D using the <a href="https://mcneel.github.io/Iris/">Iris
+plugin</a> (with UI).
 </p>
 </div>
 </div>
 
 
-<div id="outline-container-orgb919f8a" class="outline-2">
-<h2 id="orgb919f8a"><span class="section-number-2">2</span> Objectives</h2>
+<div id="outline-container-org3a80000" class="outline-2">
+<h2 id="org3a80000"><span class="section-number-2">2</span> Schema</h2>
 <div class="outline-text-2" id="text-2">
+<img alt="Main circuit" src="./images/node.svg">
+
+<img alt="NeoPixel circuit" src="./images/neopixel-NeoPixel 1.svg">
+
+<p>
+This is a snapshot of the schema. Only one of the NeoPixel circuits is
+shown. They are all the same except for the component references.
+</p>
+
+<p>
+The most recent version of the schema can be found in the KiCad
+project <a href="https://github.com/feklee/san/tree/master/nodes/pcb/node">node</a> in the SAN repo on GitHub.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org702114f" class="outline-2">
+<h2 id="org702114f"><span class="section-number-2">3</span> Objectives</h2>
+<div class="outline-text-2" id="text-3">
 <ul class="org-ul">
 <li>Find dimensions of PCBs that can then be used with KiCad.</li>
 
@@ -287,9 +312,9 @@ the sphere. Only certain large components are part of the mockup.
 </div>
 
 
-<div id="outline-container-org2b6ac72" class="outline-2">
-<h2 id="org2b6ac72"><span class="section-number-2">3</span> Open questions</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-orgd691bb7" class="outline-2">
+<h2 id="orgd691bb7"><span class="section-number-2">4</span> Open questions</h2>
+<div class="outline-text-2" id="text-4">
 <ul class="org-ul">
 <li><p>
 Use plated-trough holes as cheap and simple alternative to the Molex
@@ -418,9 +443,9 @@ It could be extended downwards at the expense of the bottom PCB.
 </div>
 
 
-<div id="outline-container-orgc24ca7e" class="outline-2">
-<h2 id="orgc24ca7e"><span class="section-number-2">4</span> Source of 3D compontents</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-orgcc6ff40" class="outline-2">
+<h2 id="orgcc6ff40"><span class="section-number-2">5</span> Source of 3D compontents</h2>
+<div class="outline-text-2" id="text-5">
 <ul class="org-ul">
 <li>BK-912: <a href="http://www.memoryprotectiondevices.com/3d/download.php?pn=BK-912">BK-912.STEP</a></li>
 
@@ -443,7 +468,7 @@ It could be extended downwards at the expense of the bottom PCB.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-03-16 Sat 17:04</p>
+<p class="date">Created: 2019-03-16 Sat 17:33</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

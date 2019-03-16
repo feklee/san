@@ -1,6 +1,6 @@
 #+HTML_HEAD: <style>img{max-width:100%}.figure-number{display:none}</style>
 
-#+TITLE: SAN: PCB Dimensions
+#+TITLE: SAN: PCB Design
 
 * 3D mockup
 
@@ -9,9 +9,28 @@
 src="mockup.iris/index.html" frameBorder="0"></iframe>
 #+END_EXPORT
 
-The 3D model has been exported from Rhino 3D using the [[https://mcneel.github.io/Iris/][Iris
-plugin]]. Via the menu, layers can be turned off to reveal the inside of
-the sphere. Only certain large components are part of the mockup.
+Via the top left menu, layers can be turned off to reveal the inside
+of the sphere. Only certain large components are part of the mockup.
+
+The 3D model [[./mockup.3dm][mockup.3dm]] has been exported from Rhino 3D using the [[https://mcneel.github.io/Iris/][Iris
+plugin]] (with UI).
+
+
+* Schema
+
+#+BEGIN_EXPORT html
+<img alt="Main circuit" src="./images/node.svg">
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<img alt="NeoPixel circuit" src="./images/neopixel-NeoPixel 1.svg">
+#+END_EXPORT
+
+This is a snapshot of the schema. Only one of the NeoPixel circuits is
+shown. They are all the same except for the component references.
+
+The most recent version of the schema can be found in the KiCad
+project [[https://github.com/feklee/san/tree/master/nodes/pcb/node][node]] in the SAN repo on GitHub.
 
 
 * Objectives

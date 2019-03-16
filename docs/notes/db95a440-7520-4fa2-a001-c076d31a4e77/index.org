@@ -23,6 +23,8 @@ src="mockup.iris/index.html" frameBorder="0"></iframe>
 Via the top left menu, layers can be turned off to reveal the inside
 of the sphere. Only certain large components are part of the mockup.
 
+The diameter of the sphere is 50 mm.
+
 The 3D model [[./mockup.3dm][mockup.3dm]] has been exported from Rhino 3D using the [[https://mcneel.github.io/Iris/][Iris
 plugin]] (with UI).
 

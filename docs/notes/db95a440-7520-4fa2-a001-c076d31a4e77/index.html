@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-03-16 Sat 18:05 -->
+<!-- 2019-03-16 Sat 18:46 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: PCB Design</title>
@@ -248,17 +248,17 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org531aa7a">1. Objectives</a></li>
-<li><a href="#orgeca5f22">2. 3D mockup</a></li>
-<li><a href="#orgec8aad2">3. Schema</a></li>
-<li><a href="#org2023a2c">4. Open questions</a></li>
-<li><a href="#orga78896c">5. Source of 3D compontents</a></li>
+<li><a href="#orgc5798f2">1. Objectives</a></li>
+<li><a href="#org80a7a7f">2. 3D mockup</a></li>
+<li><a href="#orge9db915">3. Schema</a></li>
+<li><a href="#org30adfbc">4. Open questions</a></li>
+<li><a href="#orgf0f074c">5. Source of 3D compontents</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org531aa7a" class="outline-2">
-<h2 id="org531aa7a"><span class="section-number-2">1</span> Objectives</h2>
+<div id="outline-container-orgc5798f2" class="outline-2">
+<h2 id="orgc5798f2"><span class="section-number-2">1</span> Objectives</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>Find dimensions of PCBs that can then be used with KiCad.</li>
@@ -273,8 +273,8 @@ for the JavaScript code in this tag.
 </div>
 
 
-<div id="outline-container-orgeca5f22" class="outline-2">
-<h2 id="orgeca5f22"><span class="section-number-2">2</span> 3D mockup</h2>
+<div id="outline-container-org80a7a7f" class="outline-2">
+<h2 id="org80a7a7f"><span class="section-number-2">2</span> 3D mockup</h2>
 <div class="outline-text-2" id="text-2">
 <iframe allowfullscreen id="irisModel" width="100%" height="600px"
 src="mockup.iris/index.html" frameBorder="0"></iframe>
@@ -296,8 +296,8 @@ plugin</a> (with UI).
 </div>
 
 
-<div id="outline-container-orgec8aad2" class="outline-2">
-<h2 id="orgec8aad2"><span class="section-number-2">3</span> Schema</h2>
+<div id="outline-container-orge9db915" class="outline-2">
+<h2 id="orge9db915"><span class="section-number-2">3</span> Schema</h2>
 <div class="outline-text-2" id="text-3">
 <img alt="Main circuit" src="./images/node.svg">
 
@@ -316,8 +316,8 @@ project <a href="https://github.com/feklee/san/tree/master/nodes/pcb/node">node<
 </div>
 
 
-<div id="outline-container-org2023a2c" class="outline-2">
-<h2 id="org2023a2c"><span class="section-number-2">4</span> Open questions</h2>
+<div id="outline-container-org30adfbc" class="outline-2">
+<h2 id="org30adfbc"><span class="section-number-2">4</span> Open questions</h2>
 <div class="outline-text-2" id="text-4">
 <ul class="org-ul">
 <li><p>
@@ -396,20 +396,25 @@ factor may be an option.
 </p></li>
 
 <li><p>
-<i>Add holes for regular through hole Neopixel LEDs?</i>
+<i>Add holes for regular through hole NeoPixel LEDs?</i>
 </p>
 
 <p>
 This is for the case the WS2811-SMD-LED circuits turn out not to
 work. There won’t be enough time to do a second production run.
-</p></li>
-
-<li><p>
-<i>Add solder bridges to turn off individual circuits?</i>
 </p>
 
 <p>
-This is for the case that things don’t work.
+Solder bridges could be used to have the easy option to disconnect
+nonfunctional SMD NeoPixel circuits.
+</p></li>
+
+<li><p>
+<i>Add a solder bridge to easily turn off the accelerometer circuit?</i>
+</p>
+
+<p>
+Then the circuit can be easily disconnected in case it doesn’t work.
 </p></li>
 
 <li><p>
@@ -440,14 +445,27 @@ available, cheap, and small.
 </p></li>
 
 <li><p>
-<i>Can the board manufacturer burn an Arduino boot loader on the
-ATmega328P?</i>
+<i>Use QFN package for ATmega328P?</i>
+</p>
+
+<p>
+…instead of TQFP
+</p></li>
+
+<li><p>
+<i>Can the assembly house or the parts vendor burn an Arduino boot
+loader on the ATmega328P?</i>
 </p>
 
 <p>
 Otherwise, the second Micro-USB port can be used to burn the boot
 loader. Six pins are required, but power could be taken from the
 other Micro-USB port.
+</p>
+
+<p>
+Digi-Key offers the option, but the assembly house may source from
+another vendor.
 </p></li>
 
 <li><p>
@@ -472,8 +490,8 @@ top PCB.
 </div>
 
 
-<div id="outline-container-orga78896c" class="outline-2">
-<h2 id="orga78896c"><span class="section-number-2">5</span> Source of 3D compontents</h2>
+<div id="outline-container-orgf0f074c" class="outline-2">
+<h2 id="orgf0f074c"><span class="section-number-2">5</span> Source of 3D compontents</h2>
 <div class="outline-text-2" id="text-5">
 <ul class="org-ul">
 <li>BK-912: <a href="http://www.memoryprotectiondevices.com/3d/download.php?pn=BK-912">BK-912.STEP</a></li>
@@ -497,7 +515,7 @@ top PCB.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-03-16 Sat 18:05</p>
+<p class="date">Created: 2019-03-16 Sat 18:46</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

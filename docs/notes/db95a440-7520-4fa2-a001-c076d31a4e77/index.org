@@ -93,14 +93,17 @@ project [[https://github.com/feklee/san/tree/master/nodes/pcb/node][node]] in th
   It should be the same as for the Arduino Pro Mini. A smaller form
   factor may be an option.
 
-- /Add holes for regular through hole Neopixel LEDs?/
+- /Add holes for regular through hole NeoPixel LEDs?/
 
   This is for the case the WS2811-SMD-LED circuits turn out not to
   work. There won’t be enough time to do a second production run.
 
-- /Add solder bridges to turn off individual circuits?/
+  Solder bridges could be used to have the easy option to disconnect
+  nonfunctional SMD NeoPixel circuits.
 
-  This is for the case that things don’t work.
+- /Add a solder bridge to easily turn off the accelerometer circuit?/
+
+  Then the circuit can be easily disconnected in case it doesn’t work.
 
 - /Can a pick and place machine put LEDs protruding the edge of the
   PCB?/
@@ -119,12 +122,19 @@ project [[https://github.com/feklee/san/tree/master/nodes/pcb/node][node]] in th
   Micro-USB ports have the required five pins. They are readily
   available, cheap, and small.
 
-- /Can the board manufacturer burn an Arduino boot loader on the
-  ATmega328P?/
+- /Use QFN package for ATmega328P?/
+
+  …instead of TQFP
+
+- /Can the assembly house or the parts vendor burn an Arduino boot
+  loader on the ATmega328P?/
 
   Otherwise, the second Micro-USB port can be used to burn the boot
   loader. Six pins are required, but power could be taken from the
   other Micro-USB port.
+
+  Digi-Key offers the option, but the assembly house may source from
+  another vendor.
 
 - /Should the top PCB get more space?/
 

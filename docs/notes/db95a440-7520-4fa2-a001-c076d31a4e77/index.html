@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-03-16 Sat 15:50 -->
+<!-- 2019-03-16 Sat 17:04 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: PCB Dimensions</title>
@@ -248,14 +248,16 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org1a238fd">1. 3D mockup</a></li>
-<li><a href="#orgd397e81">2. Source of 3D compontents</a></li>
+<li><a href="#org0635f89">1. 3D mockup</a></li>
+<li><a href="#orgb919f8a">2. Objectives</a></li>
+<li><a href="#org2b6ac72">3. Open questions</a></li>
+<li><a href="#orgc24ca7e">4. Source of 3D compontents</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org1a238fd" class="outline-2">
-<h2 id="org1a238fd"><span class="section-number-2">1</span> 3D mockup</h2>
+<div id="outline-container-org0635f89" class="outline-2">
+<h2 id="org0635f89"><span class="section-number-2">1</span> 3D mockup</h2>
 <div class="outline-text-2" id="text-1">
 <iframe allowfullscreen id="irisModel" width="100%" height="600px"
 src="mockup.iris/index.html" frameBorder="0"></iframe>
@@ -263,20 +265,162 @@ src="mockup.iris/index.html" frameBorder="0"></iframe>
 <p>
 The 3D model has been exported from Rhino 3D using the <a href="https://mcneel.github.io/Iris/">Iris
 plugin</a>. Via the menu, layers can be turned off to reveal the inside of
-the sphere.
+the sphere. Only certain large components are part of the mockup.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgb919f8a" class="outline-2">
+<h2 id="orgb919f8a"><span class="section-number-2">2</span> Objectives</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>Find dimensions of PCBs that can then be used with KiCad.</li>
+
+<li>Check the Schema designed with KiCad.</li>
+
+<li>Create a manufacturing ready board layout.</li>
+
+<li>Optimize price and manufacturing time.</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org2b6ac72" class="outline-2">
+<h2 id="org2b6ac72"><span class="section-number-2">3</span> Open questions</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li><p>
+Use plated-trough holes as cheap and simple alternative to the Molex
+0533980271 <a href="https://www.molex.com/product/picoblade.html">PicoBlade</a> connectors?
 </p>
 
 <p>
-The idea is to find dimensions for the PCBs which can then be used
-with KiCad.
+The PicoBlade connectors are for connecting the BNC
+connectors. Without plated-trough holes, the cables would be
+manually soldered to the PCBs, for example by participants during a
+workshop.
+</p></li>
+
+<li><p>
+Should there be a diode in front of 5V regulator?
 </p>
+
+<p>
+For comparison: The Arduino Uno has an M7 diode right after <code>PWRIN</code>.
+The Arduino Pro Mini doesn’t have a diode to protect agains reverse
+polarity. Still – from experience – reversing polarity doesn’t
+damage the board.
+</p></li>
+
+<li><p>
+Which board manufacturer?
+</p>
+
+<p>
+Examples are PCBWay and Seeed. Seeed has a list of components that
+they have in stock, which can speed up sourcing considerably.
+</p></li>
+
+<li><p>
+Which RGB LEDs should be used?
+</p>
+
+<p>
+The Kingbright APFA3010SEEZGKQBKC rectangular SMD LED looks good. An
+alternative is the APFA3010LSEEZGKQBKC, which is considerably less
+bright by default.
+</p></li>
+
+<li><p>
+Is it OK to drive RGB LEDs with the WS2811?
+</p>
+
+<p>
+The issue is that the WS2811 outputs 5 V (PWM), while the LEDs
+require somewhere between 1.5 V and 3.5 V.
+</p></li>
+
+<li><p>
+Is the MCU the correct one?
+</p>
+
+<p>
+It should be the same as for the Arduino Pro Mini. A smaller form
+factor may be an option.
+</p></li>
+
+<li><p>
+Add holes for regular through hole Neopixel LEDs?
+</p>
+
+<p>
+This is for the case the WS2811-SMD-LED circuits turn out not to
+work. There won’t be enough time to do a second production run.
+</p></li>
+
+<li><p>
+Add solder bridges to turn off individual circuits?
+</p>
+
+<p>
+This is for the case that things don’t work.
+</p></li>
+
+<li><p>
+Can a pick and place machine put LEDs protruding the edge of the
+PCB?
+</p>
+
+<p>
+Having LEDs protrude the edge avoids having light blocked by the
+PCB.
+</p></li>
+
+<li>Do the selected LEDs have a circular uniform viewing angle?</li>
+
+<li><p>
+Is it OK to abuse a Micro-USB port for programming the FTDI?
+</p>
+
+<p>
+This is the port accessible through the top shell. As long as GND
+and +5 V are in the same position as with USB, things could be
+safe.
+</p>
+
+<p>
+Micro-USB ports have the required five pins. They are readily
+available, cheap, and small.
+</p></li>
+
+<li><p>
+Can the board manufacturer burn an Arduino boot loader on the
+ATmega328P?
+</p>
+
+<p>
+Otherwise, the second Micro-USB port can be used to burn the boot
+loader. Six pins are required, but power could be taken from the
+other Micro-USB port.
+</p></li>
+
+<li><p>
+Should the top PCB get more space?
+</p>
+
+<p>
+It could be extended downwards at the expense of the bottom PCB.
+</p></li>
+</ul>
 </div>
 </div>
 
 
-<div id="outline-container-orgd397e81" class="outline-2">
-<h2 id="orgd397e81"><span class="section-number-2">2</span> Source of 3D compontents</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-orgc24ca7e" class="outline-2">
+<h2 id="orgc24ca7e"><span class="section-number-2">4</span> Source of 3D compontents</h2>
+<div class="outline-text-2" id="text-4">
 <ul class="org-ul">
 <li>BK-912: <a href="http://www.memoryprotectiondevices.com/3d/download.php?pn=BK-912">BK-912.STEP</a></li>
 
@@ -299,7 +443,7 @@ with KiCad.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-03-16 Sat 15:50</p>
+<p class="date">Created: 2019-03-16 Sat 17:04</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

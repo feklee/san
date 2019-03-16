@@ -46,6 +46,11 @@ project [[https://github.com/feklee/san/tree/master/nodes/pcb/node][node]] in th
 
 * Open questions
 
+- /Is there a better way to connect the PCBs?/
+
+  An eight wire FCC is used. Nicer would be a solution without FCC,
+  where the boards can simply be plugged together, and done.
+
 - /Use plated-trough holes as cheap and simple alternative to the
   Molex 0533980271 [[https://www.molex.com/product/picoblade.html][PicoBlade]] connectors?/
 

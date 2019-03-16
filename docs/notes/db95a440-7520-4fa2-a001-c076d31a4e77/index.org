@@ -53,8 +53,8 @@ project [[https://github.com/feklee/san/tree/master/nodes/pcb/node][node]] in th
   An eight wire FCC is used. Nicer would be a solution without FCC,
   where the boards can simply be plugged together, and done.
 
-  See also the thread [[https://www.mikrocontroller.net/topic/466727][Platinen über Kreuz kontaktieren]] (German) in
-  Microcontroller.net forum.
+  See also the thread [[https://www.mikrocontroller.net/topic/466727][Platinen über Kreuz kontaktieren]] (German) in the
+  forum on Microcontroller.net.
 
 - /Use plated-trough holes as cheap and simple alternative to the
   Molex 0533980271 [[https://www.molex.com/product/picoblade.html][PicoBlade]] connectors?/

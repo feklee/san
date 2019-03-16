@@ -2,6 +2,17 @@
 
 #+TITLE: SAN: PCB Design
 
+* Objectives
+
+- Find dimensions of PCBs that can then be used with KiCad.
+
+- Check the Schema designed with KiCad.
+
+- Create a manufacturing ready board layout.
+
+- Optimize price and manufacturing time.
+
+
 * 3D mockup
 
 #+BEGIN_EXPORT html
@@ -33,73 +44,63 @@ The most recent version of the schema can be found in the KiCad
 project [[https://github.com/feklee/san/tree/master/nodes/pcb/node][node]] in the SAN repo on GitHub.
 
 
-* Objectives
-
-- Find dimensions of PCBs that can then be used with KiCad.
-
-- Check the Schema designed with KiCad.
-
-- Create a manufacturing ready board layout.
-
-- Optimize price and manufacturing time.
-
-
 * Open questions
 
-- Use plated-trough holes as cheap and simple alternative to the Molex
-  0533980271 [[https://www.molex.com/product/picoblade.html][PicoBlade]] connectors?
+- /Use plated-trough holes as cheap and simple alternative to the
+  Molex 0533980271 [[https://www.molex.com/product/picoblade.html][PicoBlade]] connectors?/
 
   The PicoBlade connectors are for connecting the BNC
   connectors. Without plated-trough holes, the cables would be
   manually soldered to the PCBs, for example by participants during a
   workshop.
 
-- Should there be a diode in front of 5V regulator?
+- /Should there be a diode in front of 5V regulator?/
 
   For comparison: The Arduino Uno has an M7 diode right after =PWRIN=.
   The Arduino Pro Mini doesn’t have a diode to protect agains reverse
   polarity. Still – from experience – reversing polarity doesn’t
   damage the board.
 
-- Which board manufacturer?
+- /Which board manufacturer?/
 
   Examples are PCBWay and Seeed. Seeed has a list of components that
-  they have in stock, which can speed up sourcing considerably.
+  they have in stock, which can speed up sourcing considerably. Felix
+  also has a contact at Seeed, met in person in Berlin.
 
-- Which RGB LEDs should be used?
+- /Which RGB LEDs should be used?/
 
   The Kingbright APFA3010SEEZGKQBKC rectangular SMD LED looks good. An
   alternative is the APFA3010LSEEZGKQBKC, which is considerably less
   bright by default.
 
-- Is it OK to drive RGB LEDs with the WS2811?
+- /Is it OK to drive RGB LEDs with the WS2811?/
 
   The issue is that the WS2811 outputs 5 V (PWM), while the LEDs
   require somewhere between 1.5 V and 3.5 V.
 
-- Is the MCU the correct one?
+- /Is the MCU the correct one?/
 
   It should be the same as for the Arduino Pro Mini. A smaller form
   factor may be an option.
 
-- Add holes for regular through hole Neopixel LEDs?
+- /Add holes for regular through hole Neopixel LEDs?/
 
   This is for the case the WS2811-SMD-LED circuits turn out not to
   work. There won’t be enough time to do a second production run.
 
-- Add solder bridges to turn off individual circuits?
+- /Add solder bridges to turn off individual circuits?/
 
   This is for the case that things don’t work.
 
-- Can a pick and place machine put LEDs protruding the edge of the
-  PCB?
+- /Can a pick and place machine put LEDs protruding the edge of the
+  PCB?/
 
   Having LEDs protrude the edge avoids having light blocked by the
   PCB.
 
-- Do the selected LEDs have a circular uniform viewing angle?
+- /Do the selected LEDs have a circular uniform viewing angle?/
 
-- Is it OK to abuse a Micro-USB port for programming the FTDI?
+- /Is it OK to abuse a Micro-USB port for programming the FTDI?/
 
   This is the port accessible through the top shell. As long as GND
   and +5 V are in the same position as with USB, things could be
@@ -108,16 +109,22 @@ project [[https://github.com/feklee/san/tree/master/nodes/pcb/node][node]] in th
   Micro-USB ports have the required five pins. They are readily
   available, cheap, and small.
 
-- Can the board manufacturer burn an Arduino boot loader on the
-  ATmega328P?
+- /Can the board manufacturer burn an Arduino boot loader on the
+  ATmega328P?/
 
   Otherwise, the second Micro-USB port can be used to burn the boot
   loader. Six pins are required, but power could be taken from the
   other Micro-USB port.
 
-- Should the top PCB get more space?
+- /Should the top PCB get more space?/
 
   It could be extended downwards at the expense of the bottom PCB.
+
+- /Move the accelerometer circuit to the top PCB?/
+
+  That way the FCC would require only six instead of eight
+  wires. However, there may not be enough space for the circuit in the
+  top PCB.
 
 
 * Source of 3D compontents

@@ -35,6 +35,9 @@ model file [[./mockup.3dm][mockup.3dm]].
 - The right angle SMD LEDs shine light sidewards.  They are mounted at
   an offset from the shell in order to diffuse light.
 
+- The top USB connector is abused for interfacing with an FTDI.  This
+  is to easily be able to update the firmware.
+
 
 * Schematic
 
@@ -71,7 +74,7 @@ project [[https://github.com/feklee/san/tree/master/nodes/pcb/node][node]] in th
   Without plated-trough holes, the cables would be manually soldered
   to the PCBs, for example by participants during a workshop.
 
-- /Should there be a diode in front of 5V regulator?/
+- /Should there be a diode in front of the 5 V regulator?/
 
   For comparison: The Arduino Uno has an M7 diode right after =PWRIN=.
   The Arduino Pro Mini doesn’t have a diode to protect agains reverse
@@ -80,20 +83,17 @@ project [[https://github.com/feklee/san/tree/master/nodes/pcb/node][node]] in th
 
 - /Which board manufacturer?/
 
-  Examples are PCBWay and Seeed.  Seeed has a list of components that
-  they have in stock, which can speed up sourcing considerably.  Felix
-  also has a contact at Seeed, met in person in Berlin.
+  Examples are [[https://jlcpcb.com/][JLCPCB]], PCBWay, or Seeed.  Seeed has a list of
+  components that they have in stock, which speeds up sourcing.  Felix
+  also has a contact at Seeed, met in person in Berlin. In 2017, with
+  the [[https://flic.kr/p/21c8Cqx][HTTC7 group]] he visited the Seeed [[https://www.flickr.com/photos/maltman23/38194661961/in/album-72157665929390189/][assembly line]] in 2017 in
+  Shenzhen.
 
 - /Which RGB LEDs should be used?/
 
   The Kingbright APFA3010SEEZGKQBKC rectangular SMD LED looks good.
   An alternative is the APFA3010LSEEZGKQBKC, which is considerably
   less bright by default.
-
-- /Is it OK to drive RGB LEDs with the WS2811?/
-
-  The issue is that the WS2811 outputs 5 V (PWM), while the LEDs
-  require somewhere between 1.5 V and 3.5 V.
 
 - /Add holes for regular through hole NeoPixel LEDs?/
 

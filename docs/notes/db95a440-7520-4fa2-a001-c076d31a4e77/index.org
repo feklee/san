@@ -164,4 +164,4 @@ project [[https://github.com/feklee/san/tree/master/nodes/pcb/node][node]] in th
 
 - ATMega 328P-AU: [[https://digikey.ultralibrarian.com][32A.step]] (Ultra Librarian for Digi-Key)
 
-- BNC connectors: Amphenol
+- BNC connectors: [[https://www.amphenolrf.com/031-221-rfx.html][31-221-RFX.stp]]

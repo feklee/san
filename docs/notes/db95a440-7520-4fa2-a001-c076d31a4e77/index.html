@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-03-16 Sat 21:09 -->
+<!-- 2019-03-17 Sun 10:13 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: PCB Design</title>
@@ -248,17 +248,17 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org82aa498">1. Objectives</a></li>
-<li><a href="#orgfc3db9c">2. 3D mockup</a></li>
-<li><a href="#orgabfaf11">3. Schema</a></li>
-<li><a href="#org79cc7cc">4. Open questions</a></li>
-<li><a href="#org4b8fe7c">5. Source of 3D compontents</a></li>
+<li><a href="#orgf40447f">1. Objectives</a></li>
+<li><a href="#org60b73b5">2. 3D mockup</a></li>
+<li><a href="#orgc6f12a4">3. Schematic</a></li>
+<li><a href="#org4104b5e">4. Open questions</a></li>
+<li><a href="#org7ad9e56">5. Source of 3D compontents</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org82aa498" class="outline-2">
-<h2 id="org82aa498"><span class="section-number-2">1</span> Objectives</h2>
+<div id="outline-container-orgf40447f" class="outline-2">
+<h2 id="orgf40447f"><span class="section-number-2">1</span> Objectives</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>Find dimensions of PCBs that can then be used with KiCad.</li>
@@ -273,51 +273,57 @@ for the JavaScript code in this tag.
 </div>
 
 
-<div id="outline-container-orgfc3db9c" class="outline-2">
-<h2 id="orgfc3db9c"><span class="section-number-2">2</span> 3D mockup</h2>
+<div id="outline-container-org60b73b5" class="outline-2">
+<h2 id="org60b73b5"><span class="section-number-2">2</span> 3D mockup</h2>
 <div class="outline-text-2" id="text-2">
 <iframe allowfullscreen id="irisModel" width="100%" height="600px"
 src="mockup.iris/index.html" frameBorder="0"></iframe>
 
 <p>
 Via the top left menu, layers can be turned off to reveal the inside
-of the sphere. Only certain large components are part of the mockup.
+of the sphere.  Only certain large components are part of the mockup.
+The 3D mockup has been created with the <a href="https://mcneel.github.io/Iris/">Iris plugin</a> from the Rhino 3D
+model file <a href="./mockup.3dm">mockup.3dm</a>.
 </p>
 
-<p>
-The diameter of the sphere is 50 mm.
-</p>
+<ul class="org-ul">
+<li>The diameter of the sphere is 50 mm.</li>
 
-<p>
-The 3D model <a href="./mockup.3dm">mockup.3dm</a> has been exported from Rhino 3D using the <a href="https://mcneel.github.io/Iris/">Iris
-plugin</a> (with UI).
-</p>
+<li>Only larger components have been included.</li>
+
+<li>There are two PCBs in order to get the LEDs in the correct
+positions.</li>
+
+<li>The right angle SMD LEDs shine light sidewards.  They are mounted at
+an offset from the shell in order to diffuse light.</li>
+</ul>
 </div>
 </div>
 
 
-<div id="outline-container-orgabfaf11" class="outline-2">
-<h2 id="orgabfaf11"><span class="section-number-2">3</span> Schema</h2>
+<div id="outline-container-orgc6f12a4" class="outline-2">
+<h2 id="orgc6f12a4"><span class="section-number-2">3</span> Schematic</h2>
 <div class="outline-text-2" id="text-3">
 <img alt="Main circuit" src="./images/node.svg">
 
 <img alt="NeoPixel circuit" src="./images/neopixel-NeoPixel 1.svg">
 
 <p>
-This is a snapshot of the schema. Only one of the NeoPixel circuits is
-shown. They are all the same except for the component references.
+This is a snapshot of the schematic.  Only one of the NeoPixel
+circuits is shown.  They are all the same except for the component
+references.
 </p>
 
 <p>
-The most recent version of the schema can be found in the KiCad
+The most recent version of the schematic can be found in the KiCad
 project <a href="https://github.com/feklee/san/tree/master/nodes/pcb/node">node</a> in the SAN repo on GitHub.
 </p>
 </div>
 </div>
 
 
-<div id="outline-container-org79cc7cc" class="outline-2">
-<h2 id="org79cc7cc"><span class="section-number-2">4</span> Open questions</h2>
+<div id="outline-container-org4104b5e" class="outline-2">
+<h2 id="org4104b5e"><span class="section-number-2">4</span> Open questions</h2>
 <div class="outline-text-2" id="text-4">
 <ul class="org-ul">
 <li><p>
@@ -325,7 +331,7 @@ project <a href="https://github.com/feklee/san/tree/master/nodes/pcb/node">node<
 </p>
 
 <p>
-An eight wire FCC is used. Nicer would be a solution without FCC,
+An eight wire FCC is used.  Nicer would be a solution without FCC,
 where the boards can simply be plugged together, and done.
 </p>
 
@@ -340,10 +346,9 @@ Molex 0533980271 <a href="https://www.molex.com/product/picoblade.html">PicoBlad
 </p>
 
 <p>
-The PicoBlade connectors are for connecting the BNC
-connectors. Without plated-trough holes, the cables would be
-manually soldered to the PCBs, for example by participants during a
-workshop.
+The PicoBlade connectors are for connecting the BNC connectors.
+Without plated-trough holes, the cables would be manually soldered
+to the PCBs, for example by participants during a workshop.
 </p></li>
 
 <li><p>
@@ -353,7 +358,7 @@ workshop.
 <p>
 For comparison: The Arduino Uno has an M7 diode right after <code>PWRIN</code>.
 The Arduino Pro Mini doesn’t have a diode to protect agains reverse
-polarity. Still – from experience – reversing polarity doesn’t
+polarity.  Still – from experience – reversing polarity doesn’t
 damage the board.
 </p></li>
 
@@ -362,8 +367,8 @@ damage the board.
 </p>
 
 <p>
-Examples are PCBWay and Seeed. Seeed has a list of components that
-they have in stock, which can speed up sourcing considerably. Felix
+Examples are PCBWay and Seeed.  Seeed has a list of components that
+they have in stock, which can speed up sourcing considerably.  Felix
 also has a contact at Seeed, met in person in Berlin.
 </p></li>
 
@@ -372,9 +377,9 @@ also has a contact at Seeed, met in person in Berlin.
 </p>
 
 <p>
-The Kingbright APFA3010SEEZGKQBKC rectangular SMD LED looks good. An
-alternative is the APFA3010LSEEZGKQBKC, which is considerably less
-bright by default.
+The Kingbright APFA3010SEEZGKQBKC rectangular SMD LED looks good.
+An alternative is the APFA3010LSEEZGKQBKC, which is considerably
+less bright by default.
 </p></li>
 
 <li><p>
@@ -392,7 +397,7 @@ require somewhere between 1.5 V and 3.5 V.
 
 <p>
 This is for the case the WS2811-SMD-LED circuits turn out not to
-work. There won’t be enough time to do a second production run.
+work.  There won’t be enough time to do a second production run.
 </p>
 
 <p>
@@ -425,13 +430,12 @@ PCB.
 </p>
 
 <p>
-This is the port accessible through the top shell. As long as GND
-and +5 V are in the same position as with USB, things could be
-safe.
+This is the port accessible through the top shell.  As long as GND
+and +5 V are in the same position as with USB, things could be safe.
 </p>
 
 <p>
-Micro-USB ports have the required five pins. They are readily
+Micro-USB ports have the required five pins.  They are readily
 available, cheap, and small.
 </p></li>
 
@@ -450,7 +454,7 @@ loader on the ATmega328P?</i>
 
 <p>
 Otherwise, the second Micro-USB port can be used to burn the boot
-loader. Six pins are required, but power could be taken from the
+loader.  Six pins are required, but power could be taken from the
 other Micro-USB port.
 </p>
 
@@ -472,17 +476,17 @@ It could be extended downwards at the expense of the bottom PCB.
 </p>
 
 <p>
-That way the FCC would require only six instead of eight
-wires. However, there may not be enough space for the circuit in the
-top PCB.
+That way the FCC would require only six instead of eight wires.
+However, there may not be enough space for the circuit in the top
+PCB.
 </p></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org4b8fe7c" class="outline-2">
-<h2 id="org4b8fe7c"><span class="section-number-2">5</span> Source of 3D compontents</h2>
+<div id="outline-container-org7ad9e56" class="outline-2">
+<h2 id="org7ad9e56"><span class="section-number-2">5</span> Source of 3D compontents</h2>
 <div class="outline-text-2" id="text-5">
 <ul class="org-ul">
 <li>BK-912: <a href="http://www.memoryprotectiondevices.com/3d/download.php?pn=BK-912">BK-912.STEP</a></li>
@@ -506,7 +510,7 @@ top PCB.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-03-16 Sat 21:09</p>
+<p class="date">Created: 2019-03-17 Sun 10:13</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

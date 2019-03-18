@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-03-17 Sun 20:30 -->
+<!-- 2019-03-18 Mon 16:50 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: PCB Design</title>
@@ -248,17 +248,18 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org6b5a642">1. Objectives</a></li>
-<li><a href="#org53554ea">2. 3D mockup</a></li>
-<li><a href="#orgefee5a8">3. Schematic</a></li>
-<li><a href="#orga416b4d">4. Open questions</a></li>
-<li><a href="#org7de8ea3">5. Source of 3D compontents</a></li>
+<li><a href="#org1d2380e">1. Objectives</a></li>
+<li><a href="#org6edcb61">2. 3D mockup</a></li>
+<li><a href="#org5a23e38">3. Assembly house</a></li>
+<li><a href="#orgd358196">4. Schematic</a></li>
+<li><a href="#org98a296e">5. Open questions</a></li>
+<li><a href="#orgc17e63d">6. Source of 3D compontents</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org6b5a642" class="outline-2">
-<h2 id="org6b5a642"><span class="section-number-2">1</span> Objectives</h2>
+<div id="outline-container-org1d2380e" class="outline-2">
+<h2 id="org1d2380e"><span class="section-number-2">1</span> Objectives</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>Find dimensions of PCBs that can then be used with KiCad.</li>
@@ -273,8 +274,8 @@ for the JavaScript code in this tag.
 </div>
 
 
-<div id="outline-container-org53554ea" class="outline-2">
-<h2 id="org53554ea"><span class="section-number-2">2</span> 3D mockup</h2>
+<div id="outline-container-org6edcb61" class="outline-2">
+<h2 id="org6edcb61"><span class="section-number-2">2</span> 3D mockup</h2>
 <div class="outline-text-2" id="text-2">
 <iframe allowfullscreen id="irisModel" width="100%" height="600px"
 src="mockup.iris/index.html" frameBorder="0"></iframe>
@@ -304,9 +305,32 @@ is to easily be able to update the firmware.</li>
 </div>
 
 
-<div id="outline-container-orgefee5a8" class="outline-2">
-<h2 id="orgefee5a8"><span class="section-number-2">3</span> Schematic</h2>
+<div id="outline-container-org5a23e38" class="outline-2">
+<h2 id="org5a23e38"><span class="section-number-2">3</span> Assembly house</h2>
 <div class="outline-text-2" id="text-3">
+<p>
+As assembly house <a href="https://www.seeedstudio.com/">Seeed Studio</a> has been chosen. Capabilities of the
+<i>Seeed Fusion One-Stop PCB Assembly Service:</i>
+</p>
+
+<ul class="org-ul">
+<li><a href="https://www.seeedstudio.com/fusion.html">Fusion overview</a> (“Passive Components as small as 01005(0402)
+package”)</li>
+
+<li><a href="https://www.seeedstudio.com/prototype-pcb-assembly.html">Seeed Studio Fusion PCB Assembly</a> (with section about <i>PCB assembly
+capabilities</i>)</li>
+
+<li><a href="http://support.seeedstudio.com/knowledgebase/articles/457797-fusion-pcba-specification">Fusion PCBA Specification</a></li>
+
+<li><a href="http://www.seeedstudio.com/blog/2017/05/15/component-layout-considerations/">Component layout considerations – PCB DFM Part 4</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgd358196" class="outline-2">
+<h2 id="orgd358196"><span class="section-number-2">4</span> Schematic</h2>
+<div class="outline-text-2" id="text-4">
 <img alt="Main circuit" src="./images/node.svg">
 
 <img alt="NeoPixel circuit" src="./images/neopixel-NeoPixel 1.svg">
@@ -325,9 +349,9 @@ project <a href="https://github.com/feklee/san/tree/master/nodes/pcb/node">node<
 </div>
 
 
-<div id="outline-container-orga416b4d" class="outline-2">
-<h2 id="orga416b4d"><span class="section-number-2">4</span> Open questions</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-org98a296e" class="outline-2">
+<h2 id="org98a296e"><span class="section-number-2">5</span> Open questions</h2>
+<div class="outline-text-2" id="text-5">
 <ul class="org-ul">
 <li><p>
 <i>Is there a better way to connect the PCBs?</i>
@@ -481,9 +505,9 @@ PCB.
 </div>
 
 
-<div id="outline-container-org7de8ea3" class="outline-2">
-<h2 id="org7de8ea3"><span class="section-number-2">5</span> Source of 3D compontents</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-orgc17e63d" class="outline-2">
+<h2 id="orgc17e63d"><span class="section-number-2">6</span> Source of 3D compontents</h2>
+<div class="outline-text-2" id="text-6">
 <ul class="org-ul">
 <li>BK-912: <a href="http://www.memoryprotectiondevices.com/3d/download.php?pn=BK-912">BK-912.STEP</a></li>
 
@@ -506,7 +530,7 @@ PCB.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-03-17 Sun 20:30</p>
+<p class="date">Created: 2019-03-18 Mon 16:50</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

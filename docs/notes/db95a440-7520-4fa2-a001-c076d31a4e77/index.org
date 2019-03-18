@@ -39,6 +39,22 @@ model file [[./mockup.3dm][mockup.3dm]].
   is to easily be able to update the firmware.
 
 
+* Assembly house
+
+As assembly house [[https://www.seeedstudio.com/][Seeed Studio]] has been chosen. Capabilities of the
+/Seeed Fusion One-Stop PCB Assembly Service:/
+
+- [[https://www.seeedstudio.com/fusion.html][Fusion overview]] (“Passive Components as small as 01005(0402)
+  package”)
+
+- [[https://www.seeedstudio.com/prototype-pcb-assembly.html][Seeed Studio Fusion PCB Assembly]] (with section about /PCB assembly
+  capabilities/)
+
+- [[http://support.seeedstudio.com/knowledgebase/articles/457797-fusion-pcba-specification][Fusion PCBA Specification]]
+
+- [[http://www.seeedstudio.com/blog/2017/05/15/component-layout-considerations/][Component layout considerations – PCB DFM Part 4]]
+
+
 * Schematic
 
 #+BEGIN_EXPORT html

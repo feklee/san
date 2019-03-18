@@ -113,14 +113,14 @@ Incomplete BOM based on the OPL:
 |   4 | Shenzhen | 0533980271           | 2 pin PicoBlade connector | Molex        |
 
 Only one of the FFC connectors is needed, of course. If the
-accelerometer circuit fits on the top board, then only a six pins are
+accelerometer circuit fits on the top board, then only six pins are
 needed.
 
 
 ** Inside
 
-The author of this document visited a Seeed Studio assembly line in
-Shenzhen as part of Mitch Altman’s 2017 [[https://www.noisebridge.net/wiki/NoisebridgeChinaTrip7][Hacker Trip to China]].
+The author of this document visited Seeed Studio in Shenzhen as part
+of Mitch Altman’s 2017 [[https://www.noisebridge.net/wiki/NoisebridgeChinaTrip7][Hacker Trip to China]].
 
 #+BEGIN_EXPORT html
 <a data-flickr-embed="true"  href="https://www.flickr.com/photos/maltman23/38194661961/in/photostream/" title="Shenzhen, Oct-2017"><img src="https://farm5.staticflickr.com/4554/38194661961_6226e6565f_c.jpg" width="800" height="533" alt="Shenzhen, Oct-2017"></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
@@ -139,20 +139,22 @@ deflected sidewards, possibly with the help of a reflective patch.
 Concerning connecting the LEDs, see the Adafruit NeoPixel LED
 [[https://learn.adafruit.com/adafruit-neopixel-uberguide/basic-connections][Überguide]]. It mentions:
 
-- /“When using a DC power supply, or an especially large battery, we
+- “When using a DC power supply, or an especially large battery, we
   recommend adding a large capacitor (1000 µF, 6.3V or higher) across
-  the + and terminals.”/
+  the + and terminals.”
 
   With the board here, this may not be necessary. After all, the
   NeoPixels are powered by regulated 5V. (to keep brightness constant)
 
-- /“With through-hole NeoPixels (5mm or 8mm), add a 0.1 µF capacitor
+- “With through-hole NeoPixels (5mm or 8mm), add a 0.1 µF capacitor
   between the + and pins of EACH PIXEL. Individual pixels may
-  misbehave without this “decoupling cap.”/
+  misbehave without this “decoupling cap.”
 
-- /“Adding a ~470 ohm resistor between your microcontroller's data pin
+- “Adding a ~470 ohm resistor between your microcontroller's data pin
   and the data input on the NeoPixels can help prevent spikes on the
-  data line that can damage your first pixel.”/
+  data line that can damage your first pixel.”
+
+There is also a [[https://statics3.seeedstudio.com/images/opl/datasheet/304990003.pdf][datasheet]].
 
 
 * Accelerometer

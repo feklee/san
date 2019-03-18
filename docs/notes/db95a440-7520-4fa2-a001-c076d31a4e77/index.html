@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-03-18 Mon 20:19 -->
+<!-- 2019-03-18 Mon 20:27 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: PCB Design</title>
@@ -248,26 +248,26 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgce1d3de">1. Objectives</a></li>
-<li><a href="#org6b62c98">2. 3D mockup</a></li>
-<li><a href="#orgc4dfc68">3. Schematic</a></li>
+<li><a href="#orgd947331">1. Objectives</a></li>
+<li><a href="#org78c609e">2. 3D mockup</a></li>
+<li><a href="#orgab4cd2e">3. Schematic</a></li>
 <li><a href="#seeed">4. Seeed studio</a>
 <ul>
 <li><a href="#seeed-opl">4.1. OPL</a></li>
 <li><a href="#opl-bom">4.2. OPL BOM</a></li>
-<li><a href="#org5fcddb1">4.3. Inside</a></li>
+<li><a href="#org90bb3aa">4.3. Inside</a></li>
 </ul>
 </li>
 <li><a href="#led">5. NeoPixel LEDs</a></li>
 <li><a href="#accelerometer">6. Accelerometer</a></li>
-<li><a href="#orgd134b95">7. Open questions</a></li>
-<li><a href="#org76df278">8. Source of 3D compontents</a></li>
+<li><a href="#orgf4376e8">7. Open questions</a></li>
+<li><a href="#orgd5f2d02">8. Source of 3D compontents</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orgce1d3de" class="outline-2">
-<h2 id="orgce1d3de"><span class="section-number-2">1</span> Objectives</h2>
+<div id="outline-container-orgd947331" class="outline-2">
+<h2 id="orgd947331"><span class="section-number-2">1</span> Objectives</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>Find dimensions of PCBs that can then be used with KiCad.</li>
@@ -282,8 +282,8 @@ for the JavaScript code in this tag.
 </div>
 
 
-<div id="outline-container-org6b62c98" class="outline-2">
-<h2 id="org6b62c98"><span class="section-number-2">2</span> 3D mockup</h2>
+<div id="outline-container-org78c609e" class="outline-2">
+<h2 id="org78c609e"><span class="section-number-2">2</span> 3D mockup</h2>
 <div class="outline-text-2" id="text-2">
 <iframe allowfullscreen id="irisModel" width="100%" height="600px"
 src="mockup.iris/index.html" frameBorder="0"></iframe>
@@ -313,8 +313,8 @@ is to easily be able to update the firmware.</li>
 </div>
 
 
-<div id="outline-container-orgc4dfc68" class="outline-2">
-<h2 id="orgc4dfc68"><span class="section-number-2">3</span> Schematic</h2>
+<div id="outline-container-orgab4cd2e" class="outline-2">
+<h2 id="orgab4cd2e"><span class="section-number-2">3</span> Schematic</h2>
 <div class="outline-text-2" id="text-3">
 <img alt="Main circuit" src="./images/node.svg">
 
@@ -334,7 +334,7 @@ project <a href="https://github.com/feklee/san/tree/master/nodes/pcb/node">node<
 </div>
 
 
-<div id="outline-container-org8eda26b" class="outline-2">
+<div id="outline-container-org8698a83" class="outline-2">
 <h2 id="seeed"><span class="section-number-2">4</span> Seeed studio</h2>
 <div class="outline-text-2" id="text-seeed">
 <p>
@@ -356,7 +356,7 @@ capabilities</i>)</li>
 </div>
 
 
-<div id="outline-container-org126fed9" class="outline-3">
+<div id="outline-container-orga8bef6b" class="outline-3">
 <h3 id="seeed-opl"><span class="section-number-3">4.1</span> OPL</h3>
 <div class="outline-text-3" id="text-seeed-opl">
 <p>
@@ -379,7 +379,7 @@ hope components in the Seeed OPL are in stock.)</li>
 </div>
 
 
-<div id="outline-container-org868986c" class="outline-3">
+<div id="outline-container-org24979e2" class="outline-3">
 <h3 id="opl-bom"><span class="section-number-3">4.2</span> OPL BOM</h3>
 <div class="outline-text-3" id="text-opl-bom">
 <p>
@@ -470,19 +470,19 @@ Incomplete BOM based on the OPL:
 
 <p>
 Only one of the FFC connectors is needed, of course. If the
-accelerometer circuit fits on the top board, then only a six pins are
+accelerometer circuit fits on the top board, then only six pins are
 needed.
 </p>
 </div>
 </div>
 
 
-<div id="outline-container-org5fcddb1" class="outline-3">
-<h3 id="org5fcddb1"><span class="section-number-3">4.3</span> Inside</h3>
+<div id="outline-container-org90bb3aa" class="outline-3">
+<h3 id="org90bb3aa"><span class="section-number-3">4.3</span> Inside</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
-The author of this document visited a Seeed Studio assembly line in
-Shenzhen as part of Mitch Altman’s 2017 <a href="https://www.noisebridge.net/wiki/NoisebridgeChinaTrip7">Hacker Trip to China</a>.
+The author of this document visited Seeed Studio in Shenzhen as part
+of Mitch Altman’s 2017 <a href="https://www.noisebridge.net/wiki/NoisebridgeChinaTrip7">Hacker Trip to China</a>.
 </p>
 
 <a data-flickr-embed="true"  href="https://www.flickr.com/photos/maltman23/38194661961/in/photostream/" title="Shenzhen, Oct-2017"><img src="https://farm5.staticflickr.com/4554/38194661961_6226e6565f_c.jpg" width="800" height="533" alt="Shenzhen, Oct-2017"></a><script async src="//embedr.flickr.com/assets/client-code.js" charset="utf-8"></script>
@@ -491,7 +491,7 @@ Shenzhen as part of Mitch Altman’s 2017 <a href="https://www.noisebridge.net/w
 </div>
 
 
-<div id="outline-container-orgbb1fcca" class="outline-2">
+<div id="outline-container-orga50114b" class="outline-2">
 <h2 id="led"><span class="section-number-2">5</span> NeoPixel LEDs</h2>
 <div class="outline-text-2" id="text-led">
 <p>
@@ -507,9 +507,9 @@ Concerning connecting the LEDs, see the Adafruit NeoPixel LED
 
 <ul class="org-ul">
 <li><p>
-/“When using a DC power supply, or an especially large battery, we
+“When using a DC power supply, or an especially large battery, we
 recommend adding a large capacitor (1000 µF, 6.3V or higher) across
-the + and terminals.”/
+the + and terminals.”
 </p>
 
 <p>
@@ -517,19 +517,23 @@ With the board here, this may not be necessary. After all, the
 NeoPixels are powered by regulated 5V. (to keep brightness constant)
 </p></li>
 
-<li>/“With through-hole NeoPixels (5mm or 8mm), add a 0.1 µF capacitor
+<li>“With through-hole NeoPixels (5mm or 8mm), add a 0.1 µF capacitor
 between the + and pins of EACH PIXEL. Individual pixels may
-misbehave without this “decoupling cap.”/</li>
+misbehave without this “decoupling cap.”</li>
 
-<li>/“Adding a ~470 ohm resistor between your microcontroller's data pin
+<li>“Adding a ~470 ohm resistor between your microcontroller's data pin
 and the data input on the NeoPixels can help prevent spikes on the
-data line that can damage your first pixel.”/</li>
+data line that can damage your first pixel.”</li>
 </ul>
+
+<p>
+There is also a <a href="https://statics3.seeedstudio.com/images/opl/datasheet/304990003.pdf">datasheet</a>.
+</p>
 </div>
 </div>
 
 
-<div id="outline-container-org4f44f8e" class="outline-2">
+<div id="outline-container-orge526a3f" class="outline-2">
 <h2 id="accelerometer"><span class="section-number-2">6</span> Accelerometer</h2>
 <div class="outline-text-2" id="text-accelerometer">
 <p>
@@ -576,8 +580,8 @@ solder these.
 </div>
 
 
-<div id="outline-container-orgd134b95" class="outline-2">
-<h2 id="orgd134b95"><span class="section-number-2">7</span> Open questions</h2>
+<div id="outline-container-orgf4376e8" class="outline-2">
+<h2 id="orgf4376e8"><span class="section-number-2">7</span> Open questions</h2>
 <div class="outline-text-2" id="text-7">
 <ul class="org-ul">
 <li><p>
@@ -732,8 +736,8 @@ PCB.
 </div>
 
 
-<div id="outline-container-org76df278" class="outline-2">
-<h2 id="org76df278"><span class="section-number-2">8</span> Source of 3D compontents</h2>
+<div id="outline-container-orgd5f2d02" class="outline-2">
+<h2 id="orgd5f2d02"><span class="section-number-2">8</span> Source of 3D compontents</h2>
 <div class="outline-text-2" id="text-8">
 <ul class="org-ul">
 <li>BK-912: <a href="http://www.memoryprotectiondevices.com/3d/download.php?pn=BK-912">BK-912.STEP</a></li>
@@ -757,7 +761,7 @@ PCB.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-03-18 Mon 20:19</p>
+<p class="date">Created: 2019-03-18 Mon 20:27</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

@@ -214,20 +214,6 @@ solder these.
   polarity.  Still – from experience – reversing polarity doesn’t
   damage the board.
 
-- /Which board manufacturer?/
-
-  Examples are [[https://jlcpcb.com/][JLCPCB]], PCBWay, or Seeed.  Seeed has a list of
-  components that they have in stock, which speeds up sourcing.  Felix
-  also has a contact at Seeed, met in person in Berlin. In 2017, with
-  the [[https://flic.kr/p/21c8Cqx][HTTC7 group]] he visited the Seeed [[https://www.flickr.com/photos/maltman23/38194661961/in/album-72157665929390189/][assembly line]] in 2017 in
-  Shenzhen.
-
-- /Which RGB LEDs should be used?/
-
-  The Kingbright APFA3010SEEZGKQBKC rectangular SMD LED looks good.
-  An alternative is the APFA3010LSEEZGKQBKC, which is considerably
-  less bright by default.
-
 - /Add holes for regular through hole NeoPixel LEDs?/
 
   This is for the case the WS2811-SMD-LED circuits turn out not to
@@ -240,35 +226,7 @@ solder these.
 
   Then the circuit can be easily disconnected in case it doesn’t work.
 
-- /Can a pick and place machine put LEDs protruding the edge of the
-  PCB?/
-
-  Having LEDs protrude the edge avoids having light blocked by the
-  PCB.
-
 - /Do the selected LEDs have a circular uniform viewing angle?/
-
-- /Is it OK to abuse a Micro-USB port for programming the FTDI?/
-
-  This is the port accessible through the top shell.  As long as GND
-  and +5 V are in the same position as with USB, things could be safe.
-
-  Micro-USB ports have the required five pins.  They are readily
-  available, cheap, and small.
-
-- /Use QFN package for ATmega328P?/
-
-  …instead of TQFP
-
-- /Can the assembly house or the parts vendor burn an Arduino boot
-  loader on the ATmega328P?/
-
-  Otherwise, the second Micro-USB port can be used to burn the boot
-  loader.  Six pins are required, but power could be taken from the
-  other Micro-USB port.
-
-  Digi-Key offers the option, but the assembly house may source from
-  another vendor.
 
 - /Should the top PCB get more space?/
 

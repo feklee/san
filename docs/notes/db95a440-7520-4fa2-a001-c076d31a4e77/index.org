@@ -192,6 +192,14 @@ solder these.
 
 * Open questions
 
+- /Does the ZX62D-B-5P8 Micro-USB connector require wave soldering?/
+
+  If it requires wave soldering, then possibly having the battery
+  holder pad underneath is problematic, although both connections are
+  to ground.
+
+  The component has SKU 320010005 in the Seeed OPL ([[https://statics3.seeedstudio.com/images/opl/datasheet/320010005.pdf][datasheet]]).
+
 - /Is there a better way to connect the PCBs?/
 
   An eight wire FCC is used.  Nicer would be a solution without FCC,
@@ -256,3 +264,5 @@ solder these.
 - ATMega 328P-AU: [[https://digikey.ultralibrarian.com][32A.step]] (Ultra Librarian for Digi-Key)
 
 - BNC connectors: [[https://www.amphenolrf.com/031-221-rfx.html][31-221-RFX.stp]]
+
+- Hirose FH12-6S-0.5SH(55): [[https://www.hirose.com/product/document?clcode=CL0586-0582-5-55&productname=FH12-6S-0.5SH(55)&series=FH12&documenttype=3DDrawing_STEP&lang=en&documentid=0001219107S][FH12-6S-0.5SH.stp]]

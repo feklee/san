@@ -58,9 +58,7 @@ GitHub.
 :CUSTOM_ID: layout
 :END:
 
-#+BEGIN_EXPORT html
-<img alt="Main circuit" src="./images/layout.png">
-#+END_EXPORT
+[[./images/layout.png]]
 
 nothing to see here
 
@@ -205,7 +203,7 @@ solder these.
 
 - Are the holes big enough for the 5 mm NeoPixel pins?
 
-- Is there protection agains revers polarity?
+- Is there protection agains reverse polarity?
 
 - Are there unanswered [[#questions][open questions]]?
 

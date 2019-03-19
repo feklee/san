@@ -191,6 +191,9 @@ solder these.
 
 
 * Open questions
+:PROPERTIES:
+:CUSTOM_ID: open-questions
+:END:
 
 - /Does the ZX62D-B-5P8 Micro-USB connector require wave soldering?/
 

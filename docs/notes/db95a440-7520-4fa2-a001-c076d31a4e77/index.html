@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-03-19 Tue 18:26 -->
+<!-- 2019-03-19 Tue 20:32 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: PCB Design</title>
@@ -248,26 +248,29 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orga4752df">1. Objectives</a></li>
-<li><a href="#orgb580848">2. 3D mockup</a></li>
-<li><a href="#org915430e">3. Schematic</a></li>
-<li><a href="#seeed">4. Seeed studio</a>
+<li><a href="#orge4978d9">1. Objectives</a></li>
+<li><a href="#orge395325">2. 3D mockup</a></li>
+<li><a href="#schematic">3. Schematic</a></li>
+<li><a href="#layout">4. Board layout</a></li>
+<li><a href="#layout">5. Board layout</a></li>
+<li><a href="#seeed">6. Seeed Studio</a>
 <ul>
-<li><a href="#seeed-opl">4.1. OPL</a></li>
-<li><a href="#opl-bom">4.2. OPL BOM</a></li>
-<li><a href="#org15b6606">4.3. Inside</a></li>
+<li><a href="#seeed-opl">6.1. OPL</a></li>
+<li><a href="#opl-bom">6.2. OPL BOM</a></li>
+<li><a href="#orgecf91cc">6.3. Inside</a></li>
 </ul>
 </li>
-<li><a href="#led">5. NeoPixel LEDs</a></li>
-<li><a href="#accelerometer">6. Accelerometer</a></li>
-<li><a href="#open-questions">7. Open questions</a></li>
-<li><a href="#org8da72e7">8. Source of 3D compontents</a></li>
+<li><a href="#led">7. NeoPixel LEDs</a></li>
+<li><a href="#accelerometer">8. Accelerometer</a></li>
+<li><a href="#pre-tests">9. Pre-production checklist</a></li>
+<li><a href="#questions">10. Open questions</a></li>
+<li><a href="#org2eb2426">11. Source of 3D compontents</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orga4752df" class="outline-2">
-<h2 id="orga4752df"><span class="section-number-2">1</span> Objectives</h2>
+<div id="outline-container-orge4978d9" class="outline-2">
+<h2 id="orge4978d9"><span class="section-number-2">1</span> Objectives</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>Find dimensions of PCBs that can then be used with KiCad.</li>
@@ -282,8 +285,8 @@ for the JavaScript code in this tag.
 </div>
 
 
-<div id="outline-container-orgb580848" class="outline-2">
-<h2 id="orgb580848"><span class="section-number-2">2</span> 3D mockup</h2>
+<div id="outline-container-orge395325" class="outline-2">
+<h2 id="orge395325"><span class="section-number-2">2</span> 3D mockup</h2>
 <div class="outline-text-2" id="text-2">
 <iframe allowfullscreen id="irisModel" width="100%" height="600px"
 src="mockup.iris/index.html" frameBorder="0"></iframe>
@@ -313,29 +316,49 @@ is to easily be able to update the firmware.</li>
 </div>
 
 
-<div id="outline-container-org915430e" class="outline-2">
-<h2 id="org915430e"><span class="section-number-2">3</span> Schematic</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-org86b16cf" class="outline-2">
+<h2 id="schematic"><span class="section-number-2">3</span> Schematic</h2>
+<div class="outline-text-2" id="text-schematic">
 <img alt="Main circuit" src="./images/node.svg">
 
-<img alt="NeoPixel circuit" src="./images/neopixel-NeoPixel 1.svg">
-
 <p>
-This is a snapshot of the schematic.  Only one of the NeoPixel
-circuits is shown.  They are all the same except for the component
-references.
-</p>
-
-<p>
-The most recent version of the schematic can be found in the KiCad
-project <a href="https://github.com/feklee/san/tree/master/nodes/pcb/node">node</a> in the SAN repo on GitHub.
+This is a snapshot of the schematic.  The most recent version of the
+schematic can be found in the KiCad project <a href="https://github.com/feklee/san/tree/master/nodes/pcb/node">node</a> in the SAN repo on
+GitHub.
 </p>
 </div>
 </div>
 
 
-<div id="outline-container-org37bff83" class="outline-2">
-<h2 id="seeed"><span class="section-number-2">4</span> Seeed studio</h2>
+<div id="outline-container-orgc9d91cf" class="outline-2">
+<h2 id="layout"><span class="section-number-2">4</span> Board layout</h2>
+<div class="outline-text-2" id="text-layout">
+<img alt="Main circuit" src="./images/layout.png">
+
+<p>
+nothing to see here
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgc1b0e57" class="outline-2">
+<h2 id="layout"><span class="section-number-2">5</span> Board layout</h2>
+<div class="outline-text-2" id="text-layout">
+<img alt="Main circuit" src="./images/node.svg">
+
+<p>
+This is a snapshot of the schematic.  The most recent version of the
+schematic can be found in the KiCad project <a href="https://github.com/feklee/san/tree/master/nodes/pcb/node">node</a> in the SAN repo on
+GitHub.
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-orge34a282" class="outline-2">
+<h2 id="seeed"><span class="section-number-2">6</span> Seeed Studio</h2>
 <div class="outline-text-2" id="text-seeed">
 <p>
 As assembly house <a href="https://www.seeedstudio.com/">Seeed Studio</a> has been chosen. Capabilities of the
@@ -356,8 +379,8 @@ capabilities</i>)</li>
 </div>
 
 
-<div id="outline-container-orga7bae4a" class="outline-3">
-<h3 id="seeed-opl"><span class="section-number-3">4.1</span> OPL</h3>
+<div id="outline-container-org2504b33" class="outline-3">
+<h3 id="seeed-opl"><span class="section-number-3">6.1</span> OPL</h3>
 <div class="outline-text-3" id="text-seeed-opl">
 <p>
 Seeed keeps components in stock for quick production time. These are
@@ -379,8 +402,8 @@ hope components in the Seeed OPL are in stock.)</li>
 </div>
 
 
-<div id="outline-container-orgb0f960b" class="outline-3">
-<h3 id="opl-bom"><span class="section-number-3">4.2</span> OPL BOM</h3>
+<div id="outline-container-orgd41ea1e" class="outline-3">
+<h3 id="opl-bom"><span class="section-number-3">6.2</span> OPL BOM</h3>
 <div class="outline-text-3" id="text-opl-bom">
 <p>
 Incomplete BOM based on the OPL:
@@ -477,9 +500,9 @@ needed.
 </div>
 
 
-<div id="outline-container-org15b6606" class="outline-3">
-<h3 id="org15b6606"><span class="section-number-3">4.3</span> Inside</h3>
-<div class="outline-text-3" id="text-4-3">
+<div id="outline-container-orgecf91cc" class="outline-3">
+<h3 id="orgecf91cc"><span class="section-number-3">6.3</span> Inside</h3>
+<div class="outline-text-3" id="text-6-3">
 <p>
 The author of this document visited Seeed Studio in Shenzhen as part
 of Mitch Altman’s 2017 <a href="https://www.noisebridge.net/wiki/NoisebridgeChinaTrip7">Hacker Trip to China</a>.
@@ -491,8 +514,8 @@ of Mitch Altman’s 2017 <a href="https://www.noisebridge.net/wiki/NoisebridgeCh
 </div>
 
 
-<div id="outline-container-org6edf938" class="outline-2">
-<h2 id="led"><span class="section-number-2">5</span> NeoPixel LEDs</h2>
+<div id="outline-container-org3851762" class="outline-2">
+<h2 id="led"><span class="section-number-2">7</span> NeoPixel LEDs</h2>
 <div class="outline-text-2" id="text-led">
 <p>
 The LEDs have been changed to point upwards instead of sidewards. The
@@ -533,8 +556,8 @@ There is also a <a href="https://statics3.seeedstudio.com/images/opl/datasheet/3
 </div>
 
 
-<div id="outline-container-org7bb28bf" class="outline-2">
-<h2 id="accelerometer"><span class="section-number-2">6</span> Accelerometer</h2>
+<div id="outline-container-org8cef052" class="outline-2">
+<h2 id="accelerometer"><span class="section-number-2">8</span> Accelerometer</h2>
 <div class="outline-text-2" id="text-accelerometer">
 <p>
 First: The accelerometer circuit can be left away entirely, if that
@@ -580,72 +603,78 @@ solder these.
 </div>
 
 
-<div id="outline-container-orge6650cd" class="outline-2">
-<h2 id="open-questions"><span class="section-number-2">7</span> Open questions</h2>
-<div class="outline-text-2" id="text-open-questions">
+<div id="outline-container-org0c0f838" class="outline-2">
+<h2 id="pre-tests"><span class="section-number-2">9</span> Pre-production checklist</h2>
+<div class="outline-text-2" id="text-pre-tests">
+<ul class="org-ul">
+<li>Are the holes big enough for the 5 mm NeoPixel pins?</li>
+
+<li>Is there protection agains revers polarity?</li>
+
+<li>Are there unanswered <a href="#questions">open questions</a>?</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org97c7c9c" class="outline-2">
+<h2 id="questions"><span class="section-number-2">10</span> Open questions</h2>
+<div class="outline-text-2" id="text-questions">
 <ul class="org-ul">
 <li><p>
-<i>Does the ZX62D-B-5P8 Micro-USB connector require wave soldering?</i>
+<i>Can the OPL Micro-USB connectors be used?</i>
 </p>
 
 <p>
-If it requires wave soldering, then possibly having the battery
-holder pad underneath is problematic, although both connections are
-to ground.
+Available are (search for <i>USB</i> then select <i>Connectors</i>):
+</p>
+
+<ul class="org-ul">
+<li>U-F-M5DD-Y-L (Shenzhen)</li>
+
+<li>U-F-M5DD-Y-L1 (Shenzhen)</li>
+
+<li>10118193-0001LF (Seeed)</li>
+</ul>
+
+<p>
+If the connectors require wave soldering, then possibly having the
+battery holder pad underneath is problematic, although both
+connections are to ground.
 </p>
 
 <p>
-The component has SKU 320010005 in the Seeed OPL (<a href="https://statics3.seeedstudio.com/images/opl/datasheet/320010005.pdf">datasheet</a>).
+A non-USB connector is fine too, and it’s less
+confusing. Requirements for a connector:
+</p>
+
+<ul class="org-ul">
+<li>Accesibility from the outside (reprogramming at times happens
+often)</li>
+
+<li>Safety: The connector should be robust, which includes a design
+that makes it hard to short pins.</li>
+</ul></li>
+
+<li><p>
+<i>Should there be 470 Ω resistors between BNC connectors and the 328P
+pins?</i>
+</p>
+
+<p>
+The idea is to protect the 328P when someone accidentally shorts a
+BNC connector. On the other hand, there are no such resistors in the
+current hand-soldered version, and things work fine (asides from the
+NeoPixel LEDs starting to fail more frequently).
 </p></li>
 
 <li><p>
-<i>Is there a better way to connect the PCBs?</i>
+<i>Should there be 0.1 µF capacitors in between +5V and GND for each
+WS2811?</i> 
 </p>
 
 <p>
-An eight wire FCC is used.  Nicer would be a solution without FCC,
-where the boards can simply be plugged together, and done.
-</p>
-
-<p>
-See also the thread <a href="https://www.mikrocontroller.net/topic/466727">Platinen über Kreuz kontaktieren</a> (German) in the
-forum on Microcontroller.net.
-</p></li>
-
-<li><p>
-<i>Use plated-trough holes as cheap and simple alternative to the
-Molex 0533980271 <a href="https://www.molex.com/product/picoblade.html">PicoBlade</a> connectors?</i>
-</p>
-
-<p>
-The PicoBlade connectors are for connecting the BNC connectors.
-Without plated-trough holes, the cables would be manually soldered
-to the PCBs, for example by participants during a workshop.
-</p></li>
-
-<li><p>
-<i>Should there be a diode in front of the 5 V regulator?</i>
-</p>
-
-<p>
-For comparison: The Arduino Uno has an M7 diode right after <code>PWRIN</code>.
-The Arduino Pro Mini doesn’t have a diode to protect agains reverse
-polarity.  Still – from experience – reversing polarity doesn’t
-damage the board.
-</p></li>
-
-<li><p>
-<i>Add holes for regular through hole NeoPixel LEDs?</i>
-</p>
-
-<p>
-This is for the case the WS2811-SMD-LED circuits turn out not to
-work.  There won’t be enough time to do a second production run.
-</p>
-
-<p>
-Solder bridges could be used to have the easy option to disconnect
-nonfunctional SMD NeoPixel circuits.
+That’s recommended in the Adafruit NeoPixel <a href="https://learn.adafruit.com/adafruit-neopixel-uberguide/basic-connections">Überguide</a>.
 </p></li>
 
 <li><p>
@@ -656,8 +685,6 @@ nonfunctional SMD NeoPixel circuits.
 Then the circuit can be easily disconnected in case it doesn’t work.
 </p></li>
 
-<li><i>Do the selected LEDs have a circular uniform viewing angle?</i></li>
-
 <li><p>
 <i>Should the top PCB get more space?</i>
 </p>
@@ -665,24 +692,14 @@ Then the circuit can be easily disconnected in case it doesn’t work.
 <p>
 It could be extended downwards at the expense of the bottom PCB.
 </p></li>
-
-<li><p>
-<i>Move the accelerometer circuit to the top PCB?</i>
-</p>
-
-<p>
-That way the FCC would require only six instead of eight wires.
-However, there may not be enough space for the circuit in the top
-PCB.
-</p></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org8da72e7" class="outline-2">
-<h2 id="org8da72e7"><span class="section-number-2">8</span> Source of 3D compontents</h2>
-<div class="outline-text-2" id="text-8">
+<div id="outline-container-org2eb2426" class="outline-2">
+<h2 id="org2eb2426"><span class="section-number-2">11</span> Source of 3D compontents</h2>
+<div class="outline-text-2" id="text-11">
 <ul class="org-ul">
 <li>BK-912: <a href="http://www.memoryprotectiondevices.com/3d/download.php?pn=BK-912">BK-912.STEP</a></li>
 
@@ -707,7 +724,7 @@ PCB.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-03-19 Tue 18:26</p>
+<p class="date">Created: 2019-03-19 Tue 20:32</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

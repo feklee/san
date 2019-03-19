@@ -40,24 +40,47 @@ model file [[./mockup.3dm][mockup.3dm]].
 
 
 * Schematic
+:PROPERTIES:
+:CUSTOM_ID: schematic
+:END:
 
 #+BEGIN_EXPORT html
 <img alt="Main circuit" src="./images/node.svg">
 #+END_EXPORT
 
+This is a snapshot of the schematic.  The most recent version of the
+schematic can be found in the KiCad project [[https://github.com/feklee/san/tree/master/nodes/pcb/node][node]] in the SAN repo on
+GitHub.
+
+
+* Board layout
+:PROPERTIES:
+:CUSTOM_ID: layout
+:END:
+
 #+BEGIN_EXPORT html
-<img alt="NeoPixel circuit" src="./images/neopixel-NeoPixel 1.svg">
+<img alt="Main circuit" src="./images/layout.png">
 #+END_EXPORT
 
-This is a snapshot of the schematic.  Only one of the NeoPixel
-circuits is shown.  They are all the same except for the component
-references.
-
-The most recent version of the schematic can be found in the KiCad
-project [[https://github.com/feklee/san/tree/master/nodes/pcb/node][node]] in the SAN repo on GitHub.
+nothing to see here
 
 
-* Seeed studio
+* Board layout
+:PROPERTIES:
+:CUSTOM_ID: layout
+:END:
+
+#+BEGIN_EXPORT html
+<img alt="Main circuit" src="./images/node.svg">
+#+END_EXPORT
+
+This is a snapshot of the schematic.  The most recent version of the
+schematic can be found in the KiCad project [[https://github.com/feklee/san/tree/master/nodes/pcb/node][node]] in the SAN repo on
+GitHub.
+
+
+
+* Seeed Studio
 :PROPERTIES:
 :CUSTOM_ID: seeed
 :END:
@@ -190,64 +213,66 @@ It may be possible to find someone in Hong Kong or Shenzhen to hand
 solder these.
 
 
-* Open questions
+* Pre-production checklist
 :PROPERTIES:
-:CUSTOM_ID: open-questions
+:CUSTOM_ID: pre-tests
 :END:
 
-- /Does the ZX62D-B-5P8 Micro-USB connector require wave soldering?/
+- Are the holes big enough for the 5 mm NeoPixel pins?
 
-  If it requires wave soldering, then possibly having the battery
-  holder pad underneath is problematic, although both connections are
-  to ground.
+- Is there protection agains revers polarity?
 
-  The component has SKU 320010005 in the Seeed OPL ([[https://statics3.seeedstudio.com/images/opl/datasheet/320010005.pdf][datasheet]]).
+- Are there unanswered [[#questions][open questions]]?
 
-- /Is there a better way to connect the PCBs?/
 
-  An eight wire FCC is used.  Nicer would be a solution without FCC,
-  where the boards can simply be plugged together, and done.
+* Open questions
+:PROPERTIES:
+:CUSTOM_ID: questions
+:END:
 
-  See also the thread [[https://www.mikrocontroller.net/topic/466727][Platinen über Kreuz kontaktieren]] (German) in the
-  forum on Microcontroller.net.
+- /Can the OPL Micro-USB connectors be used?/
 
-- /Use plated-trough holes as cheap and simple alternative to the
-  Molex 0533980271 [[https://www.molex.com/product/picoblade.html][PicoBlade]] connectors?/
+  Available are (search for /USB/ then select /Connectors/):
 
-  The PicoBlade connectors are for connecting the BNC connectors.
-  Without plated-trough holes, the cables would be manually soldered
-  to the PCBs, for example by participants during a workshop.
+  + U-F-M5DD-Y-L (Shenzhen)
 
-- /Should there be a diode in front of the 5 V regulator?/
+  + U-F-M5DD-Y-L1 (Shenzhen)
 
-  For comparison: The Arduino Uno has an M7 diode right after =PWRIN=.
-  The Arduino Pro Mini doesn’t have a diode to protect agains reverse
-  polarity.  Still – from experience – reversing polarity doesn’t
-  damage the board.
+  + 10118193-0001LF (Seeed)
 
-- /Add holes for regular through hole NeoPixel LEDs?/
+  If the connectors require wave soldering, then possibly having the
+  battery holder pad underneath is problematic, although both
+  connections are to ground.
 
-  This is for the case the WS2811-SMD-LED circuits turn out not to
-  work.  There won’t be enough time to do a second production run.
+  A non-USB connector is fine too, and it’s less
+  confusing. Requirements for a connector:
 
-  Solder bridges could be used to have the easy option to disconnect
-  nonfunctional SMD NeoPixel circuits.
+  + Accesibility from the outside (reprogramming at times happens
+    often)
+
+  + Safety: The connector should be robust, which includes a design
+    that makes it hard to short pins.
+
+- /Should there be 470 Ω resistors between BNC connectors and the 328P
+  pins?/
+
+  The idea is to protect the 328P when someone accidentally shorts a
+  BNC connector. On the other hand, there are no such resistors in the
+  current hand-soldered version, and things work fine (asides from the
+  NeoPixel LEDs starting to fail more frequently).
+
+- /Should there be 0.1 µF capacitors in between +5V and GND for each
+  WS2811?/ 
+
+  That’s recommended in the Adafruit NeoPixel [[https://learn.adafruit.com/adafruit-neopixel-uberguide/basic-connections][Überguide]].
 
 - /Add a solder bridge to easily turn off the accelerometer circuit?/
 
   Then the circuit can be easily disconnected in case it doesn’t work.
 
-- /Do the selected LEDs have a circular uniform viewing angle?/
-
 - /Should the top PCB get more space?/
 
   It could be extended downwards at the expense of the bottom PCB.
-
-- /Move the accelerometer circuit to the top PCB?/
-
-  That way the FCC would require only six instead of eight wires.
-  However, there may not be enough space for the circuit in the top
-  PCB.
 
 
 * Source of 3D compontents

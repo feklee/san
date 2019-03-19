@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name SparkfunSensors)(type Legacy)(uri E:/Dev/feklee-node/top-hemi/SparkFun-Sensors.lib)(options "")(descr ""))
+)

@@ -65,21 +65,6 @@ GitHub.
 nothing to see here
 
 
-* Board layout
-:PROPERTIES:
-:CUSTOM_ID: layout
-:END:
-
-#+BEGIN_EXPORT html
-<img alt="Main circuit" src="./images/node.svg">
-#+END_EXPORT
-
-This is a snapshot of the schematic.  The most recent version of the
-schematic can be found in the KiCad project [[https://github.com/feklee/san/tree/master/nodes/pcb/node][node]] in the SAN repo on
-GitHub.
-
-
-
 * Seeed Studio
 :PROPERTIES:
 :CUSTOM_ID: seeed

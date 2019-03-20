@@ -201,11 +201,23 @@ solder these.
 :CUSTOM_ID: pre-tests
 :END:
 
+- Do the FCC connectors match? (mirrored)
+
 - Are the holes big enough for the 5 mm NeoPixel pins?
 
-- Is there protection agains reverse polarity?
+- Is there protection against reverse polarity?
 
 - Are there unanswered [[#questions][open questions]]?
+
+- Are there components / connectors colliding mechanically with the
+  sphere or the other board?
+
+- Is there protection against applying charge to the batteries when
+  someone plugs in a powered USB cable into the FTDI port?
+
+- Are the LEDs in the correct position?
+
+- Are the ports in the correct position?
 
 
 * Open questions

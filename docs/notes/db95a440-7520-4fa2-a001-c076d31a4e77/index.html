@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-03-20 Wed 14:41 -->
+<!-- 2019-03-20 Wed 16:40 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: PCB Design</title>
@@ -248,28 +248,28 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org69bb80d">1. Objectives</a></li>
-<li><a href="#org98cc9fa">2. 3D mockup</a></li>
+<li><a href="#org8b6d75e">1. Objectives</a></li>
+<li><a href="#orgca7c87a">2. 3D mockup</a></li>
 <li><a href="#schematic">3. Schematic</a></li>
 <li><a href="#layout">4. Board layout</a></li>
 <li><a href="#seeed">5. Seeed Studio</a>
 <ul>
 <li><a href="#seeed-opl">5.1. OPL</a></li>
 <li><a href="#opl-bom">5.2. OPL BOM</a></li>
-<li><a href="#org5df5cd2">5.3. Inside</a></li>
+<li><a href="#org901fb9c">5.3. Inside</a></li>
 </ul>
 </li>
 <li><a href="#led">6. NeoPixel LEDs</a></li>
 <li><a href="#accelerometer">7. Accelerometer</a></li>
 <li><a href="#pre-tests">8. Pre-production checklist</a></li>
 <li><a href="#questions">9. Open questions</a></li>
-<li><a href="#orgd83944a">10. Source of 3D compontents</a></li>
+<li><a href="#org3e271d5">10. Source of 3D compontents</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org69bb80d" class="outline-2">
-<h2 id="org69bb80d"><span class="section-number-2">1</span> Objectives</h2>
+<div id="outline-container-org8b6d75e" class="outline-2">
+<h2 id="org8b6d75e"><span class="section-number-2">1</span> Objectives</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>Find dimensions of PCBs that can then be used with KiCad.</li>
@@ -284,8 +284,8 @@ for the JavaScript code in this tag.
 </div>
 
 
-<div id="outline-container-org98cc9fa" class="outline-2">
-<h2 id="org98cc9fa"><span class="section-number-2">2</span> 3D mockup</h2>
+<div id="outline-container-orgca7c87a" class="outline-2">
+<h2 id="orgca7c87a"><span class="section-number-2">2</span> 3D mockup</h2>
 <div class="outline-text-2" id="text-2">
 <iframe allowfullscreen id="irisModel" width="100%" height="600px"
 src="mockup.iris/index.html" frameBorder="0"></iframe>
@@ -315,7 +315,7 @@ is to easily be able to update the firmware.</li>
 </div>
 
 
-<div id="outline-container-orgc128ebf" class="outline-2">
+<div id="outline-container-orgd6117d1" class="outline-2">
 <h2 id="schematic"><span class="section-number-2">3</span> Schematic</h2>
 <div class="outline-text-2" id="text-schematic">
 <img alt="Main circuit" src="./images/node.svg">
@@ -329,7 +329,7 @@ GitHub.
 </div>
 
 
-<div id="outline-container-orgc25de05" class="outline-2">
+<div id="outline-container-org197ad34" class="outline-2">
 <h2 id="layout"><span class="section-number-2">4</span> Board layout</h2>
 <div class="outline-text-2" id="text-layout">
 
@@ -345,7 +345,7 @@ nothing to see here
 </div>
 
 
-<div id="outline-container-org1b4634a" class="outline-2">
+<div id="outline-container-org2fc164c" class="outline-2">
 <h2 id="seeed"><span class="section-number-2">5</span> Seeed Studio</h2>
 <div class="outline-text-2" id="text-seeed">
 <p>
@@ -360,6 +360,8 @@ package</i>)</li>
 <li><a href="https://www.seeedstudio.com/prototype-pcb-assembly.html">Seeed Studio Fusion PCB Assembly</a> (with section about <i>PCB assembly
 capabilities</i>)</li>
 
+<li><a href="http://support.seeedstudio.com/knowledgebase/articles/447362-fusion-pcb-specification">Fusion PCB Specification</a> (incl. Gerber requirements and tolerances)</li>
+
 <li><a href="http://support.seeedstudio.com/knowledgebase/articles/457797-fusion-pcba-specification">Fusion PCBA Specification</a></li>
 
 <li><a href="http://www.seeedstudio.com/blog/2017/05/15/component-layout-considerations/">Component layout considerations – PCB DFM Part 4</a></li>
@@ -367,7 +369,7 @@ capabilities</i>)</li>
 </div>
 
 
-<div id="outline-container-org3dd0879" class="outline-3">
+<div id="outline-container-org4b90e75" class="outline-3">
 <h3 id="seeed-opl"><span class="section-number-3">5.1</span> OPL</h3>
 <div class="outline-text-3" id="text-seeed-opl">
 <p>
@@ -390,7 +392,7 @@ hope components in the Seeed OPL are in stock.)</li>
 </div>
 
 
-<div id="outline-container-orgce9b992" class="outline-3">
+<div id="outline-container-org1f261d3" class="outline-3">
 <h3 id="opl-bom"><span class="section-number-3">5.2</span> OPL BOM</h3>
 <div class="outline-text-3" id="text-opl-bom">
 <p>
@@ -488,8 +490,8 @@ needed.
 </div>
 
 
-<div id="outline-container-org5df5cd2" class="outline-3">
-<h3 id="org5df5cd2"><span class="section-number-3">5.3</span> Inside</h3>
+<div id="outline-container-org901fb9c" class="outline-3">
+<h3 id="org901fb9c"><span class="section-number-3">5.3</span> Inside</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 The author of this document visited Seeed Studio in Shenzhen as part
@@ -502,7 +504,7 @@ of Mitch Altman’s 2017 <a href="https://www.noisebridge.net/wiki/NoisebridgeCh
 </div>
 
 
-<div id="outline-container-org007d0db" class="outline-2">
+<div id="outline-container-org9eaa2c4" class="outline-2">
 <h2 id="led"><span class="section-number-2">6</span> NeoPixel LEDs</h2>
 <div class="outline-text-2" id="text-led">
 <p>
@@ -544,7 +546,7 @@ There is also a <a href="https://statics3.seeedstudio.com/images/opl/datasheet/3
 </div>
 
 
-<div id="outline-container-org2718b3a" class="outline-2">
+<div id="outline-container-org43f3f23" class="outline-2">
 <h2 id="accelerometer"><span class="section-number-2">7</span> Accelerometer</h2>
 <div class="outline-text-2" id="text-accelerometer">
 <p>
@@ -591,7 +593,7 @@ solder these.
 </div>
 
 
-<div id="outline-container-org2df03eb" class="outline-2">
+<div id="outline-container-org702ef69" class="outline-2">
 <h2 id="pre-tests"><span class="section-number-2">8</span> Pre-production checklist</h2>
 <div class="outline-text-2" id="text-pre-tests">
 <ul class="org-ul">
@@ -621,7 +623,7 @@ someone plugs in a powered USB cable into the FTDI port?</li>
 </div>
 
 
-<div id="outline-container-org5c37297" class="outline-2">
+<div id="outline-container-org8302d2f" class="outline-2">
 <h2 id="questions"><span class="section-number-2">9</span> Open questions</h2>
 <div class="outline-text-2" id="text-questions">
 <ul class="org-ul">
@@ -701,8 +703,8 @@ It could be extended downwards at the expense of the bottom PCB.
 </div>
 
 
-<div id="outline-container-orgd83944a" class="outline-2">
-<h2 id="orgd83944a"><span class="section-number-2">10</span> Source of 3D compontents</h2>
+<div id="outline-container-org3e271d5" class="outline-2">
+<h2 id="org3e271d5"><span class="section-number-2">10</span> Source of 3D compontents</h2>
 <div class="outline-text-2" id="text-10">
 <ul class="org-ul">
 <li>BK-912: <a href="http://www.memoryprotectiondevices.com/3d/download.php?pn=BK-912">BK-912.STEP</a></li>
@@ -728,7 +730,7 @@ It could be extended downwards at the expense of the bottom PCB.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-03-20 Wed 14:41</p>
+<p class="date">Created: 2019-03-20 Wed 16:40</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

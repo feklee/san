@@ -77,6 +77,8 @@ As assembly house [[https://www.seeedstudio.com/][Seeed Studio]] has been chosen
 - [[https://www.seeedstudio.com/prototype-pcb-assembly.html][Seeed Studio Fusion PCB Assembly]] (with section about /PCB assembly
   capabilities/)
 
+- [[http://support.seeedstudio.com/knowledgebase/articles/447362-fusion-pcb-specification][Fusion PCB Specification]] (incl. Gerber requirements and tolerances)
+
 - [[http://support.seeedstudio.com/knowledgebase/articles/457797-fusion-pcba-specification][Fusion PCBA Specification]]
 
 - [[http://www.seeedstudio.com/blog/2017/05/15/component-layout-considerations/][Component layout considerations – PCB DFM Part 4]]

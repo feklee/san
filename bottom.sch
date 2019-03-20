@@ -61,7 +61,7 @@ L Connector_Generic:Conn_01x02 J7
 U 1 1 5CA5A9D9
 P 3500 1000
 F 0 "J7" H 3580 992 50  0000 L CNN
-F 1 "Conn_01x02" H 3580 901 50  0000 L CNN
+F 1 "Port_3" H 3580 901 50  0000 L CNN
 F 2 "Connector_PinHeader_1.27mm:PinHeader_1x02_P1.27mm_Vertical" H 3500 1000 50  0001 C CNN
 F 3 "~" H 3500 1000 50  0001 C CNN
 	1    3500 1000
@@ -72,7 +72,7 @@ L Connector_Generic:Conn_01x02 J8
 U 1 1 5CA5ADA9
 P 3500 1500
 F 0 "J8" H 3580 1492 50  0000 L CNN
-F 1 "Conn_01x02" H 3580 1401 50  0000 L CNN
+F 1 "Port_4" H 3580 1401 50  0000 L CNN
 F 2 "Connector_PinHeader_1.27mm:PinHeader_1x02_P1.27mm_Vertical" H 3500 1500 50  0001 C CNN
 F 3 "~" H 3500 1500 50  0001 C CNN
 	1    3500 1500

@@ -219,6 +219,10 @@ solder these.
 
 - Are the ports in the correct position?
 
+- Is the FTDI interface wired up correctly?
+
+- Is the bootloader burner interface wired up correctly?
+
 
 * Open questions
 :PROPERTIES:

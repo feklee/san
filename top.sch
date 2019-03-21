@@ -543,7 +543,7 @@ AR Path="/5C95CBD5" Ref="D?"  Part="1"
 AR Path="/5C920754/5C95CBD5" Ref="D3"  Part="1" 
 F 0 "D3" H 8550 4650 50  0000 L CNN
 F 1 "NeoPixel_THT" H 8800 4150 50  0000 L CNN
-F 2 "Connector_PinHeader_1.27mm:PinHeader_1x04_P1.27mm_Vertical" H 8800 4100 50  0001 L TNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 8800 4100 50  0001 L TNN
 F 3 "https://www.adafruit.com/product/1938" H 8850 4025 50  0001 L TNN
 F 4 "1938" H 0   0   50  0001 C CNN "MPN"
 F 5 "1528-1959-ND	" H 0   0   50  0001 C CNN "SKU"
@@ -559,7 +559,7 @@ AR Path="/5C95CBDB" Ref="D?"  Part="1"
 AR Path="/5C920754/5C95CBDB" Ref="D2"  Part="1" 
 F 0 "D2" H 7600 4650 50  0000 L CNN
 F 1 "NeoPixel_THT" H 7850 4150 50  0000 L CNN
-F 2 "Connector_PinHeader_1.27mm:PinHeader_1x04_P1.27mm_Vertical" H 7850 4100 50  0001 L TNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 7850 4100 50  0001 L TNN
 F 3 "https://www.adafruit.com/product/1938" H 7900 4025 50  0001 L TNN
 F 4 "1938" H 0   0   50  0001 C CNN "MPN"
 F 5 "1528-1959-ND	" H 0   0   50  0001 C CNN "SKU"
@@ -819,7 +819,7 @@ AR Path="/5C99C62E" Ref="J?"  Part="1"
 AR Path="/5C920754/5C99C62E" Ref="J5"  Part="1" 
 F 0 "J5" H 5080 1242 50  0000 L CNN
 F 1 "Port_2" H 5080 1151 50  0000 L CNN
-F 2 "Connector_PinHeader_1.27mm:PinHeader_1x02_P1.27mm_Vertical" H 5000 1250 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 5000 1250 50  0001 C CNN
 F 3 "~" H 5000 1250 50  0001 C CNN
 	1    5000 1250
 	1    0    0    -1  
@@ -832,7 +832,7 @@ AR Path="/5C99C634" Ref="J?"  Part="1"
 AR Path="/5C920754/5C99C634" Ref="J4"  Part="1" 
 F 0 "J4" H 5080 792 50  0000 L CNN
 F 1 "Port_1" H 5080 701 50  0000 L CNN
-F 2 "Connector_PinHeader_1.27mm:PinHeader_1x02_P1.27mm_Vertical" H 5000 800 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 5000 800 50  0001 C CNN
 F 3 "~" H 5000 800 50  0001 C CNN
 	1    5000 800 
 	1    0    0    -1  

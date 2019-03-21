@@ -724,7 +724,7 @@ F 7 "50" H 0   0   50  0001 C CNN "Min Quantity"
 	1    0    0    -1  
 $EndComp
 $Comp
-L SparkfunSensors:ADXL335 U?
+L top-hemi-rescue:ADXL335-SparkfunSensors U?
 U 1 1 5C9710AE
 P 8150 3150
 AR Path="/5C9710AE" Ref="U?"  Part="1" 
@@ -739,14 +739,14 @@ $EndComp
 $Comp
 L power:GND #PWR?
 U 1 1 5C9734D3
-P 2050 3900
+P 1550 3400
 AR Path="/5C9734D3" Ref="#PWR?"  Part="1" 
 AR Path="/5C920754/5C9734D3" Ref="#PWR04"  Part="1" 
-F 0 "#PWR04" H 2050 3650 50  0001 C CNN
-F 1 "GND" H 2055 3727 50  0000 C CNN
-F 2 "" H 2050 3900 50  0001 C CNN
-F 3 "" H 2050 3900 50  0001 C CNN
-	1    2050 3900
+F 0 "#PWR04" H 1550 3150 50  0001 C CNN
+F 1 "GND" H 1555 3227 50  0000 C CNN
+F 2 "" H 1550 3400 50  0001 C CNN
+F 3 "" H 1550 3400 50  0001 C CNN
+	1    1550 3400
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -847,13 +847,13 @@ Wire Wire Line
 	4500 800  4800 800 
 Wire Wire Line
 	4800 1250 4500 1250
-Text Label 2050 3500 2    50   ~ 0
-MOSI
-Text Label 2050 3600 2    50   ~ 0
-MISO
-Text Label 2050 3700 2    50   ~ 0
-SCK
 Text Label 2050 3800 2    50   ~ 0
+MOSI
+Text Label 2050 3700 2    50   ~ 0
+MISO
+Text Label 2050 3600 2    50   ~ 0
+SCK
+Text Label 2050 3500 2    50   ~ 0
 ~RST
 Text Label 5550 2700 0    50   ~ 0
 MOSI
@@ -924,9 +924,9 @@ Text Label 5550 4400 0    50   ~ 0
 BNC-2
 Text Label 6300 3900 0    50   ~ 0
 DTR
-Text Label 2150 4950 0    50   ~ 0
-DTR
 Text Label 2150 5050 0    50   ~ 0
+DTR
+Text Label 2150 4950 0    50   ~ 0
 RXI
 Text Label 2150 5150 0    50   ~ 0
 TXO
@@ -999,7 +999,7 @@ Text Label 950  2550 2    50   ~ 0
 +5V_EXT
 Wire Wire Line
 	950  2550 1050 2550
-Text Label 2050 3400 2    50   ~ 0
+Text Label 2050 3900 2    50   ~ 0
 +5V_EXT
 Text HLabel 4000 6650 0    50   Input ~ 0
 BNC-3
@@ -1105,9 +1105,6 @@ F 6 "Shenzhen" H 0   0   50  0001 C CNN "OPL"
 	1    1850 4950
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	1750 5350 1850 5350
-Connection ~ 1850 5350
 $Comp
 L MCU_Microchip_ATmega:ATmega328P-MU U3
 U 1 1 5CAD6264
@@ -1122,4 +1119,6 @@ F 6 "Seeed" H 0   0   50  0001 C CNN "OPL"
 	1    4600 3600
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	1550 3400 2050 3400
 $EndSCHEMATC

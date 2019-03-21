@@ -1,3 +1,4 @@
 (sym_lib_table
-  (lib (name SparkfunSensors)(type Legacy)(uri E:/Dev/feklee-node/top-hemi/SparkFun-Sensors.lib)(options "")(descr ""))
+  (lib (name SparkFun-Sensors)(type Legacy)(uri ${KIPRJMOD}/SparkFun-Sensors.lib)(options "")(descr ""))
+  (lib (name top-hemi-rescue)(type Legacy)(uri ${KIPRJMOD}/top-hemi-rescue.lib)(options "")(descr ""))
 )

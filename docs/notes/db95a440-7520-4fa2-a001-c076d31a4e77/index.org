@@ -83,7 +83,7 @@ As assembly house [[https://www.seeedstudio.com/][Seeed Studio]] has been chosen
 
 - [[http://www.seeedstudio.com/blog/2017/05/15/component-layout-considerations/][Component layout considerations – PCB DFM Part 4]]
 
-- [[http://support.seeedstudio.com/knowledgebase/articles/388503-what-are-the-pcb-panelization-rules][FAQ: What are the PCB panelization rules?]]
+- [[http://support.seeedstudio.com/knowledgebase/topics/63002-fusion-technical-faq][Fusion Technical FAQ?]] (with panelization rules and more)
 
 
 ** OPL

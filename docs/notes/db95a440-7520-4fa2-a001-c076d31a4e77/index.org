@@ -229,6 +229,8 @@ solder these.
 
 - Are all ground zones connected?
 
+- Within Seeed [[http://support.seeedstudio.com/knowledgebase/articles/447362-fusion-pcb-specification][Fusion PCB specification]]?
+
 
 * Open questions
 :PROPERTIES:

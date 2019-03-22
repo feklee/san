@@ -227,6 +227,8 @@ solder these.
 
 - Is the bootloader burner interface wired up correctly?
 
+- Are all ground zones connected?
+
 
 * Open questions
 :PROPERTIES:

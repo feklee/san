@@ -1,4 +1,4 @@
-update=21/03/2019 11:30:55 AM
+update=3/22/2019 12:50:37 PM
 version=1
 last_client=kicad
 [general]
@@ -17,13 +17,13 @@ version=1
 PageLayoutDescrFile=
 LastNetListRead=top-hemi.net
 CopperLayerCount=2
-BoardThickness=1.6
+BoardThickness=1
 AllowMicroVias=0
 AllowBlindVias=0
 RequireCourtyardDefinitions=0
 ProhibitOverlappingCourtyards=1
 MinTrackWidth=0.1016
-MinViaDiameter=0.5
+MinViaDiameter=0.3
 MinViaDrill=0.3
 MinMicroViaDiameter=0.2
 MinMicroViaDrill=0.09999999999999999

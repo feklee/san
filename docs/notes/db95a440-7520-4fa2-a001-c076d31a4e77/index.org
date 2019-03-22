@@ -231,6 +231,10 @@ solder these.
 
 - Within Seeed [[http://support.seeedstudio.com/knowledgebase/articles/447362-fusion-pcb-specification][Fusion PCB specification]]?
 
+- DRC OK?
+
+- What is unconnected in DRC?
+
 
 * Open questions
 :PROPERTIES:

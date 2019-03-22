@@ -383,11 +383,11 @@ X GND 1 0 0 0 D 50 50 1 1 W N
 ENDDRAW
 ENDDEF
 #
-# top-hemi-rescue_ADXL335-SparkfunSensors
+# top-hemi-rescue_ADXL335-SparkfunSensors-top-hemi-rescue
 #
-DEF top-hemi-rescue_ADXL335-SparkfunSensors U 0 40 Y Y 1 L N
+DEF top-hemi-rescue_ADXL335-SparkfunSensors-top-hemi-rescue U 0 40 Y Y 1 L N
 F0 "U" -100 500 50 H V L BNN
-F1 "top-hemi-rescue_ADXL335-SparkfunSensors" -400 -500 50 H V L BNN
+F1 "top-hemi-rescue_ADXL335-SparkfunSensors-top-hemi-rescue" -400 -500 50 H V L BNN
 F2 "LFCSP-16" 30 150 20 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST

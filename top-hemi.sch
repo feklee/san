@@ -27,7 +27,7 @@ F6 "DOUT-BOT" O R 5550 3200 50
 F7 "5VOUT" O R 5550 3550 50 
 $EndSheet
 $Sheet
-S 5650 3100 1100 800 
+S 5650 3050 1050 850 
 U 5C920CA4
 F0 "Bottom hemisphere" 50
 F1 "bottom.sch" 50

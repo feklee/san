@@ -1,5 +1,5 @@
 EESchema Schematic File Version 4
-LIBS:top-hemi-cache
+LIBS:node-cache
 EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
@@ -724,7 +724,7 @@ F 7 "50" H 0   0   50  0001 C CNN "Min Quantity"
 	1    0    0    -1  
 $EndComp
 $Comp
-L top-hemi-rescue:ADXL335-SparkfunSensors-top-hemi-rescue U?
+L node-rescue:ADXL335-SparkfunSensors-node-rescue U?
 U 1 1 5C9710AE
 P 8150 3150
 AR Path="/5C9710AE" Ref="U?"  Part="1" 

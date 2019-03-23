@@ -1,3 +1,4 @@
 (fp_lib_table
   (lib (name CrumpPrints)(type KiCad)(uri E:/KicadLibs/CrumpPrints.pretty-master)(options "")(descr ""))
+  (lib (name node)(type KiCad)(uri ${KIPRJMOD}/node.pretty)(options "")(descr ""))
 )

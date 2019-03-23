@@ -1121,4 +1121,7 @@ F 6 "Seeed" H 0   0   50  0001 C CNN "OPL"
 $EndComp
 Wire Wire Line
 	1550 3400 2050 3400
+Wire Wire Line
+	1750 5350 1850 5350
+Connection ~ 1850 5350
 $EndSCHEMATC

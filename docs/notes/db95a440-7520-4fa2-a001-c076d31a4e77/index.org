@@ -219,10 +219,6 @@ solder these.
 - Is there protection against applying charge to the batteries when
   someone plugs in a powered USB cable into the FTDI port?
 
-- Are the LEDs in the correct position?
-
-- Are the ports in the correct position?
-
 - Is the FTDI interface wired up correctly?
 
 - Is the bootloader burner interface wired up correctly?

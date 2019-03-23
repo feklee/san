@@ -924,23 +924,23 @@ Text Label 5550 4400 0    50   ~ 0
 BNC-2
 Text Label 6300 3900 0    50   ~ 0
 DTR
-Text Label 2150 5050 0    50   ~ 0
+Text Label 2300 5050 0    50   ~ 0
 DTR
-Text Label 2150 4950 0    50   ~ 0
+Text Label 2300 4950 0    50   ~ 0
 RXI
-Text Label 2150 5150 0    50   ~ 0
+Text Label 2300 5150 0    50   ~ 0
 TXO
 $Comp
 L power:GND #PWR?
 U 1 1 5C9D7E71
-P 1850 5350
+P 2000 5350
 AR Path="/5C9D7E71" Ref="#PWR?"  Part="1" 
 AR Path="/5C920754/5C9D7E71" Ref="#PWR03"  Part="1" 
-F 0 "#PWR03" H 1850 5100 50  0001 C CNN
-F 1 "GND" H 1855 5177 50  0000 C CNN
-F 2 "" H 1850 5350 50  0001 C CNN
-F 3 "" H 1850 5350 50  0001 C CNN
-	1    1850 5350
+F 0 "#PWR03" H 2000 5100 50  0001 C CNN
+F 1 "GND" H 2005 5177 50  0000 C CNN
+F 2 "" H 2000 5350 50  0001 C CNN
+F 3 "" H 2000 5350 50  0001 C CNN
+	1    2000 5350
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -993,7 +993,7 @@ F 3 "" H 4100 6950 50  0001 C CNN
 	1    4100 6950
 	1    0    0    -1  
 $EndComp
-Text Label 2150 4750 0    50   ~ 0
+Text Label 2300 4750 0    50   ~ 0
 +5V_EXT
 Text Label 950  2550 2    50   ~ 0
 +5V_EXT
@@ -1094,15 +1094,15 @@ Connection ~ 4550 6450
 $Comp
 L Connector:USB_B_Mini J1
 U 1 1 5CA5B90D
-P 1850 4950
-F 0 "J1" H 1907 5417 50  0000 C CNN
-F 1 "USB_B_Mini" H 1907 5326 50  0000 C CNN
-F 2 "Connector_USB:USB_Mini-B_Lumberg_2486_01_Horizontal" H 2000 4900 50  0001 C CNN
-F 3 "http://www.hqchip.com/uploads/goods/201712/1513300237267023233.pdf" H 2000 4900 50  0001 C CNN
-F 4 "U-M-M5SS-W-2	" H 0   0   50  0001 C CNN "MPN"
-F 5 "U-M-M5SS-W-2	" H 0   0   50  0001 C CNN "SKU"
-F 6 "Shenzhen" H 0   0   50  0001 C CNN "OPL"
-	1    1850 4950
+P 2000 4950
+F 0 "J1" H 2057 5417 50  0000 C CNN
+F 1 "USB_B_Mini" H 2057 5326 50  0000 C CNN
+F 2 "Connector_USB:USB_Mini-B_Lumberg_2486_01_Horizontal" H 2150 4900 50  0001 C CNN
+F 3 "http://www.hqchip.com/uploads/goods/201712/1513300237267023233.pdf" H 2150 4900 50  0001 C CNN
+F 4 "U-M-M5SS-W-2	" H 150 0   50  0001 C CNN "MPN"
+F 5 "U-M-M5SS-W-2	" H 150 0   50  0001 C CNN "SKU"
+F 6 "Shenzhen" H 150 0   50  0001 C CNN "OPL"
+	1    2000 4950
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -1122,6 +1122,6 @@ $EndComp
 Wire Wire Line
 	1550 3400 2050 3400
 Wire Wire Line
-	1750 5350 1850 5350
-Connection ~ 1850 5350
+	1900 5350 2000 5350
+Connection ~ 2000 5350
 $EndSCHEMATC

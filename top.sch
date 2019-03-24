@@ -197,250 +197,171 @@ Wire Wire Line
 Wire Wire Line
 	4650 2050 4700 2050
 Connection ~ 4650 2050
-Connection ~ 2950 1050
+Connection ~ 2500 2400
 Wire Wire Line
-	2750 1050 2950 1050
-Connection ~ 1950 1050
+	2300 2400 2500 2400
+Connection ~ 1500 2400
 Wire Wire Line
-	1950 1150 1950 1050
+	1500 2500 1500 2400
 Wire Wire Line
-	1700 1050 1950 1050
+	1250 2400 1500 2400
 $Comp
 L Regulator_Linear:LP2985-5.0 U?
 U 1 1 5C956666
-P 2350 1150
+P 1900 2500
 AR Path="/5C956666" Ref="U?"  Part="1" 
 AR Path="/5C920754/5C956666" Ref="U2"  Part="1" 
-F 0 "U2" H 2350 1492 50  0000 C CNN
-F 1 "LP2985-5.0" H 2350 1401 50  0000 C CNN
-F 2 "Package_TO_SOT_SMD:SOT-23-5" H 2350 1475 50  0001 C CNN
-F 3 "http://www.ti.com/lit/ds/symlink/lp2985.pdf" H 2350 1150 50  0001 C CNN
-F 4 "LP2985AIM5-5.0/NOPB" H 0   0   50  0001 C CNN "MPN"
-F 5 "LP2985AIM5-5.0/NOPB" H 0   0   50  0001 C CNN "SKU"
-F 6 "Shenzhen" H 0   0   50  0001 C CNN "OPL"
-F 7 "1" H 0   0   50  0001 C CNN "Min Quantity"
-	1    2350 1150
+F 0 "U2" H 1900 2842 50  0000 C CNN
+F 1 "LP2985-5.0" H 1900 2751 50  0000 C CNN
+F 2 "Package_TO_SOT_SMD:SOT-23-5" H 1900 2825 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/lp2985.pdf" H 1900 2500 50  0001 C CNN
+F 4 "LP2985AIM5-5.0/NOPB" H -450 1350 50  0001 C CNN "MPN"
+F 5 "LP2985AIM5-5.0/NOPB" H -450 1350 50  0001 C CNN "SKU"
+F 6 "Shenzhen" H -450 1350 50  0001 C CNN "OPL"
+F 7 "1" H -450 1350 50  0001 C CNN "Min Quantity"
+	1    1900 2500
 	1    0    0    -1  
 $EndComp
-Connection ~ 1850 2100
-Wire Wire Line
-	1850 2100 1850 2300
-Connection ~ 3050 2100
-Wire Wire Line
-	2650 2100 3050 2100
-Wire Wire Line
-	1550 2100 1850 2100
-$Comp
-L OPL_Integrated_Circuit:PMIC-LDO-XC6204B332MR_SOT23-5_ U?
-U 1 1 5C956673
-P 2250 2200
-AR Path="/5C956673" Ref="U?"  Part="1" 
-AR Path="/5C920754/5C956673" Ref="U1"  Part="1" 
-F 0 "U1" H 2250 2554 45  0000 C CNN
-F 1 "PMIC-LDO-XC6204B332MR_SOT23-5_" H 2250 2470 45  0000 C CNN
-F 2 "Package_TO_SOT_SMD:SOT-23-5" H 2250 2200 50  0001 C CNN
-F 3 "" H 2250 2200 50  0001 C CNN
-F 4 "XC6204B332MR" H 2280 2350 20  0001 C CNN "MPN"
-F 5 "310030046" H 2280 2350 20  0001 C CNN "SKU"
-F 6 "Seeed" H 0   0   50  0001 C CNN "OPL"
-F 7 "1" H 0   0   50  0001 C CNN "Min Quantity"
-	1    2250 2200
-	1    0    0    -1  
-$EndComp
-Text Label 1550 2100 0    50   ~ 0
-VIN
-Text Label 1700 1050 0    50   ~ 0
+Text Label 1250 2400 0    50   ~ 0
 VIN
 $Comp
 L Device:C_Small C?
 U 1 1 5C95667C
-P 1700 1200
+P 1250 2600
 AR Path="/5C95667C" Ref="C?"  Part="1" 
 AR Path="/5C920754/5C95667C" Ref="C2"  Part="1" 
-F 0 "C2" H 1792 1291 50  0000 L CNN
-F 1 "1u" H 1792 1200 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 1700 1200 50  0001 C CNN
-F 3 "~" H 1700 1200 50  0001 C CNN
-F 4 "10V" H 1792 1109 50  0000 L CNN "Vrating"
-F 5 "CC0402KRX5R6BB105        " H 0   0   50  0001 C CNN "MPN"
-F 6 "CC0402KRX5R6BB105        " H 0   0   50  0001 C CNN "SKU"
-F 7 "Shenzhen" H 0   0   50  0001 C CNN "OPL"
-F 8 "50" H 0   0   50  0001 C CNN "Min Quantity"
-	1    1700 1200
+F 0 "C2" H 1342 2691 50  0000 L CNN
+F 1 "1u" H 1342 2600 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 1250 2600 50  0001 C CNN
+F 3 "~" H 1250 2600 50  0001 C CNN
+F 4 "10V" H 1342 2509 50  0000 L CNN "Vrating"
+F 5 "CC0402KRX5R6BB105        " H -450 1400 50  0001 C CNN "MPN"
+F 6 "CC0402KRX5R6BB105        " H -450 1400 50  0001 C CNN "SKU"
+F 7 "Shenzhen" H -450 1400 50  0001 C CNN "OPL"
+F 8 "50" H -450 1400 50  0001 C CNN "Min Quantity"
+	1    1250 2600
 	1    0    0    -1  
 $EndComp
 $Comp
 L Device:C_Small C?
 U 1 1 5C956683
-P 2950 1200
+P 2500 2600
 AR Path="/5C956683" Ref="C?"  Part="1" 
 AR Path="/5C920754/5C956683" Ref="C3"  Part="1" 
-F 0 "C3" H 3042 1291 50  0000 L CNN
-F 1 "1u" H 3042 1200 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 2950 1200 50  0001 C CNN
-F 3 "~" H 2950 1200 50  0001 C CNN
-F 4 "10V" H 3042 1109 50  0000 L CNN "Vrating"
-F 5 "CC0402KRX5R6BB105        " H 0   0   50  0001 C CNN "MPN"
-F 6 "CC0402KRX5R6BB105        " H 0   0   50  0001 C CNN "SKU"
-F 7 "Shenzhen" H 0   0   50  0001 C CNN "OPL"
-F 8 "50" H 0   0   50  0001 C CNN "Min Quantity"
-	1    2950 1200
-	1    0    0    -1  
+F 0 "C3" H 2592 2691 50  0000 L CNN
+F 1 "1u" H 2592 2600 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 2500 2600 50  0001 C CNN
+F 3 "~" H 2500 2600 50  0001 C CNN
+F 4 "10V" H 2587 2512 50  0000 L CNN "Vrating"
+F 5 "CC0402KRX5R6BB105        " H -450 1400 50  0001 C CNN "MPN"
+F 6 "CC0402KRX5R6BB105        " H -450 1400 50  0001 C CNN "SKU"
+F 7 "Shenzhen" H -450 1400 50  0001 C CNN "OPL"
+F 8 "50" H -450 1400 50  0001 C CNN "Min Quantity"
+	1    2500 2600
+	1    0    0    1   
 $EndComp
 $Comp
 L Device:C_Small C?
 U 1 1 5C95668A
-P 3050 2250
+P 2725 4375
 AR Path="/5C95668A" Ref="C?"  Part="1" 
 AR Path="/5C920754/5C95668A" Ref="C4"  Part="1" 
-F 0 "C4" H 3142 2341 50  0000 L CNN
-F 1 "1u" H 3142 2250 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 3050 2250 50  0001 C CNN
-F 3 "~" H 3050 2250 50  0001 C CNN
-F 4 "10V" H 3142 2159 50  0000 L CNN "Vrating"
-F 5 "CC0402KRX5R6BB105        " H 0   0   50  0001 C CNN "MPN"
-F 6 "CC0402KRX5R6BB105        " H 0   0   50  0001 C CNN "SKU"
-F 7 "Shenzhen" H 0   0   50  0001 C CNN "OPL"
-F 8 "50" H 0   0   50  0001 C CNN "Min Quantity"
-	1    3050 2250
+F 0 "C4" H 2817 4466 50  0000 L CNN
+F 1 "1u" H 2817 4375 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 2725 4375 50  0001 C CNN
+F 3 "~" H 2725 4375 50  0001 C CNN
+F 4 "10V" H 2817 4284 50  0000 L CNN "Vrating"
+F 5 "CC0402KRX5R6BB105        " H -325 2125 50  0001 C CNN "MPN"
+F 6 "CC0402KRX5R6BB105        " H -325 2125 50  0001 C CNN "SKU"
+F 7 "Shenzhen" H -325 2125 50  0001 C CNN "OPL"
+F 8 "50" H -325 2125 50  0001 C CNN "Min Quantity"
+	1    2725 4375
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	1550 2400 1550 2350
+	2500 2800 2500 2700
 Wire Wire Line
-	1550 2150 1550 2100
+	2500 2500 2500 2400
 Wire Wire Line
-	3050 2150 3050 2100
+	1250 2800 1250 2700
 Wire Wire Line
-	3050 2400 3050 2350
-Wire Wire Line
-	2950 1350 2950 1300
-Wire Wire Line
-	2950 1100 2950 1050
-Wire Wire Line
-	1700 1350 1700 1300
-Wire Wire Line
-	1700 1100 1700 1050
-$Comp
-L Device:C_Small C?
-U 1 1 5C956699
-P 1550 2250
-AR Path="/5C956699" Ref="C?"  Part="1" 
-AR Path="/5C920754/5C956699" Ref="C1"  Part="1" 
-F 0 "C1" H 1642 2341 50  0000 L CNN
-F 1 "1u" H 1642 2250 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 1550 2250 50  0001 C CNN
-F 3 "~" H 1550 2250 50  0001 C CNN
-F 4 "10V" H 1642 2159 50  0000 L CNN "Vrating"
-F 5 "CC0402KRX5R6BB105        " H 0   0   50  0001 C CNN "MPN"
-F 6 "CC0402KRX5R6BB105        " H 0   0   50  0001 C CNN "SKU"
-F 7 "Shenzhen" H 0   0   50  0001 C CNN "OPL"
-F 8 "50" H 0   0   50  0001 C CNN "Min Quantity"
-	1    1550 2250
-	1    0    0    -1  
-$EndComp
+	1250 2500 1250 2400
 $Comp
 L power:GND #PWR?
 U 1 1 5C95669F
-P 1700 1350
+P 1250 2800
 AR Path="/5C95669F" Ref="#PWR?"  Part="1" 
 AR Path="/5C920754/5C95669F" Ref="#PWR02"  Part="1" 
-F 0 "#PWR02" H 1700 1100 50  0001 C CNN
-F 1 "GND" H 1705 1177 50  0000 C CNN
-F 2 "" H 1700 1350 50  0001 C CNN
-F 3 "" H 1700 1350 50  0001 C CNN
-	1    1700 1350
+F 0 "#PWR02" H 1250 2550 50  0001 C CNN
+F 1 "GND" H 1255 2627 50  0000 C CNN
+F 2 "" H 1250 2800 50  0001 C CNN
+F 3 "" H 1250 2800 50  0001 C CNN
+	1    1250 2800
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GND #PWR?
 U 1 1 5C9566A5
-P 2950 1350
+P 2500 2800
 AR Path="/5C9566A5" Ref="#PWR?"  Part="1" 
 AR Path="/5C920754/5C9566A5" Ref="#PWR08"  Part="1" 
-F 0 "#PWR08" H 2950 1100 50  0001 C CNN
-F 1 "GND" H 2955 1177 50  0000 C CNN
-F 2 "" H 2950 1350 50  0001 C CNN
-F 3 "" H 2950 1350 50  0001 C CNN
-	1    2950 1350
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR?
-U 1 1 5C9566AB
-P 3050 2400
-AR Path="/5C9566AB" Ref="#PWR?"  Part="1" 
-AR Path="/5C920754/5C9566AB" Ref="#PWR010"  Part="1" 
-F 0 "#PWR010" H 3050 2150 50  0001 C CNN
-F 1 "GND" H 3055 2227 50  0000 C CNN
-F 2 "" H 3050 2400 50  0001 C CNN
-F 3 "" H 3050 2400 50  0001 C CNN
-	1    3050 2400
+F 0 "#PWR08" H 2500 2550 50  0001 C CNN
+F 1 "GND" H 2505 2627 50  0000 C CNN
+F 2 "" H 2500 2800 50  0001 C CNN
+F 3 "" H 2500 2800 50  0001 C CNN
+	1    2500 2800
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GND #PWR?
 U 1 1 5C9566B1
-P 1550 2400
+P 1250 4600
 AR Path="/5C9566B1" Ref="#PWR?"  Part="1" 
 AR Path="/5C920754/5C9566B1" Ref="#PWR01"  Part="1" 
-F 0 "#PWR01" H 1550 2150 50  0001 C CNN
-F 1 "GND" H 1555 2227 50  0000 C CNN
-F 2 "" H 1550 2400 50  0001 C CNN
-F 3 "" H 1550 2400 50  0001 C CNN
-	1    1550 2400
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:+3V3 #PWR?
-U 1 1 5C9566B7
-P 3050 2100
-AR Path="/5C9566B7" Ref="#PWR?"  Part="1" 
-AR Path="/5C920754/5C9566B7" Ref="#PWR09"  Part="1" 
-F 0 "#PWR09" H 3050 1950 50  0001 C CNN
-F 1 "+3V3" H 3065 2273 50  0000 C CNN
-F 2 "" H 3050 2100 50  0001 C CNN
-F 3 "" H 3050 2100 50  0001 C CNN
-	1    3050 2100
+F 0 "#PWR01" H 1250 4350 50  0001 C CNN
+F 1 "GND" H 1255 4427 50  0000 C CNN
+F 2 "" H 1250 4600 50  0001 C CNN
+F 3 "" H 1250 4600 50  0001 C CNN
+	1    1250 4600
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:+5V #PWR?
 U 1 1 5C9566BD
-P 2950 1050
+P 2850 2400
 AR Path="/5C9566BD" Ref="#PWR?"  Part="1" 
 AR Path="/5C920754/5C9566BD" Ref="#PWR07"  Part="1" 
-F 0 "#PWR07" H 2950 900 50  0001 C CNN
-F 1 "+5V" H 2965 1223 50  0000 C CNN
-F 2 "" H 2950 1050 50  0001 C CNN
-F 3 "" H 2950 1050 50  0001 C CNN
-	1    2950 1050
+F 0 "#PWR07" H 2850 2250 50  0001 C CNN
+F 1 "+5V" H 2865 2573 50  0000 C CNN
+F 2 "" H 2850 2400 50  0001 C CNN
+F 3 "" H 2850 2400 50  0001 C CNN
+	1    2850 2400
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GND #PWR?
 U 1 1 5C9566C3
-P 2250 2550
+P 1950 4600
 AR Path="/5C9566C3" Ref="#PWR?"  Part="1" 
 AR Path="/5C920754/5C9566C3" Ref="#PWR05"  Part="1" 
-F 0 "#PWR05" H 2250 2300 50  0001 C CNN
-F 1 "GND" H 2255 2377 50  0000 C CNN
-F 2 "" H 2250 2550 50  0001 C CNN
-F 3 "" H 2250 2550 50  0001 C CNN
-	1    2250 2550
+F 0 "#PWR05" H 1950 4350 50  0001 C CNN
+F 1 "GND" H 1955 4427 50  0000 C CNN
+F 2 "" H 1950 4600 50  0001 C CNN
+F 3 "" H 1950 4600 50  0001 C CNN
+	1    1950 4600
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GND #PWR?
 U 1 1 5C9566C9
-P 2350 1450
+P 1900 2800
 AR Path="/5C9566C9" Ref="#PWR?"  Part="1" 
 AR Path="/5C920754/5C9566C9" Ref="#PWR06"  Part="1" 
-F 0 "#PWR06" H 2350 1200 50  0001 C CNN
-F 1 "GND" H 2355 1277 50  0000 C CNN
-F 2 "" H 2350 1450 50  0001 C CNN
-F 3 "" H 2350 1450 50  0001 C CNN
-	1    2350 1450
+F 0 "#PWR06" H 1900 2550 50  0001 C CNN
+F 1 "GND" H 1905 2627 50  0000 C CNN
+F 2 "" H 1900 2800 50  0001 C CNN
+F 3 "" H 1900 2800 50  0001 C CNN
+	1    1900 2800
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -712,50 +633,50 @@ $EndComp
 $Comp
 L power:GND #PWR?
 U 1 1 5C9734D3
-P 1550 3400
+P 2126 6436
 AR Path="/5C9734D3" Ref="#PWR?"  Part="1" 
 AR Path="/5C920754/5C9734D3" Ref="#PWR04"  Part="1" 
-F 0 "#PWR04" H 1550 3150 50  0001 C CNN
-F 1 "GND" H 1555 3227 50  0000 C CNN
-F 2 "" H 1550 3400 50  0001 C CNN
-F 3 "" H 1550 3400 50  0001 C CNN
-	1    1550 3400
+F 0 "#PWR04" H 2126 6186 50  0001 C CNN
+F 1 "GND" H 2131 6263 50  0000 C CNN
+F 2 "" H 2126 6436 50  0001 C CNN
+F 3 "" H 2126 6436 50  0001 C CNN
+	1    2126 6436
 	1    0    0    -1  
 $EndComp
 $Comp
 L Connector_Generic:Conn_01x06 J?
 U 1 1 5C9734D9
-P 2250 3600
+P 2826 6636
 AR Path="/5C9734D9" Ref="J?"  Part="1" 
 AR Path="/5C920754/5C9734D9" Ref="J2"  Part="1" 
-F 0 "J2" H 2330 3592 50  0000 L CNN
-F 1 "TC2030_NL" H 2330 3501 50  0000 L CNN
-F 2 "Connector:Tag-Connect_TC2030-IDC-NL_2x03_P1.27mm_Vertical" H 2250 3600 50  0001 C CNN
-F 3 "http://www.tag-connect.com/TC2030-MCP-NL" H 2250 3600 50  0001 C CNN
-	1    2250 3600
+F 0 "J2" H 2906 6628 50  0000 L CNN
+F 1 "TC2030_NL" H 2906 6537 50  0000 L CNN
+F 2 "Connector:Tag-Connect_TC2030-IDC-NL_2x03_P1.27mm_Vertical" H 2826 6636 50  0001 C CNN
+F 3 "http://www.tag-connect.com/TC2030-MCP-NL" H 2826 6636 50  0001 C CNN
+	1    2826 6636
 	1    0    0    -1  
 $EndComp
 Text HLabel 4000 6950 0    50   UnSpc ~ 0
 GNDT
 Text HLabel 4000 6550 0    50   UnSpc ~ 0
 BATT-BOT
-Text Label 1250 2250 0    50   ~ 0
+Text Label 3276 1142 0    50   ~ 0
 VIN
 $Comp
 L Diode:BAT54CW D?
 U 1 1 5C995166
-P 1050 2250
+P 3076 1142
 AR Path="/5C995166" Ref="D?"  Part="1" 
 AR Path="/5C920754/5C995166" Ref="D1"  Part="1" 
-F 0 "D1" V 1096 2337 50  0000 L CNN
-F 1 "BAT54CW" V 1005 2337 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-323_SC-70" H 1125 2375 50  0001 L CNN
-F 3 "https://assets.nexperia.com/documents/data-sheet/BAT54W_SER.pdf" H 970 2250 50  0001 C CNN
-F 4 "BAT54C-7-F" H 0   0   50  0001 C CNN "MPN"
-F 5 "BAT54C-7-F" H 0   0   50  0001 C CNN "SKU"
-F 6 "Shenzhen" H 0   0   50  0001 C CNN "OPL"
-F 7 "20" H 0   0   50  0001 C CNN "Min Quantity"
-	1    1050 2250
+F 0 "D1" V 3122 1229 50  0000 L CNN
+F 1 "BAT54CW" V 3031 1229 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-323_SC-70" H 3151 1267 50  0001 L CNN
+F 3 "https://assets.nexperia.com/documents/data-sheet/BAT54W_SER.pdf" H 2996 1142 50  0001 C CNN
+F 4 "BAT54C-7-F" H 2026 -1108 50  0001 C CNN "MPN"
+F 5 "BAT54C-7-F" H 2026 -1108 50  0001 C CNN "SKU"
+F 6 "Shenzhen" H 2026 -1108 50  0001 C CNN "OPL"
+F 7 "20" H 2026 -1108 50  0001 C CNN "Min Quantity"
+	1    3076 1142
 	0    -1   -1   0   
 $EndComp
 $Comp
@@ -810,7 +731,7 @@ F 3 "~" H 5000 800 50  0001 C CNN
 	1    5000 800 
 	1    0    0    -1  
 $EndComp
-Text Label 1050 1950 2    50   ~ 0
+Text Label 3076 842  2    50   ~ 0
 BATT
 Text Label 4500 800  0    50   ~ 0
 BNC-1
@@ -820,13 +741,13 @@ Wire Wire Line
 	4500 800  4800 800 
 Wire Wire Line
 	4800 1250 4500 1250
-Text Label 2050 3800 2    50   ~ 0
+Text Label 2626 6836 2    50   ~ 0
 MOSI
-Text Label 2050 3700 2    50   ~ 0
+Text Label 2626 6736 2    50   ~ 0
 MISO
-Text Label 2050 3600 2    50   ~ 0
+Text Label 2626 6636 2    50   ~ 0
 SCK
-Text Label 2050 3500 2    50   ~ 0
+Text Label 2626 6536 2    50   ~ 0
 ~RST
 Text Label 5550 2700 0    50   ~ 0
 MOSI
@@ -897,23 +818,23 @@ Text Label 5550 4400 0    50   ~ 0
 BNC-2
 Text Label 6300 3900 0    50   ~ 0
 DTR
-Text Label 2300 5050 0    50   ~ 0
+Text Label 1298 6778 0    50   ~ 0
 DTR
-Text Label 2300 4950 0    50   ~ 0
+Text Label 1298 6678 0    50   ~ 0
 RXI
-Text Label 2300 5150 0    50   ~ 0
+Text Label 1298 6878 0    50   ~ 0
 TXO
 $Comp
 L power:GND #PWR?
 U 1 1 5C9D7E71
-P 2000 5350
+P 998 7078
 AR Path="/5C9D7E71" Ref="#PWR?"  Part="1" 
 AR Path="/5C920754/5C9D7E71" Ref="#PWR03"  Part="1" 
-F 0 "#PWR03" H 2000 5100 50  0001 C CNN
-F 1 "GND" H 2005 5177 50  0000 C CNN
-F 2 "" H 2000 5350 50  0001 C CNN
-F 3 "" H 2000 5350 50  0001 C CNN
-	1    2000 5350
+F 0 "#PWR03" H 998 6828 50  0001 C CNN
+F 1 "GND" H 1003 6905 50  0000 C CNN
+F 2 "" H 998 7078 50  0001 C CNN
+F 3 "" H 998 7078 50  0001 C CNN
+	1    998  7078
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -966,13 +887,13 @@ F 3 "" H 4100 6950 50  0001 C CNN
 	1    4100 6950
 	1    0    0    -1  
 $EndComp
-Text Label 2300 4750 0    50   ~ 0
+Text Label 1298 6478 0    50   ~ 0
 +5V_EXT
-Text Label 950  2550 2    50   ~ 0
+Text Label 2976 1442 2    50   ~ 0
 +5V_EXT
 Wire Wire Line
-	950  2550 1050 2550
-Text Label 2050 3900 2    50   ~ 0
+	2976 1442 3076 1442
+Text Label 2626 6936 2    50   ~ 0
 +5V_EXT
 Text HLabel 4000 6650 0    50   Input ~ 0
 BNC-3
@@ -981,27 +902,27 @@ BNC-4
 $Comp
 L Device:Battery_Cell BT?
 U 1 1 5CA04C70
-P 1000 1300
+P 1382 1102
 AR Path="/5CA04C70" Ref="BT?"  Part="1" 
 AR Path="/5C920CA4/5CA04C70" Ref="BT?"  Part="1" 
 AR Path="/5C920754/5CA04C70" Ref="BT1"  Part="1" 
-F 0 "BT1" H 1118 1396 50  0000 L CNN
-F 1 "CR2032" H 1118 1305 50  0000 L CNN
-F 2 "gsg-modules:BK-912" V 1000 1360 50  0001 C CNN
-F 3 "http://www.memoryprotectiondevices.com/datasheets/BK-912-datasheet.pdf" V 1000 1360 50  0001 C CNN
-F 4 "BK-912" H 0   0   50  0001 C CNN "MPN"
-F 5 "1" H 0   0   50  0001 C CNN "Min Quantity"
-	1    1000 1300
+F 0 "BT1" H 1500 1198 50  0000 L CNN
+F 1 "CR2032" H 1500 1107 50  0000 L CNN
+F 2 "gsg-modules:BK-912" V 1382 1162 50  0001 C CNN
+F 3 "http://www.memoryprotectiondevices.com/datasheets/BK-912-datasheet.pdf" V 1382 1162 50  0001 C CNN
+F 4 "BK-912" H 382 -198 50  0001 C CNN "MPN"
+F 5 "1" H 382 -198 50  0001 C CNN "Min Quantity"
+	1    1382 1102
 	1    0    0    -1  
 $EndComp
-Text Label 600  1100 0    50   ~ 0
+Text Label 982  902  0    50   ~ 0
 BATT
-Text Label 600  1400 0    50   ~ 0
+Text Label 982  1202 0    50   ~ 0
 BATT-BOT
 Wire Wire Line
-	600  1100 1000 1100
+	982  902  1382 902 
 Wire Wire Line
-	1000 1400 600  1400
+	1382 1202 982  1202
 Text Label 4100 6550 0    50   ~ 0
 BATT-BOT
 Text Label 4100 6750 0    50   ~ 0
@@ -1067,15 +988,15 @@ Connection ~ 4550 6450
 $Comp
 L Connector:USB_B_Mini J1
 U 1 1 5CA5B90D
-P 2000 4950
-F 0 "J1" H 2057 5417 50  0000 C CNN
-F 1 "USB_B_Mini" H 2057 5326 50  0000 C CNN
-F 2 "Connector_USB:USB_Mini-B_Lumberg_2486_01_Horizontal" H 2150 4900 50  0001 C CNN
-F 3 "http://www.hqchip.com/uploads/goods/201712/1513300237267023233.pdf" H 2150 4900 50  0001 C CNN
-F 4 "U-M-M5SS-W-2	" H 150 0   50  0001 C CNN "MPN"
-F 5 "U-M-M5SS-W-2	" H 150 0   50  0001 C CNN "SKU"
-F 6 "Shenzhen" H 150 0   50  0001 C CNN "OPL"
-	1    2000 4950
+P 998 6678
+F 0 "J1" H 1055 7145 50  0000 C CNN
+F 1 "USB_B_Mini" H 1055 7054 50  0000 C CNN
+F 2 "Connector_USB:USB_Mini-B_Lumberg_2486_01_Horizontal" H 1148 6628 50  0001 C CNN
+F 3 "http://www.hqchip.com/uploads/goods/201712/1513300237267023233.pdf" H 1148 6628 50  0001 C CNN
+F 4 "U-M-M5SS-W-2	" H -852 1728 50  0001 C CNN "MPN"
+F 5 "U-M-M5SS-W-2	" H -852 1728 50  0001 C CNN "SKU"
+F 6 "Shenzhen" H -852 1728 50  0001 C CNN "OPL"
+	1    998  6678
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -1093,26 +1014,14 @@ F 6 "Seeed" H 0   0   50  0001 C CNN "OPL"
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	1550 3400 2050 3400
+	2126 6436 2626 6436
 Wire Wire Line
-	1900 5350 2000 5350
-Connection ~ 2000 5350
+	898  7078 998  7078
+Connection ~ 998  7078
 NoConn ~ 9050 1400
 NoConn ~ 9050 1500
 Wire Wire Line
 	8050 1300 8050 1400
-$Comp
-L SparkFun-Sensors:ADXL337 U4
-U 1 1 5C9C6311
-P 8550 1600
-F 0 "U4" H 8550 2160 45  0000 C CNN
-F 1 "ADXL337" H 8550 2076 45  0000 C CNN
-F 2 "Package_CSP:LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm" H 8550 2000 20  0001 C CNN
-F 3 "" H 8550 1600 60  0001 C CNN
-F 4 "IC-12011" H 8550 1981 60  0000 C CNN "Field4"
-	1    8550 1600
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	8050 1500 8050 1400
 Connection ~ 8050 1400
@@ -1121,7 +1030,7 @@ Wire Wire Line
 Connection ~ 8050 1800
 Wire Wire Line
 	8050 1800 8050 2000
-Text Notes 7800 2500 0    50   ~ 0
+Text Notes 7795 2513 0    50   ~ 0
 See EVAL-ADXL337Z eval board / UG-242
 Wire Notes Line
 	9500 2400 9500 2550
@@ -1134,8 +1043,8 @@ L power:GND #PWR?
 U 1 1 5C9EBDEA
 P 9050 1900
 AR Path="/5C9EBDEA" Ref="#PWR?"  Part="1" 
-AR Path="/5C920754/5C9EBDEA" Ref="#PWR?"  Part="1" 
-F 0 "#PWR?" H 9050 1650 50  0001 C CNN
+AR Path="/5C920754/5C9EBDEA" Ref="#PWR0106"  Part="1" 
+F 0 "#PWR0106" H 9050 1650 50  0001 C CNN
 F 1 "GND" H 9055 1727 50  0000 C CNN
 F 2 "" H 9050 1900 50  0001 C CNN
 F 3 "" H 9050 1900 50  0001 C CNN
@@ -1146,4 +1055,163 @@ Wire Wire Line
 	9050 1900 9050 1800
 Wire Notes Line
 	7750 2400 9500 2400
+$Comp
+L SparkFun-Sensors:ADXL337 U4
+U 1 1 5C9C6311
+P 8550 1600
+F 0 "U4" H 8550 2160 45  0000 C CNN
+F 1 "ADXL337" H 8550 2076 45  0000 C CNN
+F 2 "Package_CSP:LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm" H 8550 2000 20  0001 C CNN
+F 3 "" H 8550 1600 60  0001 C CNN
+F 4 "IC-12011" H 8550 1981 60  0000 C CNN "Field4"
+	1    8550 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C_Small C?
+U 1 1 5C9FFE1D
+P 2850 2600
+AR Path="/5C9FFE1D" Ref="C?"  Part="1" 
+AR Path="/5C920754/5C9FFE1D" Ref="C14"  Part="1" 
+F 0 "C14" H 2941 2517 50  0000 L CNN
+F 1 "1u" H 2942 2600 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 2850 2600 50  0001 C CNN
+F 3 "~" H 2850 2600 50  0001 C CNN
+F 4 "10V" H 2936 2691 50  0000 L CNN "Vrating"
+F 5 "CC0402KRX5R6BB105        " H -100 1400 50  0001 C CNN "MPN"
+F 6 "CC0402KRX5R6BB105        " H -100 1400 50  0001 C CNN "SKU"
+F 7 "Shenzhen" H -100 1400 50  0001 C CNN "OPL"
+F 8 "50" H -100 1400 50  0001 C CNN "Min Quantity"
+	1    2850 2600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5CA00277
+P 2850 2800
+AR Path="/5CA00277" Ref="#PWR?"  Part="1" 
+AR Path="/5C920754/5CA00277" Ref="#PWR032"  Part="1" 
+F 0 "#PWR032" H 2850 2550 50  0001 C CNN
+F 1 "GND" H 2855 2627 50  0000 C CNN
+F 2 "" H 2850 2800 50  0001 C CNN
+F 3 "" H 2850 2800 50  0001 C CNN
+	1    2850 2800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2500 2400 2850 2400
+Wire Wire Line
+	2850 2400 2850 2500
+Text Notes 1375 3375 0    50   ~ 0
+See LP2985-N datasheet ([0.01uF \ncapacitor on BP]  may be omitted\nif application is not noise critical)
+Connection ~ 2850 2400
+Text Notes 1250 5250 0    50   ~ 0
+See XC6204/XC6205 datasheet\n("Please wire the input capacitor (CIN)\nand the output capacitor (CL) as close\nto the IC as possible.")
+Wire Notes Line
+	1200 4900 2800 4900
+Wire Notes Line
+	2800 4900 2800 5300
+Wire Notes Line
+	2800 5300 1200 5300
+Wire Notes Line
+	1200 5300 1200 4900
+$Comp
+L Device:C_Small C?
+U 1 1 5C956699
+P 1250 4375
+AR Path="/5C956699" Ref="C?"  Part="1" 
+AR Path="/5C920754/5C956699" Ref="C1"  Part="1" 
+F 0 "C1" H 1073 4476 50  0000 L CNN
+F 1 "1u" H 1073 4376 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 1250 4375 50  0001 C CNN
+F 3 "~" H 1250 4375 50  0001 C CNN
+F 4 "10V" H 1023 4301 50  0000 L CNN "Vrating"
+F 5 "CC0402KRX5R6BB105        " H -300 2125 50  0001 C CNN "MPN"
+F 6 "CC0402KRX5R6BB105        " H -300 2125 50  0001 C CNN "SKU"
+F 7 "Shenzhen" H -300 2125 50  0001 C CNN "OPL"
+F 8 "50" H -300 2125 50  0001 C CNN "Min Quantity"
+	1    1250 4375
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3V3 #PWR?
+U 1 1 5C9566B7
+P 2725 4100
+AR Path="/5C9566B7" Ref="#PWR?"  Part="1" 
+AR Path="/5C920754/5C9566B7" Ref="#PWR09"  Part="1" 
+F 0 "#PWR09" H 2725 3950 50  0001 C CNN
+F 1 "+3V3" H 2740 4273 50  0000 C CNN
+F 2 "" H 2725 4100 50  0001 C CNN
+F 3 "" H 2725 4100 50  0001 C CNN
+	1    2725 4100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2850 2800 2850 2700
+$Comp
+L power:GND #PWR?
+U 1 1 5C9566AB
+P 2725 4600
+AR Path="/5C9566AB" Ref="#PWR?"  Part="1" 
+AR Path="/5C920754/5C9566AB" Ref="#PWR010"  Part="1" 
+F 0 "#PWR010" H 2725 4350 50  0001 C CNN
+F 1 "GND" H 2730 4427 50  0000 C CNN
+F 2 "" H 2725 4600 50  0001 C CNN
+F 3 "" H 2725 4600 50  0001 C CNN
+	1    2725 4600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2725 4600 2725 4475
+Wire Wire Line
+	2725 4100 2725 4125
+Wire Wire Line
+	2350 4125 2725 4125
+Connection ~ 2725 4125
+Wire Wire Line
+	2725 4125 2725 4275
+NoConn ~ 2350 4325
+Wire Wire Line
+	1950 4600 1950 4575
+$Comp
+L OPL_Integrated_Circuit:PMIC-LDO-XC6204B332MR_SOT23-5_ U?
+U 1 1 5C956673
+P 1950 4225
+AR Path="/5C956673" Ref="U?"  Part="1" 
+AR Path="/5C920754/5C956673" Ref="U1"  Part="1" 
+F 0 "U1" H 1950 4579 45  0000 C CNN
+F 1 "PMIC-LDO-XC6204B332MR_SOT23-5_" H 1950 4495 45  0000 C CNN
+F 2 "Package_TO_SOT_SMD:SOT-23-5" H 1950 4225 50  0001 C CNN
+F 3 "" H 1950 4225 50  0001 C CNN
+F 4 "XC6204B332MR" H 1980 4375 20  0001 C CNN "MPN"
+F 5 "310030046" H 1980 4375 20  0001 C CNN "SKU"
+F 6 "Seeed" H -300 2025 50  0001 C CNN "OPL"
+F 7 "1" H -300 2025 50  0001 C CNN "Min Quantity"
+	1    1950 4225
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1550 4125 1475 4125
+Wire Wire Line
+	1250 4125 1250 4275
+Wire Wire Line
+	1550 4325 1475 4325
+Wire Wire Line
+	1475 4325 1475 4125
+Connection ~ 1475 4125
+Wire Wire Line
+	1475 4125 1250 4125
+Wire Wire Line
+	1250 4475 1250 4600
+Text Label 1250 4125 0    50   ~ 0
+VIN
+NoConn ~ 2300 2500
+Wire Notes Line
+	1350 3100 2750 3100
+Wire Notes Line
+	2750 3100 2750 3425
+Wire Notes Line
+	2750 3425 1350 3425
+Wire Notes Line
+	1350 3425 1350 3100
 $EndSCHEMATC

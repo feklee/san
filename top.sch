@@ -646,11 +646,6 @@ F 7 "50" H 0   0   50  0001 C CNN "Min Quantity"
 	1    7300 3050
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	7650 2850 7650 2950
-Connection ~ 7650 2850
-Wire Wire Line
-	7650 2750 7650 2850
 $Comp
 L power:+3V3 #PWR?
 U 1 1 5C97108B
@@ -664,15 +659,6 @@ F 3 "" H 7650 2750 50  0001 C CNN
 	1    7650 2750
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	7650 3350 7650 3450
-Connection ~ 7650 3350
-Wire Wire Line
-	7650 3250 7650 3350
-Connection ~ 7650 3250
-Connection ~ 7650 3450
-Wire Wire Line
-	7650 3150 7650 3250
 $Comp
 L power:GND #PWR?
 U 1 1 5C971097
@@ -721,19 +707,6 @@ F 5 "VJ0402G104KXQCW1BC" H 0   0   50  0001 C CNN "SKU"
 F 6 "Shenzhen" H 0   0   50  0001 C CNN "OPL"
 F 7 "50" H 0   0   50  0001 C CNN "Min Quantity"
 	1    8950 3250
-	1    0    0    -1  
-$EndComp
-$Comp
-L node-rescue:ADXL335-SparkfunSensors-node-rescue U?
-U 1 1 5C9710AE
-P 8150 3150
-AR Path="/5C9710AE" Ref="U?"  Part="1" 
-AR Path="/5C920754/5C9710AE" Ref="U4"  Part="1" 
-F 0 "U4" H 8150 3715 50  0000 C CNN
-F 1 "ADXL335" H 8150 3624 50  0000 C CNN
-F 2 "Package_CSP:LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm" H 8180 3300 20  0001 C CNN
-F 3 "" H 8150 3150 50  0001 C CNN
-	1    8150 3150
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -1124,4 +1097,35 @@ Wire Wire Line
 Wire Wire Line
 	1900 5350 2000 5350
 Connection ~ 2000 5350
+Wire Wire Line
+	7650 2750 7650 2850
+$Comp
+L SparkFun-Sensors:ADXL335 U4
+U 1 1 5C9AF2E3
+P 8150 3150
+F 0 "U4" H 8150 3810 45  0000 C CNN
+F 1 "ADXL335" H 8150 3726 45  0000 C CNN
+F 2 "LFCSP-16-4X4" H 8150 3700 20  0001 C CNN
+F 3 "" H 8150 3150 60  0001 C CNN
+F 4 "IC-08942" H 8150 3631 60  0000 C CNN "Field4"
+	1    8150 3150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7650 3350 7650 3450
+Connection ~ 7650 3450
+Wire Wire Line
+	7800 3350 7650 3350
+Wire Wire Line
+	7650 3350 7650 3250
+Connection ~ 7650 3350
+Connection ~ 7650 3250
+Wire Wire Line
+	7650 3250 7650 3150
+Wire Wire Line
+	7650 2950 7650 2850
+Connection ~ 7650 2850
+NoConn ~ 8650 2850
+NoConn ~ 8650 2950
+NoConn ~ 8650 3450
 $EndSCHEMATC

@@ -1,6 +1,5 @@
-(module port (layer F.Cu) (tedit 5C975EFC)
-  (descr "Through hole straight pin header, 1x02, 2.54mm pitch, single row")
-  (tags "Through hole pin header THT 1x02 2.54mm single row")
+(module port (layer F.Cu) (tedit 5C976089)
+  (descr "Connection to BNC connector (wired)")
   (fp_text reference REF** (at -0.254 -1.778) (layer F.SilkS) hide
     (effects (font (size 1 1) (thickness 0.15)))
   )
@@ -9,9 +8,4 @@
   )
   (pad 2 thru_hole oval (at 0 2.54) (size 1.7 1.7) (drill 1) (layers *.Cu *.Mask))
   (pad 1 thru_hole rect (at 0 0) (size 1.7 1.7) (drill 1) (layers *.Cu *.Mask))
-  (model ${KISYS3DMOD}/Connector_PinHeader_2.54mm.3dshapes/PinHeader_1x02_P2.54mm_Vertical.wrl
-    (at (xyz 0 0 0))
-    (scale (xyz 1 1 1))
-    (rotate (xyz 0 0 0))
-  )
 )

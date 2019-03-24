@@ -1,5 +1,5 @@
-(module WS2812D-F5 (layer F.Cu) (tedit 5C9761F4)
-  (descr "WS2812D-F5 LED (DIN, GND, +5V, DOUT|")
+(module WS2812D-F5 (layer F.Cu) (tedit 5C97624E)
+  (descr "Worldsemi WS2812D-F5 LED (DIN, GND, +5V, DOUT|")
   (tags "LED NeoPixel")
   (fp_text reference REF** (at 0 -2.33) (layer F.SilkS) hide
     (effects (font (size 1 1) (thickness 0.15)))

@@ -543,7 +543,7 @@ AR Path="/5C95CBD5" Ref="D?"  Part="1"
 AR Path="/5C920754/5C95CBD5" Ref="D3"  Part="1" 
 F 0 "D3" H 8550 4650 50  0000 L CNN
 F 1 "LED 2" H 8800 4150 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 8800 4100 50  0001 L TNN
+F 2 "node:WS2812D-F5" H 8800 4100 50  0001 L TNN
 F 3 "https://www.adafruit.com/product/1938" H 8850 4025 50  0001 L TNN
 F 4 "1938" H 0   0   50  0001 C CNN "MPN"
 F 5 "1528-1959-ND	" H 0   0   50  0001 C CNN "SKU"
@@ -559,7 +559,7 @@ AR Path="/5C95CBDB" Ref="D?"  Part="1"
 AR Path="/5C920754/5C95CBDB" Ref="D2"  Part="1" 
 F 0 "D2" H 7600 4650 50  0000 L CNN
 F 1 "LED 1" H 7850 4150 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 7850 4100 50  0001 L TNN
+F 2 "node:WS2812D-F5" H 7850 4100 50  0001 L TNN
 F 3 "https://www.adafruit.com/product/1938" H 7900 4025 50  0001 L TNN
 F 4 "1938" H 0   0   50  0001 C CNN "MPN"
 F 5 "1528-1959-ND	" H 0   0   50  0001 C CNN "SKU"

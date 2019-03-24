@@ -819,7 +819,7 @@ AR Path="/5C99C62E" Ref="J?"  Part="1"
 AR Path="/5C920754/5C99C62E" Ref="J5"  Part="1" 
 F 0 "J5" H 5080 1242 50  0000 L CNN
 F 1 "Port_2" H 5080 1151 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 5000 1250 50  0001 C CNN
+F 2 "node:port" H 5000 1250 50  0001 C CNN
 F 3 "~" H 5000 1250 50  0001 C CNN
 	1    5000 1250
 	1    0    0    -1  
@@ -832,7 +832,7 @@ AR Path="/5C99C634" Ref="J?"  Part="1"
 AR Path="/5C920754/5C99C634" Ref="J4"  Part="1" 
 F 0 "J4" H 5080 792 50  0000 L CNN
 F 1 "Port_1" H 5080 701 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 5000 800 50  0001 C CNN
+F 2 "node:port" H 5000 800 50  0001 C CNN
 F 3 "~" H 5000 800 50  0001 C CNN
 	1    5000 800 
 	1    0    0    -1  

@@ -85,6 +85,9 @@ As assembly house [[https://www.seeedstudio.com/][Seeed Studio]] has been chosen
 
 - [[http://support.seeedstudio.com/knowledgebase/topics/63002-fusion-technical-faq][Fusion Technical FAQ?]] (with panelization rules and more)
 
+- [[https://www.seeedstudio.com/fusion_pcb.html][Upload form]] (with selectable /Trace Width / Spacing/ and /Minimum
+  Drill Hole Size/)
+
 
 ** OPL
 :PROPERTIES:
@@ -213,8 +216,6 @@ solder these.
 - Is the FTDI interface wired up correctly?
 
 - Is the bootloader burner interface wired up correctly?
-
-- Within Seeed [[http://support.seeedstudio.com/knowledgebase/articles/447362-fusion-pcb-specification][Fusion PCB specification]]?
 
 
 * Open questions

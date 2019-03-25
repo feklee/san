@@ -264,3 +264,5 @@ solder these.
 - Hirose FH12-6S-0.5SH(55): [[https://www.hirose.com/product/document?clcode=CL0586-0582-5-55&productname=FH12-6S-0.5SH(55)&series=FH12&documenttype=3DDrawing_STEP&lang=en&documentid=0001219107S][FH12-6S-0.5SH.stp]]
 
 - JST 2mm: [[https://raw.githubusercontent.com/KiCad/kicad-packages3D/master/Connector_JST.3dshapes/JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical.step][JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical.step]]
+
+- Molex PicoBlade: [[https://www.molex.com/pdm_docs/stp/53047-0210_stp.zip][530470210.stp]]

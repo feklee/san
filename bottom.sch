@@ -62,7 +62,7 @@ U 1 1 5CA5A9D9
 P 7250 1875
 F 0 "J7" H 7330 1867 50  0000 L CNN
 F 1 "Port_3" H 7330 1776 50  0000 L CNN
-F 2 "node:port" H 7250 1875 50  0001 C CNN
+F 2 "Connector_Molex:Molex_PicoBlade_53047-0210_1x02_P1.25mm_Vertical" H 7250 1875 50  0001 C CNN
 F 3 "~" H 7250 1875 50  0001 C CNN
 	1    7250 1875
 	1    0    0    -1  
@@ -73,7 +73,7 @@ U 1 1 5CA5ADA9
 P 7250 2375
 F 0 "J8" H 7330 2367 50  0000 L CNN
 F 1 "Port_4" H 7330 2276 50  0000 L CNN
-F 2 "node:port" H 7250 2375 50  0001 C CNN
+F 2 "Connector_Molex:Molex_PicoBlade_53047-0210_1x02_P1.25mm_Vertical" H 7250 2375 50  0001 C CNN
 F 3 "~" H 7250 2375 50  0001 C CNN
 	1    7250 2375
 	1    0    0    -1  

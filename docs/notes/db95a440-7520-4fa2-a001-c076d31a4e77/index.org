@@ -209,19 +209,16 @@ solder these.
 
 - Are the holes big enough for the 5 mm NeoPixel pins?
 
-- Is there protection against reverse polarity?
-
 - Are there unanswered [[#questions][open questions]]?
 
 - Are there components / connectors colliding mechanically with the
   sphere or the other board?
 
-- Is there protection against applying charge to the batteries when
-  someone plugs in a powered USB cable into the FTDI port?
-
 - Is the FTDI interface wired up correctly?
 
 - Is the bootloader burner interface wired up correctly?
+
+- Does the tag-connect have sufficient space?
 
 - Are all ground zones connected?
 
@@ -237,29 +234,6 @@ solder these.
 :CUSTOM_ID: questions
 :END:
 
-- /Can the OPL Micro-USB connectors be used?/
-
-  Available are (search for /USB/ then select /Connectors/):
-
-  + U-F-M5DD-Y-L (Shenzhen)
-
-  + U-F-M5DD-Y-L1 (Shenzhen)
-
-  + 10118193-0001LF (Seeed)
-
-  If the connectors require wave soldering, then possibly having the
-  battery holder pad underneath is problematic, although both
-  connections are to ground.
-
-  A non-USB connector is fine too, and it’s less
-  confusing. Requirements for a connector:
-
-  + Accesibility from the outside (reprogramming at times happens
-    often)
-
-  + Safety: The connector should be robust, which includes a design
-    that makes it hard to short pins.
-
 - /Should there be 470 Ω resistors between BNC connectors and the 328P
   pins?/
 
@@ -267,19 +241,6 @@ solder these.
   BNC connector. On the other hand, there are no such resistors in the
   current hand-soldered version, and things work fine (asides from the
   NeoPixel LEDs starting to fail more frequently).
-
-- /Should there be 0.1 µF capacitors in between +5V and GND for each
-  WS2811?/ 
-
-  That’s recommended in the Adafruit NeoPixel [[https://learn.adafruit.com/adafruit-neopixel-uberguide/basic-connections][Überguide]].
-
-- /Add a solder bridge to easily turn off the accelerometer circuit?/
-
-  Then the circuit can be easily disconnected in case it doesn’t work.
-
-- /Should the top PCB get more space?/
-
-  It could be extended downwards at the expense of the bottom PCB.
 
 
 * Source of 3D compontents

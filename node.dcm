@@ -15,6 +15,10 @@ D Power flag, ground
 K power-flag
 $ENDCMP
 #
+$CMP PMIC-LDO-XC6204B332MR_SOT23-5
+K LDO with fixed pin types
+$ENDCMP
+#
 $CMP WS2812D-F5
 D NeoPixel type through-hole LED by Worldsemi (DIN, GND, +5V, DOUT|
 K RGB LED NeoPixel addressable

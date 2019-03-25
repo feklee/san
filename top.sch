@@ -649,6 +649,7 @@ F 0 "J5" H 5080 1242 50  0000 L CNN
 F 1 "Port_2" H 5080 1151 50  0000 L CNN
 F 2 "Connector_Molex:Molex_PicoBlade_53047-0210_1x02_P1.25mm_Vertical" H 5000 1250 50  0001 C CNN
 F 3 "~" H 5000 1250 50  0001 C CNN
+F 4 "0530470210" H 5000 1250 50  0001 C CNN "MPN"
 	1    5000 1250
 	1    0    0    -1  
 $EndComp
@@ -662,6 +663,7 @@ F 0 "J4" H 5080 792 50  0000 L CNN
 F 1 "Port_1" H 5080 701 50  0000 L CNN
 F 2 "Connector_Molex:Molex_PicoBlade_53047-0210_1x02_P1.25mm_Vertical" H 5000 800 50  0001 C CNN
 F 3 "~" H 5000 800 50  0001 C CNN
+F 4 "0530470210" H 5000 800 50  0001 C CNN "MPN"
 	1    5000 800 
 	1    0    0    -1  
 $EndComp
@@ -840,8 +842,7 @@ F 0 "BT1" H 1568 1196 50  0000 L CNN
 F 1 "CR2032" H 1568 1105 50  0000 L CNN
 F 2 "gsg-modules:BK-912" V 1450 1160 50  0001 C CNN
 F 3 "http://www.memoryprotectiondevices.com/datasheets/BK-912-datasheet.pdf" V 1450 1160 50  0001 C CNN
-F 4 "BK-912" H 450 -200 50  0001 C CNN "MPN"
-F 5 "1" H 450 -200 50  0001 C CNN "Min Quantity"
+F 4 "1" H 450 -200 50  0001 C CNN "Min Quantity"
 	1    1450 1100
 	1    0    0    -1  
 $EndComp

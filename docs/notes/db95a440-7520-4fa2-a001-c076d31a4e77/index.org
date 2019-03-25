@@ -213,8 +213,6 @@ solder these.
 - Are there components / connectors colliding mechanically with the
   sphere or the other board?
 
-- Is the FTDI interface wired up correctly?
-
 - Is the bootloader burner interface wired up correctly?
 
 

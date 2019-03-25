@@ -1,5 +1,15 @@
 EESchema-DOCLIB  Version 2.0
 #
+$CMP +5VB
+D Power flag
+K power-flag
+$ENDCMP
+#
+$CMP GNDB
+D Power flag, ground
+K power-flag
+$ENDCMP
+#
 $CMP WS2812D-F5
 D NeoPixel type through-hole LED by Worldsemi (DIN, GND, +5V, DOUT|
 K RGB LED NeoPixel addressable

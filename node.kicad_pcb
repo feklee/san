@@ -12,7 +12,7 @@
   (page A4)
   (layers
     (0 F.Cu signal)
-    (31 B.Cu signal)
+    (31 B.Cu signal hide)
     (32 B.Adhes user hide)
     (33 F.Adhes user hide)
     (34 B.Paste user hide)
@@ -1600,7 +1600,7 @@
     (descr "Molex PicoBlade Connector System, 53047-0210, 2 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator")
     (tags "connector Molex PicoBlade side entry")
     (path /5C920754/5C99C634)
-    (fp_text reference J4 (at 0.62 -3.25 270) (layer F.SilkS)
+    (fp_text reference J4 (at 0.62 -3.25 270) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value Port_1 (at 0.62 2.35 270) (layer F.Fab)
@@ -1655,7 +1655,7 @@
     (descr "Molex PicoBlade Connector System, 53047-0210, 2 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator")
     (tags "connector Molex PicoBlade side entry")
     (path /5C920754/5C99C62E)
-    (fp_text reference J5 (at 0.62 -3.25 90) (layer F.SilkS)
+    (fp_text reference J5 (at 0.62 -3.25 90) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value Port_2 (at 0.62 2.35 90) (layer F.Fab)
@@ -1765,7 +1765,7 @@
     (descr "Molex PicoBlade Connector System, 53047-0210, 2 Pins per row (http://www.molex.com/pdm_docs/sd/530470610_sd.pdf), generated with kicad-footprint-generator")
     (tags "connector Molex PicoBlade side entry")
     (path /5C920CA4/5CA5ADA9)
-    (fp_text reference J8 (at 0.62 -3.25 90) (layer F.SilkS)
+    (fp_text reference J8 (at 0.62 -3.25 90) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value Port_4 (at 0.62 2.35 90) (layer F.Fab)
@@ -1821,7 +1821,7 @@
     (tags SOT-23-5)
     (path /5C920754/5CA60CA4)
     (attr smd)
-    (fp_text reference U1 (at 0 -2.9 270) (layer F.SilkS)
+    (fp_text reference U1 (at 0 -2.9 270) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value PMIC-LDO-XC6204B332MR_SOT23-5 (at 0 2.9 270) (layer F.Fab)
@@ -1864,7 +1864,7 @@
     (tags "LFCSP NoLead")
     (path /5C920754/5CA5DC36)
     (attr smd)
-    (fp_text reference U4 (at 0 -2.8 180) (layer F.SilkS)
+    (fp_text reference U4 (at 0 -2.8 180) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value ADXL337 (at 0 2.8 180) (layer F.Fab)

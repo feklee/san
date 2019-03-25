@@ -609,29 +609,10 @@ F 3 "http://www.tag-connect.com/TC2030-MCP-NL" H 2826 6636 50  0001 C CNN
 	1    2826 6636
 	1    0    0    -1  
 $EndComp
-Text HLabel 4000 6950 0    50   UnSpc ~ 0
-GNDT
 Text HLabel 4000 6550 0    50   UnSpc ~ 0
 BATT-BOT
-Text Label 3276 1142 0    50   ~ 0
+Text Label 3600 1150 0    50   ~ 0
 VIN
-$Comp
-L Diode:BAT54CW D?
-U 1 1 5C995166
-P 3076 1142
-AR Path="/5C995166" Ref="D?"  Part="1" 
-AR Path="/5C920754/5C995166" Ref="D1"  Part="1" 
-F 0 "D1" V 3122 1229 50  0000 L CNN
-F 1 "BAT54CW" V 3031 1229 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-323_SC-70" H 3151 1267 50  0001 L CNN
-F 3 "https://assets.nexperia.com/documents/data-sheet/BAT54W_SER.pdf" H 2996 1142 50  0001 C CNN
-F 4 "BAT54C-7-F" H 2026 -1108 50  0001 C CNN "MPN"
-F 5 "BAT54C-7-F" H 2026 -1108 50  0001 C CNN "SKU"
-F 6 "Shenzhen" H 2026 -1108 50  0001 C CNN "OPL"
-F 7 "20" H 2026 -1108 50  0001 C CNN "Min Quantity"
-	1    3076 1142
-	0    -1   -1   0   
-$EndComp
 $Comp
 L power:GND #PWR?
 U 1 1 5C99C622
@@ -684,7 +665,7 @@ F 3 "~" H 5000 800 50  0001 C CNN
 	1    5000 800 
 	1    0    0    -1  
 $EndComp
-Text Label 3076 842  2    50   ~ 0
+Text Label 3075 775  2    50   ~ 0
 BATT
 Text Label 4500 800  0    50   ~ 0
 BNC-1
@@ -842,10 +823,6 @@ F 3 "" H 4100 6950 50  0001 C CNN
 $EndComp
 Text Label 1298 6478 0    50   ~ 0
 +5V_EXT
-Text Label 2976 1442 2    50   ~ 0
-+5V_EXT
-Wire Wire Line
-	2976 1442 3076 1442
 Text Label 2626 6936 2    50   ~ 0
 +5V_EXT
 Text HLabel 4000 6650 0    50   Input ~ 0
@@ -855,27 +832,23 @@ BNC-4
 $Comp
 L Device:Battery_Cell BT?
 U 1 1 5CA04C70
-P 1382 1102
+P 1450 1100
 AR Path="/5CA04C70" Ref="BT?"  Part="1" 
 AR Path="/5C920CA4/5CA04C70" Ref="BT?"  Part="1" 
 AR Path="/5C920754/5CA04C70" Ref="BT1"  Part="1" 
-F 0 "BT1" H 1500 1198 50  0000 L CNN
-F 1 "CR2032" H 1500 1107 50  0000 L CNN
-F 2 "gsg-modules:BK-912" V 1382 1162 50  0001 C CNN
-F 3 "http://www.memoryprotectiondevices.com/datasheets/BK-912-datasheet.pdf" V 1382 1162 50  0001 C CNN
-F 4 "BK-912" H 382 -198 50  0001 C CNN "MPN"
-F 5 "1" H 382 -198 50  0001 C CNN "Min Quantity"
-	1    1382 1102
+F 0 "BT1" H 1568 1196 50  0000 L CNN
+F 1 "CR2032" H 1568 1105 50  0000 L CNN
+F 2 "gsg-modules:BK-912" V 1450 1160 50  0001 C CNN
+F 3 "http://www.memoryprotectiondevices.com/datasheets/BK-912-datasheet.pdf" V 1450 1160 50  0001 C CNN
+F 4 "BK-912" H 450 -200 50  0001 C CNN "MPN"
+F 5 "1" H 450 -200 50  0001 C CNN "Min Quantity"
+	1    1450 1100
 	1    0    0    -1  
 $EndComp
-Text Label 982  902  0    50   ~ 0
+Text Label 950  900  0    50   ~ 0
 BATT
-Text Label 982  1202 0    50   ~ 0
+Text Label 950  1200 0    50   ~ 0
 BATT-BOT
-Wire Wire Line
-	982  902  1382 902 
-Wire Wire Line
-	1382 1202 982  1202
 Text Label 4100 6550 0    50   ~ 0
 BATT-BOT
 Text Label 4100 6750 0    50   ~ 0
@@ -885,11 +858,11 @@ BNC-3
 Text Label 9500 1600 0    50   ~ 0
 Z-ACCEL
 Text Label 10275 4500 0    50   ~ 0
-DOUT-BOT
+DOUT
 Text Label 4100 6850 0    50   ~ 0
 DOUT-BOT
 Text HLabel 4000 6850 0    50   Output ~ 0
-DOUT-BOT
+DOUT
 Wire Wire Line
 	4000 6950 4100 6950
 Wire Wire Line
@@ -934,7 +907,7 @@ F 7 "1" H 0   0   50  0001 C CNN "Min Quantity"
 	1    0    0    -1  
 $EndComp
 Text HLabel 4000 6450 0    50   Output ~ 0
-5VOUT
++5V
 Wire Wire Line
 	4000 6450 4550 6450
 Connection ~ 4550 6450
@@ -1213,5 +1186,52 @@ NoConn ~ 5200 4600
 NoConn ~ 5200 4700
 NoConn ~ 5200 4800
 NoConn ~ 4000 2600
-NoConn ~ 4000 2675
+NoConn ~ 4000 2700
+Text HLabel 4000 6950 0    50   UnSpc ~ 0
+GND
+$Comp
+L power:PWR_FLAG #FLG0103
+U 1 1 5CA115EA
+P 3425 1125
+F 0 "#FLG0103" H 3425 1200 50  0001 C CNN
+F 1 "PWR_FLAG" H 3425 1298 50  0000 C CNN
+F 2 "" H 3425 1125 50  0001 C CNN
+F 3 "~" H 3425 1125 50  0001 C CNN
+	1    3425 1125
+	1    0    0    -1  
+$EndComp
+Text Label 2925 1450 2    50   ~ 0
++5V_EXT
+Wire Wire Line
+	3075 1450 2925 1450
+Wire Wire Line
+	3275 1150 3425 1150
+Wire Wire Line
+	3425 1125 3425 1150
+Connection ~ 3425 1150
+Wire Wire Line
+	3425 1150 3600 1150
+$Comp
+L Diode:BAT54CW D?
+U 1 1 5C995166
+P 3075 1150
+AR Path="/5C995166" Ref="D?"  Part="1" 
+AR Path="/5C920754/5C995166" Ref="D1"  Part="1" 
+F 0 "D1" V 3121 1237 50  0000 L CNN
+F 1 "BAT54CW" V 3030 1237 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-323_SC-70" H 3150 1275 50  0001 L CNN
+F 3 "https://assets.nexperia.com/documents/data-sheet/BAT54W_SER.pdf" H 2995 1150 50  0001 C CNN
+F 4 "BAT54C-7-F" H 2025 -1100 50  0001 C CNN "MPN"
+F 5 "BAT54C-7-F" H 2025 -1100 50  0001 C CNN "SKU"
+F 6 "Shenzhen" H 2025 -1100 50  0001 C CNN "OPL"
+F 7 "20" H 2025 -1100 50  0001 C CNN "Min Quantity"
+	1    3075 1150
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	3075 850  3075 775 
+Wire Wire Line
+	950  900  1450 900 
+Wire Wire Line
+	1450 1200 950  1200
 $EndSCHEMATC

@@ -30,7 +30,7 @@ F 5 "1" H 1475 -225 50  0001 C CNN "Min Quantity"
 	1    0    0    -1  
 $EndComp
 Text HLabel 5700 1925 2    50   Input ~ 0
-DIN-BOT
+DOUT
 Text HLabel 5700 2025 2    50   Output ~ 0
 BNC-3
 Text HLabel 5700 2125 2    50   Output ~ 0
@@ -65,14 +65,12 @@ F 3 "~" H 7250 2375 50  0001 C CNN
 	1    7250 2375
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	5600 2425 5700 2425
 Text Label 5300 2125 0    50   ~ 0
 BNC-4
 Text Label 5300 2025 0    50   ~ 0
 BNC-3
 Text Label 5300 1925 0    50   ~ 0
-DIN-BOT
+DOUT
 $Comp
 L Connector_Generic:Conn_01x06 J6
 U 1 1 5CA7C65D
@@ -95,14 +93,7 @@ Wire Wire Line
 Wire Wire Line
 	5050 2125 5700 2125
 Wire Wire Line
-	5050 2225 5200 2225
-Wire Wire Line
 	5050 2325 5700 2325
-Wire Wire Line
-	5600 2475 5600 2425
-Wire Wire Line
-	5600 2425 5050 2425
-Connection ~ 5600 2425
 Text Label 6700 1875 0    50   ~ 0
 BNC-3
 Text Label 6700 2375 0    50   ~ 0
@@ -112,9 +103,6 @@ Wire Wire Line
 Wire Wire Line
 	7050 2375 6700 2375
 Wire Wire Line
-	4675 3800 4675 3900
-Connection ~ 4675 3900
-Wire Wire Line
 	4675 3900 4675 3950
 Wire Wire Line
 	4675 4550 4675 4600
@@ -122,7 +110,7 @@ Connection ~ 4675 4600
 Wire Wire Line
 	4675 4600 4675 4650
 Text Label 3975 4250 0    50   ~ 0
-DIN-BOT
+DOUT
 Wire Wire Line
 	3975 4250 4375 4250
 Wire Wire Line
@@ -237,12 +225,12 @@ $EndComp
 $Comp
 L node:GNDB #PWR0103
 U 1 1 5CA43459
-P 5600 2475
-F 0 "#PWR0103" H 5600 2225 50  0001 C CNN
-F 1 "GNDB" H 5605 2302 50  0000 C CNN
-F 2 "" H 5600 2475 50  0001 C CNN
-F 3 "" H 5600 2475 50  0001 C CNN
-	1    5600 2475
+P 5600 2525
+F 0 "#PWR0103" H 5600 2275 50  0001 C CNN
+F 1 "GNDB" H 5605 2352 50  0000 C CNN
+F 2 "" H 5600 2525 50  0001 C CNN
+F 3 "" H 5600 2525 50  0001 C CNN
+	1    5600 2525
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -278,13 +266,8 @@ F 3 "" H 5900 4650 50  0001 C CNN
 	1    5900 4650
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	5200 1825 5200 2225
 Text HLabel 5700 2225 2    50   Input ~ 0
-5VIN
-Connection ~ 5200 2225
-Wire Wire Line
-	5200 2225 5700 2225
++5VB
 $Comp
 L node:+5VB #PWR0108
 U 1 1 5C99193B
@@ -297,8 +280,19 @@ F 3 "" H 5900 3800 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
+L node:+5VB #PWR0110
+U 1 1 5CA4532B
+P 5200 1500
+F 0 "#PWR0110" H 5200 1350 50  0001 C CNN
+F 1 "+5VB" H 5215 1673 50  0000 C CNN
+F 2 "" H 5200 1500 50  0001 C CNN
+F 3 "" H 5200 1500 50  0001 C CNN
+	1    5200 1500
+	1    0    0    -1  
+$EndComp
+$Comp
 L node:+5VB #PWR0109
-U 1 1 5CA45E8E
+U 1 1 5CA03EDF
 P 4675 3800
 F 0 "#PWR0109" H 4675 3650 50  0001 C CNN
 F 1 "+5VB" H 4690 3973 50  0000 C CNN
@@ -307,15 +301,55 @@ F 3 "" H 4675 3800 50  0001 C CNN
 	1    4675 3800
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	5200 2225 5700 2225
+Wire Wire Line
+	5050 2225 5200 2225
+Connection ~ 5200 2225
+Wire Wire Line
+	5200 1500 5200 1600
+Wire Wire Line
+	4675 3800 4675 3900
+Connection ~ 4675 3900
+Wire Wire Line
+	5050 2425 5250 2425
+Wire Wire Line
+	5600 2525 5600 2425
+Connection ~ 5600 2425
+Wire Wire Line
+	5600 2425 5700 2425
 $Comp
-L node:+5VB #PWR0110
-U 1 1 5CA4532B
-P 5200 1825
-F 0 "#PWR0110" H 5200 1675 50  0001 C CNN
-F 1 "+5VB" H 5215 1998 50  0000 C CNN
-F 2 "" H 5200 1825 50  0001 C CNN
-F 3 "" H 5200 1825 50  0001 C CNN
-	1    5200 1825
+L power:PWR_FLAG #FLG0101
+U 1 1 5CA08161
+P 4850 1500
+F 0 "#FLG0101" H 4850 1575 50  0001 C CNN
+F 1 "PWR_FLAG" H 4850 1673 50  0000 C CNN
+F 2 "" H 4850 1500 50  0001 C CNN
+F 3 "~" H 4850 1500 50  0001 C CNN
+	1    4850 1500
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	4850 1500 4850 1600
+Wire Wire Line
+	4850 1600 5200 1600
+Connection ~ 5200 1600
+Wire Wire Line
+	5200 1600 5200 2225
+$Comp
+L power:PWR_FLAG #FLG0102
+U 1 1 5CA09F39
+P 5250 2525
+F 0 "#FLG0102" H 5250 2600 50  0001 C CNN
+F 1 "PWR_FLAG" H 5250 2698 50  0000 C CNN
+F 2 "" H 5250 2525 50  0001 C CNN
+F 3 "~" H 5250 2525 50  0001 C CNN
+	1    5250 2525
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5250 2525 5250 2425
+Connection ~ 5250 2425
+Wire Wire Line
+	5250 2425 5600 2425
 $EndSCHEMATC

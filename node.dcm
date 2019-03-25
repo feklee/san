@@ -5,6 +5,11 @@ D Power flag
 K power-flag
 $ENDCMP
 #
+$CMP ADXL337
+D Analog Devices ADXL337 accelerometer, with pins configured
+K PROD_ID:IC-12011
+$ENDCMP
+#
 $CMP GNDB
 D Power flag, ground
 K power-flag

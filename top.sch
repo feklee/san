@@ -315,14 +315,14 @@ $EndComp
 $Comp
 L power:GND #PWR?
 U 1 1 5C9566B1
-P 1250 4600
+P 1250 4650
 AR Path="/5C9566B1" Ref="#PWR?"  Part="1" 
 AR Path="/5C920754/5C9566B1" Ref="#PWR01"  Part="1" 
-F 0 "#PWR01" H 1250 4350 50  0001 C CNN
-F 1 "GND" H 1255 4427 50  0000 C CNN
-F 2 "" H 1250 4600 50  0001 C CNN
-F 3 "" H 1250 4600 50  0001 C CNN
-	1    1250 4600
+F 0 "#PWR01" H 1250 4400 50  0001 C CNN
+F 1 "GND" H 1255 4477 50  0000 C CNN
+F 2 "" H 1250 4650 50  0001 C CNN
+F 3 "" H 1250 4650 50  0001 C CNN
+	1    1250 4650
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -336,19 +336,6 @@ F 1 "+5V" H 2865 2573 50  0000 C CNN
 F 2 "" H 2850 2400 50  0001 C CNN
 F 3 "" H 2850 2400 50  0001 C CNN
 	1    2850 2400
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR?
-U 1 1 5C9566C3
-P 1950 4600
-AR Path="/5C9566C3" Ref="#PWR?"  Part="1" 
-AR Path="/5C920754/5C9566C3" Ref="#PWR05"  Part="1" 
-F 0 "#PWR05" H 1950 4350 50  0001 C CNN
-F 1 "GND" H 1955 4427 50  0000 C CNN
-F 2 "" H 1950 4600 50  0001 C CNN
-F 3 "" H 1950 4600 50  0001 C CNN
-	1    1950 4600
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -986,16 +973,6 @@ Wire Wire Line
 Connection ~ 998  7078
 NoConn ~ 9050 1400
 NoConn ~ 9050 1500
-Wire Wire Line
-	8050 1300 8050 1400
-Wire Wire Line
-	8050 1500 8050 1400
-Connection ~ 8050 1400
-Wire Wire Line
-	8050 1700 8050 1800
-Connection ~ 8050 1800
-Wire Wire Line
-	8050 1800 8050 2000
 Text Notes 7795 2413 0    50   ~ 0
 See EVAL-ADXL337Z eval board / UG-242
 Wire Notes Line
@@ -1021,18 +998,6 @@ Wire Wire Line
 	9050 1900 9050 1800
 Wire Notes Line
 	7750 2300 9500 2300
-$Comp
-L SparkFun-Sensors:ADXL337 U4
-U 1 1 5C9C6311
-P 8550 1600
-F 0 "U4" H 8550 2160 45  0000 C CNN
-F 1 "ADXL337" H 8550 2076 45  0000 C CNN
-F 2 "Package_CSP:LFCSP-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm" H 8550 2000 20  0001 C CNN
-F 3 "" H 8550 1600 60  0001 C CNN
-F 4 "IC-12011" H 8550 1981 60  0000 C CNN "Field4"
-	1    8550 1600
-	1    0    0    -1  
-$EndComp
 $Comp
 L Device:C_Small C?
 U 1 1 5C9FFE1D
@@ -1071,16 +1036,16 @@ Wire Wire Line
 Text Notes 1375 3375 0    50   ~ 0
 See LP2985-N datasheet ([0.01uF \ncapacitor on BP]  may be omitted\nif application is not noise critical)
 Connection ~ 2850 2400
-Text Notes 1250 5250 0    50   ~ 0
+Text Notes 1250 5300 0    50   ~ 0
 See XC6204/XC6205 datasheet\n("Please wire the input capacitor (CIN)\nand the output capacitor (CL) as close\nto the IC as possible.")
 Wire Notes Line
-	1200 4900 2800 4900
+	1200 4950 2800 4950
 Wire Notes Line
-	2800 4900 2800 5300
+	2800 4950 2800 5350
 Wire Notes Line
-	2800 5300 1200 5300
+	2800 5350 1200 5350
 Wire Notes Line
-	1200 5300 1200 4900
+	1200 5350 1200 4950
 $Comp
 L Device:C_Small C?
 U 1 1 5C956699
@@ -1117,18 +1082,18 @@ Wire Wire Line
 $Comp
 L power:GND #PWR?
 U 1 1 5C9566AB
-P 2725 4600
+P 2725 4650
 AR Path="/5C9566AB" Ref="#PWR?"  Part="1" 
 AR Path="/5C920754/5C9566AB" Ref="#PWR010"  Part="1" 
-F 0 "#PWR010" H 2725 4350 50  0001 C CNN
-F 1 "GND" H 2730 4427 50  0000 C CNN
-F 2 "" H 2725 4600 50  0001 C CNN
-F 3 "" H 2725 4600 50  0001 C CNN
-	1    2725 4600
+F 0 "#PWR010" H 2725 4400 50  0001 C CNN
+F 1 "GND" H 2730 4477 50  0000 C CNN
+F 2 "" H 2725 4650 50  0001 C CNN
+F 3 "" H 2725 4650 50  0001 C CNN
+	1    2725 4650
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	2725 4600 2725 4475
+	2725 4650 2725 4475
 Wire Wire Line
 	2725 4100 2725 4125
 Wire Wire Line
@@ -1137,8 +1102,6 @@ Connection ~ 2725 4125
 Wire Wire Line
 	2725 4125 2725 4275
 NoConn ~ 2350 4325
-Wire Wire Line
-	1950 4600 1950 4575
 $Comp
 L OPL_Integrated_Circuit:PMIC-LDO-XC6204B332MR_SOT23-5_ U?
 U 1 1 5C956673
@@ -1168,7 +1131,7 @@ Connection ~ 1475 4125
 Wire Wire Line
 	1475 4125 1250 4125
 Wire Wire Line
-	1250 4475 1250 4600
+	1250 4475 1250 4650
 Text Label 1250 4125 0    50   ~ 0
 VIN
 NoConn ~ 2300 2500
@@ -1204,4 +1167,51 @@ F 3 "http://www.world-semi.com/DownLoadFile/135" H 9500 4125 50  0001 L TNN
 $EndComp
 Wire Wire Line
 	9700 4500 10275 4500
+$Comp
+L power:GND #PWR?
+U 1 1 5C9566C3
+P 1950 4650
+AR Path="/5C9566C3" Ref="#PWR?"  Part="1" 
+AR Path="/5C920754/5C9566C3" Ref="#PWR05"  Part="1" 
+F 0 "#PWR05" H 1950 4400 50  0001 C CNN
+F 1 "GND" H 1955 4477 50  0000 C CNN
+F 2 "" H 1950 4650 50  0001 C CNN
+F 3 "" H 1950 4650 50  0001 C CNN
+	1    1950 4650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1950 4650 1950 4575
+Wire Wire Line
+	8050 1800 8050 2000
+Wire Wire Line
+	8050 1700 8050 1800
+Connection ~ 8050 1800
+Wire Wire Line
+	8050 1500 8050 1400
+Wire Wire Line
+	8050 1300 8050 1400
+Connection ~ 8050 1400
+$Comp
+L node:ADXL337 U4
+U 1 1 5C9E1293
+P 8550 1600
+F 0 "U4" H 8200 1950 45  0000 C CNN
+F 1 "ADXL337" H 8800 1250 45  0000 C CNN
+F 2 "LFCSP-16-3X3" H 8550 2000 20  0001 C CNN
+F 3 "" H 8550 1600 60  0001 C CNN
+	1    8550 1600
+	1    0    0    -1  
+$EndComp
+NoConn ~ 5200 2600
+NoConn ~ 5200 3400
+NoConn ~ 5200 3500
+NoConn ~ 5200 3600
+NoConn ~ 5200 3700
+NoConn ~ 5200 3800
+NoConn ~ 5200 4600
+NoConn ~ 5200 4700
+NoConn ~ 5200 4800
+NoConn ~ 4000 2600
+NoConn ~ 4000 2675
 $EndSCHEMATC

@@ -1,0 +1,28 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP +5VB
+D Power flag
+K power-flag
+$ENDCMP
+#
+$CMP ADXL337
+D Analog Devices ADXL337 accelerometer, with pins configured
+K PROD_ID:IC-12011
+$ENDCMP
+#
+$CMP GNDB
+D Power flag, ground
+K power-flag
+$ENDCMP
+#
+$CMP PMIC-LDO-XC6204B332MR_SOT23-5
+K LDO with fixed pin types
+$ENDCMP
+#
+$CMP WS2812D-F5
+D NeoPixel type through-hole LED by Worldsemi (DIN, GND, +5V, DOUT|
+K RGB LED NeoPixel addressable
+F http://www.world-semi.com/DownLoadFile/135
+$ENDCMP
+#
+#End Doc Library

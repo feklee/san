@@ -1,0 +1,11 @@
+(module port (layer F.Cu) (tedit 5C976089)
+  (descr "Connection to BNC connector (wired)")
+  (fp_text reference REF** (at -0.254 -1.778) (layer F.SilkS) hide
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (fp_text value Port (at 0 4.318) (layer F.Fab)
+    (effects (font (size 1 1) (thickness 0.15)))
+  )
+  (pad 2 thru_hole oval (at 0 2.54) (size 1.7 1.7) (drill 1) (layers *.Cu *.Mask))
+  (pad 1 thru_hole rect (at 0 0) (size 1.7 1.7) (drill 1) (layers *.Cu *.Mask))
+)

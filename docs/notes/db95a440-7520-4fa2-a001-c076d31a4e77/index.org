@@ -32,9 +32,6 @@ model file [[./mockup.3dm][mockup.3dm]].
 - There are two PCBs in order to get the LEDs in the correct
   positions.
 
-- The right angle SMD LEDs shine light sidewards.  They are mounted at
-  an offset from the shell in order to diffuse light.
-
 - The top USB connector is abused for interfacing with an FTDI.  This
   is to easily be able to update the firmware.
 
@@ -108,28 +105,6 @@ listed in the [[https://www.seeedstudio.com/opl.html][Open Part Library]]. Notes
   hope components in the Seeed OPL are in stock.)
 
 
-** OPL BOM
-:PROPERTIES:
-:CUSTOM_ID: opl-bom
-:END:
-
-Incomplete BOM based on the OPL:
-
-| QTY | Libary   | MPN                  | Description               | Manufacturer |
-|-----+----------+----------------------+---------------------------+--------------|
-|   4 | Seeed    | WS2812B              | NeoPixel SMD              | Worldsemi    |
-|   2 | Shenzhen | FH34SRJ-8S-0.5SH(50) | 8 pin FFC connector SMD   | HRS          |
-|   2 | Shenzhen | FH12-6S-0.5SH(55)    | 6 pin FFC connector SMD   | HRS          |
-|   1 | Seeed    | ATMEGA328P-MU        | MCU, 32-VFQFN exposed pad | Atmel        |
-|   1 | Shenzhen | LP2985AIM5-5.0/NOPB  | 5V regulator, SOT23-5     | TI           |
-|   1 | Shenzhen | LP2985A-33DBVR       | 3.3V regulator, SOT23-5   | TI           |
-|   4 | Shenzhen | 0533980271           | 2 pin PicoBlade connector | Molex        |
-
-Only one of the FFC connectors is needed, of course. If the
-accelerometer circuit fits on the top board, then only six pins are
-needed.
-
-
 ** Inside
 
 The author of this document visited Seeed Studio in Shenzhen as part
@@ -140,92 +115,23 @@ of Mitch Altman’s 2017 [[https://www.noisebridge.net/wiki/NoisebridgeChinaTrip
 #+END_EXPORT
 
 
-* NeoPixel LEDs
+* Ideas
 :PROPERTIES:
-:CUSTOM_ID: led
+:CUSTOM_ID: ideas
 :END:
 
-The LEDs have been changed to point upwards instead of sidewards. The
-workaround is to design the 3D printed shell so that light is
-deflected sidewards, possibly with the help of a reflective patch.
+- Replace the Mini USB Type B connector with a Tag-Connect interface,
+  sticking out of the shell behind the battery.
 
-Concerning connecting the LEDs, see the Adafruit NeoPixel LED
-[[https://learn.adafruit.com/adafruit-neopixel-uberguide/basic-connections][Überguide]]. It mentions:
+  Then it may be possible to make both boards the same size.
 
-- “When using a DC power supply, or an especially large battery, we
-  recommend adding a large capacitor (1000 µF, 6.3V or higher) across
-  the + and terminals.”
+- Replace NeoPixel THT LEDs with SMD LEDs shining sidewards.
 
-  With the board here, this may not be necessary. After all, the
-  NeoPixels are powered by regulated 5V. (to keep brightness constant)
-
-- “With through-hole NeoPixels (5mm or 8mm), add a 0.1 µF capacitor
-  between the + and pins of EACH PIXEL. Individual pixels may
-  misbehave without this “decoupling cap.”
-
-- “Adding a ~470 ohm resistor between your microcontroller's data pin
-  and the data input on the NeoPixels can help prevent spikes on the
-  data line that can damage your first pixel.”
-
-There is also a [[https://statics3.seeedstudio.com/images/opl/datasheet/304990003.pdf][datasheet]].
-
-
-* Accelerometer
-:PROPERTIES:
-:CUSTOM_ID: accelerometer
-:END:
-
-First: The accelerometer circuit can be left away entirely, if that
-makes things easier. It is an experimental feature, and the system
-will function without it.
-
-Requirements:
-
-- analog readout (because there are no free timers, and because
-  readout should be as fast as possible)
-
-- one axis (direction doesn’t matter)
-
-- range as close as possible to ±1g, definitely no more than ±3g
-
-No compatible accelerometers are available in the Seeed
-[[#seeed-opl][OPL]]. Workaround:
-
-- leave the space vacant
-
-- in order to make hand soldering as easy as possible:
-
-  + choose the ADXL335, which is larger than the ADXL337
-
-  + make the pads large
-
-It may be possible to find someone in Hong Kong or Shenzhen to hand
-solder these.
-
-
-* Pre-production checklist
-:PROPERTIES:
-:CUSTOM_ID: pre-tests
-:END:
-
-- Are there unanswered [[#questions][open questions]]?
-
-- Are there components / connectors colliding mechanically with the
-  sphere or the other board?
-
-
-* Open questions
-:PROPERTIES:
-:CUSTOM_ID: questions
-:END:
-
-- /Should there be 470 Ω resistors between BNC connectors and the 328P
-  pins?/
-
-  The idea is to protect the 328P when someone accidentally shorts a
-  BNC connector. On the other hand, there are no such resistors in the
-  current hand-soldered version, and things work fine (asides from the
-  NeoPixel LEDs starting to fail more frequently).
+- Use a separate MCU for controlling the LEDs. This takes off load
+  from the main MCU, allowing the LED colors to be changed without
+  taking away too many clock cycles otherwise needed for communication
+  between nodes. Also a separate MCU may have enough ports to drive
+  the LEDs directly.
 
 
 * Source of 3D compontents

@@ -23,6 +23,9 @@ Acknowledgments
 
   * [Cong Nguyen][2] for helping with PCB design
 
+  * [David Mickisch][3] for mathematical advise and for writing the
+    experimental [San-Optimizer][4]
+
 
 License
 =======
@@ -37,3 +40,5 @@ Hocevar. See the COPYING file for more details.
 
 [1]: https://feklee.github.io/san/notes/128a47a0-23ea-11e9-a8da-000c296198cf/
 [2]: https://github.com/rampadc
+[3]: https://github.com/davidblitz
+[4]: https://github.com/davidblitz/san-optimizer

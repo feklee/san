@@ -133,6 +133,9 @@ of Mitch Altman’s 2017 [[https://www.noisebridge.net/wiki/NoisebridgeChinaTrip
   between nodes. Also a separate MCU may have enough ports to drive
   the LEDs directly.
 
+- Move the Tag-Connect interface for burning the bootloader to the
+  back. This saves space on the front.
+
 
 * Source of 3D compontents
 

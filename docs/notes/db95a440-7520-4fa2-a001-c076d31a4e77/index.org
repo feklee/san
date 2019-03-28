@@ -4,7 +4,7 @@
 
 * Objectives
 
-- Find dimensions of PCBs that can then be used with KiCad.
+- Find outline for PCBs.
 
 - Check the schematic designed with KiCad.
 
@@ -42,22 +42,20 @@ model file [[./mockup.3dm][mockup.3dm]].
 :END:
 
 #+BEGIN_EXPORT html
-<img alt="Main circuit" src="./images/node.svg">
+<img alt="Node circuit" src="./images/node.svg">
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<img alt="Top hemisphere circuit" src="./images/top.svg">
+#+END_EXPORT
+
+#+BEGIN_EXPORT html
+<img alt="Bottom hemisphere circuit" src="./images/bottom.svg">
 #+END_EXPORT
 
 This is a snapshot of the schematic.  The most recent version of the
 schematic can be found in the KiCad project [[https://github.com/feklee/san/tree/master/nodes/pcb/node][node]] in the SAN repo on
 GitHub.
-
-
-* Board layout
-:PROPERTIES:
-:CUSTOM_ID: layout
-:END:
-
-[[./images/layout.png]]
-
-nothing to see here
 
 
 * Seeed Studio
@@ -160,3 +158,5 @@ of Mitch Altman’s 2017 [[https://www.noisebridge.net/wiki/NoisebridgeChinaTrip
 - JST 2mm: [[https://raw.githubusercontent.com/KiCad/kicad-packages3D/master/Connector_JST.3dshapes/JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical.step][JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical.step]]
 
 - Molex PicoBlade: [[https://www.molex.com/pdm_docs/stp/53047-0210_stp.zip][530470210.stp]]
+
+- Mini-USB connector: [[https://kicad.github.io/download/packages3d/Connector_USB.3dshapes.7z][USB_Mini-B_Lumberg_2486_01_Horizontal.step]]

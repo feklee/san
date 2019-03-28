@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-03-28 Thu 11:01 -->
+<!-- 2019-03-28 Thu 22:48 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: PCB Design</title>
@@ -248,27 +248,26 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org6d4e1da">1. Objectives</a></li>
-<li><a href="#org0f3ec7b">2. 3D mockup</a></li>
+<li><a href="#org7a3d1a5">1. Objectives</a></li>
+<li><a href="#org2d486ec">2. 3D mockup</a></li>
 <li><a href="#schematic">3. Schematic</a></li>
-<li><a href="#layout">4. Board layout</a></li>
-<li><a href="#seeed">5. Seeed Studio</a>
+<li><a href="#seeed">4. Seeed Studio</a>
 <ul>
-<li><a href="#seeed-opl">5.1. OPL</a></li>
-<li><a href="#org2bd458a">5.2. Inside</a></li>
+<li><a href="#seeed-opl">4.1. OPL</a></li>
+<li><a href="#org81e9911">4.2. Inside</a></li>
 </ul>
 </li>
-<li><a href="#ideas">6. Ideas</a></li>
-<li><a href="#org4f9f9c3">7. Source of 3D compontents</a></li>
+<li><a href="#ideas">5. Ideas</a></li>
+<li><a href="#org6af4794">6. Source of 3D compontents</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org6d4e1da" class="outline-2">
-<h2 id="org6d4e1da"><span class="section-number-2">1</span> Objectives</h2>
+<div id="outline-container-org7a3d1a5" class="outline-2">
+<h2 id="org7a3d1a5"><span class="section-number-2">1</span> Objectives</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li>Find dimensions of PCBs that can then be used with KiCad.</li>
+<li>Find outline for PCBs.</li>
 
 <li>Check the schematic designed with KiCad.</li>
 
@@ -280,8 +279,8 @@ for the JavaScript code in this tag.
 </div>
 
 
-<div id="outline-container-org0f3ec7b" class="outline-2">
-<h2 id="org0f3ec7b"><span class="section-number-2">2</span> 3D mockup</h2>
+<div id="outline-container-org2d486ec" class="outline-2">
+<h2 id="org2d486ec"><span class="section-number-2">2</span> 3D mockup</h2>
 <div class="outline-text-2" id="text-2">
 <iframe allowfullscreen id="irisModel" width="100%" height="600px"
 src="mockup.iris/index.html" frameBorder="0"></iframe>
@@ -308,10 +307,14 @@ is to easily be able to update the firmware.</li>
 </div>
 
 
-<div id="outline-container-orgae6d16c" class="outline-2">
+<div id="outline-container-org59bd975" class="outline-2">
 <h2 id="schematic"><span class="section-number-2">3</span> Schematic</h2>
 <div class="outline-text-2" id="text-schematic">
-<img alt="Main circuit" src="./images/node.svg">
+<img alt="Node circuit" src="./images/node.svg">
+
+<img alt="Top hemisphere circuit" src="./images/top.svg">
+
+<img alt="Bottom hemisphere circuit" src="./images/bottom.svg">
 
 <p>
 This is a snapshot of the schematic.  The most recent version of the
@@ -322,24 +325,8 @@ GitHub.
 </div>
 
 
-<div id="outline-container-org69df746" class="outline-2">
-<h2 id="layout"><span class="section-number-2">4</span> Board layout</h2>
-<div class="outline-text-2" id="text-layout">
-
-<div class="figure">
-<p><img src="./images/layout.png" alt="layout.png" />
-</p>
-</div>
-
-<p>
-nothing to see here
-</p>
-</div>
-</div>
-
-
-<div id="outline-container-org42fd02e" class="outline-2">
-<h2 id="seeed"><span class="section-number-2">5</span> Seeed Studio</h2>
+<div id="outline-container-orgafee366" class="outline-2">
+<h2 id="seeed"><span class="section-number-2">4</span> Seeed Studio</h2>
 <div class="outline-text-2" id="text-seeed">
 <p>
 As assembly house <a href="https://www.seeedstudio.com/">Seeed Studio</a> has been chosen. Capabilities of the
@@ -367,8 +354,8 @@ Drill Hole Size</i>)</li>
 </div>
 
 
-<div id="outline-container-org3fe9f2c" class="outline-3">
-<h3 id="seeed-opl"><span class="section-number-3">5.1</span> OPL</h3>
+<div id="outline-container-orgbe15719" class="outline-3">
+<h3 id="seeed-opl"><span class="section-number-3">4.1</span> OPL</h3>
 <div class="outline-text-3" id="text-seeed-opl">
 <p>
 Seeed keeps components in stock for quick production time. These are
@@ -390,9 +377,9 @@ hope components in the Seeed OPL are in stock.)</li>
 </div>
 
 
-<div id="outline-container-org2bd458a" class="outline-3">
-<h3 id="org2bd458a"><span class="section-number-3">5.2</span> Inside</h3>
-<div class="outline-text-3" id="text-5-2">
+<div id="outline-container-org81e9911" class="outline-3">
+<h3 id="org81e9911"><span class="section-number-3">4.2</span> Inside</h3>
+<div class="outline-text-3" id="text-4-2">
 <p>
 The author of this document visited Seeed Studio in Shenzhen as part
 of Mitch Altman’s 2017 <a href="https://www.noisebridge.net/wiki/NoisebridgeChinaTrip7">Hacker Trip to China</a>.
@@ -404,8 +391,8 @@ of Mitch Altman’s 2017 <a href="https://www.noisebridge.net/wiki/NoisebridgeCh
 </div>
 
 
-<div id="outline-container-org6b844bf" class="outline-2">
-<h2 id="ideas"><span class="section-number-2">6</span> Ideas</h2>
+<div id="outline-container-orgec30265" class="outline-2">
+<h2 id="ideas"><span class="section-number-2">5</span> Ideas</h2>
 <div class="outline-text-2" id="text-ideas">
 <ul class="org-ul">
 <li><p>
@@ -432,9 +419,9 @@ back. This saves space on the front.</li>
 </div>
 
 
-<div id="outline-container-org4f9f9c3" class="outline-2">
-<h2 id="org4f9f9c3"><span class="section-number-2">7</span> Source of 3D compontents</h2>
-<div class="outline-text-2" id="text-7">
+<div id="outline-container-org6af4794" class="outline-2">
+<h2 id="org6af4794"><span class="section-number-2">6</span> Source of 3D compontents</h2>
+<div class="outline-text-2" id="text-6">
 <ul class="org-ul">
 <li>BK-912: <a href="http://www.memoryprotectiondevices.com/3d/download.php?pn=BK-912">BK-912.STEP</a></li>
 
@@ -457,13 +444,15 @@ back. This saves space on the front.</li>
 <li>JST 2mm: <a href="https://raw.githubusercontent.com/KiCad/kicad-packages3D/master/Connector_JST.3dshapes/JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical.step">JST<sub>PH</sub><sub>B2B</sub>-PH-K<sub>1x02</sub><sub>P2.00mm</sub><sub>Vertical.step</sub></a></li>
 
 <li>Molex PicoBlade: <a href="https://www.molex.com/pdm_docs/stp/53047-0210_stp.zip">530470210.stp</a></li>
+
+<li>Mini-USB connector: <a href="https://kicad.github.io/download/packages3d/Connector_USB.3dshapes.7z">USB<sub>Mini</sub>-B<sub>Lumberg</sub><sub>2486</sub><sub>01</sub><sub>Horizontal.step</sub></a></li>
 </ul>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-03-28 Thu 11:01</p>
+<p class="date">Created: 2019-03-28 Thu 22:48</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

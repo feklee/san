@@ -222,7 +222,7 @@ F 7 "1" H -450 1350 50  0001 C CNN "Min Quantity"
 	1    1900 2500
 	1    0    0    -1  
 $EndComp
-Text Label 1250 2400 0    50   ~ 0
+Text Label 1250 2400 0    50   ~ 6
 VIN
 $Comp
 L Device:C_Small C?
@@ -473,9 +473,9 @@ Wire Wire Line
 Connection ~ 9400 4850
 Wire Wire Line
 	9400 4850 9400 4800
-Text Label 6100 4500 0    50   ~ 0
+Text Label 6100 4500 0    50   ~ 6
 DIN-TOP
-Text Label 7625 4500 2    50   ~ 0
+Text Label 7625 4500 2    50   ~ 6
 DIN-TOP
 $Comp
 L power:GND #PWR?
@@ -609,9 +609,9 @@ F 3 "http://www.tag-connect.com/TC2030-MCP-NL" H 2826 6636 50  0001 C CNN
 	1    2826 6636
 	1    0    0    -1  
 $EndComp
-Text HLabel 4000 6550 0    50   UnSpc ~ 0
+Text HLabel 4000 6550 0    50   UnSpc ~ 6
 BATT-BOT
-Text Label 3600 1150 0    50   ~ 0
+Text Label 3600 1150 0    50   ~ 6
 VIN
 $Comp
 L power:GND #PWR?
@@ -667,29 +667,29 @@ F 4 "0530470210" H 5000 800 50  0001 C CNN "MPN"
 	1    5000 800 
 	1    0    0    -1  
 $EndComp
-Text Label 3075 775  2    50   ~ 0
+Text Label 3075 775  2    50   ~ 6
 BATT
-Text Label 4500 800  0    50   ~ 0
+Text Label 4500 800  0    50   ~ 6
 BNC-1
-Text Label 4500 1250 0    50   ~ 0
+Text Label 4500 1250 0    50   ~ 6
 BNC-2
 Wire Wire Line
 	4500 800  4800 800 
 Wire Wire Line
 	4800 1250 4500 1250
-Text Label 2626 6836 2    50   ~ 0
+Text Label 2626 6836 2    50   ~ 6
 MOSI
-Text Label 2626 6736 2    50   ~ 0
+Text Label 2626 6736 2    50   ~ 6
 MISO
-Text Label 2626 6636 2    50   ~ 0
+Text Label 2626 6636 2    50   ~ 6
 SCK
-Text Label 2626 6536 2    50   ~ 0
+Text Label 2626 6536 2    50   ~ 6
 ~RST
-Text Label 5550 2700 0    50   ~ 0
+Text Label 5550 2700 0    50   ~ 6
 MOSI
-Text Label 5550 2800 0    50   ~ 0
+Text Label 5550 2800 0    50   ~ 6
 MISO
-Text Label 5550 2900 0    50   ~ 0
+Text Label 5550 2900 0    50   ~ 6
 SCK
 Wire Wire Line
 	5200 3100 5850 3100
@@ -736,29 +736,29 @@ Wire Wire Line
 	5550 2400 5200 2400
 Wire Wire Line
 	5550 4400 5200 4400
-Text Label 5350 3900 0    50   ~ 0
+Text Label 5350 3900 0    50   ~ 6
 ~RST
-Text Label 5550 2400 0    50   ~ 0
+Text Label 5550 2400 0    50   ~ 6
 BNC-3
-Text Label 5550 2500 0    50   ~ 0
+Text Label 5550 2500 0    50   ~ 6
 BNC-4
-Text Label 5550 3300 0    50   ~ 0
+Text Label 5550 3300 0    50   ~ 6
 Z-ACCEL
-Text Label 5550 4100 0    50   ~ 0
+Text Label 5550 4100 0    50   ~ 6
 RXI
-Text Label 5550 4200 0    50   ~ 0
+Text Label 5550 4200 0    50   ~ 6
 TXO
-Text Label 5550 4300 0    50   ~ 0
+Text Label 5550 4300 0    50   ~ 6
 BNC-1
-Text Label 5550 4400 0    50   ~ 0
+Text Label 5550 4400 0    50   ~ 6
 BNC-2
-Text Label 6300 3900 0    50   ~ 0
+Text Label 6300 3900 0    50   ~ 6
 DTR
-Text Label 1298 6778 0    50   ~ 0
+Text Label 1298 6778 0    50   ~ 6
 DTR
-Text Label 1298 6678 0    50   ~ 0
+Text Label 1298 6678 0    50   ~ 6
 RXI
-Text Label 1298 6878 0    50   ~ 0
+Text Label 1298 6878 0    50   ~ 6
 TXO
 $Comp
 L power:GND #PWR?
@@ -823,13 +823,13 @@ F 3 "" H 4100 6950 50  0001 C CNN
 	1    4100 6950
 	1    0    0    -1  
 $EndComp
-Text Label 1298 6478 0    50   ~ 0
+Text Label 1298 6478 0    50   ~ 6
 +5V_EXT
-Text Label 2626 6936 2    50   ~ 0
+Text Label 2626 6936 2    50   ~ 6
 +5V_EXT
-Text HLabel 4000 6650 0    50   Input ~ 0
+Text HLabel 4000 6650 0    50   Input ~ 6
 BNC-3
-Text HLabel 4000 6750 0    50   Input ~ 0
+Text HLabel 4000 6750 0    50   Input ~ 6
 BNC-4
 $Comp
 L Device:Battery_Cell BT?
@@ -846,23 +846,23 @@ F 4 "1" H 450 -200 50  0001 C CNN "Min Quantity"
 	1    1450 1100
 	1    0    0    -1  
 $EndComp
-Text Label 950  900  0    50   ~ 0
+Text Label 950  900  0    50   ~ 6
 BATT
-Text Label 950  1200 0    50   ~ 0
+Text Label 950  1200 0    50   ~ 6
 BATT-BOT
-Text Label 4100 6550 0    50   ~ 0
+Text Label 4100 6550 0    50   ~ 6
 BATT-BOT
-Text Label 4100 6750 0    50   ~ 0
+Text Label 4100 6750 0    50   ~ 6
 BNC-4
-Text Label 4100 6650 0    50   ~ 0
+Text Label 4100 6650 0    50   ~ 6
 BNC-3
-Text Label 9500 1600 0    50   ~ 0
+Text Label 9500 1600 0    50   ~ 6
 Z-ACCEL
-Text Label 10275 4500 0    50   ~ 0
+Text Label 10275 4500 0    50   ~ 6
 DOUT
-Text Label 4100 6850 0    50   ~ 0
+Text Label 4100 6850 0    50   ~ 6
 DOUT-BOT
-Text HLabel 4000 6850 0    50   Output ~ 0
+Text HLabel 4000 6850 0    50   Output ~ 6
 DOUT
 Wire Wire Line
 	4000 6950 4100 6950
@@ -907,7 +907,7 @@ F 7 "1" H 0   0   50  0001 C CNN "Min Quantity"
 	1    4750 6650
 	1    0    0    -1  
 $EndComp
-Text HLabel 4000 6450 0    50   Output ~ 0
+Text HLabel 4000 6450 0    50   Output ~ 6
 +5V
 Wire Wire Line
 	4000 6450 4550 6450
@@ -947,7 +947,7 @@ Wire Wire Line
 Connection ~ 998  7078
 NoConn ~ 9050 1400
 NoConn ~ 9050 1500
-Text Notes 7795 2413 0    50   ~ 0
+Text Notes 7795 2413 0    50   ~ 6
 See EVAL-ADXL337Z eval board / UG-242
 Wire Notes Line
 	9500 2300 9500 2450
@@ -1007,10 +1007,10 @@ Wire Wire Line
 	2500 2400 2850 2400
 Wire Wire Line
 	2850 2400 2850 2500
-Text Notes 1375 3375 0    50   ~ 0
+Text Notes 1375 3375 0    50   ~ 6
 See LP2985-N datasheet ([0.01uF \ncapacitor on BP]  may be omitted\nif application is not noise critical)
 Connection ~ 2850 2400
-Text Notes 1250 5300 0    50   ~ 0
+Text Notes 1250 5300 0    50   ~ 6
 See XC6204/XC6205 datasheet\n("Please wire the input capacitor (CIN)\nand the output capacitor (CL) as close\nto the IC as possible.")
 Wire Notes Line
 	1200 4950 2800 4950
@@ -1089,7 +1089,7 @@ Wire Wire Line
 	1475 4125 1250 4125
 Wire Wire Line
 	1250 4475 1250 4650
-Text Label 1250 4125 0    50   ~ 0
+Text Label 1250 4125 0    50   ~ 6
 VIN
 NoConn ~ 2300 2500
 Wire Notes Line
@@ -1160,7 +1160,7 @@ NoConn ~ 5200 4700
 NoConn ~ 5200 4800
 NoConn ~ 4000 2600
 NoConn ~ 4000 2700
-Text HLabel 4000 6950 0    50   UnSpc ~ 0
+Text HLabel 4000 6950 0    50   UnSpc ~ 6
 GND
 $Comp
 L power:PWR_FLAG #FLG0103
@@ -1173,7 +1173,7 @@ F 3 "~" H 3425 1125 50  0001 C CNN
 	1    3425 1125
 	1    0    0    -1  
 $EndComp
-Text Label 2925 1450 2    50   ~ 0
+Text Label 2925 1450 2    50   ~ 6
 +5V_EXT
 Wire Wire Line
 	3075 1450 2925 1450

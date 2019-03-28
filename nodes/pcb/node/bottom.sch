@@ -28,7 +28,7 @@ F 4 "1" H 1475 -225 50  0001 C CNN "Min Quantity"
 	1    3275 2225
 	1    0    0    -1  
 $EndComp
-Text Label 3275 2025 2    50   ~ 0
+Text Label 3275 2025 2    50   ~ 6
 BATT-BOT
 $Comp
 L Connector_Generic:Conn_01x02 J7
@@ -69,9 +69,9 @@ F 7 "1" H 3750 875 50  0001 C CNN "Min Quantity"
 	1    4850 2225
 	-1   0    0    1   
 $EndComp
-Text Label 6700 1875 0    50   ~ 0
+Text Label 6700 1875 0    50   ~ 6
 BNC-3
-Text Label 6700 2375 0    50   ~ 0
+Text Label 6700 2375 0    50   ~ 6
 BNC-4
 Wire Wire Line
 	6700 1875 7050 1875
@@ -84,7 +84,7 @@ Wire Wire Line
 Connection ~ 4675 4600
 Wire Wire Line
 	4675 4600 4675 4650
-Text Label 3975 4250 0    50   ~ 0
+Text Label 3975 4250 0    50   ~ 6
 DOUT
 Wire Wire Line
 	3975 4250 4375 4250
@@ -289,25 +289,25 @@ F 3 "" H 5600 2625 50  0001 C CNN
 	1    5600 2625
 	1    0    0    -1  
 $EndComp
-Text HLabel 5700 2425 2    50   UnSpc ~ 0
+Text HLabel 5700 2425 2    50   UnSpc ~ 6
 GNDB
-Text HLabel 5700 1925 2    50   Input ~ 0
+Text HLabel 5700 1925 2    50   Input ~ 6
 +5VB
-Text HLabel 5700 2325 2    50   Input ~ 0
+Text HLabel 5700 2325 2    50   Input ~ 6
 DOUT
-Text HLabel 5700 2125 2    50   Output ~ 0
+Text HLabel 5700 2125 2    50   Output ~ 6
 BNC-3
-Text HLabel 5700 2225 2    50   Output ~ 0
+Text HLabel 5700 2225 2    50   Output ~ 6
 BNC-4
-Text HLabel 5700 2025 2    50   UnSpc ~ 0
+Text HLabel 5700 2025 2    50   UnSpc ~ 6
 BATT-BOT
-Text Label 5300 2025 0    50   ~ 0
+Text Label 5300 2025 0    50   ~ 6
 BATT-BOT
-Text Label 5300 2225 0    50   ~ 0
+Text Label 5300 2225 0    50   ~ 6
 BNC-4
-Text Label 5300 2125 0    50   ~ 0
+Text Label 5300 2125 0    50   ~ 6
 BNC-3
-Text Label 5300 2325 0    50   ~ 0
+Text Label 5300 2325 0    50   ~ 6
 DOUT
 Wire Wire Line
 	5050 2325 5700 2325

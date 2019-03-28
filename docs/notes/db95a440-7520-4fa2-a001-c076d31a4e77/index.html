@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-03-25 Mon 23:21 -->
+<!-- 2019-03-28 Thu 11:01 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: PCB Design</title>
@@ -248,28 +248,24 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org83ba6e8">1. Objectives</a></li>
-<li><a href="#org95a3037">2. 3D mockup</a></li>
+<li><a href="#org6d4e1da">1. Objectives</a></li>
+<li><a href="#org0f3ec7b">2. 3D mockup</a></li>
 <li><a href="#schematic">3. Schematic</a></li>
 <li><a href="#layout">4. Board layout</a></li>
 <li><a href="#seeed">5. Seeed Studio</a>
 <ul>
 <li><a href="#seeed-opl">5.1. OPL</a></li>
-<li><a href="#opl-bom">5.2. OPL BOM</a></li>
-<li><a href="#org76a2319">5.3. Inside</a></li>
+<li><a href="#org2bd458a">5.2. Inside</a></li>
 </ul>
 </li>
-<li><a href="#led">6. NeoPixel LEDs</a></li>
-<li><a href="#accelerometer">7. Accelerometer</a></li>
-<li><a href="#pre-tests">8. Pre-production checklist</a></li>
-<li><a href="#questions">9. Open questions</a></li>
-<li><a href="#orge00e1d1">10. Source of 3D compontents</a></li>
+<li><a href="#ideas">6. Ideas</a></li>
+<li><a href="#org4f9f9c3">7. Source of 3D compontents</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org83ba6e8" class="outline-2">
-<h2 id="org83ba6e8"><span class="section-number-2">1</span> Objectives</h2>
+<div id="outline-container-org6d4e1da" class="outline-2">
+<h2 id="org6d4e1da"><span class="section-number-2">1</span> Objectives</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>Find dimensions of PCBs that can then be used with KiCad.</li>
@@ -284,8 +280,8 @@ for the JavaScript code in this tag.
 </div>
 
 
-<div id="outline-container-org95a3037" class="outline-2">
-<h2 id="org95a3037"><span class="section-number-2">2</span> 3D mockup</h2>
+<div id="outline-container-org0f3ec7b" class="outline-2">
+<h2 id="org0f3ec7b"><span class="section-number-2">2</span> 3D mockup</h2>
 <div class="outline-text-2" id="text-2">
 <iframe allowfullscreen id="irisModel" width="100%" height="600px"
 src="mockup.iris/index.html" frameBorder="0"></iframe>
@@ -305,9 +301,6 @@ model file <a href="./mockup.3dm">mockup.3dm</a>.
 <li>There are two PCBs in order to get the LEDs in the correct
 positions.</li>
 
-<li>The right angle SMD LEDs shine light sidewards.  They are mounted at
-an offset from the shell in order to diffuse light.</li>
-
 <li>The top USB connector is abused for interfacing with an FTDI.  This
 is to easily be able to update the firmware.</li>
 </ul>
@@ -315,7 +308,7 @@ is to easily be able to update the firmware.</li>
 </div>
 
 
-<div id="outline-container-org133fc10" class="outline-2">
+<div id="outline-container-orgae6d16c" class="outline-2">
 <h2 id="schematic"><span class="section-number-2">3</span> Schematic</h2>
 <div class="outline-text-2" id="text-schematic">
 <img alt="Main circuit" src="./images/node.svg">
@@ -329,7 +322,7 @@ GitHub.
 </div>
 
 
-<div id="outline-container-org47eef4b" class="outline-2">
+<div id="outline-container-org69df746" class="outline-2">
 <h2 id="layout"><span class="section-number-2">4</span> Board layout</h2>
 <div class="outline-text-2" id="text-layout">
 
@@ -345,7 +338,7 @@ nothing to see here
 </div>
 
 
-<div id="outline-container-org0a0b866" class="outline-2">
+<div id="outline-container-org42fd02e" class="outline-2">
 <h2 id="seeed"><span class="section-number-2">5</span> Seeed Studio</h2>
 <div class="outline-text-2" id="text-seeed">
 <p>
@@ -374,7 +367,7 @@ Drill Hole Size</i>)</li>
 </div>
 
 
-<div id="outline-container-orgbf17874" class="outline-3">
+<div id="outline-container-org3fe9f2c" class="outline-3">
 <h3 id="seeed-opl"><span class="section-number-3">5.1</span> OPL</h3>
 <div class="outline-text-3" id="text-seeed-opl">
 <p>
@@ -397,107 +390,9 @@ hope components in the Seeed OPL are in stock.)</li>
 </div>
 
 
-<div id="outline-container-orga21adac" class="outline-3">
-<h3 id="opl-bom"><span class="section-number-3">5.2</span> OPL BOM</h3>
-<div class="outline-text-3" id="text-opl-bom">
-<p>
-Incomplete BOM based on the OPL:
-</p>
-
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
-
-
-<colgroup>
-<col  class="org-right" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-
-<col  class="org-left" />
-</colgroup>
-<thead>
-<tr>
-<th scope="col" class="org-right">QTY</th>
-<th scope="col" class="org-left">Libary</th>
-<th scope="col" class="org-left">MPN</th>
-<th scope="col" class="org-left">Description</th>
-<th scope="col" class="org-left">Manufacturer</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="org-right">4</td>
-<td class="org-left">Seeed</td>
-<td class="org-left">WS2812B</td>
-<td class="org-left">NeoPixel SMD</td>
-<td class="org-left">Worldsemi</td>
-</tr>
-
-<tr>
-<td class="org-right">2</td>
-<td class="org-left">Shenzhen</td>
-<td class="org-left">FH34SRJ-8S-0.5SH(50)</td>
-<td class="org-left">8 pin FFC connector SMD</td>
-<td class="org-left">HRS</td>
-</tr>
-
-<tr>
-<td class="org-right">2</td>
-<td class="org-left">Shenzhen</td>
-<td class="org-left">FH12-6S-0.5SH(55)</td>
-<td class="org-left">6 pin FFC connector SMD</td>
-<td class="org-left">HRS</td>
-</tr>
-
-<tr>
-<td class="org-right">1</td>
-<td class="org-left">Seeed</td>
-<td class="org-left">ATMEGA328P-MU</td>
-<td class="org-left">MCU, 32-VFQFN exposed pad</td>
-<td class="org-left">Atmel</td>
-</tr>
-
-<tr>
-<td class="org-right">1</td>
-<td class="org-left">Shenzhen</td>
-<td class="org-left">LP2985AIM5-5.0/NOPB</td>
-<td class="org-left">5V regulator, SOT23-5</td>
-<td class="org-left">TI</td>
-</tr>
-
-<tr>
-<td class="org-right">1</td>
-<td class="org-left">Shenzhen</td>
-<td class="org-left">LP2985A-33DBVR</td>
-<td class="org-left">3.3V regulator, SOT23-5</td>
-<td class="org-left">TI</td>
-</tr>
-
-<tr>
-<td class="org-right">4</td>
-<td class="org-left">Shenzhen</td>
-<td class="org-left">0533980271</td>
-<td class="org-left">2 pin PicoBlade connector</td>
-<td class="org-left">Molex</td>
-</tr>
-</tbody>
-</table>
-
-<p>
-Only one of the FFC connectors is needed, of course. If the
-accelerometer circuit fits on the top board, then only six pins are
-needed.
-</p>
-</div>
-</div>
-
-
-<div id="outline-container-org76a2319" class="outline-3">
-<h3 id="org76a2319"><span class="section-number-3">5.3</span> Inside</h3>
-<div class="outline-text-3" id="text-5-3">
+<div id="outline-container-org2bd458a" class="outline-3">
+<h3 id="org2bd458a"><span class="section-number-3">5.2</span> Inside</h3>
+<div class="outline-text-3" id="text-5-2">
 <p>
 The author of this document visited Seeed Studio in Shenzhen as part
 of Mitch Altman’s 2017 <a href="https://www.noisebridge.net/wiki/NoisebridgeChinaTrip7">Hacker Trip to China</a>.
@@ -509,131 +404,37 @@ of Mitch Altman’s 2017 <a href="https://www.noisebridge.net/wiki/NoisebridgeCh
 </div>
 
 
-<div id="outline-container-org4def9e5" class="outline-2">
-<h2 id="led"><span class="section-number-2">6</span> NeoPixel LEDs</h2>
-<div class="outline-text-2" id="text-led">
-<p>
-The LEDs have been changed to point upwards instead of sidewards. The
-workaround is to design the 3D printed shell so that light is
-deflected sidewards, possibly with the help of a reflective patch.
-</p>
-
-<p>
-Concerning connecting the LEDs, see the Adafruit NeoPixel LED
-<a href="https://learn.adafruit.com/adafruit-neopixel-uberguide/basic-connections">Überguide</a>. It mentions:
-</p>
-
+<div id="outline-container-org6b844bf" class="outline-2">
+<h2 id="ideas"><span class="section-number-2">6</span> Ideas</h2>
+<div class="outline-text-2" id="text-ideas">
 <ul class="org-ul">
 <li><p>
-“When using a DC power supply, or an especially large battery, we
-recommend adding a large capacitor (1000 µF, 6.3V or higher) across
-the + and terminals.”
+Replace the Mini USB Type B connector with a Tag-Connect interface,
+sticking out of the shell behind the battery.
 </p>
 
 <p>
-With the board here, this may not be necessary. After all, the
-NeoPixels are powered by regulated 5V. (to keep brightness constant)
+Then it may be possible to make both boards the same size.
 </p></li>
 
-<li>“With through-hole NeoPixels (5mm or 8mm), add a 0.1 µF capacitor
-between the + and pins of EACH PIXEL. Individual pixels may
-misbehave without this “decoupling cap.”</li>
+<li>Replace NeoPixel THT LEDs with SMD LEDs shining sidewards.</li>
 
-<li>“Adding a ~470 ohm resistor between your microcontroller's data pin
-and the data input on the NeoPixels can help prevent spikes on the
-data line that can damage your first pixel.”</li>
-</ul>
+<li>Use a separate MCU for controlling the LEDs. This takes off load
+from the main MCU, allowing the LED colors to be changed without
+taking away too many clock cycles otherwise needed for communication
+between nodes. Also a separate MCU may have enough ports to drive
+the LEDs directly.</li>
 
-<p>
-There is also a <a href="https://statics3.seeedstudio.com/images/opl/datasheet/304990003.pdf">datasheet</a>.
-</p>
-</div>
-</div>
-
-
-<div id="outline-container-org626477d" class="outline-2">
-<h2 id="accelerometer"><span class="section-number-2">7</span> Accelerometer</h2>
-<div class="outline-text-2" id="text-accelerometer">
-<p>
-First: The accelerometer circuit can be left away entirely, if that
-makes things easier. It is an experimental feature, and the system
-will function without it.
-</p>
-
-<p>
-Requirements:
-</p>
-
-<ul class="org-ul">
-<li>analog readout (because there are no free timers, and because
-readout should be as fast as possible)</li>
-
-<li>one axis (direction doesn’t matter)</li>
-
-<li>range as close as possible to ±1g, definitely no more than ±3g</li>
-</ul>
-
-<p>
-No compatible accelerometers are available in the Seeed
-<a href="#seeed-opl">OPL</a>. Workaround:
-</p>
-
-<ul class="org-ul">
-<li>leave the space vacant</li>
-
-<li>in order to make hand soldering as easy as possible:
-
-<ul class="org-ul">
-<li>choose the ADXL335, which is larger than the ADXL337</li>
-
-<li>make the pads large</li>
-</ul></li>
-</ul>
-
-<p>
-It may be possible to find someone in Hong Kong or Shenzhen to hand
-solder these.
-</p>
-</div>
-</div>
-
-
-<div id="outline-container-org715db18" class="outline-2">
-<h2 id="pre-tests"><span class="section-number-2">8</span> Pre-production checklist</h2>
-<div class="outline-text-2" id="text-pre-tests">
-<ul class="org-ul">
-<li>Are there unanswered <a href="#questions">open questions</a>?</li>
-
-<li>Are there components / connectors colliding mechanically with the
-sphere or the other board?</li>
+<li>Move the Tag-Connect interface for burning the bootloader to the
+back. This saves space on the front.</li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org782f2fc" class="outline-2">
-<h2 id="questions"><span class="section-number-2">9</span> Open questions</h2>
-<div class="outline-text-2" id="text-questions">
-<ul class="org-ul">
-<li><p>
-<i>Should there be 470 Ω resistors between BNC connectors and the 328P
-pins?</i>
-</p>
-
-<p>
-The idea is to protect the 328P when someone accidentally shorts a
-BNC connector. On the other hand, there are no such resistors in the
-current hand-soldered version, and things work fine (asides from the
-NeoPixel LEDs starting to fail more frequently).
-</p></li>
-</ul>
-</div>
-</div>
-
-
-<div id="outline-container-orge00e1d1" class="outline-2">
-<h2 id="orge00e1d1"><span class="section-number-2">10</span> Source of 3D compontents</h2>
-<div class="outline-text-2" id="text-10">
+<div id="outline-container-org4f9f9c3" class="outline-2">
+<h2 id="org4f9f9c3"><span class="section-number-2">7</span> Source of 3D compontents</h2>
+<div class="outline-text-2" id="text-7">
 <ul class="org-ul">
 <li>BK-912: <a href="http://www.memoryprotectiondevices.com/3d/download.php?pn=BK-912">BK-912.STEP</a></li>
 
@@ -662,7 +463,7 @@ NeoPixel LEDs starting to fail more frequently).
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-03-25 Mon 23:21</p>
+<p class="date">Created: 2019-03-28 Thu 11:01</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

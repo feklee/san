@@ -5,14 +5,14 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 3
-Title ""
+Title "SAN Node"
 Date ""
 Rev ""
 Comp ""
 Comment1 ""
 Comment2 ""
 Comment3 ""
-Comment4 ""
+Comment4 "Parent project: https://github.com/feklee/san"
 $EndDescr
 $Sheet
 S 4450 3050 1100 850 

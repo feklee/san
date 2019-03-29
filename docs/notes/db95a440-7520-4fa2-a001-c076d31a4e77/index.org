@@ -137,26 +137,26 @@ of Mitch Altman’s 2017 [[https://www.noisebridge.net/wiki/NoisebridgeChinaTrip
 
 * Source of 3D compontents
 
-- BK-912: [[http://www.memoryprotectiondevices.com/3d/download.php?pn=BK-912][BK-912.STEP]]
+- BK-912: [[http://www.memoryprotectiondevices.com/3d/download.php?pn=BK-912][=BK-912.STEP=]]
 
-- APFA3010LSEEZGKQBKC: [[http://www.kingbrightusa.com/images/catalog/3D/STEP/APFA3010.STEP][APFA3010.STEP]]
+- APFA3010LSEEZGKQBKC: [[http://www.kingbrightusa.com/images/catalog/3D/STEP/APFA3010.STEP][=APFA3010.STEP=]]
 
-- Molex PicoBlade 0533980271: [[https://www.molex.com/pdm_docs/stp/53398-0271_stp.zip][533980271.stp]]
+- Molex PicoBlade 0533980271: [[https://www.molex.com/pdm_docs/stp/53398-0271_stp.zip][=533980271.stp=]]
 
-- TE AMP Mini CT 292228-2: [[https://www.te.com/commerce/DocumentDelivery/DDEController?Action=showdoc&DocId=Customer+View+Model%7F292228-2%7FA%7F3d_stp.zip%7FEnglish%7FENG_CVM_292228-2_A.3d_stp.zip%7F292228-2][c-0292228-02-a-3d.stp]]
+- TE AMP Mini CT 292228-2: [[https://www.te.com/commerce/DocumentDelivery/DDEController?Action=showdoc&DocId=Customer+View+Model%7F292228-2%7FA%7F3d_stp.zip%7FEnglish%7FENG_CVM_292228-2_A.3d_stp.zip%7F292228-2][=c-0292228-02-a-3d.stp=]]
 
-- Amphenol 10118193-0001LF: [[https://cdn.amphenol-icc.com/media/wysiwyg/files/3d/s10118193.zip][10118193-0001lfc.stp]]
+- Amphenol 10118193-0001LF: [[https://cdn.amphenol-icc.com/media/wysiwyg/files/3d/s10118193.zip][=10118193-0001lfc.stp=]]
 
-- Amphenol SFW8R-2STE1LF: [[https://cdn.amphenol-icc.com/media/wysiwyg/files/3d/ssfw08r_2_4stlf.zip][ssfw08r_2_4st_lf.stp]]
+- Amphenol SFW8R-2STE1LF: [[https://cdn.amphenol-icc.com/media/wysiwyg/files/3d/ssfw08r_2_4stlf.zip][=ssfw08r_2_4st_lf.stp=]]
 
-- ATMega 328P-AU: [[https://digikey.ultralibrarian.com][32A.step]] (Ultra Librarian for Digi-Key)
+- ATMega 328P-AU: [[https://digikey.ultralibrarian.com][=32A.step=]] (Ultra Librarian for Digi-Key)
 
-- BNC connector: [[https://www.amphenolrf.com/031-221-rfx.html][31-221-RFX.stp]]
+- BNC connector: [[https://www.amphenolrf.com/031-221-rfx.html][=31-221-RFX.stp=]]
 
-- Hirose FH12-6S-0.5SH(55): [[https://www.hirose.com/product/document?clcode=CL0586-0582-5-55&productname=FH12-6S-0.5SH(55)&series=FH12&documenttype=3DDrawing_STEP&lang=en&documentid=0001219107S][FH12-6S-0.5SH.stp]]
+- Hirose FH12-6S-0.5SH(55): [[https://www.hirose.com/product/document?clcode=CL0586-0582-5-55&productname=FH12-6S-0.5SH(55)&series=FH12&documenttype=3DDrawing_STEP&lang=en&documentid=0001219107S][=FH12-6S-0.5SH.stp=]]
 
-- JST 2mm: [[https://raw.githubusercontent.com/KiCad/kicad-packages3D/master/Connector_JST.3dshapes/JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical.step][JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical.step]]
+- JST 2mm: [[https://raw.githubusercontent.com/KiCad/kicad-packages3D/master/Connector_JST.3dshapes/JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical.step][=JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical.step=]]
 
-- Molex PicoBlade: [[https://www.molex.com/pdm_docs/stp/53047-0210_stp.zip][530470210.stp]]
+- Molex PicoBlade: [[https://www.molex.com/pdm_docs/stp/53047-0210_stp.zip][=530470210.stp=]]
 
-- Mini-USB connector: [[https://kicad.github.io/download/packages3d/Connector_USB.3dshapes.7z][USB_Mini-B_Lumberg_2486_01_Horizontal.step]]
+- Mini-USB connector: [[https://kicad.github.io/download/packages3d/Connector_USB.3dshapes.7z][=USB_Mini-B_Lumberg_2486_01_Horizontal.step=]]

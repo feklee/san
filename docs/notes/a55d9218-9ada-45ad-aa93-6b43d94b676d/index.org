@@ -112,6 +112,8 @@ duration of a repeating loop, that the user can attach inputs to.
 Also the node could be made freely programmable, perhaps globally for
 all nodes at once.
 
+The UI for a node could be a webapp compatible with smartphones.
+
 
 *** Master output:
 

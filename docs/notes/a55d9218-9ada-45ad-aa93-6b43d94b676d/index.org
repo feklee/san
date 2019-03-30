@@ -20,6 +20,9 @@ structure into sound or even have it generate music.
 
 
 ** Molecular vibrations
+:PROPERTIES:
+:CUSTOM_ID: vibrations
+:END:
 
 *** Idea
 
@@ -76,12 +79,18 @@ Gaussian 09 can be used:
 
 
 ** collaborative modular synthesizer
+:PROPERTIES:
+:CUSTOM_ID: synth
+:END:
 
 Idea: /Each node is module in a big modular synthesizer. Users can
 change the properties of modules and how they are connected./
 
 
 ** Sequencer
+:PROPERTIES:
+:CUSTOM_ID: sequencer
+:END:
 
 Idea: /Walk through the molecule, atom by node. Trigger an action at
 each step, such as playing a note associated with node./

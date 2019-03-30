@@ -1,0 +1,87 @@
+#+HTML_HEAD: <style>body{max-width:42em}img{max-width:100%}.figure-number{display:none}</style>
+
+#+TITLE: SAN: Audio
+
+* Introduction
+
+SAN is a construction system for architectural structures that
+interact with the environment visually and auditory.  This document
+discusses the auditory part: /How can an architectural structure be a
+musical instrument?/
+
+#+CAPTION: Dodecahedron built by two little girls at the end of Maker Faire Rome.  Notice the visualization in the background: The structure understands how it is assembled.
+[[./images/Maker-Faire-Rome-2018.jpg]]
+
+
+* Approaches
+
+What follows is a discussion of vairous approaches to turning the
+structure into sound or even have it generate music.
+
+
+** Molecular vibrations
+
+*** Idea
+
+/Treat the structure as a molecule made up of carbon atoms.  Turn
+molecular vibrations into sound./
+
+Like the spherical building elements of SAN, carbon atoms have four
+bonds arranged in tetrahedral symmetry.  Molecules can be made to
+vibrate.  These [[https://en.wikipedia.org/wiki/Molecular_vibration][molecular vibrations]] have different frequencies which
+together make up a spectrum:
+
+#+BEGIN_EXPORT html
+<img alt="Example spectrum" src="./images/spectrum.svg">
+#+END_EXPORT
+
+#+CAPTION: Molecule with six atoms in one of its 12 possible vibration modes
+[[./images/molecule.gif]]
+
+
+*** Examples
+
+Scientists and musicians have explored turning molecular spectra into
+sound:
+
+- [[http://www.ejectamenta.com/online-apps/MolecularSounds.html][Molecular Sounds (ejectamenta)]], a keyboard with each key mapped to a
+  different molecule and its sound:
+
+  #+CAPTION: Screenshot
+  [[./images/ejectamenta-screenshot.png]]
+
+- Molecular composition based on [[https://en.wikipedia.org/wiki/Nuclear_magnetic_resonance_spectroscopy][NMR spectra]] by [[mailto:falk.morawitz@gmail.com][Falk Morawitz]]:
+
+  #+BEGIN_EXPORT html
+  <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/207951778&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
+  #+END_EXPORT
+
+
+*** Calculation of vibrations
+
+There are many ways to calculate molecular vibrations.  Simple
+estimates can be done on a piece of paper.  Relatively accurate
+results are given by the /harmonic approximation/ where the bonds
+between atoms are treated as harmonic oscillators (see the book
+[[https://books.google.de/books?id=CPkvsDrPiv0C&pg=PA150&dq=048663941X&hl=de&sa=X&ved=0ahUKEwi36qaskqrhAhXNwosKHVv-CdYQ6AEIKDAA#v=onepage&q&f=false][Molecular Vibrations]] by Wilson, Decius, and Cross, 1955).  Then there
+are quantum mechanical methods that are ever more accurate and
+complex.
+
+To get an idea concerning how different spectra look, the software
+Gaussian 09 can be used:
+
+#+BEGIN_EXPORT html
+<iframe width="560" height="315" src="https://www.youtube.com/embed/xeWIe1p89k4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+#+END_EXPORT
+
+
+** collaborative modular synthesizer
+
+Idea: /Each node is module in a big modular synthesizer. Users can
+change the properties of modules and how they are connected./
+
+
+** Sequencer
+
+Idea: /Walk through the molecule, atom by node. Trigger an action at
+each step, such as playing a note associated with node./

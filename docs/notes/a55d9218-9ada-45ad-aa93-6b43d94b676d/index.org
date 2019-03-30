@@ -114,6 +114,13 @@ There is one root node in the network, which is where the structure is
 connected to the computer.  This root node serves as the master
 output.
 
+*** Examples for collaborative synths
+
+- [[https://github.com/CarloCattano/PopularSynth][Popular Synth]] by Carlo Cattano (host of [[https://www.meetup.com/de-DE/spektrum/events/ckdswpyxqbxb][Sonic Code Sessions]] in
+  Berlin)
+
+- [[https://youtu.be/56spBAgOYfg?t=1442][Socket Synthesizer]] presented by Steve Kinney at JSConf US 2015
+
 
 ** Sequencer
 :PROPERTIES:

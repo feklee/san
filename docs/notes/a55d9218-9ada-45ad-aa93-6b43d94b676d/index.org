@@ -107,6 +107,11 @@ Output:
 
 - parent node
 
+There could be various predefined properties, such as pitch or the
+duration of a repeating loop, that the user can attach inputs to.
+Also the node could be made freely programmable, perhaps globally for
+all nodes at once.
+
 
 *** Master output:
 
@@ -129,3 +134,6 @@ output.
 
 Idea: /Walk through the molecule, atom by node. Trigger an action at
 each step, such as playing a note associated with node./
+
+Open question: Is there a standard way to walk the atoms of a
+molecule?

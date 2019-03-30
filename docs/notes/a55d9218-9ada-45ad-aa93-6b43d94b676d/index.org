@@ -19,15 +19,15 @@ What follows is a discussion of vairous approaches to turning the
 structure into sound or even have it generate music.
 
 
-** Molecular vibrations
+** Sound of molecular vibrations
 :PROPERTIES:
-:CUSTOM_ID: vibrations
+:CUSTOM_ID: sound
 :END:
 
 *** Idea
 
 /Treat the structure as a molecule made up of carbon atoms.  Turn
-molecular vibrations into sound./
+molecular vibrations into a sound./
 
 Like the spherical building elements of SAN, carbon atoms have four
 bonds arranged in tetrahedral symmetry.  Molecules can be made to
@@ -80,7 +80,7 @@ Gaussian 09 can be used:
 
 ** Collaborative modular synthesizer
 :PROPERTIES:
-:CUSTOM_ID: synth
+:CUSTOM_ID: modular-synth
 :END:
 
 *** Idea

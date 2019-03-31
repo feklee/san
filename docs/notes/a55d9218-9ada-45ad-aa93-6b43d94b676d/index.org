@@ -53,12 +53,14 @@ sound:
   #+CAPTION: Screenshot
   [[./images/ejectamenta-screenshot.png]]
 
-- Molecular composition based on [[https://en.wikipedia.org/wiki/Nuclear_magnetic_resonance_spectroscopy][NMR spectra]] by [[mailto:falk.morawitz@gmail.com][Falk Morawitz]]:
+- Molecular composition based on [[https://en.wikipedia.org/wiki/Nuclear_magnetic_resonance_spectroscopy][NMR spectra]] by [[mailto:falkyx7@gmail.com][Falk Morawitz]]:
 
   #+BEGIN_EXPORT html
   <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/207951778&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
   #+END_EXPORT
 
+  See also his 2016 talk [[https://zkm.de/de/media/video/stroemungen-falk-morawitz][Sonification of nuclear magnetic resonance in
+  ½ spin systems: An overview]] at ZKM Karlsruhe.
 
 *** Calculation of vibrations
 

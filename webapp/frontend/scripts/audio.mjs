@@ -41,7 +41,7 @@ var destroyNodeOscillator = function (node) {
 
 var refreshOscillator = function (node) {
     var o = node.oscillator;
-    o.detune.setValueAtTime(100 * node.animatedLocation.z, context.currentTime);
+    o.detune.setValueAtTime(400 * node.animatedLocation.z, context.currentTime);
 };
 
 var refresh = function () {

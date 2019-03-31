@@ -4,6 +4,7 @@ import log from "./log.mjs";
 import nodeManager from "./node-manager.mjs";
 import settings from "./settings.mjs";
 import nodes from "./nodes.mjs";
+import audio from "./audio.mjs";
 
 var hostname = window.location.hostname;
 var client = new window.WebSocket("ws://" + hostname + ":8080/");
@@ -99,3 +100,5 @@ client.onmessage = function (e) {
 var asideEl = document.querySelector("aside");
 asideEl.style.width = settings.asideWidth + "px";
 document.body.classList.remove("hidden");
+
+audio.enableMuteButton();

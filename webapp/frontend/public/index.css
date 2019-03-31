@@ -130,3 +130,11 @@ p.link {
     position: absolute;
     bottom: 0px;
 }
+
+button.mute {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    outline: 0;
+}

@@ -2,6 +2,7 @@
 
 var context;
 var muteButtonEl;
+import visibleNodes from "./visible-nodes.mjs";
 
 context = new window.AudioContext();
 context.addEventListener("statechange", function () {
@@ -26,7 +27,7 @@ var enableMuteButton = function () {
 };
 
 var createNodeOscillator = function (node) {
-    var o = context.createOscillator();
+    var o = context.createOscillator({frequency: 432});
     o.connect(context.destination);
     o.start();
     node.oscillator = o;
@@ -38,8 +39,18 @@ var destroyNodeOscillator = function (node) {
     o.disconnect();
 };
 
+var refreshOscillator = function (node) {
+    var o = node.oscillator;
+    o.detune.setValueAtTime(100 * node.animatedLocation.z, context.currentTime);
+};
+
+var refresh = function () {
+    visibleNodes.forEach(refreshOscillator);
+};
+
 export default {
     enableMuteButton: enableMuteButton,
     createNodeOscillator: createNodeOscillator,
-    destroyNodeOscillator: destroyNodeOscillator
+    destroyNodeOscillator: destroyNodeOscillator,
+    refresh: refresh
 };

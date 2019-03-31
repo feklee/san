@@ -4,6 +4,7 @@ import settings from "./settings.mjs";
 import visibleNodes from "./visible-nodes.mjs";
 import edges from "./edges.mjs";
 import vector from "./vector.mjs";
+import audio from "./audio.mjs";
 import {
     Vector3,
     Geometry,
@@ -179,6 +180,7 @@ animate = function () {
     updateEdgeObject3Ds();
     controls.update();
     renderer.render(scene, camera);
+    audio.refresh();
 };
 
 var init = function () {

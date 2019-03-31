@@ -1,0 +1,12 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: black;
+    color: white;
+}
+
+body {
+    display: flex;
+    font: normal normal normal 14px "Source Code Pro";
+}

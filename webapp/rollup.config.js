@@ -15,11 +15,11 @@ var copyOptions = {
             "frontend/public/build/source-code-pro"
 };
 
-export default {
+export default [{
     input: "frontend/scripts/index.mjs",
     external: ["three"],
     output: {
-        file: "frontend/public/build/bundle.js",
+        file: "frontend/public/build/index.js",
         format: "iife",
         sourcemap: "inline",
         externals: {
@@ -76,4 +76,24 @@ export default {
             "frontend/scripts/**"
         ]
     }
-};
+}, {
+    input: "frontend/scripts/node-ui.mjs",
+    external: ["three"],
+    output: {
+        file: "frontend/public/build/node-ui.js",
+        format: "iife",
+        sourcemap: "inline",
+        externals: {
+        }
+    },
+    plugins: [
+        commonjs()
+    ],
+    watch: {
+        include: [
+            "frontend/node-ui.html",
+            "frontend/node-ui.css",
+            "frontend/scripts/**"
+        ]
+    }
+}];

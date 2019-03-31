@@ -11,6 +11,17 @@ var port = 8080;
 
 module.exports = function (onListening) {
     var httpServer = http.createServer(function (request, response) {
+        var nodeRegExp = new RegExp("^/[a-z0-9]$", "i");
+        if (request.url.match(nodeRegExp)) {
+            fileServer.serveFile(
+                "node-ui.html",
+                200,
+                {},
+                request,
+                response
+            );
+            return;
+        }
         request.addListener("end", function () {
             fileServer.serve(request, response);
         }).resume();

@@ -3,26 +3,20 @@
 var context;
 var muteButtonEl;
 
-var setup = function () {
-    context = new window.AudioContext();
-
-    var oscillator = context.createOscillator();
-    oscillator.connect(context.destination);
-    oscillator.start();
-};
+context = new window.AudioContext();
+context.addEventListener("statechange", function () {
+    if (context.state === "suspended") {
+        muteButtonEl.textContent = "🔇";
+    } else {
+        muteButtonEl.textContent = "🔊";
+    }
+});
 
 var toggleMute = function () {
-    if (context === undefined) {
-        setup();
-        muteButtonEl.textContent = "🔊";
-        return;
-    }
     if (context.state === "suspended") {
         context.resume();
-        muteButtonEl.textContent = "🔊";
     } else {
         context.suspend();
-        muteButtonEl.textContent = "🔇";
     }
 };
 
@@ -31,6 +25,21 @@ var enableMuteButton = function () {
     muteButtonEl.onclick = toggleMute;
 };
 
+var createNodeOscillator = function (node) {
+    var o = context.createOscillator();
+    o.connect(context.destination);
+    o.start();
+    node.oscillator = o;
+};
+
+var destroyNodeOscillator = function (node) {
+    var o = node.oscillator;
+    o.stop();
+    o.disconnect();
+};
+
 export default {
-    enableMuteButton: enableMuteButton
+    enableMuteButton: enableMuteButton,
+    createNodeOscillator: createNodeOscillator,
+    destroyNodeOscillator: destroyNodeOscillator
 };

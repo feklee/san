@@ -18,6 +18,7 @@ import {
     connectionExpiryDuration, // ms
     nodeColorsList
 } from "./shared-settings.mjs";
+import audio from "./audio.mjs";
 
 var rootNode;
 
@@ -98,6 +99,7 @@ var removeNodesNotConnectedToRoot = function () {
         var isConnectedToRoot = nodesConnectedToRoot.has(node);
         if (!isConnectedToRoot) {
             visualization.destroyNodeObject3D(node);
+            audio.destroyNodeOscillator(node);
             delete nodes[node.id];
         }
     });
@@ -223,6 +225,7 @@ var addNode = function (id, tiltAngle) {
 
     if (node.isVisible) {
         visualization.createNodeObject3D(node);
+        audio.createNodeOscillator(node);
     }
 
     sortNodes();

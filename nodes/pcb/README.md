@@ -35,6 +35,10 @@ For each node (not part of PCBA):
   * 2 × CR2032
   
   * ADXL337 (optional, hard to solder)
+  
+  * 4 × screw: DIN 912, M2×5 mm
+  
+  * 4 × nut: DIN 934, M2
 
 
 Reading

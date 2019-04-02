@@ -1,3 +1,48 @@
 /*jslint browser: true, maxlen: 80 */
 
-console.log("Node User Interface");
+var hostname = window.location.hostname;
+var client = new window.WebSocket("ws://" + hostname + ":8080/");
+var nodeId = window.location.pathname.substr(1, 1);
+
+var nameOfSelectedModule = function () {
+    return document.querySelector("input[name=module]:checked").value;
+};
+
+var sendSelectedModule = function () {
+    try {
+        console.log(JSON.stringify({
+            type: "audio module",
+            moduleName: nameOfSelectedModule(),
+            nodeId: nodeId
+        }));
+//        webSocket.send(JSON.stringify(moduleName));
+    } catch (ignore) {
+    }
+};
+
+client.onerror = function () {
+    console.log("WebSocket error");
+};
+
+client.onopen = function () {
+    console.log("WebSocket opened");
+    sendSelectedModule();
+};
+
+client.onclose = function () {
+    console.log("WebSocket closed");
+};
+
+var radioButtonEl = function (moduleName) {
+    return document.querySelector("#" + moduleName + "-module");
+};
+
+var selectModule = function (moduleName) {
+    radioButtonEl("sine").checked = true;
+};
+
+document.querySelectorAll("input[name=module]").forEach(
+    (el) => el.addEventListener("click", sendSelectedModule)
+);
+
+selectModule("sine");

@@ -7,6 +7,10 @@ html, body {
 }
 
 body {
-    display: flex;
     font: normal normal normal 14px "Source Code Pro";
+}
+
+h1 {
+    font-size: 150%;
+    margin-top: 2ex;
 }

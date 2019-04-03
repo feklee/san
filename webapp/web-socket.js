@@ -17,7 +17,11 @@ var interpretMessage = function (message) {
         return;
     }
 
-    console.log(message);
+    var data = JSON.parse(message.utf8Data);
+    if (data.type === "audio module") {
+        broadcast(data);
+        console.log("audio module received: " + data.moduleName);
+    }
 };
 
 var onNewConnection = function (connection) {

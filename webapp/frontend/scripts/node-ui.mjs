@@ -10,6 +10,7 @@ var nameOfSelectedModule = function () {
 
 var sendSelectedModule = function () {
     var data = {
+        type: "audio module",
         moduleName: nameOfSelectedModule(),
         nodeId: nodeId
     };

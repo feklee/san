@@ -29,37 +29,32 @@ function connect(settings) {
     port.on("open", function () {
         var message = {type: "info", text: "Serial port opened"};
         log(message);
-        webSocket.send(message);
+        webSocket.broadcast(message);
         settings.onConnected();
     });
     port.on("close", function () {
         var message = {type: "warn", text: "Serial port closed"};
         log(message);
-        webSocket.send(message);
+        webSocket.broadcast(message);
     });
     port.on("error", function () {
         var message = {type: "error", text: "Serial port error"};
         log(message);
-        webSocket.send(message);
+        webSocket.broadcast(message);
         process.exit(1);
     });
     port.on("disconnected", function () {
         var message = {type: "warn", text: "Serial port disconnected"};
         log(message);
-        webSocket.send(message);
+        webSocket.broadcast(message);
     });
     parser.on("data", function (data) {
         var message = {type: "data", text: data};
         log(message);
-        webSocket.send(message);
+        webSocket.broadcast(message);
     });
 }
 
-function sendJson(modeChainJson) {
-    port.write(modeChainJson);
-}
-
 module.exports = {
-    connect: connect,
-    sendJson: sendJson
+    connect: connect
 };

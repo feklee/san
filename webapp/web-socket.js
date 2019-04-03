@@ -6,13 +6,32 @@
 
 var WebSocketServer = require("websocket").server;
 var cli = require("./cli");
-var connection;
+var connectionSet = new Set();
 
-function send(message) {
-    if (connection !== undefined) {
-        connection.sendUTF(JSON.stringify(message));
+var broadcast = function (message) {
+    connectionSet.forEach((c) => c.sendUTF(JSON.stringify(message)));
+};
+
+var interpretMessage = function (message) {
+    if (message.type !== "utf8") {
+        return;
     }
-}
+
+    console.log(message);
+};
+
+var onNewConnection = function (connection) {
+    connectionSet.add(connection);
+
+    connection.on("message", function (message) {
+        interpretMessage(message);
+    });
+
+    connection.on("close", function () {
+        console.log("WebSocket connection closed");
+        connectionSet.delete(connection);
+    });
+};
 
 function create(httpServer) {
     var wsServer = new WebSocketServer({
@@ -21,12 +40,13 @@ function create(httpServer) {
     });
 
     wsServer.on("request", function (request) {
-        connection = request.accept(null, request.origin);
+        var connection = request.accept(null, request.origin);
         cli.log("WebSocket connection from browser accepted");
+        onNewConnection(connection);
     });
 }
 
 module.exports = {
     create: create,
-    send: send
+    broadcast: broadcast
 };

@@ -11,7 +11,7 @@ var sharedSettings = require("./shared-settings");
 function sendSet() {
     set.forEach(function (data) {
         var message = {type: "data", text: data};
-        webSocket.send(message);
+        webSocket.broadcast(message);
     });
 }
 

@@ -11,10 +11,10 @@ const url = require("url");
 var nodeStatic = require("node-static");
 var fileServer = new nodeStatic.Server("./frontend/public", {cache: 0});
 
-function sendSet() {
+function broadcastSet() {
     set.forEach(function (data) {
         var message = {type: "data", text: data};
-        webSocket.send(message);
+        webSocket.broadcast(message);
     });
 }
 
@@ -102,7 +102,7 @@ function angleCommand(parameters) {
     assignEncodedAngleToPairs(nodeId, encodedAngle);
 }
 
-setInterval(sendSet, sharedSettings.graphUpdateInterval);
+setInterval(broadcastSet, sharedSettings.graphUpdateInterval);
 
 console.log("Add pair, by example:");
 console.log();

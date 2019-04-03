@@ -23,16 +23,6 @@ function pairIsValid(pair) {
     return /^[a-zA-Z\^][1-4][a-zA-Z][1-4]$/.test(pair);
 }
 
-function addOrRemovePair(pair, description, action) {
-    if (!pairIsValid(pair)) {
-        complainAboutMalformedCommand();
-        return false;
-    }
-    console.log(description, pair);
-    set[action](pair + "0"); // "0" = no angle set
-    return true;
-}
-
 function addPairCommand(pair) {
     if (!pairIsValid(pair)) {
         complainAboutMalformedCommand();

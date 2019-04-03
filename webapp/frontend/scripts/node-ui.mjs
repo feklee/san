@@ -9,13 +9,14 @@ var nameOfSelectedModule = function () {
 };
 
 var sendSelectedModule = function () {
+    var data = {
+        moduleName: nameOfSelectedModule(),
+        nodeId: nodeId
+    };
+    console.log(JSON.stringify(data));
+
     try {
-        console.log(JSON.stringify({
-            type: "audio module",
-            moduleName: nameOfSelectedModule(),
-            nodeId: nodeId
-        }));
-//        webSocket.send(JSON.stringify(moduleName));
+        client.send(JSON.stringify(data));
     } catch (ignore) {
     }
 };

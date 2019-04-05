@@ -131,8 +131,15 @@ of Mitch Altman’s 2017 [[https://www.noisebridge.net/wiki/NoisebridgeChinaTrip
   between nodes. Also a separate MCU may have enough ports to drive
   the LEDs directly.
 
+  Alternatively, use a dedicated LED driver.
+
+  Disadvantage: FFC needs more wires.
+
 - Move the Tag-Connect interface for burning the bootloader to the
   back. This saves space on the front.
+
+- Use a Tag-Connect interface for plugs with legs. (additional holes
+  necessary)
 
 
 * Source of 3D compontents

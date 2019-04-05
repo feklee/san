@@ -249,7 +249,6 @@ var connect = function (pair) {
         setChildLocation(pair.parentPort.node, pair.childPort.node);
     }
 
-    audio.setOutput(pair.childNode, pair.parentNode);
     audio.addInput(pair.parentNode, pair.childNode);
 
     removeNodesNotConnectedToRoot();

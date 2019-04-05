@@ -27,20 +27,27 @@ var enableMuteButton = function () {
 };
 
 var createDefaultModule = function (node) {
-    var o = context.createOscillator({frequency: 432});
-    o.connect(context.destination);
-    o.start();
-    node.oscillator = o;
+    var module = {
+        oscillator: context.createOscillator({frequency: 440}),
+        gain: context.createGain()
+    };
+
+    module.oscillator.connect(module.gain);
+    module.oscillator.start();
+    module.gain.connect(context.destination);
+
+    node.audioModule = module;
 };
 
 var destroyModule = function (node) {
-    var o = node.oscillator;
-    o.stop();
-    o.disconnect();
+    var module = node.audioModule;
+    module.oscillator.stop();
+    module.oscillator.disconnect();
+    module.gain.disconnect();
 };
 
 var refreshOscillator = function (node) {
-    var o = node.oscillator;
+    var o = node.audioModule.oscillator;
     o.detune.setValueAtTime(400 * node.animatedLocation.z, context.currentTime);
 };
 
@@ -48,9 +55,12 @@ var refresh = function () {
     visibleNodes.forEach(refreshOscillator);
 };
 
+var addInput = function () {}; // TODO: implement
+
 export default {
     enableMuteButton: enableMuteButton,
     createDefaultModule: createDefaultModule,
+    addInput: addInput,
     destroyModule: destroyModule,
     refresh: refresh
 };

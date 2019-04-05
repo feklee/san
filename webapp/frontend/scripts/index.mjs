@@ -95,7 +95,7 @@ client.onmessage = function (e) {
     } else if (message.type === "audio module") {
         log.append(
             "info",
-            "Audio module node " + message.nodeId + ": " + message.moduleName
+            message.moduleName + " audio module on " + message.nodeId
         );
     } else {
         log.append(message.type, message.text);

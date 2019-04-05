@@ -26,14 +26,14 @@ var enableMuteButton = function () {
     muteButtonEl.onclick = toggleMute;
 };
 
-var createNodeOscillator = function (node) {
+var createDefaultModule = function (node) {
     var o = context.createOscillator({frequency: 432});
     o.connect(context.destination);
     o.start();
     node.oscillator = o;
 };
 
-var destroyNodeOscillator = function (node) {
+var destroyModule = function (node) {
     var o = node.oscillator;
     o.stop();
     o.disconnect();
@@ -50,7 +50,7 @@ var refresh = function () {
 
 export default {
     enableMuteButton: enableMuteButton,
-    createNodeOscillator: createNodeOscillator,
-    destroyNodeOscillator: destroyNodeOscillator,
+    createDefaultModule: createDefaultModule,
+    destroyModule: destroyModule,
     refresh: refresh
 };

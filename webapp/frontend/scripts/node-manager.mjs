@@ -99,7 +99,7 @@ var removeNodesNotConnectedToRoot = function () {
         var isConnectedToRoot = nodesConnectedToRoot.has(node);
         if (!isConnectedToRoot) {
             visualization.destroyNodeObject3D(node);
-            audio.destroyNodeOscillator(node);
+            audio.removeModule(node);
             delete nodes[node.id];
         }
     });
@@ -225,7 +225,7 @@ var addNode = function (id, tiltAngle) {
 
     if (node.isVisible) {
         visualization.createNodeObject3D(node);
-        audio.createNodeOscillator(node);
+        audio.createDefaultModule(node);
     }
 
     sortNodes();
@@ -248,6 +248,9 @@ var connect = function (pair) {
     if (pair.childPort.node.location === null) {
         setChildLocation(pair.parentPort.node, pair.childPort.node);
     }
+
+    audio.setOutput(pair.childNode, pair.parentNode);
+    audio.addInput(pair.parentNode, pair.childNode);
 
     removeNodesNotConnectedToRoot();
     updateForVisualization();

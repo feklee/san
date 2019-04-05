@@ -19,6 +19,8 @@ For programming:
   * Mini-USB cable with loose ends
   
   * FTDI 5V TTL-232R USB – TTL level serial converter: [TTL-232R-5V-WE][7]
+  
+  * Heat-shrink tubing: for assembling the FTDI-to-Mini-USB cable
 
 For each node (not part of PCBA):
   

@@ -99,7 +99,7 @@ var removeNodesNotConnectedToRoot = function () {
         var isConnectedToRoot = nodesConnectedToRoot.has(node);
         if (!isConnectedToRoot) {
             visualization.destroyNodeObject3D(node);
-            audio.removeModule(node);
+//            audio.removeModule(node);
             delete nodes[node.id];
         }
     });
@@ -118,6 +118,8 @@ var disconnectOnBothSides = function (port) {
         return;
     }
     removeConnection(connection);
+
+    // TODO: remove audio connection too
 };
 
 var setNeighbor = function (port, neighborPort) {
@@ -225,6 +227,11 @@ var addNode = function (id, tiltAngle) {
 
     if (node.isVisible) {
         visualization.createNodeObject3D(node);
+    }
+
+    if (nodeIsRootNode(id)) {
+        audio.createMasterModule(node);
+    } else {
         audio.createDefaultModule(node);
     }
 
@@ -249,7 +256,10 @@ var connect = function (pair) {
         setChildLocation(pair.parentPort.node, pair.childPort.node);
     }
 
-    audio.addInput(pair.parentNode, pair.childNode);
+    audio.connect({
+        source: pair.childPort.node,
+        destination: pair.parentPort.node
+    });
 
     removeNodesNotConnectedToRoot();
     updateForVisualization();

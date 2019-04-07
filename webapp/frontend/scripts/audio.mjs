@@ -1,10 +1,10 @@
 /*jslint browser: true, maxlen: 80 */
 
-var context;
-var muteButtonEl;
 import visibleNodes from "./visible-nodes.mjs";
 
-context = new window.AudioContext();
+var context = new window.AudioContext();
+var muteButtonEl = document.querySelector("button.mute");
+
 context.addEventListener("statechange", function () {
     if (context.state === "suspended") {
         muteButtonEl.textContent = "🔇";
@@ -22,21 +22,35 @@ var toggleMute = function () {
 };
 
 var enableMuteButton = function () {
-    muteButtonEl = document.querySelector("button.mute");
     muteButtonEl.onclick = toggleMute;
 };
 
-var createDefaultModule = function (node) {
-    var module = {
-        oscillator: context.createOscillator({frequency: 440}),
-        gain: context.createGain()
+var connect = function (options) {
+    var sourceModule = options.source.audioModule;
+    var destinationModule = options.destination.audioModule;
+    sourceModule.gain.connect(destinationModule.gain);
+};
+
+var createMasterModule = function (node) {
+    var gain = context.createGain();
+    gain.connect(context.destination);
+
+    node.audioModule = {
+        gain: gain
     };
+};
 
-    module.oscillator.connect(module.gain);
-    module.oscillator.start();
-    module.gain.connect(context.destination);
+var createDefaultModule = function (node) {
+    var oscillator = context.createOscillator({frequency: 440});
+    var gain = context.createGain();
 
-    node.audioModule = module;
+    oscillator.connect(gain);
+    oscillator.start();
+
+    node.audioModule = {
+        oscillator: oscillator,
+        gain: gain
+    };
 };
 
 var destroyModule = function (node) {
@@ -55,12 +69,11 @@ var refresh = function () {
     visibleNodes.forEach(refreshOscillator);
 };
 
-var addInput = function () {}; // TODO: implement
-
 export default {
     enableMuteButton: enableMuteButton,
     createDefaultModule: createDefaultModule,
-    addInput: addInput,
+    createMasterModule: createMasterModule,
+    connect: connect,
     destroyModule: destroyModule,
     refresh: refresh
 };

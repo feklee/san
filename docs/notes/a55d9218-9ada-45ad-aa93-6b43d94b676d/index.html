@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-03-31 Sun 10:38 -->
+<!-- 2019-04-07 Sun 16:03 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: Audio</title>
@@ -248,33 +248,35 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orge09239e">1. Introduction</a></li>
-<li><a href="#orgae03ad2">2. Approaches</a>
+<li><a href="#org1a63eee">1. Introduction</a></li>
+<li><a href="#orgb3c0c4f">2. Approaches</a>
 <ul>
 <li><a href="#sound">2.1. Sound of molecular vibrations</a>
 <ul>
-<li><a href="#orgfc4c1f4">2.1.1. Idea</a></li>
-<li><a href="#org7cdc8c8">2.1.2. Examples</a></li>
-<li><a href="#orgd23a0be">2.1.3. Calculation of vibrations</a></li>
+<li><a href="#org472ea0f">2.1.1. Idea</a></li>
+<li><a href="#org24a46af">2.1.2. Examples</a></li>
+<li><a href="#org7356c1a">2.1.3. Calculation of vibrations</a></li>
 </ul>
 </li>
 <li><a href="#modular-synth">2.2. Collaborative modular synthesizer</a>
 <ul>
-<li><a href="#org0fb9512">2.2.1. Idea</a></li>
-<li><a href="#org4bb7b9f">2.2.2. A module</a></li>
-<li><a href="#org5efe274">2.2.3. Master output:</a></li>
-<li><a href="#orgab34497">2.2.4. Examples for collaborative synths</a></li>
+<li><a href="#org6d538cc">2.2.1. Idea</a></li>
+<li><a href="#org5505069">2.2.2. A module</a></li>
+<li><a href="#org0dbb813">2.2.3. Master output:</a></li>
+<li><a href="#org3285f60">2.2.4. Examples for collaborative synths</a></li>
 </ul>
 </li>
 <li><a href="#sequencer">2.3. Sequencer</a></li>
+<li><a href="#matrix">2.4. Adjacency matrix</a></li>
+<li><a href="#org6a5078b">2.5. Neurons</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-orge09239e" class="outline-2">
-<h2 id="orge09239e"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org1a63eee" class="outline-2">
+<h2 id="org1a63eee"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 SAN is a construction system for architectural structures that
@@ -293,8 +295,8 @@ musical instrument?</i>
 </div>
 
 
-<div id="outline-container-orgae03ad2" class="outline-2">
-<h2 id="orgae03ad2"><span class="section-number-2">2</span> Approaches</h2>
+<div id="outline-container-orgb3c0c4f" class="outline-2">
+<h2 id="orgb3c0c4f"><span class="section-number-2">2</span> Approaches</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 What follows is a discussion of vairous approaches to turning the
@@ -303,13 +305,13 @@ structure into sound or even have it generate music.
 </div>
 
 
-<div id="outline-container-org4f66bac" class="outline-3">
+<div id="outline-container-org80800e3" class="outline-3">
 <h3 id="sound"><span class="section-number-3">2.1</span> Sound of molecular vibrations</h3>
 <div class="outline-text-3" id="text-sound">
 </div>
 
-<div id="outline-container-orgfc4c1f4" class="outline-4">
-<h4 id="orgfc4c1f4"><span class="section-number-4">2.1.1</span> Idea</h4>
+<div id="outline-container-org472ea0f" class="outline-4">
+<h4 id="org472ea0f"><span class="section-number-4">2.1.1</span> Idea</h4>
 <div class="outline-text-4" id="text-2-1-1">
 <p>
 <i>Treat the structure as a molecule made up of carbon atoms.  Turn
@@ -335,8 +337,8 @@ together make up a spectrum:
 </div>
 
 
-<div id="outline-container-org7cdc8c8" class="outline-4">
-<h4 id="org7cdc8c8"><span class="section-number-4">2.1.2</span> Examples</h4>
+<div id="outline-container-org24a46af" class="outline-4">
+<h4 id="org24a46af"><span class="section-number-4">2.1.2</span> Examples</h4>
 <div class="outline-text-4" id="text-2-1-2">
 <p>
 Scientists and musicians have explored turning molecular spectra into
@@ -370,8 +372,8 @@ See also his 2016 talk <a href="https://zkm.de/de/media/video/stroemungen-falk-m
 </div>
 </div>
 
-<div id="outline-container-orgd23a0be" class="outline-4">
-<h4 id="orgd23a0be"><span class="section-number-4">2.1.3</span> Calculation of vibrations</h4>
+<div id="outline-container-org7356c1a" class="outline-4">
+<h4 id="org7356c1a"><span class="section-number-4">2.1.3</span> Calculation of vibrations</h4>
 <div class="outline-text-4" id="text-2-1-3">
 <p>
 There are many ways to calculate molecular vibrations.  Simple
@@ -394,13 +396,13 @@ Gaussian 09 can be used:
 </div>
 
 
-<div id="outline-container-org6d7447b" class="outline-3">
+<div id="outline-container-orgad83da1" class="outline-3">
 <h3 id="modular-synth"><span class="section-number-3">2.2</span> Collaborative modular synthesizer</h3>
 <div class="outline-text-3" id="text-modular-synth">
 </div>
 
-<div id="outline-container-org0fb9512" class="outline-4">
-<h4 id="org0fb9512"><span class="section-number-4">2.2.1</span> Idea</h4>
+<div id="outline-container-org6d538cc" class="outline-4">
+<h4 id="org6d538cc"><span class="section-number-4">2.2.1</span> Idea</h4>
 <div class="outline-text-4" id="text-2-2-1">
 <p>
 Each node is module in a big modular synthesizer:
@@ -416,8 +418,8 @@ patched. (of course)</li>
 </div>
 </div>
 
-<div id="outline-container-org4bb7b9f" class="outline-4">
-<h4 id="org4bb7b9f"><span class="section-number-4">2.2.2</span> A module</h4>
+<div id="outline-container-org5505069" class="outline-4">
+<h4 id="org5505069"><span class="section-number-4">2.2.2</span> A module</h4>
 <div class="outline-text-4" id="text-2-2-2">
 <p>
 Each node has several child nodes and one parent node.
@@ -431,6 +433,8 @@ Inputs:
 <li>outputs from the neighboring child nodes</li>
 
 <li>position of the node in space: x, y, z</li>
+
+<li>color of node</li>
 </ul>
 
 <p>
@@ -455,8 +459,8 @@ The UI for a node could be a webapp compatible with smartphones.
 </div>
 
 
-<div id="outline-container-org5efe274" class="outline-4">
-<h4 id="org5efe274"><span class="section-number-4">2.2.3</span> Master output:</h4>
+<div id="outline-container-org0dbb813" class="outline-4">
+<h4 id="org0dbb813"><span class="section-number-4">2.2.3</span> Master output:</h4>
 <div class="outline-text-4" id="text-2-2-3">
 <p>
 There is one root node in the network, which is where the structure is
@@ -466,8 +470,8 @@ output.
 </div>
 </div>
 
-<div id="outline-container-orgab34497" class="outline-4">
-<h4 id="orgab34497"><span class="section-number-4">2.2.4</span> Examples for collaborative synths</h4>
+<div id="outline-container-org3285f60" class="outline-4">
+<h4 id="org3285f60"><span class="section-number-4">2.2.4</span> Examples for collaborative synths</h4>
 <div class="outline-text-4" id="text-2-2-4">
 <ul class="org-ul">
 <li><a href="https://github.com/CarloCattano/PopularSynth">Popular Synth</a> by Carlo Cattano (host of <a href="https://www.meetup.com/de-DE/spektrum/events/ckdswpyxqbxb">Sonic Code Sessions</a> in
@@ -480,7 +484,7 @@ Berlin)</li>
 </div>
 
 
-<div id="outline-container-org341cfe0" class="outline-3">
+<div id="outline-container-org0bd37cf" class="outline-3">
 <h3 id="sequencer"><span class="section-number-3">2.3</span> Sequencer</h3>
 <div class="outline-text-3" id="text-sequencer">
 <p>
@@ -494,11 +498,41 @@ molecule?
 </p>
 </div>
 </div>
+
+
+<div id="outline-container-org1721718" class="outline-3">
+<h3 id="matrix"><span class="section-number-3">2.4</span> Adjacency matrix</h3>
+<div class="outline-text-3" id="text-matrix">
+<p>
+The adjaceny matrix is visible in the main interface.  Create sound
+based on that.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org6a5078b" class="outline-3">
+<h3 id="org6a5078b"><span class="section-number-3">2.5</span> Neurons</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+:CUSTOM<sub>ID</sub>: neurons
+</p>
+
+<p>
+Treat SAN as a neural network.  Investigate how pulses are passed
+around in a biological neural network.
+</p>
+
+<p>
+(idea of Brian / Sonic Code Sessions 02/2019)
+</p>
+</div>
+</div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-03-31 Sun 10:38</p>
+<p class="date">Created: 2019-04-07 Sun 16:03</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

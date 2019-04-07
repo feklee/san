@@ -105,6 +105,8 @@ Inputs:
 
 - position of the node in space: x, y, z
 
+- color of node
+
 Output:
 
 - parent node
@@ -141,3 +143,24 @@ each step, such as playing a note associated with node./
 
 Open question: Is there a standard way to walk the atoms of a
 molecule?
+
+
+** Adjacency matrix
+:PROPERTIES:
+:CUSTOM_ID: matrix
+:END:
+
+The adjaceny matrix is visible in the main interface.  Create sound
+based on that.
+
+
+** Neurons
+
+:PROPERTIES:
+:CUSTOM_ID: neurons
+:END:
+
+Treat SAN as a neural network.  Investigate how pulses are passed
+around in a biological neural network.
+
+(idea of Brian / Sonic Code Sessions 02/2019)

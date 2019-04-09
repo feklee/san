@@ -35,25 +35,28 @@ var connect = function (options) {
 var createModule = {};
 
 createModule.master = function (node) {
-    var gain = context.createGain();
-    gain.connect(context.destination);
+    var input = context.createGain();
+    input.connect(context.destination);
 
     node.audioModule = {
-        input: gain
+        input: input
     };
 };
 
 createModule.add = function (node) {
     var oscillator = context.createOscillator({frequency: 440});
-    var gain = context.createGain();
+    var input = context.createGain();
+    var output = context.createGain();
 
-    oscillator.connect(gain);
+    oscillator.connect(input);
     oscillator.start();
+
+    input.connect(output);
 
     node.audioModule = {
         oscillator: oscillator,
-        input: gain,
-        output: gain
+        input: input, // TODO: need multiple, as set perhaps
+        output: output
     };
 };
 
@@ -75,9 +78,11 @@ createModule.multiply = function (node) {
 
 var destroyModule = function (node) {
     var module = node.audioModule;
+    module.input.disconnect();
     module.oscillator.stop();
     module.oscillator.disconnect();
-    module.gain.disconnect();
+    module.output.disconnect();
+    // TODO: remove modules (check w/ web audio debugger in FF)
 };
 
 var refreshOscillator = function (node) {

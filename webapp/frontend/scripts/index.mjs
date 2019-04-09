@@ -93,6 +93,7 @@ client.onmessage = function (e) {
     if (message.type === "data") {
         parseData(message.text);
     } else if (message.type === "audio module") {
+        audio.parseModuleMessage(message);
         log.append(
             "info",
             message.moduleName + " audio module on " + message.nodeId
@@ -106,4 +107,4 @@ var asideEl = document.querySelector("aside");
 asideEl.style.width = settings.asideWidth + "px";
 document.body.classList.remove("hidden");
 
-//TODO: audio.enableMuteButton();
+audio.enableMuteButton();

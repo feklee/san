@@ -1,5 +1,6 @@
 /*jslint browser: true, maxlen: 80 */
 
+import nodes from "./nodes.mjs";
 import visibleNodes from "./visible-nodes.mjs";
 
 var context = new window.AudioContext();
@@ -28,19 +29,21 @@ var enableMuteButton = function () {
 var connect = function (options) {
     var sourceModule = options.source.audioModule;
     var destinationModule = options.destination.audioModule;
-    sourceModule.gain.connect(destinationModule.gain);
+    sourceModule.output.connect(destinationModule.input);
 };
 
-var createMasterModule = function (node) {
+var createModule = {};
+
+createModule.master = function (node) {
     var gain = context.createGain();
     gain.connect(context.destination);
 
     node.audioModule = {
-        gain: gain
+        input: gain
     };
 };
 
-var createDefaultModule = function (node) {
+createModule.add = function (node) {
     var oscillator = context.createOscillator({frequency: 440});
     var gain = context.createGain();
 
@@ -49,7 +52,24 @@ var createDefaultModule = function (node) {
 
     node.audioModule = {
         oscillator: oscillator,
-        gain: gain
+        input: gain,
+        output: gain
+    };
+};
+
+createModule.multiply = function (node) {
+    var oscillator = context.createOscillator({frequency: 440});
+    var gain = context.createGain();
+
+    oscillator.connect(gain);
+    oscillator.start();
+
+    // TODO: implement
+
+    node.audioModule = {
+        oscillator: oscillator,
+        output: gain,
+        input: gain
     };
 };
 
@@ -69,11 +89,22 @@ var refresh = function () {
     visibleNodes.forEach(refreshOscillator);
 };
 
+var replaceModule = function (node, nameOfNewModule) {
+    destroyModule(node);
+    createModule[nameOfNewModule](node);
+};
+
+var parseModuleMessage = function (message) {
+    var node = nodes[message.nodeId];
+    replaceModule(node, message.moduleName);
+};
+
 export default {
     enableMuteButton: enableMuteButton,
-    createDefaultModule: createDefaultModule,
-    createMasterModule: createMasterModule,
+    createDefaultModule: createModule.add,
+    createMasterModule: createModule.master,
     connect: connect,
     destroyModule: destroyModule,
-    refresh: refresh
+    refresh: refresh,
+    parseModuleMessage: parseModuleMessage
 };

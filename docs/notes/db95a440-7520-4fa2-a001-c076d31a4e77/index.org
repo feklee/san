@@ -125,6 +125,9 @@ of Mitch Altman’s 2017 [[https://www.noisebridge.net/wiki/NoisebridgeChinaTrip
 
 - Replace NeoPixel THT LEDs with SMD LEDs shining sidewards.
 
+- The legs of the first LED may touch the resistor connecting the data
+  pin. Fix that.
+
 - Use a separate MCU for controlling the LEDs. This takes off load
   from the main MCU, allowing the LED colors to be changed without
   taking away too many clock cycles otherwise needed for communication

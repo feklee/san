@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-04-11 Thu 17:09 -->
+<!-- 2019-04-12 Fri 09:35 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: PCB Design</title>
@@ -248,23 +248,23 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org9a394c7">1. Objectives</a></li>
-<li><a href="#orgec5346f">2. 3D mockup</a></li>
+<li><a href="#org052c9c1">1. Objectives</a></li>
+<li><a href="#org27c0b91">2. 3D mockup</a></li>
 <li><a href="#schematic">3. Schematic</a></li>
 <li><a href="#seeed">4. Seeed Studio</a>
 <ul>
 <li><a href="#seeed-opl">4.1. OPL</a></li>
-<li><a href="#orgf859b41">4.2. Inside</a></li>
+<li><a href="#org12e4ec5">4.2. Inside</a></li>
 </ul>
 </li>
 <li><a href="#ideas">5. Ideas</a></li>
-<li><a href="#org8b66954">6. Source of 3D compontents</a></li>
+<li><a href="#org6e7784e">6. Source of 3D compontents</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org9a394c7" class="outline-2">
-<h2 id="org9a394c7"><span class="section-number-2">1</span> Objectives</h2>
+<div id="outline-container-org052c9c1" class="outline-2">
+<h2 id="org052c9c1"><span class="section-number-2">1</span> Objectives</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>Find outline for PCBs.</li>
@@ -279,8 +279,8 @@ for the JavaScript code in this tag.
 </div>
 
 
-<div id="outline-container-orgec5346f" class="outline-2">
-<h2 id="orgec5346f"><span class="section-number-2">2</span> 3D mockup</h2>
+<div id="outline-container-org27c0b91" class="outline-2">
+<h2 id="org27c0b91"><span class="section-number-2">2</span> 3D mockup</h2>
 <div class="outline-text-2" id="text-2">
 <iframe allowfullscreen id="irisModel" width="100%" height="600px"
 src="mockup.iris/index.html" frameBorder="0"></iframe>
@@ -307,7 +307,7 @@ is to easily be able to update the firmware.</li>
 </div>
 
 
-<div id="outline-container-org3161ec8" class="outline-2">
+<div id="outline-container-org0ca5d31" class="outline-2">
 <h2 id="schematic"><span class="section-number-2">3</span> Schematic</h2>
 <div class="outline-text-2" id="text-schematic">
 <img alt="Node circuit" src="./images/node.svg">
@@ -325,7 +325,7 @@ GitHub.
 </div>
 
 
-<div id="outline-container-org3e92861" class="outline-2">
+<div id="outline-container-orgdf66d25" class="outline-2">
 <h2 id="seeed"><span class="section-number-2">4</span> Seeed Studio</h2>
 <div class="outline-text-2" id="text-seeed">
 <p>
@@ -354,7 +354,7 @@ Drill Hole Size</i>)</li>
 </div>
 
 
-<div id="outline-container-org3ec2397" class="outline-3">
+<div id="outline-container-orgb3e2c0d" class="outline-3">
 <h3 id="seeed-opl"><span class="section-number-3">4.1</span> OPL</h3>
 <div class="outline-text-3" id="text-seeed-opl">
 <p>
@@ -377,8 +377,8 @@ hope components in the Seeed OPL are in stock.)</li>
 </div>
 
 
-<div id="outline-container-orgf859b41" class="outline-3">
-<h3 id="orgf859b41"><span class="section-number-3">4.2</span> Inside</h3>
+<div id="outline-container-org12e4ec5" class="outline-3">
+<h3 id="org12e4ec5"><span class="section-number-3">4.2</span> Inside</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 The author of this document visited Seeed Studio in Shenzhen as part
@@ -391,7 +391,7 @@ of Mitch Altman’s 2017 <a href="https://www.noisebridge.net/wiki/NoisebridgeCh
 </div>
 
 
-<div id="outline-container-orgf872706" class="outline-2">
+<div id="outline-container-org4d542bb" class="outline-2">
 <h2 id="ideas"><span class="section-number-2">5</span> Ideas</h2>
 <div class="outline-text-2" id="text-ideas">
 <ul class="org-ul">
@@ -407,7 +407,9 @@ Then it may be possible to make both boards the same size.
 <li>Replace NeoPixel THT LEDs with SMD LEDs shining sidewards.</li>
 
 <li>The legs of the first LED may touch the resistor connecting the data
-pin. Fix that.</li>
+pin. Fix that.  On the other hand, it’s nicer if LEDs are soldered
+on the bottom side.  Then they’re closer to the middle of the
+sphere.</li>
 
 <li><p>
 Use a separate MCU for controlling the LEDs. This takes off load
@@ -435,8 +437,8 @@ necessary)</li>
 </div>
 
 
-<div id="outline-container-org8b66954" class="outline-2">
-<h2 id="org8b66954"><span class="section-number-2">6</span> Source of 3D compontents</h2>
+<div id="outline-container-org6e7784e" class="outline-2">
+<h2 id="org6e7784e"><span class="section-number-2">6</span> Source of 3D compontents</h2>
 <div class="outline-text-2" id="text-6">
 <ul class="org-ul">
 <li>BK-912: <a href="http://www.memoryprotectiondevices.com/3d/download.php?pn=BK-912"><code>BK-912.STEP</code></a></li>
@@ -468,7 +470,7 @@ necessary)</li>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-04-11 Thu 17:09</p>
+<p class="date">Created: 2019-04-12 Fri 09:35</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

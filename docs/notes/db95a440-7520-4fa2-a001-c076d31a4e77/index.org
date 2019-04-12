@@ -146,6 +146,16 @@ of Mitch Altman’s 2017 [[https://www.noisebridge.net/wiki/NoisebridgeChinaTrip
 - Use a Tag-Connect interface for plugs with legs. (additional holes
   necessary)
 
+- Shell:
+
+  + Make flat top thicker to avoid light showing internals.
+
+  + Give a 0.25 mm additional space for boards in flat top, so that
+    sphere screws together seamlessly.
+
+  + E.g. by using pins, enforce in which orientation the two
+    hemispheres have to be assembled.
+
 
 * Source of 3D compontents
 

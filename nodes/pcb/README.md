@@ -43,6 +43,13 @@ For each node (not part of PCBA):
   * 4 × nut: DIN 934, M2
 
 
+Burning bootloader
+==================
+
+To burn the bootloader onto the 328P, use an Arduino with the ~ArduinoISP~
+sketch (in examples distributed with the Arduino 1.8.8 IDE).
+
+
 Reading
 =======
 

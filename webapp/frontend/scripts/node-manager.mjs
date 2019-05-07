@@ -110,6 +110,17 @@ var removeNodesNotConnectedToRoot = function () {
 var removeConnection = function (connection) {
     removeConnectionOnPort(connection.fromPort);
     removeConnectionOnPort(connection.toPort);
+
+    // There is no info in which direction the connection is going, so try both
+    // connections, one will work:
+    audio.disconnect({
+        source: connection.fromPort.node,
+        destination: connection.toPort.node
+    });
+    audio.disconnect({
+        source: connection.toPort.node,
+        destination: connection.fromPort.node
+    });
 };
 
 var disconnectOnBothSides = function (port) {
@@ -118,8 +129,6 @@ var disconnectOnBothSides = function (port) {
         return;
     }
     removeConnection(connection);
-
-    // TODO: remove audio connection too
 };
 
 var setNeighbor = function (port, neighborPort) {

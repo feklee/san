@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2019-05-08 Wed 12:15 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SAN: Buckyball Summer Camp at PACEE Lab</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Felix E. Klee" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<style>body{max-width:42em}img{max-width:100%}.figure-number{display:none}</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">SAN: Buckyball Summer Camp at PACEE Lab</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgbded4bb">1. Introduction</a></li>
+<li><a href="#org9e077e8">2. Desktop system</a></li>
+<li><a href="#org57fa87f">3. Live-size system</a></li>
+<li><a href="#orgb585d35">4. Past events</a></li>
+<li><a href="#orge857f1f">5. Buckyball Summer Camp (three to five days in total)</a>
+<ul>
+<li><a href="#orgd417898">5.1. Fabrication of the elements (two to three days)</a></li>
+<li><a href="#org4581d44">5.2. Construction (one to two days)</a></li>
+<li><a href="#orgc401ae2">5.3. Music (optional, about half a day)</a></li>
+<li><a href="#org4d657db">5.4. Conclusion (about half a day)</a></li>
+</ul>
+</li>
+<li><a href="#orgfea42c4">6. Target audience</a></li>
+<li><a href="#org91b98d7">7. Tools</a></li>
+<li><a href="#org7098d24">8. Material</a></li>
+<li><a href="#orgd37947b">9. Preparation</a></li>
+<li><a href="#orgc2bf040">10. Tutor</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbded4bb" class="outline-2">
+<h2 id="orgbded4bb"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+SAN is an experiment about the future of architecture.  It is
+comprised of a system for building structures that <i>interact</i> with the
+environment.  Eventually structures will be able to <i>adapt</i> to the
+environment.  This solves the housing problem: Architecture moves to
+where it is needed.
+</p>
+
+<p>
+For the summer camp, we will work with a life-size version of the
+<i>desktop system,</i> see below.
+</p>
+
+<p>
+<i>This document is a proposal and thereby subject to change.</i>
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org9e077e8" class="outline-2">
+<h2 id="org9e077e8"><span class="section-number-2">2</span> Desktop system</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Specs:
+</p>
+
+<ul class="org-ul">
+<li>Node diameter: 50 mm</li>
+
+<li>Edge length: 100 mm</li>
+
+<li>Power source: 2 × CR2032 coin cells per node</li>
+
+<li>Types of connectors: BNC</li>
+
+<li>Node material: PLA</li>
+
+<li>Edge material: aluminum</li>
+
+<li>Microcontroller: 1 ATMega328p 16Mhz per node (Arduino compatible)</li>
+
+<li>Computer interface: web app written in JavaScript / Node.js / WebGl
+/ Web Audio / genetic algorithm</li>
+
+<li>Low level communication protocol: MultiTrans</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./images/2018-10-11+02_complete_set.jpg" alt="2018-10-11+02_complete_set.jpg" />
+</p>
+<p><span class="figure-number">Figure 1: </span>Complete set</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./images/2018-10-14+02_Maker-Faire-Rome-2018.jpg" alt="2018-10-14+02_Maker-Faire-Rome-2018.jpg" />
+</p>
+<p><span class="figure-number">Figure 2: </span>Dodecahedron built by two little girls at the end of Maker Faire Rome.  Notice the visualization in the background: The structure understands how it is assembled.</p>
+</div>
+
+
+<div class="figure">
+<p><img src="./images/2019-01-10+01_screenshot.png" alt="2019-01-10+01_screenshot.png" />
+</p>
+<p><span class="figure-number">Figure 3: </span>Web app</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org57fa87f" class="outline-2">
+<h2 id="org57fa87f"><span class="section-number-2">3</span> Live-size system</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Specs: (under development, subject to change)
+</p>
+
+<ul class="org-ul">
+<li>Node diameter: 200 mm</li>
+
+<li>Edge length: 400 mm</li>
+
+<li>Types of connectors: quick-connect</li>
+
+<li>Node material: PLA</li>
+
+<li>Edge material: PVC</li>
+
+<li>Power source: 4 × AAA battery per node</li>
+</ul>
+
+<p>
+Other specs match those of the desktop system.
+</p>
+
+
+<div class="figure">
+<p><img src="./images/2019-05-06+08_prototype.jpg" alt="2019-05-06+08_prototype.jpg" />
+</p>
+<p><span class="figure-number">Figure 4: </span>Prototype made out of metal (half a meter arm length)</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgb585d35" class="outline-2">
+<h2 id="orgb585d35"><span class="section-number-2">4</span> Past events</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>Maker Faire Berlin 2018</li>
+
+<li>Maker Faire Rome 2018, with talk about genetic algorithms</li>
+
+<li>Maker to Market Bootcamp Bilbao 2018 (one out of six projects from
+EU countries), plus Maker Faire Bilbao</li>
+
+<li>Sónar Hong Kong music festival 2019: soldering workshop about an
+architectural structure that makes sound, targeted at professional
+musicians and architects</li>
+</ul>
+
+
+<div class="figure">
+<p><img src="./images/2019-04-13+01_instructions.jpg" alt="2019-04-13+01_instructions.jpg" />
+</p>
+<p><span class="figure-number">Figure 5: </span>Instructions for Sónar (desktop version)</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orge857f1f" class="outline-2">
+<h2 id="orge857f1f"><span class="section-number-2">5</span> Buckyball Summer Camp (three to five days in total)</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+One summer camp day is six hours long.
+</p>
+</div>
+
+<div id="outline-container-orgd417898" class="outline-3">
+<h3 id="orgd417898"><span class="section-number-3">5.1</span> Fabrication of the elements (two to three days)</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Each participant fabricates one node and two connectors.
+</p>
+
+<ul class="org-ul">
+<li>Nodes:
+
+<ul class="org-ul">
+<li>3D print shells</li>
+
+<li>solder PCBs that go inside of the nodes</li>
+
+<li>assemble nodes (glue, screws)</li>
+
+<li>program PCBs</li>
+</ul></li>
+
+<li>Edges:
+
+<ul class="org-ul">
+<li>cut pipes to correct length (pipe cutter)</li>
+
+<li>solder cables to connectors</li>
+
+<li>assemble (glue, screws)</li>
+</ul></li>
+</ul>
+
+<p>
+We will learn:
+</p>
+
+<ul class="org-ul">
+<li>How to operate a 3D printer</li>
+
+<li>How to solder a PCB</li>
+
+<li>How to work with hand tools for construction</li>
+
+<li>What goes into an electro mechanical product</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org4581d44" class="outline-3">
+<h3 id="org4581d44"><span class="section-number-3">5.2</span> Construction (one to two days)</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+Participants join their nodes and connectors, for a collaborative
+experience.
+</p>
+
+<ul class="org-ul">
+<li>Build structures</li>
+
+<li>Test structures</li>
+
+<li>Investigate structures using the web app</li>
+
+<li>Investigate how the nodes communicate</li>
+
+<li>Theory of tetrahedral symmetry in nature (diamond structure, SP3
+hybridization)</li>
+
+<li>Theory of the buckyball (requires 60 nodes, so unlikely we will
+be able to build one)</li>
+</ul>
+
+<p>
+We will learn:
+</p>
+
+<ul class="org-ul">
+<li>Spatial thinking: real structure vs. structure on screen</li>
+
+<li>Geometry in nature and architecture</li>
+
+<li>The math of 3D space</li>
+
+<li>What is a communication protocol</li>
+
+<li>What is an adjacency matrix</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgc401ae2" class="outline-3">
+<h3 id="orgc401ae2"><span class="section-number-3">5.3</span> Music (optional, about half a day)</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+Each node functions as a module in a modular synthesizer.  We create
+experimental music.
+</p>
+
+<ul class="org-ul">
+<li>Introduction to modular synthesis</li>
+
+<li>Think about structures in terms of the sound they represent</li>
+
+<li>Connect with a phone app to your node, and change the properties of
+the associated audio module</li>
+</ul>
+
+<p>
+We will learn:
+</p>
+
+<ul class="org-ul">
+<li>Thinking outside of the box</li>
+
+<li>Basics of how a modular synthesizer works</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org4d657db" class="outline-3">
+<h3 id="org4d657db"><span class="section-number-3">5.4</span> Conclusion (about half a day)</h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+Together we will think about the future of architecture: /How could
+structures look that adapt to the environment and to the needs of the
+people?/
+</p>
+
+<p>
+We will learn:
+</p>
+
+<ul class="org-ul">
+<li>How to brainstorm</li>
+
+<li>The role of architecture in the context of society</li>
+</ul>
+
+<p>
+At the end, each participant takes home the node and the connectors he
+built.  This encourages participants to connect with others after the
+workshop.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgfea42c4" class="outline-2">
+<h2 id="orgfea42c4"><span class="section-number-2">6</span> Target audience</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Children ages twelve and up.  Prior knowledge is not required, but it
+is of course helpful.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org91b98d7" class="outline-2">
+<h2 id="org91b98d7"><span class="section-number-2">7</span> Tools</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li>3D printers (one per participant would be ideal)</li>
+
+<li>soldering irons</li>
+
+<li>various hand tools, such as screw drivers and pipe cutters</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org7098d24" class="outline-2">
+<h2 id="org7098d24"><span class="section-number-2">8</span> Material</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>Filament for 3D printing</li>
+
+<li>Electronic parts</li>
+
+<li>PCBs</li>
+
+<li>Quick-connect connectors</li>
+
+<li>Mechanical parts</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgd37947b" class="outline-2">
+<h2 id="orgd37947b"><span class="section-number-2">9</span> Preparation</h2>
+<div class="outline-text-2" id="text-9">
+<ul class="org-ul">
+<li>Order materials</li>
+
+<li>Design PCBs (based on current small design)</li>
+
+<li>Order PCBs</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgc2bf040" class="outline-2">
+<h2 id="orgc2bf040"><span class="section-number-2">10</span> Tutor</h2>
+<div class="outline-text-2" id="text-10">
+<p>
+Felix is a programmer and artist from Berlin.  His academic background
+is architecture and physics (Universities of Hannover and Konstanz,
+Germany, 1997–2004).  Felix investigates structures that bridge the
+real and the virtual.  With a partner he runs a small art production
+company, the Rieger &amp; Klee GbR.  At the art-science gallery Spektrum,
+Felix organizes MetaMatter, “a laboratory of research and practice
+focused on the transformations of matter.”
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Felix E. Klee</p>
+<p class="date">Created: 2019-05-08 Wed 12:15</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

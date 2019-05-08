@@ -80,12 +80,18 @@ Other specs match those of the desktop system.
 - Maker to Market Bootcamp Bilbao 2018 (one out of six projects from
   EU countries), plus Maker Faire Bilbao
 
-- Sónar Hong Kong music festival 2019: soldering workshop about an
-  architectural structure that makes sound, targeted at professional
-  musicians and architects
+- Sónar Hong Kong 2019: soldering workshop about an architectural
+  structure that makes sound, targeted at professional musicians and
+  architects
 
-#+CAPTION: Instructions for Sónar (desktop version)
-[[./images/2019-04-13+01_instructions.jpg]]
+  #+CAPTION: Instructions for Sónar (desktop version)
+  [[./images/2019-04-13+01_instructions.jpg]]
+
+- SteamHead workshop for students, April 2019
+
+  #+BEGIN_EXPORT html
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/WMVT9WCbifk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  #+END_EXPORT
 
 
 * Buckyball Summer Camp (three to five days in total)

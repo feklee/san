@@ -178,9 +178,7 @@ We will learn:
 
 ** Conclusion (about half a day)
 
-Together we will think about the future of architecture: /How could
-structures look that adapt to the environment and to the needs of the
-people?/
+Together we will think about the future of architecture: /How could structures look that adapt to the environment and to the needs of the people?/
 
 We will learn:
 
@@ -188,7 +186,7 @@ We will learn:
 
 - The role of architecture in the context of society
 
-At the end, each participant takes home the node and the connectors he
+At the end, each participant takes home the node and the edges he
 built.  This encourages participants to connect with others after the
 workshop.
 

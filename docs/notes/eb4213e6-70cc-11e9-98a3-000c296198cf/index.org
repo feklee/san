@@ -4,11 +4,11 @@
 
 * Introduction
 
-SAN is an experiment about the future of architecture.  It is
-comprised of a system for building structures that /interact/ with the
-environment.  Eventually structures will be able to /adapt/ to the
-environment.  This solves the housing problem: Architecture moves to
-where it is needed.
+The Self Aware Network (SAN) is an experiment about the future of
+architecture.  It is comprised of a system for building structures
+that /interact/ with the environment.  Eventually structures will be
+able to /adapt/ to the environment.  This solves the housing problem:
+Architecture moves to where it is needed.
 
 For the summer camp, we will work with a life-size version of the
 /desktop system,/ see below.
@@ -236,10 +236,14 @@ is of course helpful.
 
 * Tutor
 
-Felix is a programmer and artist from Berlin.  His academic background
-is architecture and physics (Universities of Hannover and Konstanz,
-Germany, 1997–2004).  Felix investigates structures that bridge the
-real and the virtual.  With a partner he runs a small art production
-company, the Rieger & Klee GbR.  At the art-science gallery Spektrum,
-Felix organizes MetaMatter, “a laboratory of research and practice
-focused on the transformations of matter.”
+Felix is the inventor of the Self Aware Network (SAN).  His academic
+background is architecture and physics (Universities of Hannover and
+Konstanz, Germany, 1997–2004).  Felix investigates collaborative
+construction systems that bridge the real and the virtual: Asides from
+SAN, he created the Reality Builder.  With a partner, Felix runs the
+Berlin based art production company Rieger & Klee GbR.  At art-science
+gallery Spektrum he organizes MetaMatter, “a laboratory of research
+and practice focused on the transformations of matter.”
+
+#+CAPTION: Reality Builder at CCC ’15: collaborative remote construction
+[[./images/2015-08-17+02_Reality_Builder.jpg]]

@@ -11,15 +11,48 @@
   </head>
 
   <body>
-    <h1>Module</h1>
+    <h1>Input Gain</h1>
+    <ul>
+      <li>
+        <input type="range" id="gain-of-oscillator" name="gain-oscillator"
+               min="0" max="1" step="any" value="1">
+        Oscillator
+      </li>
+      <li>
+        <input type="range" id="gain-of-neighbor-1" name="gain-1"
+               min="0" max="1" step="any" value="1">
+        Neighbor 1
+      </li>
+      <li>
+        <input type="range" id="gain-of-neighbor-2" name="gain-1"
+               min="0" max="1" step="any" value="1">
+        Neighbor 2
+      </li>
+      <li>
+        <input type="range" id="gain-of-neighbor-3" name="gain-1"
+               min="0" max="1" step="any" value="1">
+        Neighbor 3
+      </li>
+    </ul>
+
+    <h1>Modulator</h1>
     <p>
-      <input type="radio" name="module" id="add-module" value="add">
-      <label for="add-module">+</label>
+      <input type="radio" id="add-mod" name="modulator"
+             value="add" checked="checked">
+      <label for="add-mod">+</label>
     </p>
     <p>
-      <input type="radio" name="module" id="multiply-module" value="multiply">
-      <label for="multiply-module">×</label>
+      <input type="radio" id="multiply-mod" name="modulator"
+             value="multiply">
+      <label for="multiply-mod">×</label>
     </p>
     <script src="build/node-ui.js"></script>
+
+    <h1>Oscillator</h1>
+    <p>
+      <input type="range" id="base-freq" name="base-freq"
+             min="0" max="1" step="any">
+      <label for="base-freq">Base Frequency</label>
+    </p>
   </body>
 </html>

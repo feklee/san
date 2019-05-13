@@ -26,17 +26,52 @@ var enableMuteButton = function () {
     muteButtonEl.onclick = toggleMute;
 };
 
-var refreshConnections = function (module) {
-    var connectedInputs = module.connectedInputs;
+var createInternals = {};
+
+createInternals.add = function (module) {
     var inputs = module.inputs;
-    var output = module.output;
-    connectedInputs.forEach(function (input) {
-        input.disconnect();
-        connectedInputs.delete(input);
-    });
+    var connectedInputs = module.connectedInputs;
     inputs.forEach(function (input) {
-        input.connect(output);
+        input.connect(module.output);
         connectedInputs.add(input);
+    });
+};
+
+createInternals.multiply = function (module) {
+    var inputs = module.inputs;
+    var connectedInputs = module.connectedInputs;
+    var currentEnd;
+    var i = 0;
+
+    inputs.forEach(function (input) {
+        var isFirstInput = (i === 0);
+        var isLastInput = (i === inputs.size - 1);
+
+        if (isFirstInput) {
+            currentEnd = input;
+        } else {
+            var multiplier = context.createGain();
+            currentEnd.connect(multiplier);
+            input.connect(multiplier.gain);
+            currentEnd = multiplier;
+            connectedInputs.add(multiplier); // TODO: rename connectedInputs to maybe internalConnections
+        }
+
+        if (isLastInput) {
+            currentEnd.connect(module.output);
+        }
+
+        connectedInputs.add(input);
+
+        i += 1;
+    });
+};
+
+var removeInternals = function (module) {
+    var connectedInputs = module.connectedInputs;
+    connectedInputs.forEach(function (connectedInput) {
+        connectedInput.disconnect();
+        connectedInputs.delete(connectedInput);
     });
 };
 
@@ -44,41 +79,44 @@ var connect = function (options) {
     var sourceModule = options.source.audioModule;
     var destinationModule = options.destination.audioModule;
     destinationModule.inputs.add(sourceModule.output);
-    refreshConnections(destinationModule);
+    removeInternals(destinationModule); // TODO: maybe only add the new one instead of rebuilding all
+    createInternals[destinationModule.modulator](destinationModule);
 };
 
 var disconnect = function (options) {
     var sourceModule = options.source.audioModule;
     var destinationModule = options.destination.audioModule;
     destinationModule.inputs.delete(sourceModule.output);
-    destinationModule.refreshConnections();
+    removeInternals(destinationModule); // TODO: maybe just remove what isn't needed instead of rebuilding all
+    createInternals[destinationModule.modulator](destinationModule);
 };
 
 var createMasterModule = function (node) {
     var inputs = new Set();
     var connectedInputs = new Set();
-
-    node.audioModule = {
-        output: context.destination,
+    var m = {
         inputs: inputs,
         connectedInputs: connectedInputs,
-        name: "master"
+        modulator: "add",
+        output: context.destination
     };
 
-    refreshConnections(node.audioModule);
+    node.audioModule = m;
+
+    createInternals[m.modulator](m);
 };
 
 var createModule = function (node) {
+    var output = context.createGain();
     var baseFreq = 440;
     var oscillator = context.createOscillator({frequency: baseFreq});
-    var output = context.createGain();
     var inputs = new Set();
     var connectedInputs = new Set();
 
     oscillator.start();
     inputs.add(oscillator);
 
-    node.audioModule = {
+    var m = {
         oscillator: oscillator,
         connectedInputs: connectedInputs,
         inputs: inputs,
@@ -88,35 +126,9 @@ var createModule = function (node) {
         oscType: "sine",
         baseFreq: baseFreq
     };
+    node.audioModule = m;
 
-    refreshConnections(node.audioModule);
-
-    // TODO, multiplication: multiply gains, connect first signal to input, the
-    // other one to gain (see question on StackOverflow)
-
-    // TODO, addition: create gain 
-};
-
-var update = function (node, parameters) {
-    var module = node.audioModule;
-    // TODO: only rewire on change of module
-    
-};
-
-createModule.multiply = function (node) {
-/*    var oscillator = context.createOscillator({frequency: 440});
-    var gain = context.createGain();
-
-    oscillator.connect(gain);
-    oscillator.start();
-
-    // TODO: implement
-
-    node.audioModule = {
-        oscillator: oscillator,
-        output: gain,
-        input: gain
-    };*/
+    createInternals[m.modulator](m);
 };
 
 var destroyModule = function (node) {
@@ -128,8 +140,7 @@ var destroyModule = function (node) {
     module.oscillator.disconnect();
     delete module.oscillator;
     module.output.disconnect();
-    delete module.output;
-    // TODO: remove modules (check w/ web audio debugger in FF)
+    delete module.output; // TODO: https://stackoverflow.com/q/56117520/282729
 };
 
 var refreshOscillator = function (node) {
@@ -156,11 +167,16 @@ var replaceModule = function (node, nameOfNewModule) {
 var parseModuleMessage = function (message) {
     var node = nodes[message.nodeId];
     var m = node.audioModule;
-    m.modulator = message.modulator;
     m.baseFreq = message.baseFreq; // TODO: really change freq
     m.oscType = message.oscType;
 
     refreshOscillator(node);
+
+    if (m.modulator !== message.modulator) {
+        m.modulator = message.modulator;
+        removeInternals(m);
+        createInternals[m.modulator](m);
+    }
 };
 
 export default {

@@ -13,70 +13,41 @@
   <body>
     <h1>Input Gain</h1>
     <ul>
-      <li>
-        <input type="range" id="gain-of-oscillator" name="gain-oscillator"
-               min="0" max="1" step="any" value="1">
-        Oscillator
-      </li>
-      <li>
-        <input type="range" id="gain-of-neighbor-1" name="gain-1"
-               min="0" max="1" step="any" value="1">
-        Neighbor 1
-      </li>
-      <li>
-        <input type="range" id="gain-of-neighbor-2" name="gain-1"
-               min="0" max="1" step="any" value="1">
-        Neighbor 2
-      </li>
-      <li>
-        <input type="range" id="gain-of-neighbor-3" name="gain-1"
-               min="0" max="1" step="any" value="1">
-        Neighbor 3
-      </li>
+      <li><input type="range" id="gain-of-oscillator" name="gain-oscillator"
+                 min="0" max="1" step="any" value="1">Oscillator</li>
+      <li><input type="range" id="gain-of-neighbor-1" name="gain-1"
+                 min="0" max="1" step="any" value="1">Neighbor 1</li>
+      <li><input type="range" id="gain-of-neighbor-2" name="gain-1"
+                 min="0" max="1" step="any" value="1">Neighbor 2</li>
+      <li><input type="range" id="gain-of-neighbor-3" name="gain-1"
+                 min="0" max="1" step="any" value="1">Neighbor 3</li>
     </ul>
 
     <h1>Modulator</h1>
     <ul>
-      <li>
-        <input type="radio" id="add-mod" name="modulator"
-               value="add" checked="checked">
-        <label for="add-mod">+</label>
-      </li>
-      <li>
-        <input type="radio" id="multiply-mod" name="modulator"
-               value="multiply">
-        <label for="multiply-mod">×</label>
-      </li>
+      <li><input type="radio" id="add-mod" name="modulator" value="add"
+                 checked="checked"><label for="add-mod">+</label></li>
+      <li><input type="radio" id="multiply-mod" name="modulator"
+                 value="multiply"><label for="multiply-mod">×</label></li>
     </ul>
 
     <h1>Oscillator</h1>
     <ul>
-      <li>
-        <input type="radio" id="osc-type-sine" name="osc-type"
-               value="add" checked="checked">
-        <label for="osc-type-sine">Sine</label>
-      </li>
-      <li>
-        <input type="radio" id="osc-type-square" name="osc-type"
-               value="add">
-        <label for="osc-type-square">Square</label>
-      </li>
-      <li>
-        <input type="radio" id="osc-type-sawtooth" name="osc-type"
-               value="add">
-        <label for="osc-type-sawtooth">Sawtooth</label>
-      </li>
-      <li>
-        <input type="radio" id="osc-type-triangle" name="osc-type"
-               value="add">
-        <label for="osc-type-triangle">Triangle</label>
-      </li>
+      <li><input type="radio" id="osc-type-sine" name="osc-type" value="sine"
+                 checked="checked"><label for="osc-type-sine">Sine</label></li>
+      <li><input type="radio" id="osc-type-square" name="osc-type"
+                 value="square"><label for="osc-type-square">Square</label></li>
+      <li><input type="radio" id="osc-type-sawtooth" name="osc-type"
+                 value="sawtooth"><label for="osc-type-sawtooth"
+                                         >Sawtooth</label></li>
+      <li><input type="radio" id="osc-type-triangle" name="osc-type"
+                 value="triangle"><label for="osc-type-triangle"
+                                         >Triangle</label></li>
     </ul>
     <p>
-      <input type="range" id="base-freq-slider" name="base-freq-slider"
-             min="0" max="1" step="any" value="0.7">
-      <label for="base-freq-slider">Base Frequency
-        <span id="base-freq"></span> Hz</label>
+      <input type="range" id="base-freq-slider" name="base-freq-slider" min="0"
+             max="1" step="any" value="0.7"><label for="base-freq-slider">Base
+             Frequency <span id="base-freq"></span> Hz</label>
     </p>
 
     <script src="build/node-ui.js"></script>

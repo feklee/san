@@ -241,7 +241,7 @@ var addNode = function (id, tiltAngle) {
     if (nodeIsRootNode(id)) {
         audio.createMasterModule(node);
     } else {
-        audio.createDefaultModule(node);
+        audio.createModule(node);
     }
 
     sortNodes();

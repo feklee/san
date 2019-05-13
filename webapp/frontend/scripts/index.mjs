@@ -93,11 +93,11 @@ client.onmessage = function (e) {
     if (message.type === "data") {
         parseData(message.text);
     } else if (message.type === "audio module") {
-        audio.parseModuleMessage(message);
         log.append(
             "info",
-            message.moduleName + " audio module on " + message.nodeId
+            "audio module update for " + message.nodeId
         );
+        audio.parseModuleMessage(message);
     } else {
         log.append(message.type, message.text);
     }

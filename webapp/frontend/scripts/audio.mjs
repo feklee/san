@@ -26,23 +26,10 @@ var enableMuteButton = function () {
     muteButtonEl.onclick = toggleMute;
 };
 
-var connect = function (options) {
-    var sourceModule = options.source.audioModule;
-    var destinationModule = options.destination.audioModule;
-    destinationModule.inputs.add(sourceModule.output);
-    destinationModule.refreshConnections();
-};
-
-var disconnect = function (options) {
-    var sourceModule = options.source.audioModule;
-    var destinationModule = options.destination.audioModule;
-    destinationModule.inputs.delete(sourceModule.output);
-    destinationModule.refreshConnections();
-};
-
-var refreshConnections = {};
-
-refreshConnections.add = function (output, inputs, connectedInputs) {
+var refreshConnections = function (module) {
+    var connectedInputs = module.connectedInputs;
+    var inputs = module.inputs;
+    var output = module.output;
     connectedInputs.forEach(function (input) {
         input.disconnect();
         connectedInputs.delete(input);
@@ -53,30 +40,37 @@ refreshConnections.add = function (output, inputs, connectedInputs) {
     });
 };
 
-var createModule = {};
+var connect = function (options) {
+    var sourceModule = options.source.audioModule;
+    var destinationModule = options.destination.audioModule;
+    destinationModule.inputs.add(sourceModule.output);
+    refreshConnections(destinationModule);
+};
 
-createModule.master = function (node) {
+var disconnect = function (options) {
+    var sourceModule = options.source.audioModule;
+    var destinationModule = options.destination.audioModule;
+    destinationModule.inputs.delete(sourceModule.output);
+    destinationModule.refreshConnections();
+};
+
+var createMasterModule = function (node) {
     var inputs = new Set();
     var connectedInputs = new Set();
 
     node.audioModule = {
+        output: context.destination,
         inputs: inputs,
         connectedInputs: connectedInputs,
-        refreshConnections: function () {
-            refreshConnections.add(
-                context.destination,
-                inputs,
-                connectedInputs
-            );
-        },
         name: "master"
     };
 
-    node.audioModule.refreshConnections();
+    refreshConnections(node.audioModule);
 };
 
-createModule.add = function (node) {
-    var oscillator = context.createOscillator({frequency: 440});
+var createModule = function (node) {
+    var baseFreq = 440;
+    var oscillator = context.createOscillator({frequency: baseFreq});
     var output = context.createGain();
     var inputs = new Set();
     var connectedInputs = new Set();
@@ -84,15 +78,29 @@ createModule.add = function (node) {
     oscillator.start();
     inputs.add(oscillator);
 
-    refreshConnections();
-
     node.audioModule = {
         oscillator: oscillator,
         connectedInputs: connectedInputs,
         inputs: inputs,
         output: output,
-        name: "add" // TODO: add `parameters`, e.g. gain for each individual input, or wave form
+        modulator: "add",
+        inputGains: [1, 1, 1, 1],
+        oscType: "sine",
+        baseFreq: baseFreq
     };
+
+    refreshConnections(node.audioModule);
+
+    // TODO, multiplication: multiply gains, connect first signal to input, the
+    // other one to gain (see question on StackOverflow)
+
+    // TODO, addition: create gain 
+};
+
+var update = function (node, parameters) {
+    var module = node.audioModule;
+    // TODO: only rewire on change of module
+    
 };
 
 createModule.multiply = function (node) {
@@ -125,8 +133,15 @@ var destroyModule = function (node) {
 };
 
 var refreshOscillator = function (node) {
-    var o = node.audioModule.oscillator;
+    var m = node.audioModule;
+    var o = m.oscillator;
+    if (o.frequency.value !== m.baseFreq) {
+        o.frequency.value = m.baseFreq;
+    }
     o.detune.setValueAtTime(400 * node.animatedLocation.z, context.currentTime);
+    if (o.type !== m.oscType) {
+        o.type = m.oscType;
+    }
 };
 
 var refresh = function () {
@@ -140,17 +155,18 @@ var replaceModule = function (node, nameOfNewModule) {
 
 var parseModuleMessage = function (message) {
     var node = nodes[message.nodeId];
-    var moduleName = message.moduleName;
-    replaceModule(node, message.moduleName);
-    var module = node.audioModule;
-    module.refreshConnections = refreshConnections[moduleName];
-    module.refreshConnections();
+    var m = node.audioModule;
+    m.modulator = message.modulator;
+    m.baseFreq = message.baseFreq; // TODO: really change freq
+    m.oscType = message.oscType;
+
+    refreshOscillator(node);
 };
 
 export default {
     enableMuteButton: enableMuteButton,
-    createDefaultModule: createModule.add,
-    createMasterModule: createModule.master,
+    createModule: createModule,
+    createMasterModule: createMasterModule,
     connect: connect,
     disconnect: disconnect,
     destroyModule: destroyModule,

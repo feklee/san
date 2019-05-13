@@ -17,13 +17,19 @@ var updateBaseFreq = function () {
 };
 
 var selectedBaseFreq = function () {
-    // return baseFreq;
+    return parseFloat(document.querySelector("#base-freq").textContent);
 };
 
-var sendSelectedModule = function () {
+var selectedOscType = function () {
+    return document.querySelector("input[name=osc-type]:checked").value;
+};
+
+var sendSelection = function () {
     var data = {
         type: "audio module",
         modulator: selectedModulator(),
+        inputGains: [1, 1, 1, 1], // TODO: read
+        oscType: selectedOscType(),
         baseFreq: selectedBaseFreq(),
         nodeId: nodeId
     };
@@ -41,7 +47,7 @@ client.onerror = function () {
 
 client.onopen = function () {
     console.log("WebSocket opened");
-    sendSelectedModule();
+    sendSelection();
 };
 
 client.onclose = function () {
@@ -52,22 +58,12 @@ var radioButtonEl = function (moduleName) {
     return document.querySelector("#" + moduleName + "-module");
 };
 
-var selectModule = function (moduleName) {
-    radioButtonEl("sine").checked = true;
-};
-
-document.querySelectorAll("input[name=modulator]").forEach(
-    (el) => el.addEventListener("click", sendSelectedModule)
-);
-
 document.querySelectorAll("input").forEach(
     (el) => el.addEventListener("change", function () {
-        console.log("change of any el: send data");
+        sendSelection();
     })
 );
 
 baseFreqSliderEl.addEventListener("input", updateBaseFreq);
 
 updateBaseFreq();
-
-selectModule("sine");

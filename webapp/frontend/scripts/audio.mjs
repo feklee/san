@@ -51,6 +51,7 @@ createInternals.multiply = function (module) {
             currentEnd = input;
         } else {
             var multiplier = context.createGain();
+            multiplier.gain.value = 0;
             currentEnd.connect(multiplier);
             input.connect(multiplier.gain);
             currentEnd = multiplier;

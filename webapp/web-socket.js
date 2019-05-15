@@ -20,7 +20,6 @@ var interpretMessage = function (message) {
     var data = JSON.parse(message.utf8Data);
     if (data.type === "audio module") {
         broadcast(data);
-        console.log("audio module received: " + data.moduleName);
     }
 };
 

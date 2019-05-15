@@ -24,11 +24,20 @@ var selectedOscType = function () {
     return document.querySelector("input[name=osc-type]:checked").value;
 };
 
+var selectedInputGain = function (i) {
+    return parseFloat(document.querySelector("#gain-" + i).value);
+};
+
 var sendSelection = function () {
     var data = {
         type: "audio module",
         modulator: selectedModulator(),
-        inputGains: [1, 1, 1, 1], // TODO: read
+        inputGains: [
+            selectedInputGain(0),
+            selectedInputGain(1),
+            selectedInputGain(2),
+            selectedInputGain(3)
+        ],
         oscType: selectedOscType(),
         baseFreq: selectedBaseFreq(),
         nodeId: nodeId

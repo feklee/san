@@ -13,25 +13,6 @@
   </head>
 
   <body>
-    <h1>Input Gain</h1>
-    <ul>
-      <li><input type="range" id="gain-0" name="gain-1" min="0" max="1"
-                 step="any"
-                 value="1"><label for="gain-0">Oscillator</label></li>
-      <li><input type="range" id="gain-1" name="gain-1" min="0" max="1"
-                 step="any"
-                 value="1"><label for="gain-1">Port 1</label></li>
-      <li><input type="range" id="gain-2" name="gain-2" min="0" max="1"
-                 step="any"
-                 value="1"><label for="gain-2">Port 2</label></li>
-      <li><input type="range" id="gain-3" name="gain-3" min="0" max="1"
-                 step="any"
-                 value="1"><label for="gain-3">Port 3</label></li>
-      <li><input type="range" id="gain-4" name="gain-4" min="0" max="1"
-                 step="any"
-                 value="1"><label for="gain-4">Port 4</label></li>
-    </ul>
-
     <h1>Modulator</h1>
     <ul>
       <li><input type="radio" id="add-mod" name="modulator" value="add"
@@ -58,6 +39,44 @@
              max="1" step="any" value="0.7"><label for="base-freq-slider">Base
              Frequency <span id="base-freq"></span> Hz</label>
     </p>
+
+    <h1>Input Gain</h1>
+    <ul>
+      <li><input type="range" id="gain-0" name="gain-1" min="0" max="1"
+                 step="any"
+                 value="1"><label for="gain-0">Oscillator</label></li>
+      <li><input type="range" id="gain-1" name="gain-1" min="0" max="1"
+                 step="any"
+                 value="1"><label for="gain-1">Port 1</label></li>
+      <li><input type="range" id="gain-2" name="gain-2" min="0" max="1"
+                 step="any"
+                 value="1"><label for="gain-2">Port 2</label></li>
+      <li><input type="range" id="gain-3" name="gain-3" min="0" max="1"
+                 step="any"
+                 value="1"><label for="gain-3">Port 3</label></li>
+      <li><input type="range" id="gain-4" name="gain-4" min="0" max="1"
+                 step="any"
+                 value="1"><label for="gain-4">Port 4</label></li>
+    </ul>
+
+    <h1>Input offset</h1>
+    <ul>
+      <li><input type="range" id="offset-0" name="offset-1" min="-1" max="1"
+                 step="any"
+                 value="0"><label for="offset-0">Oscillator</label></li>
+      <li><input type="range" id="offset-1" name="offset-1" min="-1" max="1"
+                 step="any"
+                 value="0"><label for="offset-1">Port 1</label></li>
+      <li><input type="range" id="offset-2" name="offset-2" min="-1" max="1"
+                 step="any"
+                 value="0"><label for="offset-2">Port 2</label></li>
+      <li><input type="range" id="offset-3" name="offset-3" min="-1" max="1"
+                 step="any"
+                 value="0"><label for="offset-3">Port 3</label></li>
+      <li><input type="range" id="offset-4" name="offset-4" min="-1" max="1"
+                 step="any"
+                 value="0"><label for="offset-4">Port 4</label></li>
+    </ul>
 
     <script src="build/node-ui.js"></script>
   </body>

@@ -28,6 +28,10 @@ var selectedInputGain = function (i) {
     return parseFloat(document.querySelector("#gain-" + i).value);
 };
 
+var selectedInputOffset = function (i) {
+    return parseFloat(document.querySelector("#offset-" + i).value);
+};
+
 var sendSelection = function () {
     var data = {
         type: "audio module",
@@ -38,6 +42,13 @@ var sendSelection = function () {
             selectedInputGain(2),
             selectedInputGain(3),
             selectedInputGain(4)
+        ],
+        inputOffsets: [
+            selectedInputOffset(0),
+            selectedInputOffset(1),
+            selectedInputOffset(2),
+            selectedInputOffset(3),
+            selectedInputOffset(4)
         ],
         oscType: selectedOscType(),
         baseFreq: selectedBaseFreq(),

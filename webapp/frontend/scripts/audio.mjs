@@ -81,15 +81,37 @@ var reconnectInternalAudioNodes = function (module) {
     connectInternalAudioNodes[module.modulator](module);
 };
 
+var createInputGain = function (module, portNumber) {
+    var inputGain = context.createGain();
+    var inputOffset = module.inputOffsets[portNumber];
+    if (inputOffset) {
+        inputOffset.connect(inputGain);
+    }
+    module.inputGains[portNumber] = inputGain;
+    return inputGain;
+};
+
 var connect = function (options) {
     var sourceModule = options.sourcePort.node.audioModule;
     var destinationPortNumber = options.destinationPort.portNumber;
     var destinationModule = options.destinationPort.node.audioModule;
-    var destinationInputGain = context.createGain();
+    var destinationInputGain =
+            createInputGain(destinationModule, destinationPortNumber);
     sourceModule.output.connect(destinationInputGain);
-    destinationModule.inputGains[destinationPortNumber] = destinationInputGain;
 
     reconnectInternalAudioNodes(destinationModule);
+};
+
+var destroyInputGain = function (module, portNumber) {
+    var inputGain = module.inputGains[portNumber];
+    if (inputGain === null) {
+        return;
+    }
+    var inputOffset = module.inputOffsets[portNumber];
+    if (inputOffset) {
+        inputOffset.disconnect(inputGain);
+    }
+    module.inputGains[portNumber] = null;
 };
 
 var disconnect = function (options) {
@@ -107,7 +129,7 @@ var disconnect = function (options) {
             sourceOutput.disconnect(destinationInputGain);
         } catch (ignore) {} // may not be needed, but doesn't hurt
     }
-    destinationModule.inputGains[destinationPortNumber] = null;
+    destroyInputGain(destinationModule, destinationPortNumber);
 
     reconnectInternalAudioNodes(destinationModule);
 };
@@ -117,9 +139,14 @@ var createMasterModule = function (node) {
         null, // no oscillator
         context.createGain() // port 1
     ];
+    var inputOffsets = [
+        null,
+        null
+    ];
     var internalAudioNodes = new Set();
     var module = {
         inputGains: inputGains,
+        inputOffsets: inputOffsets,
         internalAudioNodes: internalAudioNodes,
         modulator: "add",
         output: context.destination
@@ -130,6 +157,15 @@ var createMasterModule = function (node) {
     connectInternalAudioNodes[module.modulator](module);
 };
 
+var setInputOffsets = function (module, valuesForInputOffsets) {
+    valuesForInputOffsets.forEach(function (value, i) {
+        var inputOffset = module.inputOffsets[i];
+        if (inputOffset) {
+            inputOffset.offset.value = value;
+        }
+    });
+};
+
 var createModule = function (node) {
     var output = context.createGain();
     var baseFreq = 440;
@@ -137,26 +173,40 @@ var createModule = function (node) {
     var internalAudioNodes = new Set();
     var oscillatorGain = context.createGain();
     var inputGains = [
-        oscillatorGain, // oscillator
+        oscillatorGain,
         null, // port 1
         null, // port 2
         null, // ...
         null
     ];
+    var inputOffsets = [
+        context.createConstantSource(),
+        context.createConstantSource(),
+        context.createConstantSource(),
+        context.createConstantSource(),
+        context.createConstantSource()
+    ];
+    var oscillatorOffset = inputOffsets[0];
 
     oscillator.connect(inputGains[0]);
     oscillator.start();
+
+    oscillatorOffset.connect(inputGains[0]);
+    oscillatorOffset.start();
 
     var module = {
         oscillator: oscillator,
         internalAudioNodes: internalAudioNodes,
         inputGains: inputGains,
+        inputOffsets: inputOffsets,
         output: output,
         modulator: "add",
         oscType: "sine",
         baseFreq: baseFreq
     };
     node.audioModule = module;
+
+    setInputOffsets(module, [0, 0, 0, 0, 0]);
 
     connectInternalAudioNodes[module.modulator](module);
 };
@@ -165,6 +215,12 @@ var destroyModule = function (node) {
     var module = node.audioModule;
     disconnectInternalAudioNodes(module);
     module.oscillator.stop();
+    module.inputOffsets.forEach(function (inputOffset) {
+        if (inputOffset) {
+            inputOffset.disconnect();
+            inputOffset.stop();
+        }
+    });
 };
 
 var refreshOscillator = function (node) {
@@ -181,11 +237,6 @@ var refreshOscillator = function (node) {
 
 var refresh = function () {
     visibleNodes.forEach(refreshOscillator);
-};
-
-var replaceModule = function (node, nameOfNewModule) {
-    destroyModule(node);
-    createModule[nameOfNewModule](node);
 };
 
 var setInputGains = function (module, valuesForInputGains) {
@@ -206,6 +257,7 @@ var parseModuleMessage = function (message) {
     refreshOscillator(node);
 
     setInputGains(module, message.inputGains);
+    setInputOffsets(module, message.inputOffsets);
 
     if (module.modulator !== message.modulator) {
         module.modulator = message.modulator;

@@ -26,9 +26,9 @@ var enableMuteButton = function () {
     muteButtonEl.onclick = toggleMute;
 };
 
-var createInternals = {};
+var connectInternalAudioNodes = {};
 
-createInternals.add = function (module) {
+connectInternalAudioNodes.add = function (module) {
     module.inputGains.forEach(function (inputGain) {
         if (inputGain) {
             inputGain.connect(module.output);
@@ -36,56 +36,60 @@ createInternals.add = function (module) {
     });
 };
 
-createInternals.multiply = function (module) {
-    var inputs = module.inputs;
-    var connectedInputs = module.connectedInputs;
-    var currentEnd;
-    var i = 0;
+connectInternalAudioNodes.multiply = function (module) {
+    var inputGains = module.inputGains;
+    var internalAudioNodes = module.internalAudioNodes;
+    var lastAudioNode;
 
-    inputs.forEach(function (input) {
-        var isFirstInput = (i === 0);
-        var isLastInput = (i === inputs.size - 1);
-
-        if (isFirstInput) {
-            currentEnd = input;
-        } else {
-            var multiplier = context.createGain();
-            multiplier.gain.value = 0;
-            currentEnd.connect(multiplier);
-            input.connect(multiplier.gain);
-            currentEnd = multiplier;
-            connectedInputs.add(multiplier); // TODO: rename connectedInputs to maybe internalConnections
+    inputGains.forEach(function (inputGain) {
+        if (!inputGain) {
+            return;
         }
 
-        if (isLastInput) {
-            currentEnd.connect(module.output);
+        if (lastAudioNode === undefined) {
+            lastAudioNode = inputGain;
+            return;
         }
 
-        connectedInputs.add(input);
+        var multiplier = context.createGain();
+        internalAudioNodes.add(multiplier);
+        multiplier.gain.value = 0;
+        inputGain.connect(multiplier.gain);
+        lastAudioNode.connect(multiplier);
 
-        i += 1;
+        lastAudioNode = multiplier;
+    });
+
+    lastAudioNode.connect(module.output);
+};
+
+var disconnectInternalAudioNodes = function (module) {
+    module.inputGains.forEach(function (inputGain) {
+        if (inputGain) {
+            inputGain.disconnect();
+        }
+    });
+    var internalAudioNodes = module.internalAudioNodes;
+    internalAudioNodes.forEach(function (internalAudioNode) {
+        internalAudioNode.disconnect();
+        internalAudioNodes.delete(internalAudioNode);
     });
 };
 
-var removeInternals = function (module) {
-    module.inputGains.forEach(function (inputGain) {
-        inputGain.disconnect();
-    });
-    var connectedInputs = module.connectedInputs;
-    connectedInputs.forEach(function (connectedInput) {
-        connectedInput.disconnect();
-        connectedInputs.delete(connectedInput);
-    });
+var reconnectInternalAudioNodes = function (module) {
+    disconnectInternalAudioNodes(module);
+    connectInternalAudioNodes[module.modulator](module);
 };
 
 var connect = function (options) {
     var sourceModule = options.sourcePort.node.audioModule;
     var destinationPortNumber = options.destinationPort.portNumber;
     var destinationModule = options.destinationPort.node.audioModule;
-    var destinationInputGain =
-        destinationModule.inputGains[destinationPortNumber];
-    console.log("connecting to port number" + destinationPortNumber);
+    var destinationInputGain = context.createGain();
     sourceModule.output.connect(destinationInputGain);
+    destinationModule.inputGains[destinationPortNumber] = destinationInputGain;
+
+    reconnectInternalAudioNodes(destinationModule);
 };
 
 var disconnect = function (options) {
@@ -93,81 +97,85 @@ var disconnect = function (options) {
     var destinationPortNumber = options.destinationPort.portNumber;
     var destinationModule = options.destinationPort.node.audioModule;
     var destinationInputGain =
-        destinationModule.inputGains[destinationPortNumber];
-    try {
-        sourceModule.output.disconnect(destinationInputGain);
-    } catch (ignore) {}
+            destinationModule.inputGains[destinationPortNumber];
+    var sourceOutput = sourceModule.output;
+    if (!destinationInputGain) {
+        return;
+    }
+    if (sourceOutput.numberOfOutputs > 0) {
+        try {
+            sourceOutput.disconnect(destinationInputGain);
+        } catch (ignore) {} // may not be needed, but doesn't hurt
+    }
+    destinationModule.inputGains[destinationPortNumber] = null;
+
+    reconnectInternalAudioNodes(destinationModule);
 };
 
 var createMasterModule = function (node) {
     var inputGains = [
         null, // no oscillator
-        context.createGain(), // port 1
+        context.createGain() // port 1
     ];
-    var connectedInputs = new Set();
-    var m = {
+    var internalAudioNodes = new Set();
+    var module = {
         inputGains: inputGains,
-        connectedInputs: connectedInputs,
+        internalAudioNodes: internalAudioNodes,
         modulator: "add",
         output: context.destination
     };
 
-    node.audioModule = m;
+    node.audioModule = module;
 
-    createInternals[m.modulator](m);
+    connectInternalAudioNodes[module.modulator](module);
 };
 
 var createModule = function (node) {
     var output = context.createGain();
     var baseFreq = 440;
     var oscillator = context.createOscillator({frequency: baseFreq});
-    var connectedInputs = new Set();
+    var internalAudioNodes = new Set();
+    var oscillatorGain = context.createGain();
     var inputGains = [
-        context.createGain(), // oscillator
-        context.createGain(), // port 1
-        context.createGain(), // port 2
-        context.createGain(), // ...
-        context.createGain()
+        oscillatorGain, // oscillator
+        null, // port 1
+        null, // port 2
+        null, // ...
+        null
     ];
 
     oscillator.connect(inputGains[0]);
     oscillator.start();
 
-    var m = {
+    var module = {
         oscillator: oscillator,
-        connectedInputs: connectedInputs,
+        internalAudioNodes: internalAudioNodes,
         inputGains: inputGains,
         output: output,
         modulator: "add",
         oscType: "sine",
         baseFreq: baseFreq
     };
-    node.audioModule = m;
+    node.audioModule = module;
 
-    createInternals[m.modulator](m);
+    connectInternalAudioNodes[module.modulator](module);
 };
 
 var destroyModule = function (node) {
-    // TODO: remove all control modules, or simply all modules not connected to
-    // directly or indirectly to the context
-
     var module = node.audioModule;
+    disconnectInternalAudioNodes(module);
     module.oscillator.stop();
-    module.oscillator.disconnect();
-    delete module.oscillator;
-    module.output.disconnect();
-    delete module.output; // TODO: https://stackoverflow.com/q/56117520/282729
 };
 
 var refreshOscillator = function (node) {
-    var m = node.audioModule;
-    var o = m.oscillator;
-    if (o.frequency.value !== m.baseFreq) {
-        o.frequency.value = m.baseFreq;
+    var module = node.audioModule;
+    var o = module.oscillator;
+    if (o.frequency.value !== module.baseFreq) {
+        o.frequency.value = module.baseFreq;
     }
     o.detune.setValueAtTime(400 * node.animatedLocation.z, context.currentTime);
-    if (o.type !== m.oscType) {
-        o.type = m.oscType;
+    if (o.type !== module.oscType) {
+        o.type = module.oscType;
     }
 };
 
@@ -182,24 +190,27 @@ var replaceModule = function (node, nameOfNewModule) {
 
 var setInputGains = function (module, valuesForInputGains) {
     valuesForInputGains.forEach(function (value, i) {
-        module.inputGains[i].gain.value = value;
+        var inputGain = module.inputGains[i];
+        if (inputGain) {
+            inputGain.gain.value = value;
+        }
     });
 };
 
 var parseModuleMessage = function (message) {
     var node = nodes[message.nodeId];
-    var m = node.audioModule;
-    m.baseFreq = message.baseFreq;
-    m.oscType = message.oscType;
+    var module = node.audioModule;
+    module.baseFreq = message.baseFreq;
+    module.oscType = message.oscType;
 
     refreshOscillator(node);
 
-    setInputGains(m, message.inputGains);
+    setInputGains(module, message.inputGains);
 
-    if (m.modulator !== message.modulator) {
-        m.modulator = message.modulator;
-        removeInternals(m);
-        createInternals[m.modulator](m);
+    if (module.modulator !== message.modulator) {
+        module.modulator = message.modulator;
+        disconnectInternalAudioNodes(module);
+        connectInternalAudioNodes[module.modulator](module);
     }
 };
 

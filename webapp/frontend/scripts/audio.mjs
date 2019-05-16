@@ -180,20 +180,21 @@ var replaceModule = function (node, nameOfNewModule) {
     createModule[nameOfNewModule](node);
 };
 
-var setInputGains = function (inputGains) {
-    console.log("hi");
-    console.log(inputGains);
+var setInputGains = function (module, valuesForInputGains) {
+    valuesForInputGains.forEach(function (value, i) {
+        module.inputGains[i].gain.value = value;
+    });
 };
 
 var parseModuleMessage = function (message) {
     var node = nodes[message.nodeId];
     var m = node.audioModule;
-    m.baseFreq = message.baseFreq; // TODO: really change freq
+    m.baseFreq = message.baseFreq;
     m.oscType = message.oscType;
 
     refreshOscillator(node);
 
-    setInputGains(message.inputGains);
+    setInputGains(m, message.inputGains);
 
     if (m.modulator !== message.modulator) {
         m.modulator = message.modulator;

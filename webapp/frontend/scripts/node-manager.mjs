@@ -111,15 +111,15 @@ var removeConnection = function (connection) {
     removeConnectionOnPort(connection.fromPort);
     removeConnectionOnPort(connection.toPort);
 
-    // There is no info in which direction the connection is going, so try both
-    // connections, one will work:
+    // There is no info in which direction the audio module connection is going,
+    // so try both connections, one will work:
     audio.disconnect({
-        source: connection.fromPort.node,
-        destination: connection.toPort.node
+        sourcePort: connection.fromPort,
+        destinationPort: connection.toPort
     });
     audio.disconnect({
-        source: connection.toPort.node,
-        destination: connection.fromPort.node
+        sourcePort: connection.toPort,
+        destinationPort: connection.fromPort
     });
 };
 
@@ -266,8 +266,8 @@ var connect = function (pair) {
     }
 
     audio.connect({
-        source: pair.childPort.node,
-        destination: pair.parentPort.node
+        sourcePort: pair.childPort,
+        destinationPort: pair.parentPort
     });
 
     removeNodesNotConnectedToRoot();

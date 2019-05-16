@@ -29,11 +29,10 @@ var enableMuteButton = function () {
 var createInternals = {};
 
 createInternals.add = function (module) {
-    var inputs = module.inputs;
-    var connectedInputs = module.connectedInputs;
-    inputs.forEach(function (input) {
-        input.connect(module.output);
-        connectedInputs.add(input);
+    module.inputGains.forEach(function (inputGain) {
+        if (inputGain) {
+            inputGain.connect(module.output);
+        }
     });
 };
 
@@ -69,6 +68,9 @@ createInternals.multiply = function (module) {
 };
 
 var removeInternals = function (module) {
+    module.inputGains.forEach(function (inputGain) {
+        inputGain.disconnect();
+    });
     var connectedInputs = module.connectedInputs;
     connectedInputs.forEach(function (connectedInput) {
         connectedInput.disconnect();
@@ -77,26 +79,34 @@ var removeInternals = function (module) {
 };
 
 var connect = function (options) {
-    var sourceModule = options.source.audioModule;
-    var destinationModule = options.destination.audioModule;
-    destinationModule.inputs.add(sourceModule.output);
-    removeInternals(destinationModule); // TODO: maybe only add the new one instead of rebuilding all
-    createInternals[destinationModule.modulator](destinationModule);
+    var sourceModule = options.sourcePort.node.audioModule;
+    var destinationPortNumber = options.destinationPort.portNumber;
+    var destinationModule = options.destinationPort.node.audioModule;
+    var destinationInputGain =
+        destinationModule.inputGains[destinationPortNumber];
+    console.log("connecting to port number" + destinationPortNumber);
+    sourceModule.output.connect(destinationInputGain);
 };
 
 var disconnect = function (options) {
-    var sourceModule = options.source.audioModule;
-    var destinationModule = options.destination.audioModule;
-    destinationModule.inputs.delete(sourceModule.output);
-    removeInternals(destinationModule); // TODO: maybe just remove what isn't needed instead of rebuilding all
-    createInternals[destinationModule.modulator](destinationModule);
+    var sourceModule = options.sourcePort.node.audioModule;
+    var destinationPortNumber = options.destinationPort.portNumber;
+    var destinationModule = options.destinationPort.node.audioModule;
+    var destinationInputGain =
+        destinationModule.inputGains[destinationPortNumber];
+    try {
+        sourceModule.output.disconnect(destinationInputGain);
+    } catch (ignore) {}
 };
 
 var createMasterModule = function (node) {
-    var inputs = new Set();
+    var inputGains = [
+        null, // no oscillator
+        context.createGain(), // port 1
+    ];
     var connectedInputs = new Set();
     var m = {
-        inputs: inputs,
+        inputGains: inputGains,
         connectedInputs: connectedInputs,
         modulator: "add",
         output: context.destination
@@ -111,19 +121,24 @@ var createModule = function (node) {
     var output = context.createGain();
     var baseFreq = 440;
     var oscillator = context.createOscillator({frequency: baseFreq});
-    var inputs = new Set();
     var connectedInputs = new Set();
+    var inputGains = [
+        context.createGain(), // oscillator
+        context.createGain(), // port 1
+        context.createGain(), // port 2
+        context.createGain(), // ...
+        context.createGain()
+    ];
 
+    oscillator.connect(inputGains[0]);
     oscillator.start();
-    inputs.add(oscillator);
 
     var m = {
         oscillator: oscillator,
         connectedInputs: connectedInputs,
-        inputs: inputs,
+        inputGains: inputGains,
         output: output,
         modulator: "add",
-        inputGains: [1, 1, 1, 1],
         oscType: "sine",
         baseFreq: baseFreq
     };
@@ -165,6 +180,11 @@ var replaceModule = function (node, nameOfNewModule) {
     createModule[nameOfNewModule](node);
 };
 
+var setInputGains = function (inputGains) {
+    console.log("hi");
+    console.log(inputGains);
+};
+
 var parseModuleMessage = function (message) {
     var node = nodes[message.nodeId];
     var m = node.audioModule;
@@ -172,6 +192,8 @@ var parseModuleMessage = function (message) {
     m.oscType = message.oscType;
 
     refreshOscillator(node);
+
+    setInputGains(message.inputGains);
 
     if (m.modulator !== message.modulator) {
         m.modulator = message.modulator;

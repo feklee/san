@@ -36,7 +36,8 @@ var sendSelection = function () {
             selectedInputGain(0),
             selectedInputGain(1),
             selectedInputGain(2),
-            selectedInputGain(3)
+            selectedInputGain(3),
+            selectedInputGain(4)
         ],
         oscType: selectedOscType(),
         baseFreq: selectedBaseFreq(),

@@ -191,8 +191,11 @@ var createModule = function (node) {
     oscillator.connect(inputGains[0]);
     oscillator.start();
 
+    inputOffsets.forEach(function (inputOffset) {
+        inputOffset.start();
+    });
+
     oscillatorOffset.connect(inputGains[0]);
-    oscillatorOffset.start();
 
     var module = {
         oscillator: oscillator,

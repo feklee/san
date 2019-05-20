@@ -248,8 +248,8 @@ The following proposal creates the fitness based on the sum of
 independent terms. The terms may possibly be multiplied by
 weights. With the first two terms, this fitness has been used as cost
 function in David’s [[https://github.com/davidblitz/san-optimizer][San-Optimizer]] based on the /gradient descend/
-algorithm. Another suggestion was to use an algorithm called
-/conjugate descend./
+algorithm. Another suggestion is to use the /conjugate gradient
+method./
 
 *** Distance
 

@@ -11,8 +11,7 @@ var selectedModulator = function () {
 
 var updateBaseFreq = function () {
     var baseFreqSlider = document.querySelector("#base-freq-slider").value;
-    var baseFreq =
-        440 * Math.exp(10 * (baseFreqSlider - 0.7)); // Hz
+    var baseFreq = Math.pow(2, baseFreqSlider); // Hz
     document.querySelector("#base-freq").textContent = baseFreq.toFixed(1);
 };
 

@@ -97,11 +97,17 @@ Each node is module in a big modular synthesizer:
 
 *** A module
 
-Each node has several child nodes and one parent node.
+Each node has several child nodes and one parent node. By default each
+node acts as an oscillator possibly at a base frequency detuned
+depending on the node’s position. All oscillators are simply
+added. This makes the structure make sound by default without any user
+interaction.
 
-Inputs:
+Possible inputs:
 
 - outputs from the neighboring child nodes
+
+- oscillator
 
 - position of the node in space: x, y, z
 
@@ -116,8 +122,13 @@ duration of a repeating loop, that the user can attach inputs to.
 Also the node could be made freely programmable, perhaps globally for
 all nodes at once.
 
+If possible, it should be possible to send signals around loops that
+users built.
+
 The UI for a node could be a webapp compatible with smartphones.
 
+#+CAPTION: Module mockup
+[[./images/module.png]]
 
 *** Master output:
 

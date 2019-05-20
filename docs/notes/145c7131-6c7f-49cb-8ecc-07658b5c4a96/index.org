@@ -308,12 +308,33 @@ Where:
 Only nodes with at least three neighbors are included. The other nodes
 don’t have chirality.
 
+*** Tilt
+
+Some nodes provide tilt information by means of an accelerometer, the
+tilt angle $α$. Tilt is measured against the z-axis $\vec{z}$. To work
+with tilt, we introduce an additional unknown, the tilt axis
+$\vec{a}_n$. For node number $n$ we get the term:
+
+\begin{equation}
+F_{T,n} = (\vec{z} ⋅ \vec{a}_n - cos(α))
+\end{equation}
+
+For visualization, the colored hemispheres of a node are oriented
+along the tilt axis.
+
+*** Orientation
+
+With tilt, there is a constraint on the orientation of
+connections. Relative to the tilt axis, connections on ports 1 and 2
+are oriented at half tetrahedral angle $τ$ whereas connections on
+ports 3 and 4 are oriented at $π/2 - τ$. The fitness term is $F_O$.
+
 *** Total fitness
 
 The total fitness is:
 
 \begin{equation}
-F = -(w_D F_D + w_A F_A + w_C F_C)
+F = -(w_D F_D + w_A F_A + w_C F_C + w_T F_T + w_O F_O)
 \end{equation}
 
 Where $w_i$ are weights.

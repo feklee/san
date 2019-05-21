@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-04-12 Fri 11:45 -->
+<!-- 2019-05-21 Tue 17:49 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: PCB Design</title>
@@ -248,23 +248,23 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org565970c">1. Objectives</a></li>
-<li><a href="#orgcce8e23">2. 3D mockup</a></li>
+<li><a href="#orgdb02bef">1. Objectives</a></li>
+<li><a href="#orgec4c256">2. 3D mockup</a></li>
 <li><a href="#schematic">3. Schematic</a></li>
 <li><a href="#seeed">4. Seeed Studio</a>
 <ul>
 <li><a href="#seeed-opl">4.1. OPL</a></li>
-<li><a href="#org86a94a6">4.2. Inside</a></li>
+<li><a href="#org818c686">4.2. Inside</a></li>
 </ul>
 </li>
 <li><a href="#ideas">5. Ideas</a></li>
-<li><a href="#orgfbdfbb2">6. Source of 3D compontents</a></li>
+<li><a href="#org50d1254">6. Source of 3D compontents</a></li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org565970c" class="outline-2">
-<h2 id="org565970c"><span class="section-number-2">1</span> Objectives</h2>
+<div id="outline-container-orgdb02bef" class="outline-2">
+<h2 id="orgdb02bef"><span class="section-number-2">1</span> Objectives</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>Find outline for PCBs.</li>
@@ -279,8 +279,8 @@ for the JavaScript code in this tag.
 </div>
 
 
-<div id="outline-container-orgcce8e23" class="outline-2">
-<h2 id="orgcce8e23"><span class="section-number-2">2</span> 3D mockup</h2>
+<div id="outline-container-orgec4c256" class="outline-2">
+<h2 id="orgec4c256"><span class="section-number-2">2</span> 3D mockup</h2>
 <div class="outline-text-2" id="text-2">
 <iframe allowfullscreen id="irisModel" width="100%" height="600px"
 src="mockup.iris/index.html" frameBorder="0"></iframe>
@@ -307,7 +307,7 @@ is to easily be able to update the firmware.</li>
 </div>
 
 
-<div id="outline-container-org2937151" class="outline-2">
+<div id="outline-container-org96df073" class="outline-2">
 <h2 id="schematic"><span class="section-number-2">3</span> Schematic</h2>
 <div class="outline-text-2" id="text-schematic">
 <img alt="Node circuit" src="./images/node.svg">
@@ -325,7 +325,7 @@ GitHub.
 </div>
 
 
-<div id="outline-container-org11c438c" class="outline-2">
+<div id="outline-container-org40e31ad" class="outline-2">
 <h2 id="seeed"><span class="section-number-2">4</span> Seeed Studio</h2>
 <div class="outline-text-2" id="text-seeed">
 <p>
@@ -354,7 +354,7 @@ Drill Hole Size</i>)</li>
 </div>
 
 
-<div id="outline-container-org513938c" class="outline-3">
+<div id="outline-container-orgc193dc2" class="outline-3">
 <h3 id="seeed-opl"><span class="section-number-3">4.1</span> OPL</h3>
 <div class="outline-text-3" id="text-seeed-opl">
 <p>
@@ -377,8 +377,8 @@ hope components in the Seeed OPL are in stock.)</li>
 </div>
 
 
-<div id="outline-container-org86a94a6" class="outline-3">
-<h3 id="org86a94a6"><span class="section-number-3">4.2</span> Inside</h3>
+<div id="outline-container-org818c686" class="outline-3">
+<h3 id="org818c686"><span class="section-number-3">4.2</span> Inside</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 The author of this document visited Seeed Studio in Shenzhen as part
@@ -391,10 +391,26 @@ of Mitch Altman’s 2017 <a href="https://www.noisebridge.net/wiki/NoisebridgeCh
 </div>
 
 
-<div id="outline-container-org3830684" class="outline-2">
+<div id="outline-container-orgb79e782" class="outline-2">
 <h2 id="ideas"><span class="section-number-2">5</span> Ideas</h2>
 <div class="outline-text-2" id="text-ideas">
 <ul class="org-ul">
+<li>Summary of design suggestions by Herbert (May 21 2019 CEST, by
+email):
+
+<ul class="org-ul">
+<li>Replace 5V LDO with buck converter: LTC3129 (200mA) or LTC3130
+(600mA)</li>
+
+<li>Replace 3.3V LDO with buck converter: PS82740A (via 5V rail)</li>
+
+<li>Replace BAT54 Schottky barrier diode with more efficient
+alternative: PMEG2010</li>
+
+<li>To avoid interference, decouple the AVCC (5V) and AREF (3.3V)
+inputs each using a ferrite bead plus separate capacitor.</li>
+</ul></li>
+
 <li><p>
 Replace the Mini USB Type B connector with a Tag-Connect interface,
 sticking out of the shell behind the battery.
@@ -449,8 +465,8 @@ hemispheres have to be assembled.</li>
 </div>
 
 
-<div id="outline-container-orgfbdfbb2" class="outline-2">
-<h2 id="orgfbdfbb2"><span class="section-number-2">6</span> Source of 3D compontents</h2>
+<div id="outline-container-org50d1254" class="outline-2">
+<h2 id="org50d1254"><span class="section-number-2">6</span> Source of 3D compontents</h2>
 <div class="outline-text-2" id="text-6">
 <ul class="org-ul">
 <li>BK-912: <a href="http://www.memoryprotectiondevices.com/3d/download.php?pn=BK-912"><code>BK-912.STEP</code></a></li>
@@ -482,7 +498,7 @@ hemispheres have to be assembled.</li>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-04-12 Fri 11:45</p>
+<p class="date">Created: 2019-05-21 Tue 17:49</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

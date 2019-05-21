@@ -118,6 +118,20 @@ of Mitch Altman’s 2017 [[https://www.noisebridge.net/wiki/NoisebridgeChinaTrip
 :CUSTOM_ID: ideas
 :END:
 
+- Summary of design suggestions by Herbert (May 21 2019 CEST, by
+  email):
+
+  + Replace 5V LDO with buck converter: LTC3129 (200mA) or LTC3130
+    (600mA)
+
+  + Replace 3.3V LDO with buck converter: PS82740A (via 5V rail)
+
+  + Replace BAT54 Schottky barrier diode with more efficient
+    alternative: PMEG2010
+
+  + To avoid interference, decouple the AVCC (5V) and AREF (3.3V)
+    inputs each using a ferrite bead plus separate capacitor.
+
 - Replace the Mini USB Type B connector with a Tag-Connect interface,
   sticking out of the shell behind the battery.
 

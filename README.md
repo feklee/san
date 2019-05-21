@@ -25,6 +25,9 @@ Acknowledgments
 
   * [David Mickisch][3] for mathematical advise and for writing the
     experimental [San-Optimizer][4]
+    
+  * Herbert Poetzl for advice on electronics and for the suggestion to
+    use optical communication between nodes
 
 
 License

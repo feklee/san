@@ -35,13 +35,15 @@ Urbanism/Architecture (UABB).
 - Proposal: /The Self Aware Network, a geodesic sound sculpture that interacts with visitors and the environment/
 
 
-** Abstract
+** Abstract (200 words maximum)
 
 - Rules: “A short abstract describing the main idea behind the
   installation and its relation with the ‘Eyes of the City’ theme.
   The abstract should explain how spatial features could contribute in
   fostering debate on the topics expressed in the curatorial statement
   and how the piece attempts to answer the theme’s main questions.”
+
+- [[file:abstract.org][Proposal]]
 
 
 ** Posters

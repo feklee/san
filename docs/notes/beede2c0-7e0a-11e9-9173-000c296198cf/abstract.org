@@ -1,0 +1,47 @@
+#+HTML_HEAD: <style>body{max-width:42em}img,video{max-width:100%}.figure-number{display:none}video{background:black;max-width:100%;height:auto}</style>
+
+#+TITLE: Abstract
+
+Random bits and pieces, required to be sorted and combined:
+
+- The Self Aware Network (SAN) is an experiment about the future of
+  architecture.  It is comprised of a system for building intelligent
+  structures that /interact/ and /communicate/ with the environment.
+
+- Eventually structures will acquire artificial intelligence (AI),
+  thereby being able to /understand/ the environment.  The next step
+  then is for structures to become robotic.  This allows them to
+  /adapt/ to the environment.  The vision is for architecture to
+  become fluid, to constantly reconfigure itself and to follow the
+  needs of the people.
+
+- This sculpture is represented by a /network of nodes./
+
+- The network is aware of itself, the way we are aware of our body.
+  How the network sees itself is visualized and projected (on the wall
+  or the floor).
+
+- The network understands its environment.  It has senses (gravity
+  sensors).
+
+- Visitors can reconfigure the network to make it adapt to its
+  environment.
+
+- In hands-on workshops, visitors collaboratively erect the network
+  step by step.  We solder electronics and build assemble the
+  individual elements, then we connect them.
+
+- The network communicates with its environment, visually and
+  auditory.
+
+- The network forms a modular synthesizer.  Visitors can connect to
+  network nodes and adjust their audio properties.  They can listen to
+  the network via speakers or headphones.
+
+- Nodes have tetrahedral geometry.  This is known as SP³ hybridization
+  in Chemistry.  This geometry underlies the hardest known structure
+  in nature, that of diamond.
+
+- Edges have uniform length.
+
+- Material: stainless steel, electronics, light

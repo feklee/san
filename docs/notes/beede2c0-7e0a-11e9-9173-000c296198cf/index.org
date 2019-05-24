@@ -34,7 +34,7 @@ Rules:
 
 - Instructions: “Title and a short slogan describing the project”
 
-- Proposal: /The Self Aware Network, an architectural sound sculpture that interacts with visitors and the environment/
+- Proposal: /The Self Aware Network, a geodesic sound sculpture that interacts with visitors and the environment/
 
 
 ** Abstract

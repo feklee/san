@@ -3,7 +3,7 @@
 #+TITLE: UABB / Eyes of the City
 
 /Eyes of the City/ is a section in the 2019 Bi-City Biennale of
-Urbanism\Architecture (UABB).
+Urbanism/Architecture (UABB).
 
 
 * Open call
@@ -12,12 +12,10 @@ Urbanism\Architecture (UABB).
 
 - Reference website: [[https://eyesofthecity.net/][eyesofthecity.net]]
 
-- Documents for the call for design projects: [[https://drive.google.com/drive/folders/1JUMAITjvQns_jPndrLvIqNyNRCwqLzpe?usp=sharing][Google Drive]]
+- Documents for the /call for design projects/: [[https://drive.google.com/drive/folders/1JUMAITjvQns_jPndrLvIqNyNRCwqLzpe?usp=sharing][Google Drive]]
 
 
-* Technical details
-
-Rules:
+* Technical details for design project
 
 - indoors or outdoors
 
@@ -28,26 +26,59 @@ Rules:
   the exhibition’s visitors and the installations”
 
 
-* Required content
+* Required content for application
 
 ** Title (15 words maximum)
 
-- Instructions: “Title and a short slogan describing the project”
+- Rules: “Title and a short slogan describing the project”
 
 - Proposal: /The Self Aware Network, a geodesic sound sculpture that interacts with visitors and the environment/
 
 
 ** Abstract
 
-- Instructions: “A short abstract describing the main idea behind the
+- Rules: “A short abstract describing the main idea behind the
   installation and its relation with the ‘Eyes of the City’ theme.
   The abstract should explain how spatial features could contribute in
   fostering debate on the topics expressed in the curatorial statement
   and how the piece attempts to answer the theme’s main questions.”
 
+
 ** Posters
 
-- Instructions: “A maximum of 5 A3 boards with plans, elevations,
-  sections, renders, diagrams and reference pictures in order to
-  exhaustively illustrate the full-scale realization of the
-  installation.”
+- Rules: “A maximum of 5 A3 boards with plans, elevations, sections,
+  renders, diagrams and reference pictures in order to exhaustively
+  illustrate the full-scale realization of the installation.”
+
+
+** Project description
+
+- Rules:
+
+  + Explain relation to “Eyes of the City”
+
+  + Explain projects position (for curators)
+
+
+** Feasibility plan
+
+- Rules:
+
+  + Explain realization process: tools / materials / steps
+
+  + Mention partners, if applicable
+
+  + Outline preliminary schedule: realization / implementation
+
+  + Outline preliminary budget
+
+
+** CVs
+
+- Rules: “A short CV (2 pages maximum) for each applicant.”
+
+
+** Bios
+
+- Rules: “A short bio (100 words maximum) and a picture for each
+  applicant.”

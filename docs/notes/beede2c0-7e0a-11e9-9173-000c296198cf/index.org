@@ -28,6 +28,12 @@ Urbanism/Architecture (UABB).
 
 * Required content for application
 
+General rule according to the [[https://podio.com/webforms/22057498/1544767][application form]]: “The application
+material should be submitted as a unique PDF file (A3 format, not
+larger than 5 MB).  All the materials must be in English (Chinese
+translations are welcome) and must be labelled as following:
+YYYYMMDD_APPLICANT NAME.pdf.”
+
 ** Title (15 words maximum)
 
 - Rules: “Title and a short slogan describing the project”
@@ -42,6 +48,11 @@ Urbanism/Architecture (UABB).
   The abstract should explain how spatial features could contribute in
   fostering debate on the topics expressed in the curatorial statement
   and how the piece attempts to answer the theme’s main questions.”
+
+- The abstract can be entered into the application form.
+
+- The application form is missing a field for a title.  So it seems
+  best to add the title to the abstract.
 
 - [[file:abstract.org][Proposal]]
 

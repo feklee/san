@@ -137,7 +137,8 @@ YYYYMMDD_APPLICANT NAME.pdf.”
     things when reconfiguring and that they don’t get injured.
 
 - It probably makes sense to freeze the sculpture at the end,
-  preserving it’s final state at the Biennale.
+  preserving it’s final physical and audio state, i.e.: /Leave a
+  fossil./
 
 
 ** Project description

@@ -86,7 +86,6 @@ YYYYMMDD_APPLICANT NAME.pdf.”
 
   + Headphones and/or speakers
 
-
 *** Visitors’ interaction
 
 - Rules: “A short explanation of how the proposal could establish a

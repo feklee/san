@@ -65,6 +65,8 @@ YYYYMMDD_APPLICANT NAME.pdf.”
   renders, diagrams and reference pictures in order to exhaustively
   illustrate the full-scale realization of the installation.”
 
+- [[file:posters.pdf][posters.pdf]] (generated from [[file:posters.ai][posters.ai]])
+
 *** Concept definition
 
 - Rules: “An illustration, from a spatial perspective, of the
@@ -92,9 +94,6 @@ YYYYMMDD_APPLICANT NAME.pdf.”
   dialogue with visitors, creating engagenment with the more general
   topics posed by the ‘Eyes of the City’ theme.”
 
-- Different stages of interactivity: Soldering/Assembly →
-  Reconfiguration → Audio manipulation (web app on mobile phone)
-
 *** On-site peculiarity
 
 - Rules: “A description of the strategies employed to create a design
@@ -107,37 +106,6 @@ YYYYMMDD_APPLICANT NAME.pdf.”
   account to interpret both the provisional nature of the exhibition
   and its legacy due to the transformation of the main venue after the
   Biennale’s intervention.”
-
-- The network is made of stainless steel.
-
-- The network works at different levels of interactivity, sorted by
-  increasing on-site requirements:
-
-  + /Static:/ Stainless steel sculpture
-
-  + Plus /audio:/
-
-    Requirements: Wi-Fi access point for users to connect with their
-    mobile devices and modify nodes (alternatively: interactive screen
-    / terminal with speakers or headphones)
-
-  + Plus /awareness:/
-
-    Requirements: Projector
-
-  + Plus /light:/
-
-    Requirements: Power supply for network nodes, or regular
-    recharging / replacement of batteries
-
-  + Plus /tangible reconfiguration:/
-
-    Requirements: Supervision of visitors so that they don’t damage
-    things when reconfiguring and that they don’t get injured.
-
-- It probably makes sense to freeze the sculpture at the end,
-  preserving it’s final physical and audio state, i.e.: /Leave a
-  fossil./
 
 
 ** Project description

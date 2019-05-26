@@ -60,12 +60,17 @@ YYYYMMDD_APPLICANT NAME.pdf.”
 
 
 ** Posters
+:PROPERTIES:
+:CUSTOM_ID: posters
+:END:
 
 - Rules: “A maximum of 5 A3 boards with plans, elevations, sections,
   renders, diagrams and reference pictures in order to exhaustively
   illustrate the full-scale realization of the installation.”
 
 - [[file:posters.pdf][posters.pdf]] (generated from [[file:posters.ai][posters.ai]])
+
+- [[https://www.dropbox.com/sh/okzo901t2qc8bcg/AAA9I1tSNE1Bi9MPtTDObehaa?dl=0][perspective]] (Rhino3D project)
 
 *** Concept definition
 

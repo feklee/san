@@ -72,7 +72,7 @@ YYYYMMDD_APPLICANT NAME.pdf.”
 
 - [[https://www.dropbox.com/sh/okzo901t2qc8bcg/AAA9I1tSNE1Bi9MPtTDObehaa?dl=0][perspective]] (Rhino3D project)
 
-*** Concept definition
+*** Concept definition (700 words maximum)
 
 - Rules: “An illustration, from a spatial perspective, of the
   strategies through which the exhibition topic will be put on stage.”

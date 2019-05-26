@@ -68,7 +68,7 @@ YYYYMMDD_APPLICANT NAME.pdf.”
   renders, diagrams and reference pictures in order to exhaustively
   illustrate the full-scale realization of the installation.”
 
-- [[file:posters.pdf][posters.pdf]] (generated from [[file:posters.ai][posters.ai]])
+- [[file:posters.pdf][posters.pdf]] (generated from [[file:posters.indd][posters.indd]])
 
 - [[https://www.dropbox.com/sh/okzo901t2qc8bcg/AAA9I1tSNE1Bi9MPtTDObehaa?dl=0][perspective]] (Rhino3D project)
 

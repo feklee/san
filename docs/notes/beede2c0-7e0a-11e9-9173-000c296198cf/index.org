@@ -68,7 +68,7 @@ YYYYMMDD_APPLICANT NAME.pdf.”
   renders, diagrams and reference pictures in order to exhaustively
   illustrate the full-scale realization of the installation.”
 
-- [[https://www.dropbox.com/home/my%2520data/hardware/architecture/san/2019_UABB/posters][posters]] (InDesign project)
+- [[https://www.dropbox.com/sh/xz3dntqik1xbbur/AABYZ9jso2ccq5zFcidm4a2Da?dl=0][posters]] (InDesign project)
 
 - [[https://www.dropbox.com/sh/okzo901t2qc8bcg/AAA9I1tSNE1Bi9MPtTDObehaa?dl=0][perspective]] (Rhino3D project)
 

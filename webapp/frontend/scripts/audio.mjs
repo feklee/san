@@ -251,6 +251,10 @@ var setInputGains = function (module, valuesForInputGains) {
     });
 };
 
+var setOutputGain = function (module, valueForOutputGain) {
+    module.output.gain.value = valueForOutputGain;
+};
+
 var parseModuleMessage = function (message) {
     var node = nodes[message.nodeId];
     var module = node.audioModule;
@@ -261,6 +265,7 @@ var parseModuleMessage = function (message) {
 
     setInputGains(module, message.inputGains);
     setInputOffsets(module, message.inputOffsets);
+    setOutputGain(module, message.outputGain);
 
     if (module.modulator !== message.modulator) {
         module.modulator = message.modulator;

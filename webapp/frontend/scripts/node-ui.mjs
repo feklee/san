@@ -39,6 +39,12 @@ var selectedOscillatorOffset = function (i) {
     return parseFloat(document.querySelector("#oscillator-offset").value);
 };
 
+var selectedOscillatorDetuningFactor = function () {
+    return parseFloat(
+        document.querySelector("#oscillator-detuning-factor").value
+    );
+};
+
 var sendSelection = function () {
     var data = {
         type: "audio module",
@@ -49,6 +55,7 @@ var sendSelection = function () {
         oscillatorOffset: selectedOscillatorOffset(),
         oscillatorGain: selectedOscillatorGain(),
         baseFreq: selectedBaseFreq(),
+        oscillatorDetuningFactor: selectedOscillatorDetuningFactor(),
         nodeId: nodeId
     };
     console.log(JSON.stringify(data));

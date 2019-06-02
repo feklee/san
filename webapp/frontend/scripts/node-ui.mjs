@@ -31,6 +31,10 @@ var selectedOutputGain = function (i) {
     return parseFloat(document.querySelector("#output-gain").value);
 };
 
+var selectedOutputDelay = function (i) {
+    return parseFloat(document.querySelector("#output-delay").value);
+};
+
 var selectedInputOffset = function (i) {
     return parseFloat(document.querySelector("#offset-" + i).value);
 };
@@ -54,6 +58,7 @@ var sendSelection = function () {
             selectedInputOffset(4)
         ],
         outputGain: selectedOutputGain(),
+        outputDelay: selectedOutputDelay(),
         oscType: selectedOscType(),
         baseFreq: selectedBaseFreq(),
         nodeId: nodeId

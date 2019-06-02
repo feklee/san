@@ -31,7 +31,7 @@ var connectInternalAudioNodes = {};
 connectInternalAudioNodes.add = function (module) {
     module.inputGains.forEach(function (inputGain) {
         if (inputGain) {
-            inputGain.connect(module.output);
+            inputGain.connect(module.outputInternal);
         }
     });
 };
@@ -60,7 +60,7 @@ connectInternalAudioNodes.multiply = function (module) {
         lastAudioNode = multiplier;
     });
 
-    lastAudioNode.connect(module.output);
+    lastAudioNode.connect(module.outputInternal);
 };
 
 var disconnectInternalAudioNodes = function (module) {
@@ -149,7 +149,7 @@ var createMasterModule = function (node) {
         inputOffsets: inputOffsets,
         internalAudioNodes: internalAudioNodes,
         modulator: "add",
-        output: context.destination
+        outputInternal: context.destination
     };
 
     node.audioModule = module;
@@ -167,7 +167,9 @@ var setInputOffsets = function (module, valuesForInputOffsets) {
 };
 
 var createModule = function (node) {
-    var output = context.createGain();
+    var outputGain = context.createGain();
+    const maxDelayTime = 1; // seconds
+    var outputDelay = context.createDelay(maxDelayTime);
     var baseFreq = 440;
     var oscillator = context.createOscillator({frequency: baseFreq});
     var internalAudioNodes = new Set();
@@ -197,12 +199,17 @@ var createModule = function (node) {
 
     oscillatorOffset.connect(inputGains[0]);
 
+    outputDelay.connect(outputGain);
+
     var module = {
         oscillator: oscillator,
         internalAudioNodes: internalAudioNodes,
         inputGains: inputGains,
         inputOffsets: inputOffsets,
-        output: output,
+        outputDelay: outputDelay,
+        outputGain: outputGain,
+        output: outputGain,
+        outputInternal: outputDelay,
         modulator: "add",
         oscType: "sine",
         baseFreq: baseFreq
@@ -251,8 +258,12 @@ var setInputGains = function (module, valuesForInputGains) {
     });
 };
 
-var setOutputGain = function (module, valueForOutputGain) {
-    module.output.gain.value = valueForOutputGain;
+var setOutputGain = function (module, value) {
+    module.outputGain.gain.value = value;
+};
+
+var setOutputDelay = function (module, value) {
+    module.outputDelay.delayTime.value = value;
 };
 
 var parseModuleMessage = function (message) {
@@ -266,6 +277,7 @@ var parseModuleMessage = function (message) {
     setInputGains(module, message.inputGains);
     setInputOffsets(module, message.inputOffsets);
     setOutputGain(module, message.outputGain);
+    setOutputDelay(module, message.outputDelay);
 
     if (module.modulator !== message.modulator) {
         module.modulator = message.modulator;

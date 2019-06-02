@@ -19,8 +19,8 @@ var selectedBaseFreq = function () {
     return parseFloat(document.querySelector("#base-freq").textContent);
 };
 
-var selectedOscType = function () {
-    return document.querySelector("input[name=osc-type]:checked").value;
+var selectedOscillatorType = function () {
+    return document.querySelector("input[name=oscillator-type]:checked").value;
 };
 
 var selectedOscillatorGain = function () {
@@ -45,7 +45,7 @@ var sendSelection = function () {
         modulator: selectedModulator(),
         outputGain: selectedOutputGain(),
         outputDelay: selectedOutputDelay(),
-        oscType: selectedOscType(),
+        oscillatorType: selectedOscillatorType(),
         oscillatorOffset: selectedOscillatorOffset(),
         oscillatorGain: selectedOscillatorGain(),
         baseFreq: selectedBaseFreq(),

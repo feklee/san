@@ -183,7 +183,7 @@ var createModule = function (node) {
         output: outputGain,
         outputInternal: outputDelay,
         modulator: "add",
-        oscType: "sine",
+        oscillatorType: "sine",
         baseFreq: baseFreq
     };
     node.audioModule = module;
@@ -208,8 +208,8 @@ var refreshOscillator = function (node) {
         o.frequency.value = module.baseFreq;
     }
     o.detune.setValueAtTime(400 * node.animatedLocation.z, context.currentTime);
-    if (o.type !== module.oscType) {
-        o.type = module.oscType;
+    if (o.type !== module.oscillatorType) {
+        o.type = module.oscillatorType;
     }
 };
 
@@ -233,7 +233,7 @@ var parseModuleMessage = function (message) {
     var node = nodes[message.nodeId];
     var module = node.audioModule;
     module.baseFreq = message.baseFreq;
-    module.oscType = message.oscType;
+    module.oscillatorType = message.oscillatorType;
 
     setOscillatorOffset(module, message.oscillatorOffset);
     setOscillatorGain(module, message.oscillatorGain);

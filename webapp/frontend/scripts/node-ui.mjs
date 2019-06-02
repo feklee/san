@@ -35,24 +35,18 @@ var selectedOutputDelay = function (i) {
     return parseFloat(document.querySelector("#output-delay").value);
 };
 
-var selectedInputOffset = function (i) {
-    return parseFloat(document.querySelector("#offset-" + i).value);
+var selectedOscillatorOffset = function (i) {
+    return parseFloat(document.querySelector("#oscillator-offset").value);
 };
 
 var sendSelection = function () {
     var data = {
         type: "audio module",
         modulator: selectedModulator(),
-        inputOffsets: [
-            selectedInputOffset(0),
-            selectedInputOffset(1),
-            selectedInputOffset(2),
-            selectedInputOffset(3),
-            selectedInputOffset(4)
-        ],
         outputGain: selectedOutputGain(),
         outputDelay: selectedOutputDelay(),
         oscType: selectedOscType(),
+        oscillatorOffset: selectedOscillatorOffset(),
         oscillatorGain: selectedOscillatorGain(),
         baseFreq: selectedBaseFreq(),
         nodeId: nodeId

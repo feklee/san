@@ -33,6 +33,9 @@
       <li><input type="radio" id="osc-type-triangle" name="osc-type"
                  value="triangle"><label for="osc-type-triangle"
                                          >Triangle</label></li>
+      <li><input type="range" id="oscillator-offset" name="oscillator-offset"
+                 min="-1" max="1" step="any"
+                 value="0"><label for="osc-offset">Offset</label></li>
       <li><input type="range" id="oscillator-gain" name="oscillator-gain"
                  min="0" max="1" step="any"
                  value="1"><label for="osc-gain">Gain</label></li>
@@ -43,25 +46,6 @@
              value="8.8"><label for="base-freq-slider">Base
              Frequency <span id="base-freq"></span> Hz</label>
     </p>
-
-    <h1>Input offset</h1>
-    <ul>
-      <li><input type="range" id="offset-0" name="offset-1" min="-1" max="1"
-                 step="any"
-                 value="0"><label for="offset-0">Oscillator</label></li>
-      <li><input type="range" id="offset-1" name="offset-1" min="-1" max="1"
-                 step="any"
-                 value="0"><label for="offset-1">Port 1</label></li>
-      <li><input type="range" id="offset-2" name="offset-2" min="-1" max="1"
-                 step="any"
-                 value="0"><label for="offset-2">Port 2</label></li>
-      <li><input type="range" id="offset-3" name="offset-3" min="-1" max="1"
-                 step="any"
-                 value="0"><label for="offset-3">Port 3</label></li>
-      <li><input type="range" id="offset-4" name="offset-4" min="-1" max="1"
-                 step="any"
-                 value="0"><label for="offset-4">Port 4</label></li>
-    </ul>
 
     <h1>Output</h1>
     <ul>

@@ -203,6 +203,7 @@ var createModule = function (node) {
 
     var module = {
         oscillator: oscillator,
+        oscillatorGain: oscillatorGain,
         internalAudioNodes: internalAudioNodes,
         inputGains: inputGains,
         inputOffsets: inputOffsets,
@@ -249,15 +250,6 @@ var refresh = function () {
     visibleNodes.forEach(refreshOscillator);
 };
 
-var setInputGains = function (module, valuesForInputGains) {
-    valuesForInputGains.forEach(function (value, i) {
-        var inputGain = module.inputGains[i];
-        if (inputGain) {
-            inputGain.gain.value = value;
-        }
-    });
-};
-
 var setOutputGain = function (module, value) {
     module.outputGain.gain.value = value;
 };
@@ -266,18 +258,22 @@ var setOutputDelay = function (module, value) {
     module.outputDelay.delayTime.value = value;
 };
 
+var setOscillatorGain = function (module, value) {
+    module.oscillatorGain.gain.value = value;
+};
+
 var parseModuleMessage = function (message) {
     var node = nodes[message.nodeId];
     var module = node.audioModule;
     module.baseFreq = message.baseFreq;
     module.oscType = message.oscType;
 
-    refreshOscillator(node);
-
-    setInputGains(module, message.inputGains);
+    setOscillatorGain(module, message.oscillatorGain);
     setInputOffsets(module, message.inputOffsets);
     setOutputGain(module, message.outputGain);
     setOutputDelay(module, message.outputDelay);
+
+    refreshOscillator(node);
 
     if (module.modulator !== message.modulator) {
         module.modulator = message.modulator;

@@ -23,8 +23,8 @@ var selectedOscType = function () {
     return document.querySelector("input[name=osc-type]:checked").value;
 };
 
-var selectedInputGain = function (i) {
-    return parseFloat(document.querySelector("#gain-" + i).value);
+var selectedOscillatorGain = function () {
+    return parseFloat(document.querySelector("#oscillator-gain").value);
 };
 
 var selectedOutputGain = function (i) {
@@ -43,13 +43,6 @@ var sendSelection = function () {
     var data = {
         type: "audio module",
         modulator: selectedModulator(),
-        inputGains: [
-            selectedInputGain(0),
-            selectedInputGain(1),
-            selectedInputGain(2),
-            selectedInputGain(3),
-            selectedInputGain(4)
-        ],
         inputOffsets: [
             selectedInputOffset(0),
             selectedInputOffset(1),
@@ -60,6 +53,7 @@ var sendSelection = function () {
         outputGain: selectedOutputGain(),
         outputDelay: selectedOutputDelay(),
         oscType: selectedOscType(),
+        oscillatorGain: selectedOscillatorGain(),
         baseFreq: selectedBaseFreq(),
         nodeId: nodeId
     };

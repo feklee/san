@@ -9,14 +9,12 @@ var audioCtx = new window.AudioContext();
 const canvasEl = document.querySelector("canvas");
 const canvasCtx = canvasEl.getContext("2d");
 var oscillatorGain = audioCtx.createGain();
-oscillatorGain.connect(audioCtx.destination);
 var oscillatorOffset = audioCtx.createConstantSource();
 oscillatorOffset.connect(oscillatorGain);
 oscillatorOffset.start();
 var oscillator = audioCtx.createOscillator();
 oscillator.start();
 oscillator.connect(oscillatorGain);
-oscillatorGain.connect(audioCtx.destination);
 
 var updateBaseFreq = function () {
     var baseFreqSlider = document.querySelector("#base-freq-slider").value;
@@ -48,11 +46,16 @@ var updateOscillator = function () {
     oscillator.frequency.value = selectedBaseFreq();
 };
 
-var showButtonEl = document.querySelector("button.show");
-showButtonEl.onclick = function () {
-    updateOscillator();
-    audioCtx.resume();
+var showGraph = function () {
+    if (audioCtx.state !== "running") {
+        updateOscillator();
+        audioCtx.resume();
+        document.querySelector(".hidden.graph").classList.remove("hidden");
+    }
 };
+
+var showButtonEl = document.querySelector(".graph button.show");
+showButtonEl.onclick = showGraph;
 
 var oscillatorAnalyser = audioCtx.createAnalyser();
 oscillatorGain.connect(oscillatorAnalyser);
@@ -69,10 +72,11 @@ var drawZeroLine = function () {
 };
 
 var drawWaveForm = function () {
+    window.requestAnimationFrame(drawWaveForm);
+
     const w = canvasEl.width;
     const h = canvasEl.height;
 
-    window.requestAnimationFrame(drawWaveForm);
     oscillatorAnalyser.getByteTimeDomainData(dataArray);
     canvasCtx.clearRect(0, 0, w, h);
 
@@ -82,23 +86,21 @@ var drawWaveForm = function () {
     drawZeroLine();
 
     canvasCtx.beginPath();
-    for (var i = 0; i < bufferLength; i++) {
-        var v = dataArray[i] / 128;
+    dataArray.forEach(function (value, i) {
+        var v = value / 128;
         var y = h - v * h / 2;
 
-        if(i === 0) {
+        if (i === 0) {
             canvasCtx.moveTo(x, y);
         } else {
             canvasCtx.lineTo(x, y);
         }
 
         x += sliceWidth;
-    }
+    });
+
     canvasCtx.strokeStyle = "white";
     canvasCtx.stroke();
-
-//    analyser.getByteTimeDomainData(dataArray); // TODO: only when running
-//    canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 };
 
 drawWaveForm();
@@ -168,6 +170,7 @@ document.querySelectorAll("input").forEach(
     (el) => el.addEventListener("change", function () {
         updateOscillator();
         sendSelection();
+        showGraph();
     })
 );
 

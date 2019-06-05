@@ -13,15 +13,9 @@
   </head>
 
   <body>
-    <h1>Modulator</h1>
-    <ul>
-      <li><input type="radio" id="add-mod" name="modulator" value="add"
-                 checked="checked"><label for="add-mod">+</label></li>
-      <li><input type="radio" id="multiply-mod" name="modulator"
-                 value="multiply"><label for="multiply-mod">×</label></li>
-    </ul>
-
     <h1>Oscillator</h1>
+    <canvas style="background:white"></canvas>
+    <button class="show">👁</button>
     <ul>
       <li><input type="radio" id="oscillator-type-sine"
                  name="oscillator-type" value="sine"
@@ -52,6 +46,14 @@
                  step="any"
                  value="400"><label for="oscillator-detuning-factor">Detuning
                  Factor</li>
+    </ul>
+
+    <h1>Modulator</h1>
+    <ul>
+      <li><input type="radio" id="add-mod" name="modulator" value="add"
+                 checked="checked"><label for="add-mod">+</label></li>
+      <li><input type="radio" id="multiply-mod" name="modulator"
+                 value="multiply"><label for="multiply-mod">×</label></li>
     </ul>
 
     <h1>Output</h1>

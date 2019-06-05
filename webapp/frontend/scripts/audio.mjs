@@ -148,8 +148,22 @@ var setOscillatorOffset = function (module, value) {
     module.oscillatorOffset.offset.value = value;
 };
 
+var enableOutputCompressor = function (module) {
+    module.outputDelay.disconnect();
+    module.outputDelay.connect(module.outputCompressor);
+    module.outputCompressor.connect(module.outputGain);
+    module.outputCompressorIsEnabled = true;
+};
+
+var disableOutputCompressor = function (module) {
+    module.outputDelay.disconnect();
+    module.outputDelay.connect(module.outputGain);
+    module.outputCompressorIsEnabled = false;
+};
+
 var createModule = function (node) {
     var outputGain = context.createGain();
+    var outputCompressor = context.createDynamicsCompressor();
     const maxDelayTime = 1; // seconds
     var outputDelay = context.createDelay(maxDelayTime);
     var baseFreq = 440;
@@ -183,6 +197,7 @@ var createModule = function (node) {
         outputGain: outputGain,
         output: outputGain,
         outputInternal: outputDelay,
+        outputCompressor: outputCompressor,
         modulator: "add",
         oscillatorType: "sine",
         baseFreq: baseFreq
@@ -190,6 +205,7 @@ var createModule = function (node) {
     node.audioModule = module;
 
     setOscillatorOffset(module, 0);
+    enableOutputCompressor(module);
 
     connectInternalAudioNodes[module.modulator](module);
 };
@@ -233,6 +249,18 @@ var setOscillatorGain = function (module, value) {
     module.oscillatorGain.gain.value = value;
 };
 
+var setOutputCompressor = function (module, shouldBeEnabled) {
+    if (module.outputCompressorIsEnabled === shouldBeEnabled) {
+        return;
+    }
+
+    if (module.outputCompressorIsEnabled) {
+        disableOutputCompressor(module);
+    } else {
+        enableOutputCompressor(module);
+    }
+};
+
 var parseModuleMessage = function (message) {
     var node = nodes[message.nodeId];
     var module = node.audioModule;
@@ -243,6 +271,7 @@ var parseModuleMessage = function (message) {
     setOscillatorGain(module, message.oscillatorGain);
     setOutputGain(module, message.outputGain);
     setOutputDelay(module, message.outputDelay);
+    setOutputCompressor(module, message.outputCompressorShouldBeEnabled);
 
     module.oscillatorDetuningFactor = message.oscillatorDetuningFactor;
 

@@ -45,12 +45,17 @@ var selectedOscillatorDetuningFactor = function () {
     );
 };
 
+var selectedOutputCompressor = function () {
+    return document.querySelector("#output-compressor").checked;
+};
+
 var sendSelection = function () {
     var data = {
         type: "audio module",
         modulator: selectedModulator(),
         outputGain: selectedOutputGain(),
         outputDelay: selectedOutputDelay(),
+        outputCompressorShouldBeEnabled: selectedOutputCompressor(),
         oscillatorType: selectedOscillatorType(),
         oscillatorOffset: selectedOscillatorOffset(),
         oscillatorGain: selectedOscillatorGain(),

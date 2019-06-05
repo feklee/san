@@ -56,12 +56,15 @@
 
     <h1>Output</h1>
     <ul>
-      <li><input type="range" id="output-gain" name="output-gain"
-                 min="0" max="1" step="any"
-                 value="1"><label for="output-gain">Gain</label></li>
       <li><input type="range" id="output-delay" name="output-delay"
                  min="0" max="1" step="any"
                  value="0"><label for="output-delay">Delay</label></li>
+      <li><input type="checkbox" id="output-compressor" name="output-compressor"
+                 checked>
+        <label for="output-compresor">Compressor</label></li>
+      <li><input type="range" id="output-gain" name="output-gain"
+                 min="0" max="1" step="any"
+                 value="1"><label for="output-gain">Gain</label></li>
     </ul>
 
     <script src="build/node-ui.js"></script>

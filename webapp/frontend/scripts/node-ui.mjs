@@ -67,7 +67,7 @@ var drawZeroLine = function () {
     canvasCtx.beginPath();
     canvasCtx.moveTo(0, canvasEl.height / 2);
     canvasCtx.lineTo(canvasEl.width, canvasEl.height / 2);
-    canvasCtx.strokeStyle = "#55f";
+    canvasCtx.strokeStyle = "white";
     canvasCtx.stroke();
 };
 
@@ -99,7 +99,7 @@ var drawWaveForm = function () {
         x += sliceWidth;
     });
 
-    canvasCtx.strokeStyle = "white";
+    canvasCtx.strokeStyle = "green";
     canvasCtx.stroke();
 };
 

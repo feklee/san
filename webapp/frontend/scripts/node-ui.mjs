@@ -18,13 +18,40 @@ oscillator.start();
 oscillator.connect(oscillatorGain);
 oscillatorGain.connect(audioCtx.destination);
 
+var updateBaseFreq = function () {
+    var baseFreqSlider = document.querySelector("#base-freq-slider").value;
+    var baseFreq = Math.pow(2, baseFreqSlider); // Hz
+    document.querySelector("#base-freq").textContent = baseFreq.toFixed(1);
+};
+
+var selectedBaseFreq = function () { // Hz
+    updateBaseFreq();
+    return parseFloat(document.querySelector("#base-freq").textContent);
+};
+
+var selectedOscillatorType = function () {
+    return document.querySelector("input[name=oscillator-type]:checked").value;
+};
+
+var selectedOscillatorGain = function () {
+    return parseFloat(document.querySelector("#oscillator-gain").value);
+};
+
+var selectedOscillatorOffset = function (i) {
+    return parseFloat(document.querySelector("#oscillator-offset").value);
+};
+
+var updateOscillator = function () {
+    oscillatorOffset.offset.value = selectedOscillatorOffset();
+    oscillatorGain.gain.value = selectedOscillatorGain();
+    oscillator.type = selectedOscillatorType();
+    oscillator.frequency.value = selectedBaseFreq();
+};
+
 var showButtonEl = document.querySelector("button.show");
 showButtonEl.onclick = function () {
+    updateOscillator();
     audioCtx.resume();
-    selectedOscillatorFreq();
-    selectedOscillatorType();
-    selectedOscillatorGain();
-    selectedOscillatorOffset();
 };
 
 var oscillatorAnalyser = audioCtx.createAnalyser();
@@ -33,15 +60,26 @@ oscillatorAnalyser.fftSize = 32768;
 var bufferLength = oscillatorAnalyser.frequencyBinCount;
 var dataArray = new Uint8Array(bufferLength);
 
-const w = canvasEl.width;
-const h = canvasEl.height;
+var drawZeroLine = function () {
+    canvasCtx.beginPath();
+    canvasCtx.moveTo(0, canvasEl.height / 2);
+    canvasCtx.lineTo(canvasEl.width, canvasEl.height / 2);
+    canvasCtx.strokeStyle = "#55f";
+    canvasCtx.stroke();
+};
+
 var drawWaveForm = function () {
+    const w = canvasEl.width;
+    const h = canvasEl.height;
+
     window.requestAnimationFrame(drawWaveForm);
     oscillatorAnalyser.getByteTimeDomainData(dataArray);
     canvasCtx.clearRect(0, 0, w, h);
 
     var sliceWidth = w / bufferLength;
     var x = 0;
+
+    drawZeroLine();
 
     canvasCtx.beginPath();
     for (var i = 0; i < bufferLength; i++) {
@@ -56,7 +94,7 @@ var drawWaveForm = function () {
 
         x += sliceWidth;
     }
-
+    canvasCtx.strokeStyle = "white";
     canvasCtx.stroke();
 
 //    analyser.getByteTimeDomainData(dataArray); // TODO: only when running
@@ -69,44 +107,12 @@ var selectedModulator = function () {
     return document.querySelector("input[name=modulator]:checked").value;
 };
 
-var updateBaseFreq = function () {
-    var baseFreqSlider = document.querySelector("#base-freq-slider").value;
-    var baseFreq = Math.pow(2, baseFreqSlider); // Hz
-    document.querySelector("#base-freq").textContent = baseFreq.toFixed(1);
-};
-
-var selectedBaseFreq = function () {
-    var freq =
-        parseFloat(document.querySelector("#base-freq").textContent); // Hz
-    oscillator.frequency.value = freq;
-    return freq;
-};
-
-var selectedOscillatorType = function () {
-    var type =
-        document.querySelector("input[name=oscillator-type]:checked").value;
-    oscillator.type = type;
-    return type;
-};
-
-var selectedOscillatorGain = function () {
-    var gain = parseFloat(document.querySelector("#oscillator-gain").value);
-    oscillatorGain.gain.value = gain;
-    return gain;
-};
-
 var selectedOutputGain = function (i) {
     return parseFloat(document.querySelector("#output-gain").value);
 };
 
 var selectedOutputDelay = function (i) {
     return parseFloat(document.querySelector("#output-delay").value);
-};
-
-var selectedOscillatorOffset = function (i) {
-    var offset = parseFloat(document.querySelector("#oscillator-offset").value);
-    oscillatorOffset.offset.value = offset;
-    return offset;
 };
 
 var selectedOscillatorDetuningFactor = function () {
@@ -160,6 +166,7 @@ var radioButtonEl = function (moduleName) {
 
 document.querySelectorAll("input").forEach(
     (el) => el.addEventListener("change", function () {
+        updateOscillator();
         sendSelection();
     })
 );

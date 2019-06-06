@@ -73,7 +73,7 @@ var drawZeroLine = function () {
     canvasCtx.beginPath();
     canvasCtx.moveTo(0, canvasEl.height / 2);
     canvasCtx.lineTo(canvasEl.width, canvasEl.height / 2);
-    canvasCtx.strokeStyle = "white";
+    canvasCtx.strokeStyle = "gray";
     canvasCtx.stroke();
 };
 

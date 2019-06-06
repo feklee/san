@@ -47,15 +47,21 @@ var updateOscillator = function () {
 };
 
 var showGraph = function () {
+    var hiddenGraphEl = document.querySelector(".hidden.graph");
+    if (hiddenGraphEl) {
+        hiddenGraphEl.classList.remove("hidden");
+    }
+};
+
+var resumeAudioCtx = function () {
     if (audioCtx.state !== "running") {
-        updateOscillator();
         audioCtx.resume();
-        document.querySelector(".hidden.graph").classList.remove("hidden");
+        showGraph();
     }
 };
 
 var showButtonEl = document.querySelector(".graph button.show");
-showButtonEl.onclick = showGraph;
+showButtonEl.onclick = resumeAudioCtx;
 
 var oscillatorAnalyser = audioCtx.createAnalyser();
 oscillatorGain.connect(oscillatorAnalyser);
@@ -73,6 +79,10 @@ var drawZeroLine = function () {
 
 var drawWaveForm = function () {
     window.requestAnimationFrame(drawWaveForm);
+
+    if (audioCtx.state === "running") {
+        showGraph();
+    }
 
     const w = canvasEl.width;
     const h = canvasEl.height;
@@ -170,10 +180,11 @@ document.querySelectorAll("input").forEach(
     (el) => el.addEventListener("change", function () {
         updateOscillator();
         sendSelection();
-        showGraph();
+        resumeAudioCtx();
     })
 );
 
 baseFreqSliderEl.addEventListener("input", updateBaseFreq);
 
 updateBaseFreq();
+updateOscillator();

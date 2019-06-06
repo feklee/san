@@ -6,8 +6,23 @@ var nodeId = window.location.pathname.substr(1, 1);
 var baseFreqSliderEl = document.getElementById("base-freq-slider");
 var audioCtx = new window.AudioContext();
 
+var setUpHidpiCanvas = function (canvasEl) {
+    var rect = canvasEl.getBoundingClientRect();
+    var w = rect.width;
+    var h = rect.height;
+    var dpr = window.devicePixelRatio || 1;
+    canvasEl.width = w * dpr;
+    canvasEl.height = h * dpr;
+    canvasEl.style.width = w + "px";
+    canvasEl.style.height = h + "px";
+    var ctx = canvasEl.getContext("2d");
+    ctx.lineWidth = dpr;
+    console.log("dpr", dpr, canvasEl.height);
+    return ctx;
+};
+
 const canvasEl = document.querySelector("canvas");
-const canvasCtx = canvasEl.getContext("2d");
+const canvasCtx = setUpHidpiCanvas(canvasEl);
 var oscillatorGain = audioCtx.createGain();
 var oscillatorOffset = audioCtx.createConstantSource();
 oscillatorOffset.connect(oscillatorGain);

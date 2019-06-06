@@ -164,27 +164,32 @@ var disableOutputCompressor = function (module) {
 var createModule = function (node) {
     var outputGain = context.createGain();
     var outputCompressor = context.createDynamicsCompressor();
+    var clippingCurve = new Float32Array([-1, 1]);
+    var outputClipper = context.createWaveShaper({curve: clippingCurve});
     const maxDelayTime = 1; // seconds
     var outputDelay = context.createDelay(maxDelayTime);
     var baseFreq = 440;
     var oscillator = context.createOscillator({frequency: baseFreq});
     var internalAudioNodes = new Set();
     var oscillatorGain = context.createGain();
+    var oscillatorClipper = context.createWaveShaper({curve: clippingCurve});
     var oscillatorOffset = context.createConstantSource();
     var inputs = [
-        oscillatorGain,
+        oscillatorClipper,
         null, // port 1
         null, // port 2
         null, // ...
         null
     ];
 
+    oscillator.start();
+    oscillator.connect(oscillatorGain);
     oscillatorOffset.connect(oscillatorGain);
     oscillatorOffset.start();
-    oscillator.connect(oscillatorGain);
-    oscillator.start();
+    oscillatorGain.connect(oscillatorClipper);
 
     outputDelay.connect(outputGain);
+    outputGain.connect(outputClipper);
 
     var module = {
         oscillator: oscillator,
@@ -195,7 +200,7 @@ var createModule = function (node) {
         inputs: inputs,
         outputDelay: outputDelay,
         outputGain: outputGain,
-        output: outputGain,
+        output: outputClipper,
         outputInternal: outputDelay,
         outputCompressor: outputCompressor,
         modulator: "add",

@@ -2,6 +2,7 @@
 
 import nodes from "./nodes.mjs";
 import visibleNodes from "./visible-nodes.mjs";
+import audioModules from "./audio-modules.mjs";
 
 var context = new window.AudioContext();
 var muteButtonEl = document.querySelector("button.mute");
@@ -270,6 +271,8 @@ var setOutputCompressor = function (module, shouldBeEnabled) {
 
 var parseModuleMessage = function (message) {
     var node = nodes[message.nodeId];
+    // TODO: store in audio modules set
+    // var module = audioModules.get(message.nodeId);
     if (node === undefined) {
         return;
     }
@@ -285,7 +288,9 @@ var parseModuleMessage = function (message) {
 
     module.oscillatorDetuningFactor = message.oscillatorDetuningFactor;
 
-    refreshOscillator(node);
+    refreshOscillator(node); // TODO: take node from: `module.node` and only use
+                             // if not null, or use:
+                             // audioModules.refreshOscillator(nodeId)
 
     if (module.modulator !== message.modulator) {
         module.modulator = message.modulator;

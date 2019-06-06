@@ -6,6 +6,7 @@
 
 var WebSocketServer = require("websocket").server;
 var cli = require("./cli");
+var audioModules = require("./audio-modules");
 var connectionSet = new Set();
 
 var broadcast = function (message) {
@@ -19,12 +20,21 @@ var interpretMessage = function (message) {
 
     var data = JSON.parse(message.utf8Data);
     if (data.type === "audio module") {
+        audioModules.store(data);
         broadcast(data);
     }
 };
 
+var broadcastAudioModules = function () {
+    audioModules.forEach(function (audioModule) {
+        broadcast(audioModule);
+    });
+};
+
 var onNewConnection = function (connection) {
     connectionSet.add(connection);
+
+    broadcastAudioModules();
 
     connection.on("message", function (message) {
         interpretMessage(message);

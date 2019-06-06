@@ -187,6 +187,21 @@ client.onclose = function () {
     console.log("WebSocket closed");
 };
 
+client.onmessage = function (e) {
+    var message;
+    var json;
+    if (typeof e.data === "string") {
+        json = e.data;
+        message = JSON.parse(json);
+    } else {
+        return;
+    }
+
+    if (message.type === "audio module") {
+        console.log("audio module", message);
+    }
+};
+
 var radioButtonEl = function (moduleName) {
     return document.querySelector("#" + moduleName + "-module");
 };
@@ -203,5 +218,3 @@ baseFreqSliderEl.addEventListener("input", updateBaseFreq);
 
 updateBaseFreq();
 updateOscillator();
-
-export default {};

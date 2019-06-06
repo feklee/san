@@ -5,9 +5,7 @@ import nodeManager from "./node-manager.mjs";
 import settings from "./settings.mjs";
 import nodes from "./nodes.mjs";
 import audio from "./audio.mjs";
-
-var hostname = window.location.hostname;
-var client = new window.WebSocket("ws://" + hostname + ":8080/");
+import client from "./web-socket-client.mjs";
 
 client.onerror = function () {
     log.append("error", "WebSocket error");

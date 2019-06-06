@@ -1,7 +1,7 @@
 /*jslint browser: true, maxlen: 80 */
 
 var hostname = window.location.hostname;
-var client = new window.WebSocket("ws://" + hostname + ":8080/");
+import client from "./web-socket-client.mjs";
 var nodeId = window.location.pathname.substr(1, 1);
 var baseFreqSliderEl = document.getElementById("base-freq-slider");
 var audioCtx = new window.AudioContext();
@@ -203,3 +203,5 @@ baseFreqSliderEl.addEventListener("input", updateBaseFreq);
 
 updateBaseFreq();
 updateOscillator();
+
+export default {};

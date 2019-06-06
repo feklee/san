@@ -12,7 +12,7 @@ function store(audioModule) {
 }
 
 function forEach(f) {
-    Object.keys(container).forEach(f);
+    Object.keys(container).forEach((key) => f(container[key]));
 }
 
 module.exports = {

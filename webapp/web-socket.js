@@ -25,16 +25,16 @@ var interpretMessage = function (message) {
     }
 };
 
-var broadcastAudioModules = function () {
+var sendAudioModules = function (connection) {
+    console.log("sending modules");
     audioModules.forEach(function (audioModule) {
-        broadcast(audioModule);
+        console.log(audioModule);
+        connection.sendUTF(JSON.stringify(audioModule));
     });
 };
 
 var onNewConnection = function (connection) {
     connectionSet.add(connection);
-
-    broadcastAudioModules();
 
     connection.on("message", function (message) {
         interpretMessage(message);
@@ -44,6 +44,8 @@ var onNewConnection = function (connection) {
         console.log("WebSocket connection closed");
         connectionSet.delete(connection);
     });
+
+    sendAudioModules(connection);
 };
 
 function create(httpServer) {

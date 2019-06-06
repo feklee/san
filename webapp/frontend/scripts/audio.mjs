@@ -270,6 +270,9 @@ var setOutputCompressor = function (module, shouldBeEnabled) {
 
 var parseModuleMessage = function (message) {
     var node = nodes[message.nodeId];
+    if (node === undefined) {
+        return;
+    }
     var module = node.audioModule;
     module.baseFreq = message.baseFreq;
     module.oscillatorType = message.oscillatorType;

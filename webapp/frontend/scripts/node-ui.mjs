@@ -51,7 +51,7 @@ var selectedOscillatorFrequencyExp = function () {
     return parseFloat(oscillatorFrequencyExpEl.textContent);
 };
 
-var selectOscillatorFrequency = function (value) {
+var setOscillatorFrequency = function (value) {
     oscillatorFrequencyEl.textContent = value;
 };
 
@@ -175,7 +175,7 @@ var sendSelection = function () {
         oscillatorType: selectedOscillatorType(),
         oscillatorOffset: selectedOscillatorOffset(),
         oscillatorGain: selectedOscillatorGain(),
-        baseFreq: selectedOscillatorFrequency(), // TODO: rename
+        oscillatorFrequency: selectedOscillatorFrequency(),
         oscillatorFrequencyExp: selectedOscillatorFrequencyExp(),
         oscillatorDetuningFactor: selectedOscillatorDetuningFactor(),
         nodeId: nodeId
@@ -188,14 +188,14 @@ var sendSelection = function () {
     }
 };
 
-var selectOscillatorGain = function (value) {
+var setOscillatorGain = function (value) {
     oscillatorGainEl.value = value;
 };
 
-/* TODO: first rename baseFreq to oscillatorFrequency
+/* TODO: first rename oscillatorFrequency to oscillatorFrequency
    TODo: maybe also store slider position (or exp)
 var selectBaseFreq = function () {
-    baseFreqSliderEl.value = gain;
+    oscillatorFrequencySliderEl.value = gain;
 };
 */
 
@@ -206,7 +206,7 @@ var parseModuleMessage = function (message) {
 
     console.log("change gain to: ", message.oscillatorGain);
 
-    selectOscillatorGain(message.oscillatorGain);
+    setOscillatorGain(message.oscillatorGain);
 };
 
 client.onerror = function () {

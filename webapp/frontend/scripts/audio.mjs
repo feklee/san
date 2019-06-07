@@ -173,8 +173,8 @@ var createModule = function (nodeId) {
     outputClipper.curve = clippingCurve;
     const maxDelayTime = 1; // seconds
     var outputDelay = context.createDelay(maxDelayTime);
-    var baseFreq = 440;
-    var oscillator = context.createOscillator({frequency: baseFreq});
+    var oscillatorFrequency = 440;
+    var oscillator = context.createOscillator({frequency: oscillatorFrequency});
     var internalAudioNodes = new Set();
     var oscillatorGain = context.createGain();
     var oscillatorClipper = context.createWaveShaper();
@@ -211,7 +211,7 @@ var createModule = function (nodeId) {
         outputCompressor: outputCompressor,
         modulator: "add",
         oscillatorType: "sine",
-        baseFreq: baseFreq
+        oscillatorFrequency: oscillatorFrequency
     };
 
     setOscillatorOffset(module, 0);
@@ -247,8 +247,8 @@ var detuneOscillator = function (nodeId) {
 var refreshOscillator = function (nodeId) {
     var module = getOrCreateModule(nodeId);
     var o = module.oscillator;
-    if (o.frequency.value !== module.baseFreq) {
-        o.frequency.value = module.baseFreq;
+    if (o.frequency.value !== module.oscillatorFrequency) {
+        o.frequency.value = module.oscillatorFrequency;
     }
     detuneOscillator(nodeId);
     if (o.type !== module.oscillatorType) {
@@ -288,7 +288,7 @@ var parseModuleMessage = function (message) {
     var nodeId = message.nodeId;
     var module = getOrCreateModule(nodeId);
 
-    module.baseFreq = message.baseFreq;
+    module.oscillatorFrequency = message.oscillatorFrequency;
     module.oscillatorType = message.oscillatorType;
 
     setOscillatorOffset(module, message.oscillatorOffset);

@@ -256,7 +256,7 @@ var parseModuleMessage = function (message) {
 
 var setNodeIcon = function () {
     var colors = nodeColors(nodeId);
-    document.querySelector(".node-icon").style.background =
+    document.querySelector(".this.node-icon").style.background =
             "linear-gradient(to bottom right, " +
             colors[0] + " 0%, " +
             colors[0] + " 50%, " +

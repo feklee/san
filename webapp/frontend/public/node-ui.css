@@ -48,6 +48,20 @@ h1 {
     border-radius: 50%;
 }
 
-.not-connected.node-icon { /* TODO: implement */
-
+.not-connected.node-icon {
+    background:
+         linear-gradient(45deg,
+                         transparent 0%,
+                         transparent 43%,
+                         white 45%,
+                         white 55%,
+                         transparent 57%,
+                         transparent 100%),
+        linear-gradient(135deg,
+                        transparent 0%,
+                        transparent 43%,
+                        white 45%,
+                        white 55%,
+                        transparent 57%,
+                        transparent 100%);
 }

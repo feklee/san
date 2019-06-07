@@ -174,13 +174,26 @@ var sendSelection = function () {
     }
 };
 
+var selectOscillatorGain = function (gain) {
+    document.querySelector("#oscillator-gain").value = gain;
+};
+
+var parseModuleMessage = function (message) {
+    if (nodeId !== message.nodeId) {
+        return;
+    }
+
+    console.log("change gain to: ", message.oscillatorGain);
+
+    selectOscillatorGain(message.oscillatorGain);
+};
+
 client.onerror = function () {
     console.log("WebSocket error");
 };
 
 client.onopen = function () {
     console.log("WebSocket opened");
-    sendSelection();
 };
 
 client.onclose = function () {
@@ -198,7 +211,7 @@ client.onmessage = function (e) {
     }
 
     if (message.type === "audio module") {
-        console.log("audio module", message);
+        parseModuleMessage(message);
     }
 };
 

@@ -1,6 +1,5 @@
 /*jslint browser: true, maxlen: 80 */
 
-var hostname = window.location.hostname;
 import client from "./web-socket-client.mjs";
 var nodeId = window.location.pathname.substr(1, 1);
 var audioCtx = new window.AudioContext();
@@ -16,7 +15,6 @@ var setUpHidpiCanvas = function (canvasEl) {
     canvasEl.style.height = h + "px";
     var ctx = canvasEl.getContext("2d");
     ctx.lineWidth = dpr;
-    console.log("dpr", dpr, canvasEl.height);
     return ctx;
 };
 
@@ -31,11 +29,11 @@ oscillator.start();
 oscillator.connect(oscillatorGain);
 
 var oscillatorFrequencyExpEl =
-    document.getElementById("oscillator-frequency-exp");
+        document.getElementById("oscillator-frequency-exp");
 var oscillatorFrequencyEl = document.getElementById("oscillator-frequency");
 var oscillatorGainEl = document.querySelector("#oscillator-gain");
 var oscillatorDetuningFactorEl =
-    document.querySelector("#oscillator-detuning-factor");
+        document.querySelector("#oscillator-detuning-factor");
 var oscillatorOffsetEl = document.querySelector("#oscillator-offset");
 var outputGainEl = document.querySelector("#output-gain");
 var outputDelayEl = document.querySelector("#output-delay");
@@ -191,7 +189,7 @@ var setModulator = function (value) {
     }
 };
 
-var selectedOutputGain = function (i) {
+var selectedOutputGain = function () {
     return parseFloat(outputGainEl.value);
 };
 
@@ -199,7 +197,7 @@ var setOutputGain = function (value) {
     outputGainEl.value = value;
 };
 
-var selectedOutputDelay = function (i) {
+var selectedOutputDelay = function () {
     return parseFloat(document.querySelector("#output-delay").value);
 };
 
@@ -230,7 +228,6 @@ var sendSelection = function () {
         oscillatorDetuningFactor: selectedOscillatorDetuningFactor(),
         nodeId: nodeId
     };
-    console.log(JSON.stringify(data));
 
     try {
         client.send(JSON.stringify(data));
@@ -238,19 +235,10 @@ var sendSelection = function () {
     }
 };
 
-/* TODO: first rename oscillatorFrequency to oscillatorFrequency
-   TODo: maybe also store slider position (or exp)
-var selectBaseFreq = function () {
-    oscillatorFrequencySliderEl.value = gain;
-};
-*/
-
 var parseModuleMessage = function (message) {
     if (nodeId !== message.nodeId) {
         return;
     }
-
-    console.log("change gain to: ", message.oscillatorGain);
 
     setOscillatorType(message.oscillatorType);
     setOscillatorFrequencyExp(message.oscillatorFrequencyExp);
@@ -263,18 +251,6 @@ var parseModuleMessage = function (message) {
     setOutputDelay(message.outputDelay);
     setOutputCompressor(message.outputCompressorShouldBeEnabled);
     setOutputGain(message.outputGain);
-};
-
-client.onerror = function () {
-    console.log("WebSocket error");
-};
-
-client.onopen = function () {
-    console.log("WebSocket opened");
-};
-
-client.onclose = function () {
-    console.log("WebSocket closed");
 };
 
 client.onmessage = function (e) {
@@ -290,10 +266,6 @@ client.onmessage = function (e) {
     if (message.type === "audio module") {
         parseModuleMessage(message);
     }
-};
-
-var radioButtonEl = function (moduleName) {
-    return document.querySelector("#" + moduleName + "-module");
 };
 
 document.querySelectorAll("input").forEach(

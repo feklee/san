@@ -3,7 +3,10 @@
 var hostname = window.location.hostname;
 import client from "./web-socket-client.mjs";
 var nodeId = window.location.pathname.substr(1, 1);
-var baseFreqSliderEl = document.getElementById("base-freq-slider");
+var oscillatorFrequencyExpEl =
+    document.getElementById("oscillator-frequency-exp");
+var oscillatorFrequencyEl =
+    document.getElementById("oscillator-frequency");
 var audioCtx = new window.AudioContext();
 
 var setUpHidpiCanvas = function (canvasEl) {
@@ -31,15 +34,25 @@ var oscillator = audioCtx.createOscillator();
 oscillator.start();
 oscillator.connect(oscillatorGain);
 
-var updateBaseFreq = function () {
-    var baseFreqSlider = document.querySelector("#base-freq-slider").value;
-    var baseFreq = Math.pow(2, baseFreqSlider); // Hz
-    document.querySelector("#base-freq").textContent = baseFreq.toFixed(1);
+var oscillatorGainEl = document.querySelector("#oscillator-gain");
+
+var updateOscillatorFrequency = function () {
+    var oscillatorFrequencyExp = oscillatorFrequencyExpEl.value;
+    var oscillatorFrequency = Math.pow(2, oscillatorFrequencyExp); // Hz
+    oscillatorFrequencyEl.textContent = oscillatorFrequency.toFixed(2);
 };
 
-var selectedBaseFreq = function () { // Hz
-    updateBaseFreq();
-    return parseFloat(document.querySelector("#base-freq").textContent);
+var selectedOscillatorFrequency = function () { // Hz
+    updateOscillatorFrequency();
+    return parseFloat(oscillatorFrequencyEl.textContent);
+};
+
+var selectedOscillatorFrequencyExp = function () {
+    return parseFloat(oscillatorFrequencyExpEl.textContent);
+};
+
+var selectOscillatorFrequency = function (value) {
+    oscillatorFrequencyEl.textContent = value;
 };
 
 var selectedOscillatorType = function () {
@@ -47,7 +60,7 @@ var selectedOscillatorType = function () {
 };
 
 var selectedOscillatorGain = function () {
-    return parseFloat(document.querySelector("#oscillator-gain").value);
+    return parseFloat(oscillatorGainEl.value);
 };
 
 var selectedOscillatorOffset = function (i) {
@@ -58,7 +71,7 @@ var updateOscillator = function () {
     oscillatorOffset.offset.value = selectedOscillatorOffset();
     oscillatorGain.gain.value = selectedOscillatorGain();
     oscillator.type = selectedOscillatorType();
-    oscillator.frequency.value = selectedBaseFreq();
+    oscillator.frequency.value = selectedOscillatorFrequency();
 };
 
 var showGraph = function () {
@@ -162,7 +175,8 @@ var sendSelection = function () {
         oscillatorType: selectedOscillatorType(),
         oscillatorOffset: selectedOscillatorOffset(),
         oscillatorGain: selectedOscillatorGain(),
-        baseFreq: selectedBaseFreq(),
+        baseFreq: selectedOscillatorFrequency(), // TODO: rename
+        oscillatorFrequencyExp: selectedOscillatorFrequencyExp(),
         oscillatorDetuningFactor: selectedOscillatorDetuningFactor(),
         nodeId: nodeId
     };
@@ -174,9 +188,16 @@ var sendSelection = function () {
     }
 };
 
-var selectOscillatorGain = function (gain) {
-    document.querySelector("#oscillator-gain").value = gain;
+var selectOscillatorGain = function (value) {
+    oscillatorGainEl.value = value;
 };
+
+/* TODO: first rename baseFreq to oscillatorFrequency
+   TODo: maybe also store slider position (or exp)
+var selectBaseFreq = function () {
+    baseFreqSliderEl.value = gain;
+};
+*/
 
 var parseModuleMessage = function (message) {
     if (nodeId !== message.nodeId) {
@@ -227,7 +248,7 @@ document.querySelectorAll("input").forEach(
     })
 );
 
-baseFreqSliderEl.addEventListener("input", updateBaseFreq);
+oscillatorFrequencyExpEl.addEventListener("input", updateOscillatorFrequency);
 
-updateBaseFreq();
+updateOscillatorFrequency();
 updateOscillator();

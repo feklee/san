@@ -253,6 +253,17 @@ var parseModuleMessage = function (message) {
     setOutputGain(message.outputGain);
 };
 
+var setNodeIcon = function () {
+    var colors = ["red", "green"]; // TODO: set based on node
+
+    document.querySelector(".node-icon").style.background =
+            "linear-gradient(to bottom right, " +
+            colors[0] + " 0%, " +
+            colors[0] + " 50%, " +
+            colors[1] + " 50%, " +
+            colors[1] + " 100%)";
+};
+
 client.onmessage = function (e) {
     var message;
     var json;
@@ -280,3 +291,5 @@ oscillatorFrequencyExpEl.addEventListener("input", updateOscillatorFrequency);
 
 updateOscillatorFrequency();
 updateOscillator();
+
+setNodeIcon();

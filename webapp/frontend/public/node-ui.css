@@ -41,3 +41,13 @@ h1 {
 .hidden.graph button {
     color: white;
 }
+
+.node-icon {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+}
+
+.not-connected.node-icon { /* TODO: implement */
+
+}

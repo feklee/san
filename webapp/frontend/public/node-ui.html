@@ -33,12 +33,6 @@
                  name="oscillator-type"
                  value="triangle"><label for="oscillator-type-triangle"
                                          >Triangle</label></li>
-      <li><input type="range" id="oscillator-offset" name="oscillator-offset"
-                 min="-1" max="1" step="any"
-                 value="0"><label for="oscillator-offset">Offset</label></li>
-      <li><input type="range" id="oscillator-gain" name="oscillator-gain"
-                 min="0" max="2" step="any"
-                 value="1"><label for="oscillator-gain">Gain</label></li>
       <li><input type="range" id="oscillator-frequency-exp"
                  name="oscillator-frequency-exp" min="-4" max="12" step="0.1"
                  value="8.8"><label for="oscillator-frequency-exp">f = <span id="oscillator-frequency"></span> Hz</label></li>
@@ -47,14 +41,20 @@
                  step="any"
                  value="400"><label for="oscillator-detuning-factor">Detuning
                  Factor</li>
+      <li><input type="range" id="oscillator-offset" name="oscillator-offset"
+                 min="-1" max="1" step="any"
+                 value="0"><label for="oscillator-offset">Offset</label></li>
+      <li><input type="range" id="oscillator-gain" name="oscillator-gain"
+                 min="0" max="2" step="any"
+                 value="1"><label for="oscillator-gain">Gain</label></li>
     </ul>
 
     <h1>Modulator</h1>
     <ul>
-      <li><input type="radio" id="add-mod" name="modulator" value="add"
-                 checked="checked"><label for="add-mod">+</label></li>
-      <li><input type="radio" id="multiply-mod" name="modulator"
-                 value="multiply"><label for="multiply-mod">×</label></li>
+      <li><input type="radio" id="add-modulator" name="modulator" value="add"
+                 checked="checked"><label for="add-modulator">+</label></li>
+      <li><input type="radio" id="multiply-modulator" name="modulator"
+                 value="multiply"><label for="multiply-modulator">×</label></li>
     </ul>
 
     <h1>Output</h1>

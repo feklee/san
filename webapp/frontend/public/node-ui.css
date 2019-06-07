@@ -1,6 +1,9 @@
 html, body {
     background: black;
     color: white;
+}
+
+body {
     padding: 20px;
 }
 
@@ -29,11 +32,6 @@ h1 {
     top: 40px;
     left: 240px;
     color: transparent;
-}
-
-.graph canvas {
-    width: 500px;
-    height: 100px;
 }
 
 .hidden.graph canvas {

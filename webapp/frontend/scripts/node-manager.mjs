@@ -10,13 +10,12 @@ import renderMatrix from "./render-matrix.mjs";
 import locationOptimizer from "./location-optimizer.mjs";
 import vector from "./vector.mjs";
 import visualization from "./visualization.mjs";
-import settings from "./settings.mjs";
+import nodeColors from "./node-colors.mjs";
 import {Vector3} from
         "../../node_modules/three/build/three.module.js";
 import {
     graphUpdateInterval, // ms
-    connectionExpiryDuration, // ms
-    nodeColorsList
+    connectionExpiryDuration // ms
 } from "./shared-settings.mjs";
 import audio from "./audio.mjs";
 
@@ -205,19 +204,11 @@ var nodeIsRootNode = function (id) {
     return id === "^";
 };
 
-var nodeColorsListIndexFromId = function (id) {
-    return nodeIsRootNode(id)
-        ? 0
-        : id.charCodeAt(0) - 0x40;
-};
-
 var addNode = function (id, tiltAngle) {
     if (nodeExists(id)) {
         return;
     }
-    var index = nodeColorsListIndexFromId(id);
-    var colors = nodeColorsList[index] ||
-            [settings.defaultNodeColor, settings.defaultNodeColor];
+    var colors = nodeColors(id);
     var node = {
         id: id,
         isVisible: !nodeIsRootNode(id),

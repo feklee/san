@@ -4,6 +4,43 @@ import copy from "rollup-plugin-copy";
 import legacy from "rollup-plugin-legacy";
 import replace from "rollup-plugin-re";
 
+var replaceSettings = {
+    include: "frontend/scripts/shared-settings.mjs",
+    patterns: [
+        {
+            file: "../../../nodes/Firmware/sharedSettings.h"
+        },
+        {
+            test: /\}/g,
+            replace: "]"
+        },
+        {
+            test: /\{/g,
+            replace: "["
+        },
+        {
+            test: /\{\s*(\w+),\s*(\w+)\}/g,
+            replace: "[\"$1\", \"$2\"]"
+        },
+        {
+            test: /^\s*const[*\w\s]+\s(\w+)[\[\]0-9]*\s*(.*)$/gm,
+            replace: "var $1 $2"
+        },
+        {
+            test: /^\s*#.*/gm,
+            replace: ""
+        }
+    ]
+};
+
+var legacySettings = {
+    "frontend/scripts/shared-settings.mjs": {
+        graphUpdateInterval: "graphUpdateInterval",
+        connectionExpiryDuration: "connectionExpiryDuration",
+        nodeColorsList: "nodeColorsList"
+    }
+};
+
 var copyOptions = {
     "node_modules/three/build/three.min.js":
             "frontend/public/build/three.js",
@@ -29,42 +66,8 @@ export default [{
         }
     },
     plugins: [
-        replace({
-            include: "frontend/scripts/shared-settings.mjs",
-            patterns: [
-                {
-                    file: "../../../nodes/Firmware/sharedSettings.h"
-                },
-                {
-                    test: /\}/g,
-                    replace: "]"
-                },
-                {
-                    test: /\{/g,
-                    replace: "["
-                },
-                {
-                    test: /\{\s*(\w+),\s*(\w+)\}/g,
-                    replace: "[\"$1\", \"$2\"]"
-                },
-                {
-                    test:
-                    /^\s*const[*\w\s]+\s(\w+)[\[\]0-9]*\s*(.*)$/gm,
-                    replace: "var $1 $2"
-                },
-                {
-                    test: /^\s*#.*/gm,
-                    replace: ""
-                }
-            ]
-        }),
-        legacy({
-            "frontend/scripts/shared-settings.mjs": {
-                graphUpdateInterval: "graphUpdateInterval",
-                connectionExpiryDuration: "connectionExpiryDuration",
-                nodeColorsList: "nodeColorsList"
-            }
-        }),
+        replace(replaceSettings),
+        legacy(legacySettings),
         copy(copyOptions),
         resolve(),
         commonjs()
@@ -87,6 +90,8 @@ export default [{
         }
     },
     plugins: [
+        replace(replaceSettings),
+        legacy(legacySettings),
         commonjs()
     ],
     watch: {

@@ -3,6 +3,7 @@
 import client from "./web-socket-client.mjs";
 var nodeId = window.location.pathname.substr(1, 1);
 var audioCtx = new window.AudioContext();
+import nodeColors from "./node-colors.mjs";
 
 var setUpHidpiCanvas = function (canvasEl) {
     var rect = canvasEl.getBoundingClientRect();
@@ -254,8 +255,7 @@ var parseModuleMessage = function (message) {
 };
 
 var setNodeIcon = function () {
-    var colors = ["red", "green"]; // TODO: set based on node
-
+    var colors = nodeColors(nodeId);
     document.querySelector(".node-icon").style.background =
             "linear-gradient(to bottom right, " +
             colors[0] + " 0%, " +

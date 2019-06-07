@@ -2,10 +2,13 @@
 
 import nodes from "./nodes.mjs";
 import visibleNodes from "./visible-nodes.mjs";
-import audioModules from "./audio-modules.mjs";
 
 var context = new window.AudioContext();
 var muteButtonEl = document.querySelector("button.mute");
+
+var audioModules = {}; // There may be more audio modules maintained than nodes
+                       // currently connected. This allows reconnecting a node
+                       // without losing its audio settings.
 
 context.addEventListener("statechange", function () {
     if (context.state === "suspended") {
@@ -140,9 +143,9 @@ var createMasterModule = function (node) {
         outputInternal: context.destination
     };
 
-    node.audioModule = module;
-
     connectInternalAudioNodes[module.modulator](module);
+
+    return module;
 };
 
 var setOscillatorOffset = function (module, value) {
@@ -162,7 +165,7 @@ var disableOutputCompressor = function (module) {
     module.outputCompressorIsEnabled = false;
 };
 
-var createModule = function (node) {
+var createModule = function (nodeId) {
     var outputGain = context.createGain();
     var outputCompressor = context.createDynamicsCompressor();
     var clippingCurve = new Float32Array([-1, 1]);
@@ -210,15 +213,25 @@ var createModule = function (node) {
         oscillatorType: "sine",
         baseFreq: baseFreq
     };
-    node.audioModule = module;
 
     setOscillatorOffset(module, 0);
     enableOutputCompressor(module);
 
     connectInternalAudioNodes[module.modulator](module);
+
+    return module;
 };
 
-var destroyModule = function (node) {
+var getOrCreateModule = function (nodeId) {
+    var module = audioModules[nodeId];
+    if (module === undefined) {
+        module = createModule();
+        audioModules[nodeId] = module;
+    }
+    return module;
+};
+
+var destroyModule = function (node) { // TODO: remove?
     var module = node.audioModule;
     disconnectInternalAudioNodes(module);
     module.oscillator.stop();
@@ -226,23 +239,33 @@ var destroyModule = function (node) {
     module.oscillatorOffset.stop();
 };
 
-var refreshOscillator = function (node) {
+var detuneOscillator = function (nodeId) {
+    var node = nodes[nodeId];
+    if (node === undefined) {
+        return;
+    }
     var module = node.audioModule;
     var o = module.oscillator;
-    if (o.frequency.value !== module.baseFreq) {
-        o.frequency.value = module.baseFreq;
-    }
     o.detune.setValueAtTime(
         module.oscillatorDetuningFactor * node.animatedLocation.z,
         context.currentTime
     );
+};
+
+var refreshOscillator = function (nodeId) {
+    var module = getOrCreateModule(nodeId);
+    var o = module.oscillator;
+    if (o.frequency.value !== module.baseFreq) {
+        o.frequency.value = module.baseFreq;
+    }
+    detuneOscillator(nodeId);
     if (o.type !== module.oscillatorType) {
         o.type = module.oscillatorType;
     }
 };
 
 var refresh = function () {
-    visibleNodes.forEach(refreshOscillator);
+    visibleNodes.forEach((node) => refreshOscillator(node.id));
 };
 
 var setOutputGain = function (module, value) {
@@ -270,13 +293,9 @@ var setOutputCompressor = function (module, shouldBeEnabled) {
 };
 
 var parseModuleMessage = function (message) {
-    var node = nodes[message.nodeId];
-    // TODO: store in audio modules set
-    // var module = audioModules.get(message.nodeId);
-    if (node === undefined) {
-        return;
-    }
-    var module = node.audioModule;
+    var nodeId = message.nodeId;
+    var module = getOrCreateModule(nodeId);
+
     module.baseFreq = message.baseFreq;
     module.oscillatorType = message.oscillatorType;
 
@@ -288,9 +307,7 @@ var parseModuleMessage = function (message) {
 
     module.oscillatorDetuningFactor = message.oscillatorDetuningFactor;
 
-    refreshOscillator(node); // TODO: take node from: `module.node` and only use
-                             // if not null, or use:
-                             // audioModules.refreshOscillator(nodeId)
+    refreshOscillator(nodeId);
 
     if (module.modulator !== message.modulator) {
         module.modulator = message.modulator;
@@ -301,7 +318,7 @@ var parseModuleMessage = function (message) {
 
 export default {
     enableMuteButton: enableMuteButton,
-    createModule: createModule,
+    getOrCreateModule: getOrCreateModule,
     createMasterModule: createMasterModule,
     connect: connect,
     disconnect: disconnect,

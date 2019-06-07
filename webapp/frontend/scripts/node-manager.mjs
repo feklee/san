@@ -239,9 +239,9 @@ var addNode = function (id, tiltAngle) {
     }
 
     if (nodeIsRootNode(id)) {
-        audio.createMasterModule(node);
+        node.audioModule = audio.createMasterModule(id);
     } else {
-        audio.createModule(node);
+        node.audioModule = audio.getOrCreateModule(id);
     }
 
     sortNodes();

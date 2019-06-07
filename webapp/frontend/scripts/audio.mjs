@@ -231,14 +231,6 @@ var getOrCreateModule = function (nodeId) {
     return module;
 };
 
-var destroyModule = function (node) { // TODO: remove?
-    var module = node.audioModule;
-    disconnectInternalAudioNodes(module);
-    module.oscillator.stop();
-    module.oscillatorOffset.disconnect();
-    module.oscillatorOffset.stop();
-};
-
 var detuneOscillator = function (nodeId) {
     var node = nodes[nodeId];
     if (node === undefined) {
@@ -322,7 +314,6 @@ export default {
     createMasterModule: createMasterModule,
     connect: connect,
     disconnect: disconnect,
-    destroyModule: destroyModule,
     refresh: refresh,
     parseModuleMessage: parseModuleMessage
 };

@@ -99,7 +99,6 @@ var removeNodesNotConnectedToRoot = function () {
         var isConnectedToRoot = nodesConnectedToRoot.has(node);
         if (!isConnectedToRoot) {
             visualization.destroyNodeObject3D(node);
-            audio.destroyModule(node);
             delete nodes[node.id];
         }
     });

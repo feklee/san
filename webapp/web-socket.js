@@ -26,9 +26,7 @@ var interpretMessage = function (message) {
 };
 
 var sendAudioModules = function (connection) {
-    console.log("sending modules");
     audioModules.forEach(function (audioModule) {
-        console.log(audioModule);
         connection.sendUTF(JSON.stringify(audioModule));
     });
 };

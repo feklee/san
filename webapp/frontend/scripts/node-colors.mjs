@@ -1,12 +1,13 @@
 /*jslint browser: true, maxlen: 80 */
 
 import settings from "./settings.mjs";
+import util from "./util.mjs";
 import {
     nodeColorsList
 } from "./shared-settings.mjs";
 
 var nodeColorsListIndexFromId = function (id) {
-    var nodeIsRootNode = id === "^";
+    var nodeIsRootNode = util.nodeIsRootNode(id);
     return nodeIsRootNode
         ? 0
         : id.charCodeAt(0) - 0x40;

@@ -50,18 +50,8 @@ h1 {
 
 .not-connected.node-icon {
     background:
-         linear-gradient(45deg,
-                         transparent 0%,
-                         transparent 43%,
-                         white 45%,
-                         white 55%,
-                         transparent 57%,
-                         transparent 100%),
-        linear-gradient(135deg,
-                        transparent 0%,
-                        transparent 43%,
-                        white 45%,
-                        white 55%,
-                        transparent 57%,
-                        transparent 100%);
+        linear-gradient(to bottom right, 
+                        transparent 47%, #fff 47%, #fff 53%, transparent 53%),
+        linear-gradient(to bottom left ,
+                        transparent 47%, #fff 47%, #fff 53%, transparent 53%);
 }

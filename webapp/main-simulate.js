@@ -58,8 +58,7 @@ function assignEncodedAngleToPairs(nodeId, encodedAngle) {
     set.forEach(function (data) {
         if (data.charAt(2) === nodeId) {
             pairsToDelete.push(data);
-            pairsToAdd.push(data.substr(0, 4) +
-                            encodedAngle.toString(16));
+            pairsToAdd.push(data.substr(0, 4) + encodedAngle.toString(16));
         }
     });
     pairsToDelete.forEach((pair) => set.delete(pair));

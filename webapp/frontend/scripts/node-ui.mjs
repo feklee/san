@@ -6,8 +6,7 @@ var audioCtx = new window.AudioContext();
 import util from "./util.mjs";
 import nodeColors from "./node-colors.mjs";
 import {
-    graphUpdateInterval, // ms
-    connectionExpiryDuration // ms
+    graphUpdateInterval // ms
 } from "./shared-settings.mjs";
 
 var setUpHidpiCanvas = function (canvasEl) {
@@ -45,6 +44,7 @@ var outputGainEl = document.querySelector("#output-gain");
 var outputDelayEl = document.querySelector("#output-delay");
 var outputCompressorEl = document.querySelector("#output-compressor");
 
+var nodeIconIds = {};
 var nodeIconExpiryTimes = {};
 
 var selectedOscillatorFrequencyExp = function () {
@@ -265,17 +265,22 @@ var nodeIconEl = function (className) {
     return document.querySelector("." + className + ".node-icon");
 };
 
+var resetNodeIconExpiryTime = function (className) {
+    nodeIconExpiryTimes[className] = util.connectionExpiryTime();
+};
+
 var setNodeIcon = function (className, nodeId) {
     var colors = nodeColors(nodeId);
     var el = nodeIconEl(className);
-    el.classList.remove("not-connected");
+    el.classList.remove("not-set");
     el.style.background =
             "linear-gradient(to bottom right, " +
             colors[0] + " 0%, " +
             colors[0] + " 50%, " +
             colors[1] + " 50%, " +
             colors[1] + " 100%)";
-    nodeIconExpiryTimes[className] = util.connectionExpiryTime();
+    resetNodeIconExpiryTime(className);
+    nodeIconIds[className] = nodeId;
 };
 
 var nodeIconIsExpired = function (className) {
@@ -289,67 +294,60 @@ var unsetNodeIconIfExpired = function (className) {
     if (nodeIconIsExpired(className)) {
         var el = nodeIconEl(className);
         if (el) {
-            el.classList.add("not-connected");
+            el.classList.add("not-set");
             el.style.removeProperty("background");
         }
+        delete nodeIconIds[className];
     }
 };
 
 var unsetExpiredNodeIcons = function () {
-    ["parent", "child-1", "child-2", "child-3", "this"].forEach(
+    var classNamesOfConnectedNodes =
+            ["parent", "child-1", "child-2", "child-3"];
+    classNamesOfConnectedNodes.forEach(
         unsetNodeIconIfExpired
     );
 };
 
-var parseData = function (data) {
-    var a = data.split("");
-    var parentId = a[0];
-    var parentPortNumber = a[1];
-    var childId = a[2];
-    var childPortNumber = a[3];
-    if (childId === idOfThisNode) {
-        setNodeIcon("parent", parentId);
-    }
+var classNameOfChildNodeIcon = function (childNodeId) {
+    var childNodeIconClassNames = ["child-1", "child-2", "child-3"];
+    return childNodeIconClassNames.find(function (className) {
+        return nodeIconIds[className] === childNodeId;
+    });
+};
 
-    return;
+var classNameOf1stUnsetChildNodeIcon = function () {
+    var childNodeIconClassNames = ["child-1", "child-2", "child-3"];
+    return childNodeIconClassNames.find(function (className) {
+        return !nodeIconIds[className];
+    });
+};
 
-    var a = data.split("");
-    var encodedTiltAngle = data.substr(4);
-    var tiltAngle = decodeAngle(encodedTiltAngle); // rad
-
-    log.append("data", data.substr(0, 4), tiltAngle);
-
-    var parentNodeId = a[0];
-    var parentPortNumber = parseInt(a[1]);
-    var parentNode = nodes[parentNodeId];
-    if (parentNode === undefined) {
+var setIconForChildNode = function (childNodeId) {
+    var className = classNameOfChildNodeIcon(childNodeId);
+    if (className) {
+        resetNodeIconExpiryTime(className, childNodeId);
         return;
     }
 
-    var childNodeId = a[2];
-    var childPortNumber = parseInt(a[3]);
-    var childNode = nodes[childNodeId];
-    if (childNode === undefined) {
-        childNode = nodeManager.addNode(childNodeId, tiltAngle);
-    } else {
-        childNode.tiltAngle = tiltAngle;
+    className = classNameOf1stUnsetChildNodeIcon();
+    var allChildNodeIconsAreOccupied = !className;
+    if (allChildNodeIconsAreOccupied) {
+        return; // may possibly happen after quickly changing around nodes
     }
+    setNodeIcon(className, childNodeId);
+};
 
-    var pair = {
-        parentPort: {
-            node: parentNode,
-            portNumber: parentPortNumber
-        },
-        childPort: {
-            node: childNode,
-            portNumber: childPortNumber
-        }
-    };
-
-    if (nodeManager.connectionExists(pair)) {
-        nodeManager.refreshConnection(pair);
-    } else {
-        nodeManager.connect(pair);
+var parseData = function (data) {
+    var a = data.split("");
+    var parentNodeId = a[0];
+    var childNodeId = a[2];
+    if (childNodeId === idOfThisNode) {
+        setNodeIcon("parent", parentNodeId);
+        return;
+    }
+    if (parentNodeId === idOfThisNode) {
+        setIconForChildNode(childNodeId);
     }
 };
 

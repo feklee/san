@@ -48,7 +48,7 @@ h1 {
     border-radius: 50%;
 }
 
-.not-connected.node-icon {
+.not-set.node-icon {
     background:
         linear-gradient(to bottom right, 
                         transparent 47%, #fff 47%, #fff 53%, transparent 53%),

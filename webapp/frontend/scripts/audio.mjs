@@ -238,8 +238,8 @@ var detuneOscillator = function (nodeId) {
     }
     var module = node.audioModule;
     var o = module.oscillator;
-    o.detune.setValueAtTime(
-        module.oscillatorDetuningFactor * node.animatedLocation.z,
+    o.detune.setValueAtTime( // TODO: why set value at time?
+        module.oscillatorDetuningFactor * node.animatedLocation.z, // cents
         context.currentTime
     );
 };

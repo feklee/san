@@ -35,7 +35,8 @@ oscillator.connect(oscillatorGain);
 
 var oscillatorFrequencyExpEl =
         document.getElementById("oscillator-frequency-exp");
-var oscillatorFrequencyEl = document.getElementById("oscillator-frequency");
+var oscillatorFrequencyEl =
+        document.querySelector(".oscillator .frequency .number");
 var oscillatorGainEl = document.querySelector("#oscillator-gain");
 var oscillatorDetuningFactorEl =
         document.querySelector("#oscillator-detuning-factor");

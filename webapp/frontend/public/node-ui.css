@@ -4,12 +4,13 @@ html, body {
 }
 
 body {
-    width: 320px;
-    margin: 20px;
+    width: 400px;
+    margin: 15px;
 }
 
 body {
     font: normal normal normal 14px "Source Code Pro";
+    line-height: 20px;
 }
 
 h1 {
@@ -56,3 +57,78 @@ h1 {
         linear-gradient(to bottom left ,
                         transparent 47%, #fff 47%, #fff 53%, transparent 53%);
 }
+
+body>ul>* {
+    margin-top: 20px;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 4px;
+}
+
+body>ul>li>span {
+    display: inline-block;
+    margin: 0 4px;
+}
+
+body>ul>li>span.number {
+    width: 60px;
+    text-align: right;
+}
+
+body>ul>li>span.unit {
+    width: 30px;
+}
+
+body>ul>li>input {
+    display: inline-block;
+    width: 180px;
+    height: 14px;
+    margin: 0;
+    padding: 3px 0;
+    vertical-align: top;
+}
+
+input[type=range] {
+    background: transparent;
+}
+
+input[type=range],
+input[type=range]::-webkit-slider-runnable-track,
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+}
+
+input[type=range]::-moz-range-track {
+    background-color: white;
+    height: 2px;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    background-color: white;
+    height: 2px;
+}
+
+input[type="range"]::-moz-range-thumb {
+  position: relative;
+  height: 14px;
+  width: 14px;
+  margin-top: -6px;
+  background: black;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  position: relative;
+  height: 14px;
+  width: 14px;
+  margin-top: -6px;
+  background: black;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+input:focus {
+    outline: none;
+}
+

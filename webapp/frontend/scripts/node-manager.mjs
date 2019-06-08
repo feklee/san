@@ -14,16 +14,12 @@ import nodeColors from "./node-colors.mjs";
 import {Vector3} from
         "../../node_modules/three/build/three.module.js";
 import {
-    graphUpdateInterval, // ms
-    connectionExpiryDuration // ms
+    graphUpdateInterval // ms
 } from "./shared-settings.mjs";
+import util from "./util.mjs";
 import audio from "./audio.mjs";
 
 var rootNode;
-
-var expiryTime = function () { // ms
-    return Date.now() + connectionExpiryDuration;
-};
 
 var locationAtRandomOrientation = function (origin) {
     return origin.clone().add(vector.randomUnitVector());
@@ -135,7 +131,7 @@ var setNeighbor = function (port, neighborPort) {
     var newConnection = {
         fromPort: port,
         toPort: neighborPort,
-        expiryTime: expiryTime(),
+        expiryTime: util.connectionExpiryTime(),
         isVisible: port.node.isVisible && neighborPort.node.isVisible,
         vector: arbitraryDefaultVector
     };
@@ -200,10 +196,6 @@ var nodeExists = function (id) {
     return nodes[id] !== undefined;
 };
 
-var nodeIsRootNode = function (id) {
-    return id === "^";
-};
-
 var addNode = function (id, tiltAngle) {
     if (nodeExists(id)) {
         return;
@@ -211,7 +203,7 @@ var addNode = function (id, tiltAngle) {
     var colors = nodeColors(id);
     var node = {
         id: id,
-        isVisible: !nodeIsRootNode(id),
+        isVisible: !util.nodeIsRootNode(id),
         connections: {},
         sortedConnections: [],
         visibleConnections: [],
@@ -228,7 +220,7 @@ var addNode = function (id, tiltAngle) {
         visualization.createNodeObject3D(node);
     }
 
-    if (nodeIsRootNode(id)) {
+    if (util.nodeIsRootNode(id)) {
         node.audioModule = audio.createMasterModule(id);
     } else {
         node.audioModule = audio.getOrCreateModule(id);

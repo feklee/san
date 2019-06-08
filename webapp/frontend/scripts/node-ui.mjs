@@ -1,9 +1,14 @@
 /*jslint browser: true, maxlen: 80 */
 
 import client from "./web-socket-client.mjs";
-var nodeId = window.location.pathname.substr(1, 1);
+var idOfThisNode = window.location.pathname.substr(1, 1);
 var audioCtx = new window.AudioContext();
+import util from "./util.mjs";
 import nodeColors from "./node-colors.mjs";
+import {
+    graphUpdateInterval, // ms
+    connectionExpiryDuration // ms
+} from "./shared-settings.mjs";
 
 var setUpHidpiCanvas = function (canvasEl) {
     var rect = canvasEl.getBoundingClientRect();
@@ -39,6 +44,8 @@ var oscillatorOffsetEl = document.querySelector("#oscillator-offset");
 var outputGainEl = document.querySelector("#output-gain");
 var outputDelayEl = document.querySelector("#output-delay");
 var outputCompressorEl = document.querySelector("#output-compressor");
+
+var nodeIconExpiryTimes = {};
 
 var selectedOscillatorFrequencyExp = function () {
     return parseFloat(oscillatorFrequencyExpEl.value);
@@ -227,7 +234,7 @@ var sendSelection = function () {
         oscillatorFrequency: selectedOscillatorFrequency(),
         oscillatorFrequencyExp: selectedOscillatorFrequencyExp(),
         oscillatorDetuningFactor: selectedOscillatorDetuningFactor(),
-        nodeId: nodeId
+        nodeId: idOfThisNode
     };
 
     try {
@@ -237,7 +244,7 @@ var sendSelection = function () {
 };
 
 var parseModuleMessage = function (message) {
-    if (nodeId !== message.nodeId) {
+    if (idOfThisNode !== message.nodeId) {
         return;
     }
 
@@ -254,14 +261,96 @@ var parseModuleMessage = function (message) {
     setOutputGain(message.outputGain);
 };
 
-var setNodeIcon = function () {
+var nodeIconEl = function (className) {
+    return document.querySelector("." + className + ".node-icon");
+};
+
+var setNodeIcon = function (className, nodeId) {
     var colors = nodeColors(nodeId);
-    document.querySelector(".this.node-icon").style.background =
+    var el = nodeIconEl(className);
+    el.classList.remove("not-connected");
+    el.style.background =
             "linear-gradient(to bottom right, " +
             colors[0] + " 0%, " +
             colors[0] + " 50%, " +
             colors[1] + " 50%, " +
             colors[1] + " 100%)";
+    nodeIconExpiryTimes[className] = util.connectionExpiryTime();
+};
+
+var nodeIconIsExpired = function (className) {
+    var expiryTime = nodeIconExpiryTimes[className];
+    return expiryTime === undefined
+        ? true
+        : Date.now() > expiryTime;
+};
+
+var unsetNodeIconIfExpired = function (className) {
+    if (nodeIconIsExpired(className)) {
+        var el = nodeIconEl(className);
+        if (el) {
+            el.classList.add("not-connected");
+            el.style.removeProperty("background");
+        }
+    }
+};
+
+var unsetExpiredNodeIcons = function () {
+    ["parent", "child-1", "child-2", "child-3", "this"].forEach(
+        unsetNodeIconIfExpired
+    );
+};
+
+var parseData = function (data) {
+    var a = data.split("");
+    var parentId = a[0];
+    var parentPortNumber = a[1];
+    var childId = a[2];
+    var childPortNumber = a[3];
+    if (childId === idOfThisNode) {
+        setNodeIcon("parent", parentId);
+    }
+
+    return;
+
+    var a = data.split("");
+    var encodedTiltAngle = data.substr(4);
+    var tiltAngle = decodeAngle(encodedTiltAngle); // rad
+
+    log.append("data", data.substr(0, 4), tiltAngle);
+
+    var parentNodeId = a[0];
+    var parentPortNumber = parseInt(a[1]);
+    var parentNode = nodes[parentNodeId];
+    if (parentNode === undefined) {
+        return;
+    }
+
+    var childNodeId = a[2];
+    var childPortNumber = parseInt(a[3]);
+    var childNode = nodes[childNodeId];
+    if (childNode === undefined) {
+        childNode = nodeManager.addNode(childNodeId, tiltAngle);
+    } else {
+        childNode.tiltAngle = tiltAngle;
+    }
+
+    var pair = {
+        parentPort: {
+            node: parentNode,
+            portNumber: parentPortNumber
+        },
+        childPort: {
+            node: childNode,
+            portNumber: childPortNumber
+        }
+    };
+
+    if (nodeManager.connectionExists(pair)) {
+        nodeManager.refreshConnection(pair);
+    } else {
+        nodeManager.connect(pair);
+    }
 };
 
 client.onmessage = function (e) {
@@ -274,8 +363,13 @@ client.onmessage = function (e) {
         return;
     }
 
-    if (message.type === "audio module") {
+    switch (message.type) {
+    case "data":
+        parseData(message.text);
+        break;
+    case "audio module":
         parseModuleMessage(message);
+        break;
     }
 };
 
@@ -292,4 +386,6 @@ oscillatorFrequencyExpEl.addEventListener("input", updateOscillatorFrequency);
 updateOscillatorFrequency();
 updateOscillator();
 
-setNodeIcon();
+setNodeIcon("this", idOfThisNode);
+
+setInterval(unsetExpiredNodeIcons, graphUpdateInterval);

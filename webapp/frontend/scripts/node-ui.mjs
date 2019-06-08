@@ -44,6 +44,8 @@ var outputGainEl = document.querySelector("#output-gain");
 var outputDelayEl = document.querySelector("#output-delay");
 var outputCompressorEl = document.querySelector("#output-compressor");
 
+var allIconClassNames = ["this", "parent", "child-1", "child-2", "child-3"];
+var childNodeIconClassNames = ["child-1", "child-2", "child-3"];
 var nodeIconIds = {};
 var nodeIconExpiryTimes = {};
 
@@ -302,22 +304,19 @@ var unsetNodeIconIfExpired = function (className) {
 };
 
 var unsetExpiredNodeIcons = function () {
-    var classNamesOfConnectedNodes =
-            ["parent", "child-1", "child-2", "child-3"];
-    classNamesOfConnectedNodes.forEach(
+    resetNodeIconExpiryTime("this"); // never expire icon of current node
+    allIconClassNames.forEach(
         unsetNodeIconIfExpired
     );
 };
 
 var classNameOfChildNodeIcon = function (childNodeId) {
-    var childNodeIconClassNames = ["child-1", "child-2", "child-3"];
     return childNodeIconClassNames.find(function (className) {
         return nodeIconIds[className] === childNodeId;
     });
 };
 
 var classNameOf1stUnsetChildNodeIcon = function () {
-    var childNodeIconClassNames = ["child-1", "child-2", "child-3"];
     return childNodeIconClassNames.find(function (className) {
         return !nodeIconIds[className];
     });

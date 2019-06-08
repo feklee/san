@@ -171,7 +171,7 @@ var removeExpiredConnections = function () {
 };
 
 var resetExpiryTime = function (connection) {
-    connection.expiryTime = expiryTime();
+    connection.expiryTime = util.connectionExpiryTime();
 };
 
 var refreshConnection = function (pair) {

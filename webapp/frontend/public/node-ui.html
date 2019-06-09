@@ -41,7 +41,7 @@
       <li class="frequency">
         <input type="range" name="oscillator-frequency-exp" min="-4"
                max="12" step="0.1"
-               value="8.8"><span class="number"></span><span class="unit">Hz</span><span class="label">Frequency</span>
+               value="8.8"><span class="number">0.00</span><span class="unit">Hz</span><span class="label">Frequency</span>
       </li>
       <li class="detuning">
         <input type="range" name="oscillator-detuning" min="0" max="1000"
@@ -50,7 +50,7 @@
       </li>
       <li class="offset">
         <input type="range" name="oscillator-offset" min="-1" max="1" step="any"
-               value="0"><span class="number">0</span><span class="unit"></span><span class="label">Offset</span>
+               value="0"><span class="number">0.00</span><span class="unit"></span><span class="label">Offset</span>
       </li>
       <li class="gain">
         <input type="range" name="oscillator-gain" min="0" max="2" step="any"
@@ -76,13 +76,15 @@
       </li>
       <li class="delay"><input type="range" name="output-delay" min="0" max="1"
                                step="any"
-                               value="0"><label for="output-delay">Delay</label></li>
+                               value="0"><span class="number">0.00</span><span class="unit">s</span><span class="label">Delay</span>
+      </li>
       <li class="compressor"><input type="checkbox" name="output-compressor"
-                                    checked>
-        <label for="output-compresor">Compressor</label></li>
-      <li class="gain"><input type="range" name="output-gain" min="0" max="1"
-                              step="any"
-                              value="1"><label for="output-gain">Gain</label></li>
+                                    checked><span class="number"></span><span class="unit"></span><span class="label">Compressor</span>
+      </li>
+      <li class="gain">
+        <input type="range" name="output-gain" min="0" max="2" step="any"
+               value="1"><span class="number">100</span><span class="unit">%</span><span class="label">Gain</span>
+      </li>
     </ul>
 
     <ul class="output nodes">

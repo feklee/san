@@ -33,33 +33,10 @@ var oscillator = audioCtx.createOscillator();
 oscillator.start();
 oscillator.connect(oscillatorGain);
 
-var oscillatorControlEls = {
-    frequency: {
-        input: document.querySelector(".oscillator.controls .frequency input"),
-        number:
-        document.querySelector(".oscillator.controls .frequency .number")
-    },
-    gain: {
-        input: document.querySelector(".oscillator.controls .gain input")
-    },
-    detuning: {
-        input: document.querySelector(".oscillator.controls .detuning input")
-    },
-    offset: {
-        input: document.querySelector(".oscillator.controls .offset input")
-    }
-};
-
-var outputControlEls = {
-    gain: {
-        input: document.querySelector(".output.controls .gain input")
-    },
-    delay: {
-        input: document.querySelector(".output.controls .delay input")
-    },
-    compressor: {
-        input: document.querySelector(".output.controls .compressor input")
-    }
+var controlEl = function (groupClass, nameClass, type) {
+    var typeSelector = type !== "input" ? "." + type : type;
+    return document.querySelector("." + groupClass + ".controls ." + nameClass +
+                                  " " + typeSelector);
 };
 
 var allIconClassNames = ["this", "parent", "child-1", "child-2", "child-3"];
@@ -68,23 +45,25 @@ var nodeIconIds = {};
 var nodeIconExpiryTimes = {};
 
 var selectedOscillatorFrequencyExp = function () {
-    return parseFloat(oscillatorControlEls.frequency.input.value);
+    return parseFloat(controlEl("oscillator", "frequency", "input").value);
 };
 
-var updateOscillatorFrequency = function () {
+var updateOscillatorFrequencyNumber = function () {
     var oscillatorFrequencyExp = selectedOscillatorFrequencyExp();
     var oscillatorFrequency = Math.pow(2, oscillatorFrequencyExp); // Hz
-    oscillatorControlEls.frequency.number.textContent = oscillatorFrequency.toFixed(2);
+    controlEl("oscillator", "frequency", "number").textContent =
+        oscillatorFrequency.toFixed(2);
 };
 
 var selectedOscillatorFrequency = function () { // Hz
-    updateOscillatorFrequency();
-    return parseFloat(oscillatorControlEls.frequency.number.textContent);
+    updateOscillatorFrequencyNumber();
+    return parseFloat(
+        controlEl("oscillator", "frequency", "number").textContent
+    );
 };
 
 var setOscillatorFrequencyExp = function (value) {
-    oscillatorControlEls.frequency.input.value = value;
-    updateOscillatorFrequency();
+    controlEl("oscillator", "frequency", "input").value = value;
 };
 
 var selectedOscillatorType = function () {
@@ -106,27 +85,27 @@ var setOscillatorType = function (value) {
 };
 
 var selectedOscillatorGain = function () {
-    return parseFloat(oscillatorControlEls.gain.input.value);
+    return parseFloat(controlEl("oscillator", "gain", "input").value);
 };
 
 var setOscillatorGain = function (value) {
-    oscillatorControlEls.gain.input.value = value;
+    controlEl("oscillator", "gain", "input").value = value;
 };
 
 var selectedOscillatorDetuning = function () {
-    return parseFloat(oscillatorControlEls.detuning.input.value);
+    return parseFloat(controlEl("oscillator", "detuning", "input").value);
 };
 
 var setOscillatorDetuning = function (value) {
-    oscillatorControlEls.detuning.input.value = value;
+    controlEl("oscillator", "detuning", "input").value = value;
 };
 
 var selectedOscillatorOffset = function () {
-    return parseFloat(oscillatorControlEls.offset.input.value);
+    return parseFloat(controlEl("oscillator", "offset", "input").value);
 };
 
 var setOscillatorOffset = function (value) {
-    oscillatorControlEls.offset.input.value = value;
+    controlEl("oscillator", "offset", "input").value = value;
 };
 
 var updateOscillator = function () {
@@ -134,6 +113,23 @@ var updateOscillator = function () {
     oscillatorGain.gain.value = selectedOscillatorGain();
     oscillator.type = selectedOscillatorType();
     oscillator.frequency.value = selectedOscillatorFrequency();
+};
+
+var updateOscillatorNumbers = function () {
+    updateOscillatorFrequencyNumber();
+    controlEl("oscillator", "detuning", "number").textContent =
+        Math.round(controlEl("oscillator", "detuning", "input").value);
+    controlEl("oscillator", "offset", "number").textContent =
+        parseFloat(controlEl("oscillator", "offset", "input").value).toFixed(2);
+    controlEl("oscillator", "gain", "number").textContent =
+        Math.round(100 * controlEl("oscillator", "gain", "input").value);
+};
+
+var updateOutputNumbers = function () {
+    controlEl("output", "delay", "number").textContent =
+        parseFloat(controlEl("output", "delay", "input").value).toFixed(2);
+    controlEl("output", "gain", "number").textContent =
+        Math.round(100 * controlEl("output", "gain", "input").value);
 };
 
 var showGraph = function () {
@@ -218,27 +214,27 @@ var setModulator = function (value) {
 };
 
 var selectedOutputGain = function () {
-    return parseFloat(outputControlEls.gain.input.value);
+    return parseFloat(controlEl("output", "gain", "input").value);
 };
 
 var setOutputGain = function (value) {
-    outputControlEls.gain.input.value = value;
+    controlEl("output", "gain", "input").value = value;
 };
 
 var selectedOutputDelay = function () {
-    return parseFloat(outputControlEls.delay.input.value);
+    return parseFloat(controlEl("output", "delay", "input").value);
 };
 
 var setOutputDelay = function (value) {
-    outputControlEls.delay.input.value = value;
+    controlEl("output", "delay", "input").value = value;
 };
 
 var selectedOutputCompressor = function () {
-    return outputControlEls.compressor.input.checked;
+    return controlEl("output", "compressor", "input").checked;
 };
 
 var setOutputCompressor = function (value) {
-    outputControlEls.compressor.input.checked = value;
+    controlEl("output", "compressor", "input").checked = value;
 };
 
 var sendSelection = function () {
@@ -278,6 +274,7 @@ var parseModuleMessage = function (message) {
     setOscillatorDetuning(message.oscillator.detuning);
     setOscillatorOffset(message.oscillator.offset);
     setOscillatorGain(message.oscillator.gain);
+    updateOscillatorNumbers();
     updateOscillator();
 
     setModulator(message.modulator);
@@ -402,10 +399,16 @@ document.querySelectorAll("input").forEach(
     })
 );
 
-oscillatorControlEls.frequency.input.
-    addEventListener("input", updateOscillatorFrequency);
+document.querySelectorAll(".oscillator.controls input").forEach(
+    (el) => el.addEventListener("input", function () {
+        updateOscillatorNumbers();
+        updateOscillator();
+    }));
 
-updateOscillatorFrequency();
+document.querySelectorAll(".output.controls input").forEach(
+    (el) => el.addEventListener("input", updateOutputNumbers));
+
+updateOscillatorNumbers();
 updateOscillator();
 
 setNodeIcon("this", idOfThisNode);

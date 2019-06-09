@@ -42,11 +42,6 @@ var controlEl = function (groupClass, nameClass, type) {
 
 var nodes = [];
 
-var allIconClassNames = ["this", "parent", "child-1", "child-2", "child-3"];
-var childNodeIconClassNames = ["child-1", "child-2", "child-3"];
-var nodeIconIds = {};
-var nodeIconExpiryTimes = {};
-
 var selectedOscillatorFrequencyExp = function () {
     return parseFloat(controlEl("oscillator", "frequency", "input").value);
 };
@@ -370,33 +365,6 @@ var removeExpiredNodes = function () {
     });
 };
 
-var classNameOfChildNodeIcon = function (childNodeId) {
-    return childNodeIconClassNames.find(function (className) {
-        return nodeIconIds[className] === childNodeId;
-    });
-};
-
-var classNameOf1stUnsetChildNodeIcon = function () {
-    return childNodeIconClassNames.find(function (className) {
-        return !nodeIconIds[className];
-    });
-};
-
-var setIconForChildNode = function (childNodeId) {
-    var className = classNameOfChildNodeIcon(childNodeId);
-    if (className) {
-        resetNodeIconExpiryTime(className, childNodeId);
-        return;
-    }
-
-    className = classNameOf1stUnsetChildNodeIcon();
-    var allChildNodeIconsAreOccupied = !className;
-    if (allChildNodeIconsAreOccupied) {
-        return; // may possibly happen after quickly changing around nodes
-    }
-    setNodeIconColors(className, childNodeId);
-};
-
 var parseData = function (data) {
     var a = data.split("");
     var parentNodeId = a[0];
@@ -453,8 +421,3 @@ updateOscillator();
 setNodeIconColors(document.querySelector(".this.node-icon"), idOfThisNode);
 
 setInterval(removeExpiredNodes, graphUpdateInterval);
-setInterval(function () {
-    nodes.forEach(function (node) {
-        console.log("node:", node.id, node.type);
-    });
-}, 500);

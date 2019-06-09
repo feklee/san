@@ -48,10 +48,34 @@ h1 {
     color: white;
 }
 
+:root {
+    --node-icon-size: 17px;
+}
+
 .node-icon {
-    width: 16px;
-    height: 16px;
+    width: var(--node-icon-size);
+    height: var(--node-icon-size);
     border-radius: 50%;
+}
+
+ul.nodes {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+ul.nodes>li::after {
+    content: " ";
+    display: block;
+    width: calc(var(--node-icon-size) / 2 - 0.5px);
+    height: 30px;
+    margin-top: var(--node-icon-size);
+    border-right: 1px solid white;
+}
+
+ul.nodes>li.oscillator::after {
+    margin-top: 0;
+    height: calc(30px + var(--node-icon-size));
 }
 
 ul.controls>li {
@@ -59,6 +83,10 @@ ul.controls>li {
     border: 1px solid white;
     border-radius: 5px;
     padding: 4px;
+}
+
+ul.controls>li:first-child {
+    margin-top: 0;
 }
 
 ul.controls>li>span {
@@ -127,4 +155,3 @@ input[type="range"]::-webkit-slider-thumb {
 input:focus {
     outline: none;
 }
-

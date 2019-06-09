@@ -37,6 +37,10 @@ ul.all.nodes>li.this.node-icon {
     border-color: white;
 }
 
+ul.all.nodes>li.root.node-icon {
+    display: none;
+}
+
 .graph {
     position: relative;
 }

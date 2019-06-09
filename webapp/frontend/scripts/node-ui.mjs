@@ -312,6 +312,9 @@ var findNode = function (nodeId, type) {
 var createNodeIconEl = function (nodeId) {
     var el = document.createElement("li");
     el.classList.add("node-icon");
+    if (util.nodeIsRootNode(nodeId)) {
+        el.classList.add("root");
+    }
     setNodeIconColors(el, nodeId);
     return el;
 };
@@ -371,10 +374,12 @@ var parseData = function (data) {
     var childNodeId = a[2];
     if (childNodeId === idOfThisNode) {
         addOrResetNode(parentNodeId, "output");
+        addOrResetNode(parentNodeId, "all");
         return;
     }
     if (parentNodeId === idOfThisNode) {
         addOrResetNode(childNodeId, "input");
+        addOrResetNode(childNodeId, "all");
     }
 };
 

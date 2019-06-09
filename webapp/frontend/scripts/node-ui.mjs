@@ -228,20 +228,25 @@ var sendSelection = function () {
     var data = {
         type: "audio module",
         modulator: selectedModulator(),
-        outputGain: selectedOutputGain(),
-        outputDelay: selectedOutputDelay(),
-        outputCompressorShouldBeEnabled: selectedOutputCompressor(),
-        oscillatorType: selectedOscillatorType(),
-        oscillatorOffset: selectedOscillatorOffset(),
-        oscillatorGain: selectedOscillatorGain(),
-        oscillatorFrequency: selectedOscillatorFrequency(),
-        oscillatorFrequencyExp: selectedOscillatorFrequencyExp(),
-        oscillatorDetuning: selectedOscillatorDetuning(),
+        oscillator: {
+            type: selectedOscillatorType(),
+            offset: selectedOscillatorOffset(),
+            gain: selectedOscillatorGain(),
+            frequency: selectedOscillatorFrequency(),
+            frequencyExp: selectedOscillatorFrequencyExp(),
+            detuning: selectedOscillatorDetuning()
+        },
+        output: {
+            gain: selectedOutputGain(),
+            delay: selectedOutputDelay(),
+            compressorShouldBeEnabled: selectedOutputCompressor()
+        },
         nodeId: idOfThisNode
     };
 
     try {
         client.send(JSON.stringify(data));
+        console.log(data); // TODO
     } catch (ignore) {
     }
 };
@@ -251,17 +256,17 @@ var parseModuleMessage = function (message) {
         return;
     }
 
-    setOscillatorType(message.oscillatorType);
-    setOscillatorFrequencyExp(message.oscillatorFrequencyExp);
-    setOscillatorDetuning(message.oscillatorDetuning);
-    setOscillatorOffset(message.oscillatorOffset);
-    setOscillatorGain(message.oscillatorGain);
+    setOscillatorType(message.oscillator.type);
+    setOscillatorFrequencyExp(message.oscillator.frequencyExp);
+    setOscillatorDetuning(message.oscillator.detuning);
+    setOscillatorOffset(message.oscillator.offset);
+    setOscillatorGain(message.oscillator.gain);
     updateOscillator();
 
     setModulator(message.modulator);
-    setOutputDelay(message.outputDelay);
-    setOutputCompressor(message.outputCompressorShouldBeEnabled);
-    setOutputGain(message.outputGain);
+    setOutputDelay(message.output.delay);
+    setOutputCompressor(message.output.compressorShouldBeEnabled);
+    setOutputGain(message.output.gain);
 };
 
 var nodeIconEl = function (className) {
@@ -275,6 +280,7 @@ var resetNodeIconExpiryTime = function (className) {
 var setNodeIcon = function (className, nodeId) {
     var colors = nodeColors(nodeId);
     var el = nodeIconEl(className);
+    return; // TODO
     el.classList.remove("not-set");
     el.style.background =
             "linear-gradient(to bottom right, " +

@@ -288,16 +288,16 @@ var parseModuleMessage = function (message) {
     var nodeId = message.nodeId;
     var module = getOrCreateModule(nodeId);
 
-    module.oscillatorFrequency = message.oscillatorFrequency;
-    module.oscillatorType = message.oscillatorType;
+    module.oscillatorFrequency = message.oscillator.frequency;
+    module.oscillatorType = message.oscillator.type;
 
-    setOscillatorOffset(module, message.oscillatorOffset);
-    setOscillatorGain(module, message.oscillatorGain);
-    setOutputGain(module, message.outputGain);
-    setOutputDelay(module, message.outputDelay);
-    setOutputCompressor(module, message.outputCompressorShouldBeEnabled);
+    setOscillatorOffset(module, message.oscillator.offset);
+    setOscillatorGain(module, message.oscillator.gain);
+    setOutputGain(module, message.output.gain);
+    setOutputDelay(module, message.output.delay);
+    setOutputCompressor(module, message.output.compressorShouldBeEnabled);
 
-    module.oscillatorDetuning = message.oscillatorDetuning;
+    module.oscillatorDetuning = message.oscillator.detuning;
 
     refreshOscillator(nodeId);
 

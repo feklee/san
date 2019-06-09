@@ -34,16 +34,21 @@ oscillator.start();
 oscillator.connect(oscillatorGain);
 
 var oscillatorFrequencyExpEl =
-        document.getElementById("oscillator-frequency-exp");
+        document.querySelector(".oscillator.controls .frequency input");
 var oscillatorFrequencyEl =
-        document.querySelector(".oscillator .frequency .number");
-var oscillatorGainEl = document.querySelector("#oscillator-gain");
+        document.querySelector(".oscillator.controls .frequency .number");
+var oscillatorGainEl =
+        document.querySelector(".oscillator.controls .gain input");
 var oscillatorDetuningEl =
-        document.querySelector("#oscillator-detuning-factor");
-var oscillatorOffsetEl = document.querySelector("#oscillator-offset");
-var outputGainEl = document.querySelector("#output-gain");
-var outputDelayEl = document.querySelector("#output-delay");
-var outputCompressorEl = document.querySelector("#output-compressor");
+        document.querySelector(".oscillator.controls .detuning input");
+var oscillatorOffsetEl =
+        document.querySelector(".oscillator.controls .offset input");
+var outputGainEl =
+        document.querySelector(".output.controls .gain input");
+var outputDelayEl =
+        document.querySelector(".output.controls .delay input");
+var outputCompressorEl =
+        document.querySelector(".output.controls .compressor input");
 
 var allIconClassNames = ["this", "parent", "child-1", "child-2", "child-3"];
 var childNodeIconClassNames = ["child-1", "child-2", "child-3"];
@@ -209,7 +214,7 @@ var setOutputGain = function (value) {
 };
 
 var selectedOutputDelay = function () {
-    return parseFloat(document.querySelector("#output-delay").value);
+    return parseFloat(outputDelayEl.value);
 };
 
 var setOutputDelay = function (value) {

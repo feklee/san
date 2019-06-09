@@ -17,44 +17,56 @@
 
     <ul class="oscillator controls">
       <li class="hidden graph">
-        <canvas width="390" height="80"></canvas>
-        <button class="show">👁</button>
+        <div>
+          <canvas width="378" height="80"></canvas>
+          <button class="show">👁</button>
+        </div>
       </li>
       <li class="type">
-        <ul>
-          <li><input type="radio" id="oscillator-type-sine"
-                     name="oscillator-type" value="sine"
-                     checked="checked"><label for="oscillator-type-sine">Sine</label></li>
-          <li><input type="radio" id="oscillator-type-square"
-                     name="oscillator-type"
-                     value="square"><label for="oscillator-type-square">Square</label></li>
-          <li><input type="radio" id="oscillator-type-sawtooth"
-                     name="oscillator-type"
-                     value="sawtooth"><label for="oscillator-type-sawtooth"
-                                             >Sawtooth</label></li>
-          <li><input type="radio" id="oscillator-type-triangle"
-                     name="oscillator-type"
-                     value="triangle"><label for="oscillator-type-triangle"
-                                             >Triangle</label></li>
-        </ul>
+        <div>
+          <ul>
+            <li><input type="radio" id="oscillator-type-sine"
+                       name="oscillator-type" value="sine"
+                       checked="checked"><label for="oscillator-type-sine">Sine</label></li>
+            <li><input type="radio" id="oscillator-type-square"
+                       name="oscillator-type"
+                       value="square"><label for="oscillator-type-square">Square</label></li>
+            <li><input type="radio" id="oscillator-type-sawtooth"
+                       name="oscillator-type"
+                       value="sawtooth"><label for="oscillator-type-sawtooth"
+                                               >Sawtooth</label></li>
+            <li><input type="radio" id="oscillator-type-triangle"
+                       name="oscillator-type"
+                       value="triangle"><label for="oscillator-type-triangle"
+                                               >Triangle</label></li>
+          </ul>
+        </div>
       </li>
       <li class="frequency">
-        <input type="range" name="oscillator-frequency-exp" min="-4"
-               max="12" step="0.1"
-               value="8.8"><span class="number">0.00</span><span class="unit">Hz</span><span class="label">Frequency</span>
+        <div>
+          <input type="range" name="oscillator-frequency-exp" min="-4"
+                 max="12" step="0.1"
+                 value="8.8"><span class="number">0.00</span><span class="unit">Hz</span><span class="label">Frequency</span>
+        </div>
       </li>
       <li class="detuning">
-        <input type="range" name="oscillator-detuning" min="0" max="1000"
-               step="any"
-               value="400"><span class="number">0</span><span class="unit">¢/z</span><span class="label">Detuning</span>
+        <div>
+          <input type="range" name="oscillator-detuning" min="0" max="1000"
+                 step="any"
+                 value="400"><span class="number">0</span><span class="unit">¢/z</span><span class="label">Detuning</span>
+        </div>
       </li>
       <li class="offset">
-        <input type="range" name="oscillator-offset" min="-1" max="1" step="any"
-               value="0"><span class="number">0.00</span><span class="unit"></span><span class="label">Offset</span>
+        <div>
+          <input type="range" name="oscillator-offset" min="-1" max="1" step="any"
+                 value="0"><span class="number">0.00</span><span class="unit"></span><span class="label">Offset</span>
+        </div>
       </li>
       <li class="gain">
-        <input type="range" name="oscillator-gain" min="0" max="2" step="any"
-               value="1"><span class="number">100</span><span class="unit">%</span><span class="gain">Gain</span>
+        <div>
+          <input type="range" name="oscillator-gain" min="0" max="2" step="any"
+                 value="1"><span class="number">100</span><span class="unit">%</span><span class="gain">Gain</span>
+        </div>
       </li>
     </ul>
       
@@ -64,23 +76,33 @@
 
     <ul class="output controls">
       <li>
-        <ul>
-          <li><input type="radio" id="add-modulator" name="modulator" value="add"
-                     checked="checked"><label for="add-modulator">+</label></li>
-          <li><input type="radio" id="multiply-modulator" name="modulator"
-                     value="multiply"><label for="multiply-modulator">×</label></li>
-        </ul>
+        <div>
+          <ul>
+            <li><input type="radio" id="add-modulator" name="modulator" value="add"
+                       checked="checked"><label for="add-modulator">+</label></li>
+            <li><input type="radio" id="multiply-modulator" name="modulator"
+                       value="multiply"><label for="multiply-modulator">×</label></li>
+          </ul>
+        </div>
       </li>
-      <li class="delay"><input type="range" name="output-delay" min="0" max="1"
-                               step="any"
-                               value="0"><span class="number">0.00</span><span class="unit">s</span><span class="label">Delay</span>
+      <li class="delay">
+        <div>
+          <input type="range" name="output-delay" min="0" max="1"
+                 step="any"
+                 value="0"><span class="number">0.00</span><span class="unit">s</span><span class="label">Delay</span>
+        </div>
       </li>
-      <li class="compressor"><input type="checkbox" name="output-compressor"
-                                    checked><span class="number"></span><span class="unit"></span><span class="label">Compressor</span>
+      <li class="compressor">
+        <div>
+          <input type="checkbox" name="output-compressor"
+                 checked><span class="number"></span><span class="unit"></span><span class="label">Compressor</span>
+        </div>
       </li>
       <li class="gain">
-        <input type="range" name="output-gain" min="0" max="2" step="any"
-               value="1"><span class="number">100</span><span class="unit">%</span><span class="label">Gain</span>
+        <div>
+          <input type="range" name="output-gain" min="0" max="2" step="any"
+                 value="1"><span class="number">100</span><span class="unit">%</span><span class="label">Gain</span>
+        </div>
       </li>
     </ul>
 

@@ -4,7 +4,6 @@
     --oscillator-connection-length: calc(2 * var(--node-connection-length) +
                                          var(--node-icon-size));
     --module-connection-length: 20px;
-    --control-padding: 4px;
     --line-width: 1px;
     --body-width: 401px; /* uneven -> connectors can be perfectly in middle */
 }
@@ -24,11 +23,6 @@ body {
     line-height: 20px;
 }
 
-h1 {
-    font-size: 150%;
-    margin-top: 2ex;
-}
-
 .graph {
     position: relative;
 }
@@ -42,8 +36,8 @@ h1 {
     outline: 0;
     width: 20px;
     height: 20px;
-    top: 40px;
-    left: 240px;
+    top: 40px; /* TODO: calculate position */
+    left: 240px; /* TODO: calculate position */
     color: transparent;
 }
 
@@ -85,12 +79,18 @@ ul.output.nodes>li.node-icon {
     margin-top: var(--node-connection-length);
 }
 
-ul.nodes>li::after {
+/* Common width, as otherwise vertical line width - oddly - can vary when scaled
+   up on high DPI displays. */
+ul.nodes>li::after, ul.controls>li::after {
     content: "";
     display: block;
-    width: calc(var(--node-icon-size) / 2 - 0.5px);
-    height: var(--node-connection-length);
+    width: calc(var(--node-icon-size) / 2 - var(--line-width) / 2);
+    margin-right: calc(var(--node-icon-size) / 2 - var(--line-width) / 2);
     border-right: var(--line-width) solid white;
+}
+
+ul.nodes>li::after {
+    height: var(--node-connection-length);
 }
 
 ul.input.nodes>li::after {
@@ -107,43 +107,48 @@ ul.nodes>li.oscillator::after {
 }
 
 ul.controls>li {
-    position: relative;
-    margin-top: var(--module-connection-length);
-    border: var(--line-width) solid white;
-    border-radius: 5px;
-    padding: var(--control-padding);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
 }
 
 ul.controls>li::after {
-    position: absolute;
-    content: "";
-    display: block;
-    left: calc(var(--body-width) / 2 - 0.5px - var(--line-width));
-    bottom: calc(-1 * var(--module-connection-length)
-                 - var(--line-width));
     height: var(--module-connection-length);
-    border-right: var(--line-width) solid white;
 }
 
-ul.controls>li:first-child {
-    margin-top: 0;
+ul.controls>li:last-child::after {
+    height: 0;
 }
 
-ul.controls>li>span {
+ul.controls>li.graph::after {
+    border: 0;
+}
+
+ul.controls>li>div {
+    box-sizing: border-box;
+    padding: 10px;
+    width: 100%;
+    border: var(--line-width) solid white;
+    border-radius: 5px;
+}
+
+ul.controls>li span {
     display: inline-block;
     margin: 0 4px;
 }
 
-ul.controls>li>span.number {
+ul.controls>li span.number {
     width: 60px;
     text-align: right;
 }
 
-ul.controls>li>span.unit {
+ul.controls>li span.unit {
     width: 30px;
 }
 
-ul.controls>li>input {
+ul.controls>li input {
     display: inline-block;
     width: 180px;
     height: 14px;

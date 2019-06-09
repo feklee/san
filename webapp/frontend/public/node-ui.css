@@ -16,11 +16,25 @@ html, body {
 body {
     width: var(--body-width);
     margin: 15px;
-}
-
-body {
     font: normal normal normal 14px "Source Code Pro";
     line-height: 20px;
+}
+
+ul.all.nodes {
+    margin-bottom: 20px;
+}
+
+ul.all.nodes>li::after {
+    content: none;
+}
+
+ul.all.nodes>li.this.node-icon {
+    border-width: var(--line-width);
+    border-style: solid;
+}
+
+ul.all.nodes>li.this.node-icon {
+    border-color: white;
 }
 
 .graph {

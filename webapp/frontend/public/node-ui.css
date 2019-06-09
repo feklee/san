@@ -54,36 +54,28 @@ h1 {
     border-radius: 50%;
 }
 
-.not-set.node-icon {
-    background:
-        linear-gradient(to bottom right, 
-                        transparent 47%, #fff 47%, #fff 53%, transparent 53%),
-        linear-gradient(to bottom left ,
-                        transparent 47%, #fff 47%, #fff 53%, transparent 53%);
-}
-
-body>ul>* {
+ul.controls>li {
     margin-top: 20px;
     border: 1px solid white;
     border-radius: 5px;
     padding: 4px;
 }
 
-body>ul>li>span {
+ul.controls>li>span {
     display: inline-block;
     margin: 0 4px;
 }
 
-body>ul>li>span.number {
+ul.controls>li>span.number {
     width: 60px;
     text-align: right;
 }
 
-body>ul>li>span.unit {
+ul.controls>li>span.unit {
     width: 30px;
 }
 
-body>ul>li>input {
+ul.controls>li>input {
     display: inline-block;
     width: 180px;
     height: 14px;

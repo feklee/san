@@ -15,7 +15,7 @@
     <h1>This Node</h1>
     <div class="this node-icon"></div>
 
-    <ul class="oscillator">
+    <ul class="oscillator controls">
       <li class="hidden graph">
         <canvas width="390" height="80"></canvas>
         <button class="show">👁</button>
@@ -61,23 +61,22 @@
       </li>
     </ul>
       
-    <ul class="inputs">
-      <li class="not-set child-1 node-icon"></li> <!-- add only if present -->
-      <li class="not-set child-2 node-icon"></li> <!-- and -->
-      <li class="not-set child-3 node-icon"></li> <!-- get rid of not-set -->
+    <ul class="input nodes">
+      <li class="child-1"></li> <!-- add only if present -->
+      <li class="child-2"></li> <!-- and -->
+      <li class="child-3"></li> <!-- get rid of not-set -->
       <li>Oscillator</li> <!-- keep that, just draw a vertical line -->
     </ul>
 
-    <h1>Modulator</h1>
-    <ul>
-      <li><input type="radio" id="add-modulator" name="modulator" value="add"
-                 checked="checked"><label for="add-modulator">+</label></li>
-      <li><input type="radio" id="multiply-modulator" name="modulator"
-                 value="multiply"><label for="multiply-modulator">×</label></li>
-    </ul>
-
-    <h1>Output</h1>
-    <ul>
+    <ul class="output controls">
+      <li>
+        <ul>
+          <li><input type="radio" id="add-modulator" name="modulator" value="add"
+                     checked="checked"><label for="add-modulator">+</label></li>
+          <li><input type="radio" id="multiply-modulator" name="modulator"
+                     value="multiply"><label for="multiply-modulator">×</label></li>
+        </ul>
+      </li>
       <li><input type="range" id="output-delay" name="output-delay"
                  min="0" max="1" step="any"
                  value="0"><label for="output-delay">Delay</label></li>
@@ -89,7 +88,8 @@
                  value="1"><label for="output-gain">Gain</label></li>
     </ul>
 
-    <div class="not-set parent node-icon"></div>
+    <ul class="output nodes">
+    </ul>
 
     <script src="build/node-ui.js"></script>
   </body>

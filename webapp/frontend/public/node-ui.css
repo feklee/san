@@ -6,6 +6,9 @@
     --module-connection-length: 20px;
     --line-width: 1px;
     --body-width: 401px; /* uneven -> connectors can be perfectly in middle */
+    --root-node-height: 25px;
+    --root-node-width: 101px;
+    --root-node-padding: 5px;
 }
 
 html, body {
@@ -72,9 +75,31 @@ ul.all.nodes>li.root.node-icon {
 }
 
 .node-icon {
+    display: block;
     width: var(--node-icon-size);
     height: var(--node-icon-size);
     border-radius: 50%;
+}
+
+ul.output.nodes>li.root.node-icon {
+    background: transparent !important;
+    text-align: center;
+    font-size: var(--root-node-height);
+    line-height: var(--root-node-height);
+    width: var(--root-node-width);
+    height: var(--root-node-height);
+    padding-top: var(--root-node-padding);
+}
+
+ul.output.nodes>li.root.node-icon::before {
+    content: "🔊";
+}
+
+ul.output.nodes>li.root.node-icon::after {
+    margin-top: calc(-1 * var(--node-connection-length)
+                     - var(--root-node-height)
+                     - var(--root-node-padding));
+    margin-left: calc((var(--root-node-width) - var(--node-icon-size)) / 2);
 }
 
 ul.nodes {

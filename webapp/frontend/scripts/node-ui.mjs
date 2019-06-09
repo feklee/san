@@ -290,7 +290,7 @@ var nodeIconEl = function (className) {
     return document.querySelector("." + className + ".node-icon");
 };
 
-var setNodeIcon = function (nodeEl, nodeId) {
+var setNodeIconColors = function (nodeEl, nodeId) {
     var colors = nodeColors(nodeId);
     nodeEl.style.background =
         "linear-gradient(to bottom right, " +
@@ -314,12 +314,32 @@ var findNode = function (nodeId, type) {
     });
 };
 
+var createNodeIconEl = function (nodeId) {
+    var el = document.createElement("li");
+    el.classList.add("node-icon");
+    setNodeIconColors(el, nodeId);
+    return el;
+};
+
+var insertNodeIcon = function (node) {
+    document.querySelector("ul." + node.type + ".nodes").
+        appendChild(node.iconEl);
+};
+
+var removeNodeIcon = function (node) {
+    document.querySelector("ul." + node.type + ".nodes").
+        removeChild(node.iconEl);
+};
+
 var createNode = function (nodeId, type) {
     var node = {
         id: nodeId,
-        type: type
+        type: type,
+        iconEl: createNodeIconEl(nodeId)
     };
     resetNodeExpiryTime(node);
+    insertNodeIcon(node);
+
     return node;
 };
 
@@ -337,9 +357,9 @@ var addOrResetNode = function (nodeId, type) {
 };
 
 var deleteNode = function (node) {
+    removeNodeIcon(node);
     var i = nodes.indexOf(node);
     nodes.splice(i, 1);
-    // TODO: remove from DOM
 };
 
 var removeExpiredNodes = function () {
@@ -374,7 +394,7 @@ var setIconForChildNode = function (childNodeId) {
     if (allChildNodeIconsAreOccupied) {
         return; // may possibly happen after quickly changing around nodes
     }
-    setNodeIcon(className, childNodeId);
+    setNodeIconColors(className, childNodeId);
 };
 
 var parseData = function (data) {
@@ -382,11 +402,11 @@ var parseData = function (data) {
     var parentNodeId = a[0];
     var childNodeId = a[2];
     if (childNodeId === idOfThisNode) {
-        addOrResetNode("output", parentNodeId);
+        addOrResetNode(parentNodeId, "output");
         return;
     }
     if (parentNodeId === idOfThisNode) {
-        addOrResetNode("input", childNodeId);
+        addOrResetNode(childNodeId, "input");
     }
 };
 
@@ -430,7 +450,7 @@ document.querySelectorAll(".output.controls input").forEach(
 updateOscillatorNumbers();
 updateOscillator();
 
-setNodeIcon(document.querySelector(".this.node-icon"), idOfThisNode);
+setNodeIconColors(document.querySelector(".this.node-icon"), idOfThisNode);
 
 setInterval(removeExpiredNodes, graphUpdateInterval);
 setInterval(function () {

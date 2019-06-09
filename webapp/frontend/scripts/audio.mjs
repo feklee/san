@@ -201,7 +201,7 @@ var createModule = function (nodeId) {
         oscillator: oscillator,
         oscillatorGain: oscillatorGain,
         oscillatorOffset: oscillatorOffset,
-        oscillatorDetuningFactor: 400,
+        oscillatorDetuning: 400,
         internalAudioNodes: internalAudioNodes,
         inputs: inputs,
         outputDelay: outputDelay,
@@ -239,7 +239,7 @@ var detuneOscillator = function (nodeId) {
     var module = node.audioModule;
     var o = module.oscillator;
     o.detune.setValueAtTime( // TODO: why set value at time?
-        module.oscillatorDetuningFactor * node.animatedLocation.z, // cents
+        module.oscillatorDetuning * node.animatedLocation.z, // cents
         context.currentTime
     );
 };
@@ -297,7 +297,7 @@ var parseModuleMessage = function (message) {
     setOutputDelay(module, message.outputDelay);
     setOutputCompressor(module, message.outputCompressorShouldBeEnabled);
 
-    module.oscillatorDetuningFactor = message.oscillatorDetuningFactor;
+    module.oscillatorDetuning = message.oscillatorDetuning;
 
     refreshOscillator(nodeId);
 

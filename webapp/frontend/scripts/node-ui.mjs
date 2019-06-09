@@ -38,7 +38,7 @@ var oscillatorFrequencyExpEl =
 var oscillatorFrequencyEl =
         document.querySelector(".oscillator .frequency .number");
 var oscillatorGainEl = document.querySelector("#oscillator-gain");
-var oscillatorDetuningFactorEl =
+var oscillatorDetuningEl =
         document.querySelector("#oscillator-detuning-factor");
 var oscillatorOffsetEl = document.querySelector("#oscillator-offset");
 var outputGainEl = document.querySelector("#output-gain");
@@ -96,12 +96,12 @@ var setOscillatorGain = function (value) {
     oscillatorGainEl.value = value;
 };
 
-var selectedOscillatorDetuningFactor = function () {
-    return parseFloat(oscillatorDetuningFactorEl.value);
+var selectedOscillatorDetuning = function () {
+    return parseFloat(oscillatorDetuningEl.value);
 };
 
-var setOscillatorDetuningFactor = function (value) {
-    oscillatorDetuningFactorEl.value = value;
+var setOscillatorDetuning = function (value) {
+    oscillatorDetuningEl.value = value;
 };
 
 var selectedOscillatorOffset = function () {
@@ -236,7 +236,7 @@ var sendSelection = function () {
         oscillatorGain: selectedOscillatorGain(),
         oscillatorFrequency: selectedOscillatorFrequency(),
         oscillatorFrequencyExp: selectedOscillatorFrequencyExp(),
-        oscillatorDetuningFactor: selectedOscillatorDetuningFactor(),
+        oscillatorDetuning: selectedOscillatorDetuning(),
         nodeId: idOfThisNode
     };
 
@@ -253,7 +253,7 @@ var parseModuleMessage = function (message) {
 
     setOscillatorType(message.oscillatorType);
     setOscillatorFrequencyExp(message.oscillatorFrequencyExp);
-    setOscillatorDetuningFactor(message.oscillatorDetuningFactor);
+    setOscillatorDetuning(message.oscillatorDetuning);
     setOscillatorOffset(message.oscillatorOffset);
     setOscillatorGain(message.oscillatorGain);
     updateOscillator();

@@ -32,12 +32,13 @@ ul.all.nodes>li::after {
 }
 
 ul.all.nodes>li.this.node-icon {
-    border-width: var(--line-width);
+    border-width: 2px;
     border-style: solid;
 }
 
 ul.all.nodes>li.this.node-icon {
-    border-color: white;
+    border-color: black;
+    box-shadow: 0 0 0 var(--line-width) white;
 }
 
 ul.all.nodes>li.root.node-icon {

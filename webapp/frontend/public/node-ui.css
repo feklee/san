@@ -37,13 +37,13 @@ li.node-icon>a {
     height: 100%;
 }
 
-ul.all.nodes>li.this.node-icon {
+ul.all.nodes>li.node-icon {
     border-width: 2px;
     border-style: solid;
+    border-color: black;
 }
 
 ul.all.nodes>li.this.node-icon {
-    border-color: black;
     box-shadow: 0 0 0 var(--line-width) white;
 }
 

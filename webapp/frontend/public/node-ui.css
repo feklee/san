@@ -31,6 +31,12 @@ ul.all.nodes>li::after {
     content: none;
 }
 
+li.node-icon>a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
 ul.all.nodes>li.this.node-icon {
     border-width: 2px;
     border-style: solid;

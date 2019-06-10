@@ -33,7 +33,6 @@ var oscillator = audioCtx.createOscillator();
 oscillator.start();
 oscillator.connect(oscillatorGain);
 
-
 var controlEl = function (groupClass, nameClass, type) {
     var typeSelector = type !== "input" ? "." + type : type;
     return document.querySelector("." + groupClass + ".controls ." + nameClass +
@@ -295,6 +294,15 @@ var setNodeIconColors = function (nodeEl, nodeId) {
         colors[1] + " 100%)";
 };
 
+var setNodeIconLink = function (nodeEl, nodeId) {
+    nodeEl.querySelector("a").href = nodeId;
+};
+
+var setNodeIcon = function (nodeEl, nodeId) {
+    setNodeIconColors(nodeEl, nodeId);
+    setNodeIconLink(nodeEl, nodeId);
+};
+
 var resetNodeExpiryTime = function (node) {
     node.expiryTime = util.connectionExpiryTime();
 };
@@ -315,7 +323,15 @@ var createNodeIconEl = function (nodeId) {
     if (util.nodeIsRootNode(nodeId)) {
         el.classList.add("root");
     }
-    setNodeIconColors(el, nodeId);
+
+    if (nodeId === idOfThisNode) {
+        el.classList.add("this");
+    }
+
+    var linkEl = document.createElement("a");
+    el.appendChild(linkEl);
+
+    setNodeIcon(el, nodeId);
     return el;
 };
 
@@ -372,14 +388,16 @@ var parseData = function (data) {
     var a = data.split("");
     var parentNodeId = a[0];
     var childNodeId = a[2];
+
+    addOrResetNode(parentNodeId, "all");
+    addOrResetNode(childNodeId, "all");
+
     if (childNodeId === idOfThisNode) {
         addOrResetNode(parentNodeId, "output");
-        addOrResetNode(parentNodeId, "all");
         return;
     }
     if (parentNodeId === idOfThisNode) {
         addOrResetNode(childNodeId, "input");
-        addOrResetNode(childNodeId, "all");
     }
 };
 
@@ -422,7 +440,5 @@ document.querySelectorAll(".output.controls input").forEach(
 
 updateOscillatorNumbers();
 updateOscillator();
-
-setNodeIconColors(document.querySelector(".this.node-icon"), idOfThisNode);
 
 setInterval(removeExpiredNodes, graphUpdateInterval);

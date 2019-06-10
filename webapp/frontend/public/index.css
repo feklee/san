@@ -145,11 +145,12 @@ p.audio button {
     cursor: pointer;
 }
 
-p.audio a {
+p.audio a.first-node {
+    margin-left: 5px;
     color: white;
     text-decoration: none;
 }
 
-p.audio a.hidden {
-/*    visibility: hidden;*/
+p.audio a.first-node.hidden {
+    visibility: hidden;
 }

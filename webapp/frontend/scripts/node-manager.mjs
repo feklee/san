@@ -20,6 +20,16 @@ import util from "./util.mjs";
 import audio from "./audio.mjs";
 
 var rootNode;
+var firstNodeLinkEl = document.querySelector("p.audio a.first-node");
+
+var hideFirstNodeLink = function () {
+    firstNodeLinkEl.classList.add("hidden");
+};
+
+var showFirstNodeLink = function (node) {
+    firstNodeLinkEl.href = node.id;
+    firstNodeLinkEl.classList.remove("hidden");
+};
 
 var locationAtRandomOrientation = function (origin) {
     return origin.clone().add(vector.randomUnitVector());
@@ -115,6 +125,10 @@ var removeConnection = function (connection) {
         sourcePort: connection.toPort,
         destinationPort: connection.fromPort
     });
+
+    if (util.nodeIsRootNode(connection.fromPort.node.id)) {
+        hideFirstNodeLink();
+    }
 };
 
 var disconnectOnBothSides = function (port) {
@@ -254,6 +268,9 @@ var connect = function (pair) {
 
     removeNodesNotConnectedToRoot();
     updateForVisualization();
+    if (util.nodeIsRootNode(pair.parentPort.node.id)) {
+        showFirstNodeLink(pair.childPort.node);
+    }
 };
 
 addRootNode();

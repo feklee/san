@@ -103,9 +103,9 @@ ul.output.nodes>li.root.node-icon::before {
 }
 
 ul.output.nodes>li.root.node-icon::after {
-    margin-top: calc(-1 * var(--node-connection-length)
-                     - var(--root-node-height)
-                     - var(--root-node-padding));
+    margin-top: calc(-1 * (var(--node-connection-length)
+                           + var(--root-node-height)
+                           + var(--root-node-padding)));
     margin-left: calc((var(--root-node-width) - var(--node-icon-size)) / 2);
 }
 
@@ -143,12 +143,9 @@ ul.nodes>li::after {
     height: var(--node-connection-length);
 }
 
-ul.input.nodes>li::after {
-    margin-top: var(--node-icon-size);
-}
-
 ul.output.nodes>li::after {
-    margin-top: calc(-1 * var(--node-connection-length));
+    margin-top: calc(-1 * var(--node-connection-length)
+                     - var(--node-icon-size));
 }
 
 ul.nodes>li.oscillator::after {

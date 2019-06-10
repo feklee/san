@@ -295,7 +295,9 @@ var setNodeIconColors = function (nodeEl, nodeId) {
 };
 
 var setNodeIconLink = function (nodeEl, nodeId) {
-    nodeEl.querySelector("a").href = nodeId;
+    if (!util.nodeIsRootNode(nodeId)) {
+        nodeEl.querySelector("a").href = nodeId;
+    }
 };
 
 var setNodeIcon = function (nodeEl, nodeId) {
@@ -328,8 +330,10 @@ var createNodeIconEl = function (nodeId) {
         el.classList.add("this");
     }
 
-    var linkEl = document.createElement("a");
-    el.appendChild(linkEl);
+    if (!util.nodeIsRootNode(nodeId)) {
+        var linkEl = document.createElement("a");
+        el.appendChild(linkEl);
+    }
 
     setNodeIcon(el, nodeId);
     return el;

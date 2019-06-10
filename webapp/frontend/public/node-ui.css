@@ -251,3 +251,38 @@ input[type="range"]::-webkit-slider-thumb {
 input:focus {
     outline: none;
 }
+
+input, label {
+    cursor: pointer;
+}
+
+ul.controls>li.type ul {
+    height: 20px;
+}
+
+ul.controls>li.type li {
+    display: inline-block;
+    height: inherit;
+}
+
+ul.controls>li.type input {
+    display: none;
+    background: red;
+}
+
+ul.controls>li.type label {
+    display: block;
+    width: 80px;
+    height: inherit;
+    font-size: 10px;
+    overflow: hidden;
+}
+
+ul.controls>li.type input:checked+label {
+    border: var(--line-width) solid white;
+}
+
+svg {
+    stroke: white;
+    stroke-width: line-width;
+}

@@ -25,6 +25,9 @@ body {
 
 ul.all.nodes {
     margin-bottom: 20px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
 }
 
 ul.all.nodes>li::after {
@@ -41,6 +44,7 @@ ul.all.nodes>li.node-icon {
     border-width: 2px;
     border-style: solid;
     border-color: black;
+    margin: 5px;
 }
 
 ul.all.nodes>li.this.node-icon {

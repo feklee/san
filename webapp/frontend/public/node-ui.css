@@ -9,6 +9,7 @@
     --root-node-height: 25px;
     --root-node-width: 101px;
     --root-node-padding: 5px;
+    --all-node-icon-shadow-width: 3px;
     --line-height: 20px;
     --spacing: 5px;
 }
@@ -43,14 +44,15 @@ li.node-icon>a {
 }
 
 ul.all.nodes>li.node-icon {
-    border-width: 2px;
-    border-style: solid;
-    border-color: black;
+    width: calc(var(--node-icon-size) + 2 * var(--all-node-icon-shadow-width));
+    height: calc(var(--node-icon-size) + 2 * var(--all-node-icon-shadow-width));
+    box-shadow: inset 0 0 0 var(--all-node-icon-shadow-width) black;
     margin: var(--spacing);
 }
 
 ul.all.nodes>li.this.node-icon {
-    box-shadow: 0 0 0 var(--stroke-width) white;
+    box-shadow: inset 0 0 0 var(--stroke-width) white,
+                inset 0 0 0 var(--all-node-icon-shadow-width) black;
 }
 
 ul.all.nodes>li.root.node-icon {
@@ -187,21 +189,21 @@ ul.controls>li>div {
     border-radius: var(--spacing);
 }
 
-ul.controls>li span {
+.range-selector span {
     display: inline-block;
     margin: 0 4px;
 }
 
-ul.controls>li span.number {
+.range-selector span.number {
     width: 60px;
     text-align: right;
 }
 
-ul.controls>li span.unit {
+.range-selector span.unit {
     width: 30px;
 }
 
-ul.controls>li input {
+.range-selector input {
     display: inline-block;
     width: 180px;
     height: 14px;
@@ -258,44 +260,48 @@ input, label {
     cursor: pointer;
 }
 
-ul.controls>li.type ul {
+.radio-selector ul {
     display: flex;
     justify-content: space-between;
     width: 100%;
 }
 
-ul.controls>li.type li {
+.radio-selector li {
     display: block;
     flex: 1;
     text-align: center;
     margin-right: var(--spacing);
 }
 
-ul.controls>li.type li:last-child {
+.radio-selector li:last-child {
     margin-right: 0;
 }
 
-ul.controls>li.type input {
+.radio-selector input {
     width: auto;
     display: none;
 }
 
-ul.controls>li.type label {
-    width: inherit;
+.radio-selector label>span {
+    display: inline-block;
+    width: 100%;
+    border: var(--stroke-width) solid red;
+    background: green;
 }
 
-ul.controls>li.type label {
-    display: block;
-    overflow: hidden;
-    height: var(--line-height);
-    border: var(--stroke-width) solid black;
-}
-
-ul.controls>li.type input:checked+label {
+.radio-selector input:checked+span {
     border-color: white;
 }
 
-svg {
-    stroke: white;
-    stroke-width: 1px;
+.toggle-selector input {
+    display: none;
+}
+
+.toggle-selector label {
+    display: inline-block;
+    width: 50%;
+}
+
+.toggle-selector .label {
+    background: darkred;
 }

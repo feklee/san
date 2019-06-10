@@ -22,17 +22,13 @@
           <button class="show">👁</button>
         </div>
       </li>
-      <li class="type">
+      <li class="type radio-selector">
         <div>
           <ul>
-            <li><input type="radio" id="oscillator-type-sine"
-                       name="oscillator-type" value="sine"
-                       checked="checked"><label for="oscillator-type-sine"
-                                                >Sine</label></li>
-            <li><input type="radio" id="oscillator-type-square"
-                       name="oscillator-type"
-                       value="square"><label for="oscillator-type-square"
-                                             >Square</label></li>
+            <li><label><input type="radio" name="oscillator-type" value="sine"
+                              checked="checked"><span>Sine</span></label></li>
+            <li><label><input type="radio" name="oscillator-type"
+                              value="square"><span>Square</span></label></li>
             <li><input type="radio" id="oscillator-type-sawtooth"
                        name="oscillator-type"
                        value="sawtooth"><label for="oscillator-type-sawtooth"
@@ -44,27 +40,27 @@
           </ul>
         </div>
       </li>
-      <li class="frequency">
+      <li class="frequency range-selector">
         <div>
           <input type="range" name="oscillator-frequency-exp" min="-4"
                  max="12" step="0.1"
                  value="8.8"><span class="number">0.00</span><span class="unit">Hz</span><span class="label">Frequency</span>
         </div>
       </li>
-      <li class="detuning">
+      <li class="detuning range-selector">
         <div>
           <input type="range" name="oscillator-detuning" min="0" max="1000"
                  step="any"
                  value="400"><span class="number">0</span><span class="unit">¢/z</span><span class="label">Detuning</span>
         </div>
       </li>
-      <li class="offset">
+      <li class="offset range-selector">
         <div>
           <input type="range" name="oscillator-offset" min="-1" max="1" step="any"
                  value="0"><span class="number">0.00</span><span class="unit"></span><span class="label">Offset</span>
         </div>
       </li>
-      <li class="gain">
+      <li class="gain range-selector">
         <div>
           <input type="range" name="oscillator-gain" min="0" max="2" step="any"
                  value="1"><span class="number">100</span><span class="unit">%</span><span class="gain">Gain</span>
@@ -77,30 +73,34 @@
     </ul>
 
     <ul class="output controls">
-      <li>
+      <li class="modulator radio-selector">
         <div>
           <ul>
-            <li><input type="radio" id="add-modulator" name="modulator" value="add"
-                       checked="checked"><label for="add-modulator">+</label></li>
+            <li><input type="radio" id="add-modulator" name="modulator"
+                       value="add"
+                       checked="checked"
+                       ><label for="add-modulator">+</label></li>
             <li><input type="radio" id="multiply-modulator" name="modulator"
-                       value="multiply"><label for="multiply-modulator">×</label></li>
+                       value="multiply"
+                       ><label for="multiply-modulator">×</label></li>
           </ul>
         </div>
       </li>
-      <li class="delay">
+      <li class="delay range-selector">
         <div>
           <input type="range" name="output-delay" min="0" max="1"
                  step="any"
                  value="0"><span class="number">0.00</span><span class="unit">s</span><span class="label">Delay</span>
         </div>
       </li>
-      <li class="compressor">
+      <li class="compressor toggle-selector">
         <div>
-          <input type="checkbox" name="output-compressor"
-                 checked><span class="number"></span><span class="unit"></span><span class="label">Compressor</span>
+          <input type="checkbox" id="output-compressor" name="output-compressor"
+                 checked><label for="output-compressor"><span class="checked">On</span><span class="checked">Off</span></label>
+            <span class="label">Compressor</span>
         </div>
       </li>
-      <li class="gain">
+      <li class="gain range-selector">
         <div>
           <input type="range" name="output-gain" min="0" max="2" step="any"
                  value="1"><span class="number">100</span><span class="unit">%</span><span class="label">Gain</span>

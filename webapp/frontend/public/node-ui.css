@@ -4,11 +4,13 @@
     --oscillator-connection-length: calc(2 * var(--node-connection-length) +
                                          var(--node-icon-size));
     --module-connection-length: 20px;
-    --line-width: 1px;
+    --stroke-width: 1px;
     --body-width: 401px; /* uneven -> connectors can be perfectly in middle */
     --root-node-height: 25px;
     --root-node-width: 101px;
     --root-node-padding: 5px;
+    --line-height: 20px;
+    --spacing: 5px;
 }
 
 html, body {
@@ -20,7 +22,7 @@ body {
     width: var(--body-width);
     margin: 15px;
     font: normal normal normal 14px "Source Code Pro";
-    line-height: 20px;
+    line-height: var(--line-height);
 }
 
 ul.all.nodes {
@@ -44,11 +46,11 @@ ul.all.nodes>li.node-icon {
     border-width: 2px;
     border-style: solid;
     border-color: black;
-    margin: 5px;
+    margin: var(--spacing);
 }
 
 ul.all.nodes>li.this.node-icon {
-    box-shadow: 0 0 0 var(--line-width) white;
+    box-shadow: 0 0 0 var(--stroke-width) white;
 }
 
 ul.all.nodes>li.root.node-icon {
@@ -138,9 +140,9 @@ ul.output.nodes>li.node-icon {
 ul.nodes>li::after, ul.controls>li::after {
     content: "";
     display: block;
-    width: calc(var(--node-icon-size) / 2 - var(--line-width) / 2);
-    margin-right: calc(var(--node-icon-size) / 2 - var(--line-width) / 2);
-    border-right: var(--line-width) solid white;
+    width: calc(var(--node-icon-size) / 2 - var(--stroke-width) / 2);
+    margin-right: calc(var(--node-icon-size) / 2 - var(--stroke-width) / 2);
+    border-right: var(--stroke-width) solid white;
 }
 
 ul.nodes>li::after {
@@ -181,8 +183,8 @@ ul.controls>li>div {
     box-sizing: border-box;
     padding: 10px;
     width: 100%;
-    border: var(--line-width) solid white;
-    border-radius: 5px;
+    border: var(--stroke-width) solid white;
+    border-radius: var(--spacing);
 }
 
 ul.controls>li span {
@@ -220,12 +222,12 @@ input[type=range]::-webkit-slider-thumb {
 
 input[type=range]::-moz-range-track {
     background-color: white;
-    height: var(--line-width);
+    height: var(--stroke-width);
 }
 
 input[type=range]::-webkit-slider-runnable-track {
     background-color: white;
-    height: var(--line-width);
+    height: var(--stroke-width);
 }
 
 input[type="range"]::-moz-range-thumb {
@@ -235,7 +237,7 @@ input[type="range"]::-moz-range-thumb {
   margin-top: -6px;
   background: black;
   border-radius: 50%;
-  border: var(--line-width) solid white;
+  border: var(--stroke-width) solid white;
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -245,7 +247,7 @@ input[type="range"]::-webkit-slider-thumb {
   margin-top: -6px;
   background: black;
   border-radius: 50%;
-  border: var(--line-width) solid white;
+  border: var(--stroke-width) solid white;
 }
 
 input:focus {
@@ -257,32 +259,43 @@ input, label {
 }
 
 ul.controls>li.type ul {
-    height: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 ul.controls>li.type li {
-    display: inline-block;
-    height: inherit;
+    display: block;
+    flex: 1;
+    text-align: center;
+    margin-right: var(--spacing);
+}
+
+ul.controls>li.type li:last-child {
+    margin-right: 0;
 }
 
 ul.controls>li.type input {
+    width: auto;
     display: none;
-    background: red;
+}
+
+ul.controls>li.type label {
+    width: inherit;
 }
 
 ul.controls>li.type label {
     display: block;
-    width: 80px;
-    height: inherit;
-    font-size: 10px;
     overflow: hidden;
+    height: var(--line-height);
+    border: var(--stroke-width) solid black;
 }
 
 ul.controls>li.type input:checked+label {
-    border: var(--line-width) solid white;
+    border-color: white;
 }
 
 svg {
     stroke: white;
-    stroke-width: line-width;
+    stroke-width: 1px;
 }

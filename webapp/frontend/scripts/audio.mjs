@@ -176,10 +176,11 @@ var createModule = function (nodeId) {
     var oscillatorFrequency = 440;
     var oscillator = context.createOscillator({frequency: oscillatorFrequency});
     var internalAudioNodes = new Set();
-    var oscillatorGain = context.createGain();
+    var oscillatorAmplitude = context.createGain();
     var oscillatorClipper = context.createWaveShaper();
     oscillatorClipper.curve = clippingCurve;
     var oscillatorOffset = context.createConstantSource();
+    var oscillatorGain = context.createGain();
     var inputs = [
         oscillatorClipper,
         null, // port 1
@@ -189,9 +190,10 @@ var createModule = function (nodeId) {
     ];
 
     oscillator.start();
-    oscillator.connect(oscillatorGain);
-    oscillatorOffset.connect(oscillatorGain);
+    oscillator.connect(oscillatorAmplitude);
+    oscillatorAmplitude.connect(oscillatorGain);
     oscillatorOffset.start();
+    oscillatorOffset.connect(oscillatorGain);
     oscillatorGain.connect(oscillatorClipper);
 
     outputDelay.connect(outputGain);
@@ -199,7 +201,7 @@ var createModule = function (nodeId) {
 
     var module = {
         oscillator: oscillator,
-        oscillatorGain: oscillatorGain,
+        oscillatorAmplitude: oscillatorAmplitude,
         oscillatorOffset: oscillatorOffset,
         oscillatorDetuning: 400,
         internalAudioNodes: internalAudioNodes,
@@ -268,8 +270,8 @@ var setOutputDelay = function (module, value) {
     module.outputDelay.delayTime.value = value;
 };
 
-var setOscillatorGain = function (module, value) {
-    module.oscillatorGain.gain.value = value;
+var setOscillatorAmplitude = function (module, value) {
+    module.oscillatorAmplitude.gain.value = value;
 };
 
 var setOutputCompressor = function (module, shouldBeEnabled) {
@@ -292,7 +294,7 @@ var parseModuleMessage = function (message) {
     module.oscillatorType = message.oscillator.type;
 
     setOscillatorOffset(module, message.oscillator.offset);
-    setOscillatorGain(module, message.oscillator.gain);
+    setOscillatorAmplitude(module, message.oscillator.amplitude);
     setOutputGain(module, message.output.gain);
     setOutputDelay(module, message.output.delay);
     setOutputCompressor(module, message.output.compressorShouldBeEnabled);

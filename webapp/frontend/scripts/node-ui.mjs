@@ -25,13 +25,16 @@ var setUpHidpiCanvas = function (canvasEl) {
 
 const canvasEl = document.querySelector("canvas");
 const canvasCtx = setUpHidpiCanvas(canvasEl);
-var oscillatorGain = audioCtx.createGain();
+var oscillatorAmplitude = audioCtx.createGain();
 var oscillatorOffset = audioCtx.createConstantSource();
-oscillatorOffset.connect(oscillatorGain);
-oscillatorOffset.start();
+var oscillatorGain = audioCtx.createGain();
 var oscillator = audioCtx.createOscillator();
+
 oscillator.start();
-oscillator.connect(oscillatorGain);
+oscillator.connect(oscillatorAmplitude);
+oscillatorAmplitude.connect(oscillatorGain);
+oscillatorOffset.start();
+oscillatorOffset.connect(oscillatorGain);
 
 var controlEl = function (groupClass, nameClass, type) {
     var typeSelector = type !== "input" ? "." + type : type;
@@ -83,12 +86,12 @@ var setOscillatorType = function (value) {
     }
 };
 
-var selectedOscillatorGain = function () {
-    return parseFloat(controlEl("oscillator", "gain", "input").value);
+var selectedOscillatorAmplitude = function () {
+    return parseFloat(controlEl("oscillator", "amplitude", "input").value);
 };
 
-var setOscillatorGain = function (value) {
-    controlEl("oscillator", "gain", "input").value = value;
+var setOscillatorAmplitude = function (value) {
+    controlEl("oscillator", "amplitude", "input").value = value;
 };
 
 var selectedOscillatorDetuning = function () {
@@ -109,7 +112,7 @@ var setOscillatorOffset = function (value) {
 
 var updateOscillator = function () {
     oscillatorOffset.offset.value = selectedOscillatorOffset();
-    oscillatorGain.gain.value = selectedOscillatorGain();
+    oscillatorAmplitude.gain.value = selectedOscillatorAmplitude();
     oscillator.type = selectedOscillatorType();
     oscillator.frequency.value = selectedOscillatorFrequency();
 };
@@ -244,7 +247,7 @@ var sendSelection = function () {
         oscillator: {
             type: selectedOscillatorType(),
             offset: selectedOscillatorOffset(),
-            gain: selectedOscillatorGain(),
+            amplitude: selectedOscillatorAmplitude(),
             frequency: selectedOscillatorFrequency(),
             frequencyExp: selectedOscillatorFrequencyExp(),
             detuning: selectedOscillatorDetuning()
@@ -273,7 +276,7 @@ var parseModuleMessage = function (message) {
     setOscillatorFrequencyExp(message.oscillator.frequencyExp);
     setOscillatorDetuning(message.oscillator.detuning);
     setOscillatorOffset(message.oscillator.offset);
-    setOscillatorGain(message.oscillator.gain);
+    setOscillatorAmplitude(message.oscillator.amplitude);
     updateOscillatorNumbers();
     updateOscillator();
 

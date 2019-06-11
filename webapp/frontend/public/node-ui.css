@@ -302,7 +302,7 @@ input, label {
     border: var(--stroke-width) solid black;
 }
 
-.radio-selector input:checked+div {
+.radio-selector input:checked+span {
     border-color: white;
 }
 

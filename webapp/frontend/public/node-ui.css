@@ -222,7 +222,7 @@ ul.controls>li>div {
     height: 14px;
     width: 100%;
     margin: 0;
-    padding: 3px 0;
+    padding: 4px 0;
     vertical-align: top;
 }
 
@@ -306,34 +306,20 @@ input, label {
     border-color: white;
 }
 
-.toggle-selector label {
-    display: flex;
-    justify-content: space-between;
-}
-
 .toggle-selector input {
     display: none;
 }
 
-.toggle-selector span {
-    display: block;
-    margin: 0 var(--spacing);
-    flex: 1;
-}
-
-.toggle-selector .state {
-    text-align: right;
-}
-
-.toggle-selector .state::before {
+.toggle-selector span::before {
     display: inline-block;
     content: " ";
-    width: 20px;
-    height: 20px;
+    width: var(--line-height);
+    height: var(--line-height);
     border: var(--stroke-width) solid white;
     text-align: center;
+    margin-right: var(--spacing);
 }
 
-.toggle-selector input:checked+.state::before {
+.toggle-selector input:checked+span::before {
     content: "✓";
 }

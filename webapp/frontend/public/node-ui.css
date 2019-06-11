@@ -285,8 +285,7 @@ input, label {
 .radio-selector label>span {
     display: inline-block;
     width: 100%;
-    border: var(--stroke-width) solid red;
-    background: green;
+    border: var(--stroke-width) solid black;
 }
 
 .radio-selector input:checked+span {
@@ -300,8 +299,4 @@ input, label {
 .toggle-selector label {
     display: inline-block;
     width: 50%;
-}
-
-.toggle-selector .label {
-    background: darkred;
 }

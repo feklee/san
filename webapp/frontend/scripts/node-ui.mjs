@@ -64,7 +64,8 @@ var setOscillatorFrequencyExp = function (value) {
 };
 
 var selectedOscillatorType = function () {
-    return document.querySelector("input[name=oscillator-type]:checked").value;
+    return document.querySelector("input[name=oscillator-type]:checked").
+        value;
 };
 
 var deselectAllRadioButtons = function (selectors) {
@@ -75,7 +76,8 @@ var deselectAllRadioButtons = function (selectors) {
 
 var setOscillatorType = function (value) {
     deselectAllRadioButtons("input[name=oscillator-type]");
-    var el = document.querySelector("#oscillator-type-" + value);
+    var el = document.querySelector("input[name=oscillator-type][value=\"" +
+                                    value + "\"]");
     if (el) {
         el.checked = true;
     }
@@ -204,7 +206,8 @@ var selectedModulator = function () {
 
 var setModulator = function (value) {
     deselectAllRadioButtons("input[name=modulator]");
-    var el = document.querySelector("#" + value + "-modulator");
+    var el = document.querySelector("input[name=modulator][value=\"" + value +
+                                    "\"]");
     if (el) {
         el.checked = true;
     }

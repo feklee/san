@@ -29,14 +29,10 @@
                               checked="checked"><span>Sine</span></label></li>
             <li><label><input type="radio" name="oscillator-type"
                               value="square"><span>Square</span></label></li>
-            <li><input type="radio" id="oscillator-type-sawtooth"
-                       name="oscillator-type"
-                       value="sawtooth"><label for="oscillator-type-sawtooth"
-                                               >Sawtooth</label></li>
-            <li><input type="radio" id="oscillator-type-triangle"
-                       name="oscillator-type"
-                       value="triangle"><label for="oscillator-type-triangle"
-                                               >Triangle</label></li>
+            <li><label><input type="radio" name="oscillator-type"
+                              value="sawtooth"><span>Sawtooth</span></label></li>
+            <li><label><input type="radio" name="oscillator-type"
+                              value="triangle"><span>Triangle</span></label></li>
           </ul>
         </div>
       </li>
@@ -76,13 +72,12 @@
       <li class="modulator radio-selector">
         <div>
           <ul>
-            <li><input type="radio" id="add-modulator" name="modulator"
-                       value="add"
-                       checked="checked"
-                       ><label for="add-modulator">+</label></li>
-            <li><input type="radio" id="multiply-modulator" name="modulator"
-                       value="multiply"
-                       ><label for="multiply-modulator">×</label></li>
+            <li>
+              <label><input type="radio" name="modulator" value="add"
+                            checked="checked"><span>+</span></label></li>
+            <li>
+              <label><input type="radio" name="modulator"
+                            value="multiply"><span>×</span></label></li>
           </ul>
         </div>
       </li>
@@ -95,9 +90,8 @@
       </li>
       <li class="compressor toggle-selector">
         <div>
-          <input type="checkbox" id="output-compressor" name="output-compressor"
-                 checked><label for="output-compressor"><span class="checked">On</span><span class="checked">Off</span></label>
-            <span class="label">Compressor</span>
+          <label><input type="checkbox" name="output-compressor"
+                        checked><span>Compressor</span></label>
         </div>
       </li>
       <li class="gain range-selector">

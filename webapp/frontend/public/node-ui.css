@@ -302,15 +302,38 @@ input, label {
     border: var(--stroke-width) solid black;
 }
 
-.radio-selector input:checked+span {
+.radio-selector input:checked+div {
     border-color: white;
+}
+
+.toggle-selector label {
+    display: flex;
+    justify-content: space-between;
 }
 
 .toggle-selector input {
     display: none;
 }
 
-.toggle-selector label {
+.toggle-selector span {
+    display: block;
+    margin: 0 var(--spacing);
+    flex: 1;
+}
+
+.toggle-selector .state {
+    text-align: right;
+}
+
+.toggle-selector .state::before {
     display: inline-block;
-    width: 50%;
+    content: " ";
+    width: 20px;
+    height: 20px;
+    border: var(--stroke-width) solid white;
+    text-align: center;
+}
+
+.toggle-selector input:checked+.state::before {
+    content: "✓";
 }

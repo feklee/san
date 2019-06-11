@@ -189,6 +189,20 @@ ul.controls>li>div {
     border-radius: var(--spacing);
 }
 
+.range-selector>div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.range-selector>div>div {
+    display: block;
+    flex: 1;
+}
+
+.range-selector>div>div:first-child {
+    margin-right: var(--spacing);
+}
+
 .range-selector span {
     display: inline-block;
     margin: 0 4px;
@@ -200,13 +214,13 @@ ul.controls>li>div {
 }
 
 .range-selector span.unit {
-    width: 30px;
+    width: 20px;
 }
 
 .range-selector input {
     display: inline-block;
-    width: 180px;
     height: 14px;
+    width: 100%;
     margin: 0;
     padding: 3px 0;
     vertical-align: top;

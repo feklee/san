@@ -303,7 +303,7 @@ input, label {
 
 .radio-selector label>span {
     display: inline-block;
-    box-sizing: border-box; /* otherwise item is not slightly off in flex */
+    box-sizing: border-box; /* otherwise item is slightly shifted in flex */
     width: 100%;
     padding: var(--stroke-width);
     border: var(--stroke-width) solid black;

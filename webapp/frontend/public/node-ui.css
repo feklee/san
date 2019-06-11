@@ -324,7 +324,7 @@ input, label {
     height: var(--line-height);
     border: var(--stroke-width) solid white;
     text-align: center;
-    margin-right: var(--spacing);
+    margin-right: calc(2 * var(--spacing));
 }
 
 .toggle-selector input:checked+span::before {

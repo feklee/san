@@ -123,8 +123,9 @@ var updateOscillatorNumbers = function () {
         Math.round(controlEl("oscillator", "detuning", "input").value);
     controlEl("oscillator", "offset", "number").textContent =
         parseFloat(controlEl("oscillator", "offset", "input").value).toFixed(2);
-    controlEl("oscillator", "gain", "number").textContent =
-        Math.round(100 * controlEl("oscillator", "gain", "input").value);
+    controlEl("oscillator", "amplitude", "number").textContent =
+        parseFloat(controlEl("oscillator", "amplitude", "input").value).
+        toFixed(2);
 };
 
 var updateOutputNumbers = function () {

@@ -281,7 +281,7 @@ input, label {
 
 .radio-selector ul {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
 }
 
@@ -303,7 +303,9 @@ input, label {
 
 .radio-selector label>span {
     display: inline-block;
+    box-sizing: border-box; /* otherwise item is not slightly off in flex */
     width: 100%;
+    padding: var(--stroke-width);
     border: var(--stroke-width) solid black;
 }
 

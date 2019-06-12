@@ -92,18 +92,30 @@ Each node is module in a big modular synthesizer:
 - Using a web UI, users can tweak the properties of individual
   modules.
 
-- Reconnecting nodes updates how the modular synthesizer is
-  patched. (of course)
+- Reconnecting nodes updates how the modular synthesizer is patched.
+
+- Master output: There is one root node in the network, which is where
+  the structure is connected to the computer.  This root node serves
+  as the master output.
 
 *** A module
 
-Each node has several child nodes and one parent node. By default each
-node acts as an oscillator possibly at a base frequency detuned
-depending on the node’s position. All oscillators are simply
-added. This makes the structure make sound by default without any user
+Each node has several child nodes and one parent node.  By default
+each node acts as an oscillator possibly at a base frequency detuned
+depending on the node’s position.  All oscillators are simply added.
+This makes the structure make sound by default without any user
 interaction.
 
-Possible inputs:
+- Inputs: child nodes
+
+- Outputs: parent nodes, or root node (master)
+
+#+CAPTION: Screenshot of a module connected to master, June 12 2019
+[[./images/module.png]]
+
+*** Possible extensions
+
+It could be interesting to give the user a selection of inputs:
 
 - outputs from the neighboring child nodes
 
@@ -113,28 +125,10 @@ Possible inputs:
 
 - color of node
 
-Output:
-
-- parent node
-
 There could be various predefined properties, such as pitch or the
 duration of a repeating loop, that the user can attach inputs to.
 Also the node could be made freely programmable, perhaps globally for
 all nodes at once.
-
-If possible, it should be possible to send signals around loops that
-users built.
-
-The UI for a node could be a webapp compatible with smartphones.
-
-#+CAPTION: Module mockup
-[[./images/module.png]]
-
-*** Master output:
-
-There is one root node in the network, which is where the structure is
-connected to the computer.  This root node serves as the master
-output.
 
 *** Examples for collaborative synths
 

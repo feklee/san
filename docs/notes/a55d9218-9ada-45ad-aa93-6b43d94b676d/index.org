@@ -143,7 +143,7 @@ all nodes at once.
 :CUSTOM_ID: sequencer
 :END:
 
-Idea: /Walk through the molecule, atom by node. Trigger an action at
+Idea: /Walk through the molecule, atom by node.  Trigger an action at
 each step, such as playing a note associated with node./
 
 Open question: Is there a standard way to walk the atoms of a

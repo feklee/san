@@ -275,7 +275,7 @@ input:focus {
     outline: none;
 }
 
-input, label {
+input, label, button {
     cursor: pointer;
 }
 

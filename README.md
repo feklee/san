@@ -15,6 +15,8 @@ started:
 
  4. Run the web app.
 
+There may be [apps][5] built on top of the system.
+
 ![Photo of setup at Maker Faire Rome 2018](images/2018-10-14+02_Maker_Faire_Rome.jpg)
 
 
@@ -45,3 +47,4 @@ Hocevar. See the COPYING file for more details.
 [2]: https://github.com/rampadc
 [3]: https://github.com/davidblitz
 [4]: https://github.com/davidblitz/san-optimizer
+[5]: https://feklee.github.io/san/notes/f8d89da9-c285-4b5a-921b-7af3444b9229/

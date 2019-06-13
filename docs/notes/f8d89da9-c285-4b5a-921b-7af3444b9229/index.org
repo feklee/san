@@ -1,0 +1,46 @@
+#+HTML_HEAD: <style>body{max-width:42em}img{max-width:100%}.figure-number{display:none}</style>
+
+#+TITLE: SAN: Apps
+
+* Introduction
+
+The /Self Aware Network/ (SAN) is a kit for assembling architectural
+structures that are aware of themselves.
+
+A structure is comprised of a network.  Nodes communicate and send
+information to a computer, which is then able to understand what has
+been built.
+
+This information can be used for various purposes:
+
+- visualization of the structure
+
+- modular sound synthesis (see the document [[https://feklee.github.io/san/notes/a55d9218-9ada-45ad-aa93-6b43d94b676d/][SAN: Audio]])
+
+- apps
+
+#+CAPTION: Dodecahedron built by two little girls at the end of Maker Faire Rome.  Notice the visualization in the background: The structure understands how it is assembled.
+[[./images/Maker-Faire-Rome-2018.jpg]]
+
+
+* App ideas
+
+** Chemistry
+
+An app can give instructions about what to build, and it can give
+feedback about what has been built.  Possibly nodes in the network
+change color to match atom types.
+
+** Pacman
+
+Gena Shabanov, a software developer suggested at Science Hack Lab
+Berlin on June 8 2019 to create a Pacman like game.  A character moves
+through the structure, and one needs to adapt it to achieve certain
+goals in the game.
+
+There is a problem, though.  As of June 2019, changes to the structure
+are not communicated quickly enough to the computer.  So a real-time
+action game cannot be implemented.  However, it may be possible to
+create a game where one builds a structure, and then something
+happens.  For inspiration see for example the game series [[https://en.wikipedia.org/wiki/The_Incredible_Machine_(series)][The
+Incredible Machine]].

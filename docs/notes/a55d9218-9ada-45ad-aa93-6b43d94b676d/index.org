@@ -169,3 +169,10 @@ Treat SAN as a neural network.  Investigate how pulses are passed
 around in a biological neural network.
 
 (idea of Brian / Sonic Code Sessions 02/2019)
+
+** Mood
+
+Ivan Palmegiani pointed out that Science Hack Lab Berlin on June 8
+2019 that there is research that certain sound waves affect mood.
+
+This means that mood can be changed according to the structure built.

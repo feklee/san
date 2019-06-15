@@ -6,7 +6,7 @@
     --module-connection-length: 20px;
     --stroke-width: 1px;
     --body-width: 401px; /* uneven -> connectors can be perfectly in middle */
-    --root-node-height: 25px;
+    --special-icon-height: 25px;
     --root-node-width: 101px;
     --root-node-padding: 5px;
     --all-node-icon-shadow-width: 3px;
@@ -19,9 +19,13 @@
     user-select: none;
 }
 
-html, body {
+html {
     background: black;
     color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
 }
 
 body {
@@ -29,6 +33,7 @@ body {
     margin: 15px;
     font: normal normal normal 14px "Source Code Pro";
     line-height: var(--line-height);
+    overscroll-behavior: none;
 }
 
 ul.all.nodes {
@@ -65,25 +70,34 @@ ul.all.nodes>li.root.node-icon {
 }
 
 .graph {
-    position: relative;
+    display: grid;
+}
+
+.graph>* {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.graph canvas {
+    display: block;
 }
 
 .graph button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    color: white;
     position: absolute;
     background: transparent;
     border: 0;
     padding: 0;
     margin: 0;
     outline: 0;
-    width: 20px;
-    height: 20px;
-    top: 40px; /* TODO: calculate position */
-    left: 240px; /* TODO: calculate position */
-    color: transparent;
-}
-
-.graph canvas {
-    display: block;
+    font-size: var(--special-icon-height);
+    line-height: var(--special-icon-height);
+    width: var(--special-icon-height);
+    height: var(--special-icon-height);
+    display: none;
 }
 
 .hidden.graph canvas {
@@ -91,7 +105,7 @@ ul.all.nodes>li.root.node-icon {
 }
 
 .hidden.graph button {
-    color: white;
+    display: block;
 }
 
 .node-icon {
@@ -104,10 +118,10 @@ ul.all.nodes>li.root.node-icon {
 ul.output.nodes>li.root.node-icon {
     background: transparent !important;
     text-align: center;
-    font-size: var(--root-node-height);
-    line-height: var(--root-node-height);
+    font-size: var(--special-icon-height);
+    line-height: var(--special-icon-height);
     width: var(--root-node-width);
-    height: var(--root-node-height);
+    height: var(--special-icon-height);
     padding-top: var(--root-node-padding);
 }
 
@@ -117,7 +131,7 @@ ul.output.nodes>li.root.node-icon::before {
 
 ul.output.nodes>li.root.node-icon::after {
     margin-top: calc(-1 * (var(--node-connection-length)
-                           + var(--root-node-height)
+                           + var(--special-icon-height)
                            + var(--root-node-padding)));
     margin-left: calc((var(--root-node-width) - var(--node-icon-size)) / 2);
 }

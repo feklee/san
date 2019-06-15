@@ -2,6 +2,7 @@
 
 import nodes from "./nodes.mjs";
 import visibleNodes from "./visible-nodes.mjs";
+import util from "./util.mjs";
 
 var context = new window.AudioContext();
 var muteButtonEl = document.querySelector("button.mute");
@@ -175,6 +176,7 @@ var createModule = function (nodeId) {
     var outputDelay = context.createDelay(maxDelayTime);
     var oscillatorFrequency = 440;
     var oscillator = context.createOscillator({frequency: oscillatorFrequency});
+    var noiseSource = util.createNoiseSource(context);
     var internalAudioNodes = new Set();
     var oscillatorAmplitude = context.createGain();
     var oscillatorClipper = context.createWaveShaper();
@@ -190,6 +192,7 @@ var createModule = function (nodeId) {
     ];
 
     oscillator.start();
+    noiseSource.start();
     oscillator.connect(oscillatorAmplitude);
     oscillatorAmplitude.connect(oscillatorGain);
     oscillatorOffset.start();

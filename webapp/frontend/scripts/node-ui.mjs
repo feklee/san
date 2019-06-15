@@ -1,13 +1,14 @@
 /*jslint browser: true, maxlen: 80 */
 
 import client from "./web-socket-client.mjs";
-var idOfThisNode = window.location.pathname.substr(1, 1);
-var audioCtx = new window.AudioContext();
 import util from "./util.mjs";
 import nodeColors from "./node-colors.mjs";
 import {
     graphUpdateInterval // ms
 } from "./shared-settings.mjs";
+
+var idOfThisNode = window.location.pathname.substr(1, 1);
+var audioCtx = new window.AudioContext();
 
 var setUpHidpiCanvas = function (canvasEl) {
     var rect = canvasEl.getBoundingClientRect();
@@ -23,31 +24,13 @@ var setUpHidpiCanvas = function (canvasEl) {
     return ctx;
 };
 
-var createNoiseSource = function (ctx) {
-    const noiseLength = 10; // s
-    const bufferSize = ctx.sampleRate * noiseLength;
-    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-    var data = buffer.getChannelData(0);
-    var i = 0;
-
-    while (i < bufferSize) {
-        data[i] = Math.random() * 2 - 1;
-        i += 1;
-    }
-
-    var bs = audioCtx.createBufferSource();
-    bs.buffer = buffer;
-    bs.loop = true;
-    return bs;
-};
-
 const canvasEl = document.querySelector("canvas");
 const canvasCtx = setUpHidpiCanvas(canvasEl);
 var oscillatorAmplitude = audioCtx.createGain();
 var oscillatorOffset = audioCtx.createConstantSource();
 var oscillatorGain = audioCtx.createGain();
 var oscillator = audioCtx.createOscillator();
-var noiseSource = createNoiseSource(audioCtx);
+var noiseSource = util.createNoiseSource(audioCtx);
 
 noiseSource.start();
 oscillator.start();

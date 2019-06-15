@@ -321,10 +321,19 @@ input, label, button {
     width: 100%;
     padding: var(--stroke-width);
     border: var(--stroke-width) solid black;
+    height: calc(var(--line-height) + 4 * var(--stroke-width));
 }
 
 .radio-selector input:checked+span {
     border-color: white;
+}
+
+.radio-selector svg {
+    display: inline-block;
+    height: var(--line-height);
+    stroke: white;
+    stroke-width: 0.1;
+    transform: scaleY(-1);
 }
 
 .toggle-selector input {

@@ -336,7 +336,7 @@ input, label, button {
     transform: scaleY(-1);
 }
 
-.radio-selector input[value="white"]+span svg {
+.radio-selector input[value="noise"]+span svg {
     stroke: none;
     fill: white;
 }

@@ -51,6 +51,24 @@
                                                        viewBox="-.1 -1.5 8.2 3">
                     <path d="M 0 0 l 1 1 l 2 -2 l 2 2 l 2 -2 l 1 1" />
                 </svg></span></label></li>
+            <li><label><input type="radio" name="oscillator-type"
+                              value="white"><span><svg 
+                                                    id="white-oscillator-svg"
+                                                    viewBox="-.1 -1.5 8.2 3">
+                  </svg>
+                  <script>
+                    (function () {
+                        for (var i = 0; i < 100; i += 1) {
+                            const ns = "http://www.w3.org/2000/svg";
+                            var el = document.createElementNS(ns, "circle");
+                            el.setAttribute("cx", 8 * Math.round(40 * Math.random()) / 40);
+                            el.setAttribute("cy", 2 * Math.round(10 * Math.random()) / 10 - 1);
+                            el.setAttribute("r", 0.1);
+                            document.getElementById("white-oscillator-svg").appendChild(el);
+                        }
+                    }());
+                  </script>
+            </span></label></li>
           </ul>
         </div>
       </li>

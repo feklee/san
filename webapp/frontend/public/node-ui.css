@@ -336,6 +336,11 @@ input, label, button {
     transform: scaleY(-1);
 }
 
+.radio-selector input[value="white"]+span svg {
+    stroke: none;
+    fill: white;
+}
+
 .toggle-selector input {
     display: none;
 }

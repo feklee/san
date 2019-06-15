@@ -23,13 +23,33 @@ var setUpHidpiCanvas = function (canvasEl) {
     return ctx;
 };
 
+var createNoiseSource = function (ctx) {
+    const noiseLength = 10; // s
+    const bufferSize = ctx.sampleRate * noiseLength;
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    var data = buffer.getChannelData(0);
+    var i = 0;
+
+    while (i < bufferSize) {
+        data[i] = Math.random() * 2 - 1;
+        i += 1;
+    }
+
+    var bs = audioCtx.createBufferSource();
+    bs.buffer = buffer;
+    bs.loop = true;
+    return bs;
+};
+
 const canvasEl = document.querySelector("canvas");
 const canvasCtx = setUpHidpiCanvas(canvasEl);
 var oscillatorAmplitude = audioCtx.createGain();
 var oscillatorOffset = audioCtx.createConstantSource();
 var oscillatorGain = audioCtx.createGain();
 var oscillator = audioCtx.createOscillator();
+var noiseSource = createNoiseSource(audioCtx);
 
+noiseSource.start();
 oscillator.start();
 oscillator.connect(oscillatorAmplitude);
 oscillatorAmplitude.connect(oscillatorGain);
@@ -110,10 +130,26 @@ var setOscillatorOffset = function (value) {
     controlEl("oscillator", "offset", "input").value = value;
 };
 
+var connectNoiseSource = function () {
+    oscillator.disconnect();
+    noiseSource.connect(oscillatorAmplitude);
+};
+
+var connectOscillatorOfType = function (type) {
+    noiseSource.disconnect();
+    oscillator.connect(oscillatorAmplitude);
+    oscillator.type = type;
+};
+
 var updateOscillator = function () {
     oscillatorOffset.offset.value = selectedOscillatorOffset();
     oscillatorAmplitude.gain.value = selectedOscillatorAmplitude();
-    oscillator.type = selectedOscillatorType();
+    var type = selectedOscillatorType();
+    if (type === "noise") {
+        connectNoiseSource();
+    } else {
+        connectOscillatorOfType(type);
+    }
     oscillator.frequency.value = selectedOscillatorFrequency();
 };
 

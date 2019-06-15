@@ -182,6 +182,8 @@ var drawWaveForm = function () {
     var sliceWidth = w / bufferLength;
     var x = 0;
 
+    canvasCtx.lineWidth = "0.8";
+
     drawZeroLine();
 
     canvasCtx.beginPath();
@@ -198,7 +200,7 @@ var drawWaveForm = function () {
         x += sliceWidth;
     });
 
-    canvasCtx.strokeStyle = "green";
+    canvasCtx.strokeStyle = "white";
     canvasCtx.stroke();
 };
 

@@ -29,15 +29,33 @@ const canvasCtx = setUpHidpiCanvas(canvasEl);
 var sourceAmplitude = audioCtx.createGain();
 var sourceOffset = audioCtx.createConstantSource();
 var sourceGain = audioCtx.createGain();
-var source = audioCtx.createOscillator();
-var noiseSource = util.createNoiseSource(audioCtx);
+var oscillator = audioCtx.createOscillator();
+var unfilteredNoise = util.createNoiseSource(audioCtx);
+var noiseBandpass = audioCtx.createBiquadFilter();
+noiseBandpass.type = "bandpass";
+var noise = noiseBandpass;
+var sourceInput = sourceAmplitude;
+var source;
 
-noiseSource.start();
-source.start();
-source.connect(sourceAmplitude);
+unfilteredNoise.start();
+unfilteredNoise.connect(noiseBandpass);
+oscillator.start();
 sourceAmplitude.connect(sourceGain);
 sourceOffset.start();
 sourceOffset.connect(sourceGain);
+
+var setSource = function (newSource) {
+    if (source === newSource) {
+        return;
+    }
+    if (source) {
+        source.disconnect();
+    }
+    source = newSource;
+    source.connect(sourceInput);
+};
+
+setSource(oscillator);
 
 var controlEl = function (groupClass, nameClass, type) {
     var typeSelector = type !== "input" ? "." + type : type;
@@ -113,25 +131,15 @@ var setSourceOffset = function (value) {
     controlEl("source", "offset", "input").value = value;
 };
 
-var connectNoiseSource = function () {
-    source.disconnect();
-    noiseSource.connect(sourceAmplitude);
-};
-
-var connectSourceOfType = function (type) {
-    noiseSource.disconnect();
-    source.connect(sourceAmplitude);
-    source.type = type;
-};
-
 var updateSource = function () {
     sourceOffset.offset.value = selectedSourceOffset();
     sourceAmplitude.gain.value = selectedSourceAmplitude();
     var type = selectedSourceType();
     if (type === "noise") {
-        connectNoiseSource();
+        setSource(noise);
     } else {
-        connectSourceOfType(type);
+        setSource(oscillator);
+        oscillator.type = type;
     }
     source.frequency.value = selectedSourceFrequency();
 };

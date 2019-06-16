@@ -1,7 +1,7 @@
 :root {
     --node-icon-size: 17px;
     --node-connection-length: 30px;
-    --oscillator-connection-length: calc(2 * var(--node-connection-length) +
+    --source-connection-length: calc(2 * var(--node-connection-length) +
                                          var(--node-icon-size));
     --module-connection-length: 20px;
     --stroke-width: 1px;
@@ -147,7 +147,7 @@ ul.nodes>li {
 }
 
 ul.input.nodes>li.node-icon {
-    margin-top: calc(var(--oscillator-connection-length)
+    margin-top: calc(var(--source-connection-length)
                      - var(--node-icon-size)
                      - var(--node-connection-length));
 }
@@ -175,9 +175,9 @@ ul.output.nodes>li::after {
                      - var(--node-icon-size));
 }
 
-ul.nodes>li.oscillator::after {
+ul.nodes>li.source::after {
     margin-top: 0;
-    height: var(--oscillator-connection-length);
+    height: var(--source-connection-length);
 }
 
 ul.controls>li {

@@ -54,9 +54,12 @@ var setGenerator = function (newGenerator) {
 setGenerator(oscillationGenerator);
 
 var controlEl = function (groupClass, nameClass, type) {
-    var typeSelector = type !== "input" ? "." + type : type;
-    return document.querySelector("." + groupClass + ".controls ." + nameClass +
-                                  " " + typeSelector);
+    var typeSelector = type !== "input"
+        ? "." + type
+        : type;
+    return document.querySelector(
+        "." + groupClass + ".controls ." + nameClass + " " + typeSelector
+    );
 };
 
 var nodes = [];
@@ -69,7 +72,7 @@ var updateGeneratorFrequencyNumber = function () {
     var generatorFrequencyExp = selectedGeneratorFrequencyExp();
     var generatorFrequency = Math.pow(2, generatorFrequencyExp); // Hz
     controlEl("generator", "frequency", "number").textContent =
-        generatorFrequency.toFixed(2);
+            generatorFrequency.toFixed(2);
 };
 
 var selectedGeneratorFrequency = function () { // Hz
@@ -84,8 +87,7 @@ var setGeneratorFrequencyExp = function (value) {
 };
 
 var selectedGeneratorType = function () {
-    return document.querySelector("input[name=generator-type]:checked").
-        value;
+    return document.querySelector("input[name=generator-type]:checked").value;
 };
 
 var deselectAllRadioButtons = function (selectors) {
@@ -96,8 +98,9 @@ var deselectAllRadioButtons = function (selectors) {
 
 var setGeneratorType = function (value) {
     deselectAllRadioButtons("input[name=generator-type]");
-    var el = document.querySelector("input[name=generator-type][value=\"" +
-                                    value + "\"]");
+    var el = document.querySelector(
+        "input[name=generator-type][value=\"" + value + "\"]"
+    );
     if (el) {
         el.checked = true;
     }
@@ -142,20 +145,24 @@ var updateGenerator = function () {
 
 var updateGeneratorNumbers = function () {
     updateGeneratorFrequencyNumber();
-    controlEl("generator", "detuning", "number").textContent =
-        Math.round(controlEl("generator", "detuning", "input").value);
-    controlEl("generator", "offset", "number").textContent =
-        parseFloat(controlEl("generator", "offset", "input").value).toFixed(2);
-    controlEl("generator", "amplitude", "number").textContent =
-        parseFloat(controlEl("generator", "amplitude", "input").value).
-        toFixed(2);
+    controlEl("generator", "detuning", "number").textContent = Math.round(
+        controlEl("generator", "detuning", "input").value
+    );
+    controlEl("generator", "offset", "number").textContent = parseFloat(
+        controlEl("generator", "offset", "input").value
+    ).toFixed(2);
+    controlEl("generator", "amplitude", "number").textContent = parseFloat(
+        controlEl("generator", "amplitude", "input").value
+    ).toFixed(2);
 };
 
 var updateOutputNumbers = function () {
-    controlEl("output", "delay", "number").textContent =
-        parseFloat(controlEl("output", "delay", "input").value).toFixed(2);
-    controlEl("output", "gain", "number").textContent =
-        Math.round(100 * controlEl("output", "gain", "input").value);
+    controlEl("output", "delay", "number").textContent = parseFloat(
+        controlEl("output", "delay", "input").value
+    ).toFixed(2);
+    controlEl("output", "gain", "number").textContent = Math.round(
+        100 * controlEl("output", "gain", "input").value
+    );
 };
 
 var showGraph = function () {
@@ -235,8 +242,9 @@ var selectedModulator = function () {
 
 var setModulator = function (value) {
     deselectAllRadioButtons("input[name=modulator]");
-    var el = document.querySelector("input[name=modulator][value=\"" + value +
-                                    "\"]");
+    var el = document.querySelector(
+        "input[name=modulator][value=\"" + value + "\"]"
+    );
     if (el) {
         el.checked = true;
     }
@@ -313,18 +321,14 @@ var parseModuleMessage = function (message) {
     updateOutputNumbers();
 };
 
-var nodeIconEl = function (className) {
-    return document.querySelector("." + className + ".node-icon");
-};
-
 var setNodeIconColors = function (nodeEl, nodeId) {
     var colors = nodeColors(nodeId);
     nodeEl.style.background =
-        "linear-gradient(to bottom right, " +
-        colors[0] + " 0%, " +
-        colors[0] + " 50%, " +
-        colors[1] + " 50%, " +
-        colors[1] + " 100%)";
+            "linear-gradient(to bottom right, " +
+            colors[0] + " 0%, " +
+            colors[0] + " 50%, " +
+            colors[1] + " 50%, " +
+            colors[1] + " 100%)";
 };
 
 var setNodeIconLink = function (nodeEl, nodeId) {
@@ -373,13 +377,15 @@ var createNodeIconEl = function (nodeId) {
 };
 
 var insertNodeIcon = function (node) {
-    document.querySelector("ul." + node.type + ".nodes").
-        appendChild(node.iconEl);
+    document.querySelector(
+        "ul." + node.type + ".nodes"
+    ).appendChild(node.iconEl);
 };
 
 var removeNodeIcon = function (node) {
-    document.querySelector("ul." + node.type + ".nodes").
-        removeChild(node.iconEl);
+    document.querySelector(
+        "ul." + node.type + ".nodes"
+    ).removeChild(node.iconEl);
 };
 
 var createNode = function (nodeId, type) {
@@ -470,10 +476,12 @@ document.querySelectorAll(".generator.controls input").forEach(
     (el) => el.addEventListener("input", function () {
         updateGeneratorNumbers();
         updateGenerator();
-    }));
+    })
+);
 
 document.querySelectorAll(".output.controls input").forEach(
-    (el) => el.addEventListener("input", updateOutputNumbers));
+    (el) => el.addEventListener("input", updateOutputNumbers)
+);
 
 updateGeneratorNumbers();
 updateGenerator();

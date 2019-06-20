@@ -7,6 +7,9 @@ Parametric design (Fusion 360): http://a360.co/2FMH0TC
 
 Inside of each node there is a tiny microcontroller, an Arduino Pro Mini.
 
+In the future, it may be interesting to put cameras into nodes for
+[AI based visual self awareness][1].
+
 
 Geometry
 ========
@@ -355,3 +358,5 @@ Programming
       - Set the ID in `Firmward/id.h`. (described in `Firmware/Firmware.ino`)
 
       - Build and upload `Firmware`.
+
+[1]: https://feklee.github.io/san/notes/9a6db854-abda-4775-8beb-084482e0d0a7/

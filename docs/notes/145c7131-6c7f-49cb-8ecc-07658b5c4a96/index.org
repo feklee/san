@@ -32,6 +32,9 @@ version of SAN that was current at the time of publication.
   #+CAPTION: Dodecahedron built by two little girls at the end of Maker Faire Rome: Convergence successful!
   [[./images/Maker-Faire-Rome-2018.jpg]]
 
+A completely different approach would be
+[[https://feklee.github.io/san/notes/9a6db854-abda-4775-8beb-084482e0d0a7/][AI Based Visual Self Awareness]].
+
 * Nodes
 
   #+CAPTION: Geometry of a node with ports 1–4

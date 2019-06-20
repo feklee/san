@@ -31,19 +31,42 @@ var createRawNoiseGenerator = function (audioCtx) {
     return audioNode;
 };
 
+function impulseResponse(audioCtx, duration, decay) {
+    var sampleRate = audioCtx.sampleRate;
+    var length = sampleRate * duration;
+    var impulse = audioCtx.createBuffer(1, length, sampleRate);
+    var impulseL = impulse.getChannelData(0);
+
+    for (var i = 0; i < length; i++){
+      var n = i;
+      impulseL[i] = 1 * Math.pow(1 - n / length, decay);
+    }
+    return impulse;
+}
+
+var createNormalizer = function (audioCtx) {
+    var convolverNode = audioCtx.createConvolver();
+    convolverNode.normalize = true;
+    convolverNode.buffer = impulseResponse(audioCtx, 4, 100000, false);
+    return convolverNode;
+};
+
 var createNoiseGenerator = function (
     audioCtx,
     frequency // Hz
 ) {
     var rawNoise = createRawNoiseGenerator(audioCtx);
+
     var noiseBandpass = audioCtx.createBiquadFilter();
     noiseBandpass.type = "bandpass";
     noiseBandpass.frequency.value = frequency;
-
     rawNoise.connect(noiseBandpass);
 
+    var normalizer = createNormalizer(audioCtx);
+    noiseBandpass.connect(normalizer);
+
     return {
-        audioNode: noiseBandpass,
+        audioNode: normalizer,
         frequency: noiseBandpass.frequency,
         detune: noiseBandpass.detune
     };

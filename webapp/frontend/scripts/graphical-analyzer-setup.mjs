@@ -87,6 +87,8 @@ var graphicalAnalyzerSetup = function (settings) {
     settings.input.connect(analyzer);
 
     drawWaveForm();
+
+    return analyzer;
 };
 
 export default graphicalAnalyzerSetup;

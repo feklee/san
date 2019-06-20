@@ -3,6 +3,7 @@
 import nodes from "./nodes.mjs";
 import visibleNodes from "./visible-nodes.mjs";
 import util from "./util.mjs";
+import graphicalAnalyzerSetup from "./graphical-analyzer-setup.mjs";
 
 var audioCtx = new window.AudioContext();
 var muteButtonEl = document.querySelector("button.mute");
@@ -128,12 +129,21 @@ var createMasterModule = function (node) {
         false
     ];
     var internalAudioNodes = new Set();
+
+    var analyzer = graphicalAnalyzerSetup({
+        audioCtx: audioCtx,
+        canvasEl: document.querySelector("canvas.audio"),
+        input: inputs[1] // TODO: maybe rename
+    });
+
+    analyzer.connect(audioCtx.destination);
+
     var module = {
         inputs: inputs,
         inputIsConnectedList: inputIsConnectedList,
         internalAudioNodes: internalAudioNodes,
         modulator: "add",
-        outputInternal: audioCtx.destination,
+        outputInternal: analyzer,
         output: audioCtx.destination
     };
 

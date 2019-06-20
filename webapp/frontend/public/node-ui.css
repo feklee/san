@@ -69,11 +69,11 @@ ul.all.nodes>li.root.node-icon {
     display: none;
 }
 
-.graph {
+.graph div {
     display: grid;
 }
 
-.graph>* {
+.graph div>* {
     grid-column: 1;
     grid-row: 1;
 }
@@ -82,12 +82,8 @@ ul.all.nodes>li.root.node-icon {
     display: block;
 }
 
-.graph button {
-    position: absolute;
-    top: 50%;
-    left: 50%;
+.graph button.show {
     color: white;
-    position: absolute;
     background: transparent;
     border: 0;
     padding: 0;
@@ -106,6 +102,8 @@ ul.all.nodes>li.root.node-icon {
 
 .hidden.graph button {
     display: block;
+    width: 100%;
+    height: 100%;
 }
 
 .node-icon {

@@ -259,10 +259,8 @@ var detuneGenerator = function (nodeId) {
     }
     var module = node.audioModule;
     var generator = module.generator;
-    generator.detune.setValueAtTime( // TODO: why set value at time?
-        module.generatorDetuning * node.animatedLocation.z, // cents
-        audioCtx.currentTime
-    );
+    generator.detune.value =
+            module.generatorDetuning * node.animatedLocation.z; // cents
 };
 
 var refreshOscillatorType = function (module) {

@@ -176,3 +176,10 @@ Ivan Palmegiani pointed out that Science Hack Lab Berlin on June 8
 2019 that there is research that certain sound waves affect mood.
 
 This means that mood can be changed according to the structure built.
+
+** Cognimates extension
+
+Stafania suggested on June 17 CEST at Betahaus in Berlin to create an
+extension for SAN for her [[http://cognimates.me][Cognimates]] AI teaching platform.  She
+outlined that it may be possible to train the AI to create music based
+on certain constellations.

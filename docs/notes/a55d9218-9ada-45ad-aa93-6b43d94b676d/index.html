@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2019-06-12 Wed 10:56 -->
+<!-- 2019-06-20 Thu 14:17 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>SAN: Audio</title>
@@ -248,35 +248,37 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org8ec01a7">1. Introduction</a></li>
-<li><a href="#org27b38cf">2. Approaches</a>
+<li><a href="#org3526b69">1. Introduction</a></li>
+<li><a href="#org8c673a2">2. Approaches</a>
 <ul>
 <li><a href="#sound">2.1. Sound of molecular vibrations</a>
 <ul>
-<li><a href="#org292f47d">2.1.1. Idea</a></li>
-<li><a href="#org84dd07d">2.1.2. Examples</a></li>
-<li><a href="#orgeb0281c">2.1.3. Calculation of vibrations</a></li>
+<li><a href="#org3cd73d1">2.1.1. Idea</a></li>
+<li><a href="#org4c5bdd7">2.1.2. Examples</a></li>
+<li><a href="#orgc0fed61">2.1.3. Calculation of vibrations</a></li>
 </ul>
 </li>
 <li><a href="#modular-synth">2.2. Collaborative modular synthesizer</a>
 <ul>
-<li><a href="#orgb1bbd3f">2.2.1. Idea</a></li>
-<li><a href="#org7a4fd5e">2.2.2. A module</a></li>
-<li><a href="#orgd6444a8">2.2.3. Possible extensions</a></li>
-<li><a href="#org5f4fd1e">2.2.4. Examples for collaborative synths</a></li>
+<li><a href="#org99b86c3">2.2.1. Idea</a></li>
+<li><a href="#org6ed527e">2.2.2. A module</a></li>
+<li><a href="#org57b45a0">2.2.3. Possible extensions</a></li>
+<li><a href="#org70b2d67">2.2.4. Examples for collaborative synths</a></li>
 </ul>
 </li>
 <li><a href="#sequencer">2.3. Sequencer</a></li>
 <li><a href="#matrix">2.4. Adjacency matrix</a></li>
-<li><a href="#org88ed8d3">2.5. Neurons</a></li>
+<li><a href="#org1d7844c">2.5. Neurons</a></li>
+<li><a href="#org02e147c">2.6. Mood</a></li>
+<li><a href="#org3a84b0a">2.7. Cognimates extension</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
 
-<div id="outline-container-org8ec01a7" class="outline-2">
-<h2 id="org8ec01a7"><span class="section-number-2">1</span> Introduction</h2>
+<div id="outline-container-org3526b69" class="outline-2">
+<h2 id="org3526b69"><span class="section-number-2">1</span> Introduction</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 SAN is a construction system for architectural structures that
@@ -295,8 +297,8 @@ musical instrument?</i>
 </div>
 
 
-<div id="outline-container-org27b38cf" class="outline-2">
-<h2 id="org27b38cf"><span class="section-number-2">2</span> Approaches</h2>
+<div id="outline-container-org8c673a2" class="outline-2">
+<h2 id="org8c673a2"><span class="section-number-2">2</span> Approaches</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 What follows is a discussion of vairous approaches to turning the
@@ -305,13 +307,13 @@ structure into sound or even have it generate music.
 </div>
 
 
-<div id="outline-container-orgd3e4f67" class="outline-3">
+<div id="outline-container-orga0bf3b2" class="outline-3">
 <h3 id="sound"><span class="section-number-3">2.1</span> Sound of molecular vibrations</h3>
 <div class="outline-text-3" id="text-sound">
 </div>
 
-<div id="outline-container-org292f47d" class="outline-4">
-<h4 id="org292f47d"><span class="section-number-4">2.1.1</span> Idea</h4>
+<div id="outline-container-org3cd73d1" class="outline-4">
+<h4 id="org3cd73d1"><span class="section-number-4">2.1.1</span> Idea</h4>
 <div class="outline-text-4" id="text-2-1-1">
 <p>
 <i>Treat the structure as a molecule made up of carbon atoms.  Turn
@@ -337,8 +339,8 @@ together make up a spectrum:
 </div>
 
 
-<div id="outline-container-org84dd07d" class="outline-4">
-<h4 id="org84dd07d"><span class="section-number-4">2.1.2</span> Examples</h4>
+<div id="outline-container-org4c5bdd7" class="outline-4">
+<h4 id="org4c5bdd7"><span class="section-number-4">2.1.2</span> Examples</h4>
 <div class="outline-text-4" id="text-2-1-2">
 <p>
 Scientists and musicians have explored turning molecular spectra into
@@ -372,8 +374,8 @@ See also his 2016 talk <a href="https://zkm.de/de/media/video/stroemungen-falk-m
 </div>
 </div>
 
-<div id="outline-container-orgeb0281c" class="outline-4">
-<h4 id="orgeb0281c"><span class="section-number-4">2.1.3</span> Calculation of vibrations</h4>
+<div id="outline-container-orgc0fed61" class="outline-4">
+<h4 id="orgc0fed61"><span class="section-number-4">2.1.3</span> Calculation of vibrations</h4>
 <div class="outline-text-4" id="text-2-1-3">
 <p>
 There are many ways to calculate molecular vibrations.  Simple
@@ -396,13 +398,13 @@ Gaussian 09 can be used:
 </div>
 
 
-<div id="outline-container-org5a6bb92" class="outline-3">
+<div id="outline-container-org5cd245d" class="outline-3">
 <h3 id="modular-synth"><span class="section-number-3">2.2</span> Collaborative modular synthesizer</h3>
 <div class="outline-text-3" id="text-modular-synth">
 </div>
 
-<div id="outline-container-orgb1bbd3f" class="outline-4">
-<h4 id="orgb1bbd3f"><span class="section-number-4">2.2.1</span> Idea</h4>
+<div id="outline-container-org99b86c3" class="outline-4">
+<h4 id="org99b86c3"><span class="section-number-4">2.2.1</span> Idea</h4>
 <div class="outline-text-4" id="text-2-2-1">
 <p>
 Each node is module in a big modular synthesizer:
@@ -421,8 +423,8 @@ as the master output.</li>
 </div>
 </div>
 
-<div id="outline-container-org7a4fd5e" class="outline-4">
-<h4 id="org7a4fd5e"><span class="section-number-4">2.2.2</span> A module</h4>
+<div id="outline-container-org6ed527e" class="outline-4">
+<h4 id="org6ed527e"><span class="section-number-4">2.2.2</span> A module</h4>
 <div class="outline-text-4" id="text-2-2-2">
 <p>
 Each node has several child nodes and one parent node.  By default
@@ -447,8 +449,8 @@ interaction.
 </div>
 </div>
 
-<div id="outline-container-orgd6444a8" class="outline-4">
-<h4 id="orgd6444a8"><span class="section-number-4">2.2.3</span> Possible extensions</h4>
+<div id="outline-container-org57b45a0" class="outline-4">
+<h4 id="org57b45a0"><span class="section-number-4">2.2.3</span> Possible extensions</h4>
 <div class="outline-text-4" id="text-2-2-3">
 <p>
 It could be interesting to give the user a selection of inputs:
@@ -473,8 +475,8 @@ all nodes at once.
 </div>
 </div>
 
-<div id="outline-container-org5f4fd1e" class="outline-4">
-<h4 id="org5f4fd1e"><span class="section-number-4">2.2.4</span> Examples for collaborative synths</h4>
+<div id="outline-container-org70b2d67" class="outline-4">
+<h4 id="org70b2d67"><span class="section-number-4">2.2.4</span> Examples for collaborative synths</h4>
 <div class="outline-text-4" id="text-2-2-4">
 <ul class="org-ul">
 <li><a href="https://github.com/CarloCattano/PopularSynth">Popular Synth</a> by Carlo Cattano (host of <a href="https://www.meetup.com/de-DE/spektrum/events/ckdswpyxqbxb">Sonic Code Sessions</a> in
@@ -487,7 +489,7 @@ Berlin)</li>
 </div>
 
 
-<div id="outline-container-org8db8f9b" class="outline-3">
+<div id="outline-container-org2299ba8" class="outline-3">
 <h3 id="sequencer"><span class="section-number-3">2.3</span> Sequencer</h3>
 <div class="outline-text-3" id="text-sequencer">
 <p>
@@ -503,7 +505,7 @@ molecule?
 </div>
 
 
-<div id="outline-container-orgfb70fd9" class="outline-3">
+<div id="outline-container-orge88a2e4" class="outline-3">
 <h3 id="matrix"><span class="section-number-3">2.4</span> Adjacency matrix</h3>
 <div class="outline-text-3" id="text-matrix">
 <p>
@@ -514,8 +516,8 @@ based on that.
 </div>
 
 
-<div id="outline-container-org88ed8d3" class="outline-3">
-<h3 id="org88ed8d3"><span class="section-number-3">2.5</span> Neurons</h3>
+<div id="outline-container-org1d7844c" class="outline-3">
+<h3 id="org1d7844c"><span class="section-number-3">2.5</span> Neurons</h3>
 <div class="outline-text-3" id="text-2-5">
 <p>
 :CUSTOM<sub>ID</sub>: neurons
@@ -531,11 +533,37 @@ around in a biological neural network.
 </p>
 </div>
 </div>
+
+<div id="outline-container-org02e147c" class="outline-3">
+<h3 id="org02e147c"><span class="section-number-3">2.6</span> Mood</h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+Ivan Palmegiani pointed out that Science Hack Lab Berlin on June 8
+2019 that there is research that certain sound waves affect mood.
+</p>
+
+<p>
+This means that mood can be changed according to the structure built.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3a84b0a" class="outline-3">
+<h3 id="org3a84b0a"><span class="section-number-3">2.7</span> Cognimates extension</h3>
+<div class="outline-text-3" id="text-2-7">
+<p>
+Stafania suggested on June 17 CEST at Betahaus in Berlin to create an
+extension for SAN for her <a href="http://cognimates.me">Cognimates</a> AI teaching platform.  She
+outlined that it may be possible to train the AI to create music based
+on certain constellations.
+</p>
+</div>
+</div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Felix E. Klee</p>
-<p class="date">Created: 2019-06-12 Wed 10:56</p>
+<p class="date">Created: 2019-06-20 Thu 14:17</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

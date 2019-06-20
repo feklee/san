@@ -31,7 +31,7 @@ var createRawNoiseGenerator = function (audioCtx) {
     return audioNode;
 };
 
-function impulseResponse(audioCtx, duration, decay) {
+function impulseResponse(audioCtx, duration, decay) { // TODO: replace with something that works
     var sampleRate = audioCtx.sampleRate;
     var length = sampleRate * duration;
     var impulse = audioCtx.createBuffer(1, length, sampleRate);

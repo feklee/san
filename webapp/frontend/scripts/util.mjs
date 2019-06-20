@@ -87,6 +87,7 @@ var createOscillationGenerator = function (
     };
 };
 
+
 export default {
     connectionExpiryTime: connectionExpiryTime,
     nodeIsRootNode: nodeIsRootNode,

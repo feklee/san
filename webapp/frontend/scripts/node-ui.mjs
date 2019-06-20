@@ -6,26 +6,12 @@ import nodeColors from "./node-colors.mjs";
 import {
     graphUpdateInterval // ms
 } from "./shared-settings.mjs";
+import graphicalAnalyzerSetup from "./graphical-analyzer-setup.mjs";
 
 var idOfThisNode = window.location.pathname.substr(1, 1);
 var audioCtx = new window.AudioContext();
 
-var setUpHidpiCanvas = function (canvasEl) {
-    var rect = canvasEl.getBoundingClientRect();
-    var w = rect.width;
-    var h = rect.height;
-    var dpr = window.devicePixelRatio || 1;
-    canvasEl.width = w * dpr;
-    canvasEl.height = h * dpr;
-    canvasEl.style.width = w + "px";
-    canvasEl.style.height = h + "px";
-    var ctx = canvasEl.getContext("2d");
-    ctx.lineWidth = dpr;
-    return ctx;
-};
-
 const canvasEl = document.querySelector("canvas");
-const canvasCtx = setUpHidpiCanvas(canvasEl);
 var generatorAmplitude = audioCtx.createGain();
 var generatorOffset = audioCtx.createConstantSource();
 var generatorGain = audioCtx.createGain();
@@ -165,76 +151,20 @@ var updateOutputNumbers = function () {
     );
 };
 
-var showGraph = function () {
-    var hiddenGraphEl = document.querySelector(".hidden.graph");
-    if (hiddenGraphEl) {
-        hiddenGraphEl.classList.remove("hidden");
-    }
-};
-
 var resumeAudioCtx = function () {
     if (audioCtx.state !== "running") {
         audioCtx.resume();
-        showGraph();
     }
 };
 
 var showButtonEl = document.querySelector(".graph button.show");
 showButtonEl.onclick = resumeAudioCtx;
 
-var generatorAnalyser = audioCtx.createAnalyser();
-generatorGain.connect(generatorAnalyser);
-generatorAnalyser.fftSize = 32768;
-var bufferLength = generatorAnalyser.frequencyBinCount;
-var dataArray = new Uint8Array(bufferLength);
-
-var drawZeroLine = function () {
-    canvasCtx.beginPath();
-    canvasCtx.moveTo(0, canvasEl.height / 2);
-    canvasCtx.lineTo(canvasEl.width, canvasEl.height / 2);
-    canvasCtx.strokeStyle = "gray";
-    canvasCtx.stroke();
-};
-
-var drawWaveForm = function () {
-    window.requestAnimationFrame(drawWaveForm);
-
-    if (audioCtx.state === "running") {
-        showGraph();
-    }
-
-    const w = canvasEl.width;
-    const h = canvasEl.height;
-
-    generatorAnalyser.getByteTimeDomainData(dataArray);
-    canvasCtx.clearRect(0, 0, w, h);
-
-    var sliceWidth = w / bufferLength;
-    var x = 0;
-
-    canvasCtx.lineWidth = "0.8";
-
-    drawZeroLine();
-
-    canvasCtx.beginPath();
-    dataArray.forEach(function (value, i) {
-        var v = value / 128;
-        var y = h - v * h / 2;
-
-        if (i === 0) {
-            canvasCtx.moveTo(x, y);
-        } else {
-            canvasCtx.lineTo(x, y);
-        }
-
-        x += sliceWidth;
-    });
-
-    canvasCtx.strokeStyle = "white";
-    canvasCtx.stroke();
-};
-
-drawWaveForm();
+graphicalAnalyzerSetup({
+    audioCtx: audioCtx,
+    canvasEl: canvasEl,
+    input: generatorGain
+});
 
 var selectedModulator = function () {
     return document.querySelector("input[name=modulator]:checked").value;

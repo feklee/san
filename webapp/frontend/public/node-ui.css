@@ -1,8 +1,8 @@
 :root {
     --node-icon-size: 17px;
     --node-connection-length: 30px;
-    --source-connection-length: calc(2 * var(--node-connection-length) +
-                                         var(--node-icon-size));
+    --generator-connection-length: calc(2 * var(--node-connection-length) +
+                                            var(--node-icon-size));
     --module-connection-length: 20px;
     --stroke-width: 1px;
     --body-width: 401px; /* uneven -> connectors can be perfectly in middle */
@@ -145,7 +145,7 @@ ul.nodes>li {
 }
 
 ul.input.nodes>li.node-icon {
-    margin-top: calc(var(--source-connection-length)
+    margin-top: calc(var(--generator-connection-length)
                      - var(--node-icon-size)
                      - var(--node-connection-length));
 }
@@ -173,9 +173,9 @@ ul.output.nodes>li::after {
                      - var(--node-icon-size));
 }
 
-ul.nodes>li.source::after {
+ul.nodes>li.generator::after {
     margin-top: 0;
-    height: var(--source-connection-length);
+    height: var(--generator-connection-length);
 }
 
 ul.controls>li {

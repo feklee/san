@@ -26,36 +26,36 @@ var setUpHidpiCanvas = function (canvasEl) {
 
 const canvasEl = document.querySelector("canvas");
 const canvasCtx = setUpHidpiCanvas(canvasEl);
-var sourceAmplitude = audioCtx.createGain();
-var sourceOffset = audioCtx.createConstantSource();
-var sourceGain = audioCtx.createGain();
+var generatorAmplitude = audioCtx.createGain();
+var generatorOffset = audioCtx.createConstantSource();
+var generatorGain = audioCtx.createGain();
 var oscillator = audioCtx.createOscillator();
-var unfilteredNoise = util.createNoiseSource(audioCtx);
+var unfilteredNoise = util.createNoiseGenerator(audioCtx);
 var noiseBandpass = audioCtx.createBiquadFilter();
 noiseBandpass.type = "bandpass";
 var noise = noiseBandpass;
-var sourceInput = sourceAmplitude;
-var source;
+var generatorInput = generatorAmplitude;
+var generator;
 
 unfilteredNoise.start();
 unfilteredNoise.connect(noiseBandpass);
 oscillator.start();
-sourceAmplitude.connect(sourceGain);
-sourceOffset.start();
-sourceOffset.connect(sourceGain);
+generatorAmplitude.connect(generatorGain);
+generatorOffset.start();
+generatorOffset.connect(generatorGain);
 
-var setSource = function (newSource) {
-    if (source === newSource) {
+var setGenerator = function (newGenerator) {
+    if (generator === newGenerator) {
         return;
     }
-    if (source) {
-        source.disconnect();
+    if (generator) {
+        generator.disconnect();
     }
-    source = newSource;
-    source.connect(sourceInput);
+    generator = newGenerator;
+    generator.connect(generatorInput);
 };
 
-setSource(oscillator);
+setGenerator(oscillator);
 
 var controlEl = function (groupClass, nameClass, type) {
     var typeSelector = type !== "input" ? "." + type : type;
@@ -65,30 +65,30 @@ var controlEl = function (groupClass, nameClass, type) {
 
 var nodes = [];
 
-var selectedSourceFrequencyExp = function () {
-    return parseFloat(controlEl("source", "frequency", "input").value);
+var selectedGeneratorFrequencyExp = function () {
+    return parseFloat(controlEl("generator", "frequency", "input").value);
 };
 
-var updateSourceFrequencyNumber = function () {
-    var sourceFrequencyExp = selectedSourceFrequencyExp();
-    var sourceFrequency = Math.pow(2, sourceFrequencyExp); // Hz
-    controlEl("source", "frequency", "number").textContent =
-        sourceFrequency.toFixed(2);
+var updateGeneratorFrequencyNumber = function () {
+    var generatorFrequencyExp = selectedGeneratorFrequencyExp();
+    var generatorFrequency = Math.pow(2, generatorFrequencyExp); // Hz
+    controlEl("generator", "frequency", "number").textContent =
+        generatorFrequency.toFixed(2);
 };
 
-var selectedSourceFrequency = function () { // Hz
-    updateSourceFrequencyNumber();
+var selectedGeneratorFrequency = function () { // Hz
+    updateGeneratorFrequencyNumber();
     return parseFloat(
-        controlEl("source", "frequency", "number").textContent
+        controlEl("generator", "frequency", "number").textContent
     );
 };
 
-var setSourceFrequencyExp = function (value) {
-    controlEl("source", "frequency", "input").value = value;
+var setGeneratorFrequencyExp = function (value) {
+    controlEl("generator", "frequency", "input").value = value;
 };
 
-var selectedSourceType = function () {
-    return document.querySelector("input[name=source-type]:checked").
+var selectedGeneratorType = function () {
+    return document.querySelector("input[name=generator-type]:checked").
         value;
 };
 
@@ -98,60 +98,60 @@ var deselectAllRadioButtons = function (selectors) {
     });
 };
 
-var setSourceType = function (value) {
-    deselectAllRadioButtons("input[name=source-type]");
-    var el = document.querySelector("input[name=source-type][value=\"" +
+var setGeneratorType = function (value) {
+    deselectAllRadioButtons("input[name=generator-type]");
+    var el = document.querySelector("input[name=generator-type][value=\"" +
                                     value + "\"]");
     if (el) {
         el.checked = true;
     }
 };
 
-var selectedSourceAmplitude = function () {
-    return parseFloat(controlEl("source", "amplitude", "input").value);
+var selectedGeneratorAmplitude = function () {
+    return parseFloat(controlEl("generator", "amplitude", "input").value);
 };
 
-var setSourceAmplitude = function (value) {
-    controlEl("source", "amplitude", "input").value = value;
+var setGeneratorAmplitude = function (value) {
+    controlEl("generator", "amplitude", "input").value = value;
 };
 
-var selectedSourceDetuning = function () {
-    return parseFloat(controlEl("source", "detuning", "input").value);
+var selectedGeneratorDetuning = function () {
+    return parseFloat(controlEl("generator", "detuning", "input").value);
 };
 
-var setSourceDetuning = function (value) {
-    controlEl("source", "detuning", "input").value = value;
+var setGeneratorDetuning = function (value) {
+    controlEl("generator", "detuning", "input").value = value;
 };
 
-var selectedSourceOffset = function () {
-    return parseFloat(controlEl("source", "offset", "input").value);
+var selectedGeneratorOffset = function () {
+    return parseFloat(controlEl("generator", "offset", "input").value);
 };
 
-var setSourceOffset = function (value) {
-    controlEl("source", "offset", "input").value = value;
+var setGeneratorOffset = function (value) {
+    controlEl("generator", "offset", "input").value = value;
 };
 
-var updateSource = function () {
-    sourceOffset.offset.value = selectedSourceOffset();
-    sourceAmplitude.gain.value = selectedSourceAmplitude();
-    var type = selectedSourceType();
+var updateGenerator = function () {
+    generatorOffset.offset.value = selectedGeneratorOffset();
+    generatorAmplitude.gain.value = selectedGeneratorAmplitude();
+    var type = selectedGeneratorType();
     if (type === "noise") {
-        setSource(noise);
+        setGenerator(noise);
     } else {
-        setSource(oscillator);
+        setGenerator(oscillator);
         oscillator.type = type;
     }
-    source.frequency.value = selectedSourceFrequency();
+    generator.frequency.value = selectedGeneratorFrequency();
 };
 
-var updateSourceNumbers = function () {
-    updateSourceFrequencyNumber();
-    controlEl("source", "detuning", "number").textContent =
-        Math.round(controlEl("source", "detuning", "input").value);
-    controlEl("source", "offset", "number").textContent =
-        parseFloat(controlEl("source", "offset", "input").value).toFixed(2);
-    controlEl("source", "amplitude", "number").textContent =
-        parseFloat(controlEl("source", "amplitude", "input").value).
+var updateGeneratorNumbers = function () {
+    updateGeneratorFrequencyNumber();
+    controlEl("generator", "detuning", "number").textContent =
+        Math.round(controlEl("generator", "detuning", "input").value);
+    controlEl("generator", "offset", "number").textContent =
+        parseFloat(controlEl("generator", "offset", "input").value).toFixed(2);
+    controlEl("generator", "amplitude", "number").textContent =
+        parseFloat(controlEl("generator", "amplitude", "input").value).
         toFixed(2);
 };
 
@@ -179,10 +179,10 @@ var resumeAudioCtx = function () {
 var showButtonEl = document.querySelector(".graph button.show");
 showButtonEl.onclick = resumeAudioCtx;
 
-var sourceAnalyser = audioCtx.createAnalyser();
-sourceGain.connect(sourceAnalyser);
-sourceAnalyser.fftSize = 32768;
-var bufferLength = sourceAnalyser.frequencyBinCount;
+var generatorAnalyser = audioCtx.createAnalyser();
+generatorGain.connect(generatorAnalyser);
+generatorAnalyser.fftSize = 32768;
+var bufferLength = generatorAnalyser.frequencyBinCount;
 var dataArray = new Uint8Array(bufferLength);
 
 var drawZeroLine = function () {
@@ -203,7 +203,7 @@ var drawWaveForm = function () {
     const w = canvasEl.width;
     const h = canvasEl.height;
 
-    sourceAnalyser.getByteTimeDomainData(dataArray);
+    generatorAnalyser.getByteTimeDomainData(dataArray);
     canvasCtx.clearRect(0, 0, w, h);
 
     var sliceWidth = w / bufferLength;
@@ -274,13 +274,13 @@ var sendSelection = function () {
     var data = {
         type: "audio module",
         modulator: selectedModulator(),
-        source: {
-            type: selectedSourceType(),
-            offset: selectedSourceOffset(),
-            amplitude: selectedSourceAmplitude(),
-            frequency: selectedSourceFrequency(),
-            frequencyExp: selectedSourceFrequencyExp(),
-            detuning: selectedSourceDetuning()
+        generator: {
+            type: selectedGeneratorType(),
+            offset: selectedGeneratorOffset(),
+            amplitude: selectedGeneratorAmplitude(),
+            frequency: selectedGeneratorFrequency(),
+            frequencyExp: selectedGeneratorFrequencyExp(),
+            detuning: selectedGeneratorDetuning()
         },
         output: {
             gain: selectedOutputGain(),
@@ -302,13 +302,13 @@ var parseModuleMessage = function (message) {
         return;
     }
 
-    setSourceType(message.source.type);
-    setSourceFrequencyExp(message.source.frequencyExp);
-    setSourceDetuning(message.source.detuning);
-    setSourceOffset(message.source.offset);
-    setSourceAmplitude(message.source.amplitude);
-    updateSourceNumbers();
-    updateSource();
+    setGeneratorType(message.generator.type);
+    setGeneratorFrequencyExp(message.generator.frequencyExp);
+    setGeneratorDetuning(message.generator.detuning);
+    setGeneratorOffset(message.generator.offset);
+    setGeneratorAmplitude(message.generator.amplitude);
+    updateGeneratorNumbers();
+    updateGenerator();
 
     setModulator(message.modulator);
 
@@ -465,23 +465,23 @@ client.onmessage = function (e) {
 
 document.querySelectorAll("input").forEach(
     (el) => el.addEventListener("change", function () {
-        updateSource();
+        updateGenerator();
         sendSelection();
         resumeAudioCtx();
     })
 );
 
-document.querySelectorAll(".source.controls input").forEach(
+document.querySelectorAll(".generator.controls input").forEach(
     (el) => el.addEventListener("input", function () {
-        updateSourceNumbers();
-        updateSource();
+        updateGeneratorNumbers();
+        updateGenerator();
     }));
 
 document.querySelectorAll(".output.controls input").forEach(
     (el) => el.addEventListener("input", updateOutputNumbers));
 
-updateSourceNumbers();
-updateSource();
+updateGeneratorNumbers();
+updateGenerator();
 updateOutputNumbers();
 
 setInterval(removeExpiredNodes, graphUpdateInterval);

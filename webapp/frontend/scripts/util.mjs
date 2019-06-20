@@ -12,7 +12,7 @@ var nodeIsRootNode = function (id) {
     return id === "^";
 };
 
-var createNoiseSource = function (context) {
+var createNoiseGenerator = function (context) {
     const noiseLength = 10; // s
     const bufferSize = context.sampleRate * noiseLength;
     const buffer = context.createBuffer(1, bufferSize, context.sampleRate);
@@ -33,5 +33,5 @@ var createNoiseSource = function (context) {
 export default {
     connectionExpiryTime: connectionExpiryTime,
     nodeIsRootNode: nodeIsRootNode,
-    createNoiseSource: createNoiseSource
+    createNoiseGenerator: createNoiseGenerator
 };

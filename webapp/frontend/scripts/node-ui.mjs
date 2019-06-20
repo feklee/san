@@ -311,9 +311,11 @@ var parseModuleMessage = function (message) {
     updateSource();
 
     setModulator(message.modulator);
+
     setOutputDelay(message.output.delay);
     setOutputCompressor(message.output.compressorShouldBeEnabled);
     setOutputGain(message.output.gain);
+    updateOutputNumbers();
 };
 
 var nodeIconEl = function (className) {
@@ -480,5 +482,6 @@ document.querySelectorAll(".output.controls input").forEach(
 
 updateSourceNumbers();
 updateSource();
+updateOutputNumbers();
 
 setInterval(removeExpiredNodes, graphUpdateInterval);

@@ -11,7 +11,6 @@ import graphicalAnalyzerSetup from "./graphical-analyzer-setup.mjs";
 var idOfThisNode = window.location.pathname.substr(1, 1);
 var audioCtx = new window.AudioContext();
 
-const canvasEl = document.querySelector("canvas");
 var generatorAmplitude = audioCtx.createGain();
 var generatorOffset = audioCtx.createConstantSource();
 var generatorGain = audioCtx.createGain();
@@ -162,7 +161,7 @@ showButtonEl.onclick = resumeAudioCtx;
 
 graphicalAnalyzerSetup({
     audioCtx: audioCtx,
-    canvasEl: canvasEl,
+    canvasEl: document.querySelector("canvas"),
     input: generatorGain
 });
 

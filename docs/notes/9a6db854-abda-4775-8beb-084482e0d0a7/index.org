@@ -1,0 +1,15 @@
+#+HTML_HEAD: <style>img{max-width:100%}.figure-number{display:none}</style>
+
+#+TITLE: SAN: AI Based Visual Self Awareness
+
+* Abstract
+
+Two or maybe four cameras are put into each node.  The cameras see the
+environment and in particular the connections to other nodes.  Camera
+information is sent to the main computer e.g. via WiFi.
+
+The network configuration plus camera images is used as training data
+for machine learning.  Thereby the algorithm learns to infer the
+network configuration from the camera images.
+
+It is no longer needed for the nodes to communicate.

@@ -29,17 +29,13 @@ const canvasCtx = setUpHidpiCanvas(canvasEl);
 var generatorAmplitude = audioCtx.createGain();
 var generatorOffset = audioCtx.createConstantSource();
 var generatorGain = audioCtx.createGain();
-var oscillator = audioCtx.createOscillator();
-var unfilteredNoise = util.createNoiseGenerator(audioCtx);
-var noiseBandpass = audioCtx.createBiquadFilter();
-noiseBandpass.type = "bandpass";
-var noise = noiseBandpass;
+var initialFrequency = 440; // Hz
+var oscillationGenerator =
+        util.createOscillationGenerator(audioCtx, initialFrequency);
+var noiseGenerator = util.createNoiseGenerator(audioCtx, initialFrequency);
 var generatorInput = generatorAmplitude;
 var generator;
 
-unfilteredNoise.start();
-unfilteredNoise.connect(noiseBandpass);
-oscillator.start();
 generatorAmplitude.connect(generatorGain);
 generatorOffset.start();
 generatorOffset.connect(generatorGain);
@@ -49,13 +45,13 @@ var setGenerator = function (newGenerator) {
         return;
     }
     if (generator) {
-        generator.disconnect();
+        generator.audioNode.disconnect();
     }
     generator = newGenerator;
-    generator.connect(generatorInput);
+    generator.audioNode.connect(generatorInput);
 };
 
-setGenerator(oscillator);
+setGenerator(oscillationGenerator);
 
 var controlEl = function (groupClass, nameClass, type) {
     var typeSelector = type !== "input" ? "." + type : type;
@@ -136,10 +132,10 @@ var updateGenerator = function () {
     generatorAmplitude.gain.value = selectedGeneratorAmplitude();
     var type = selectedGeneratorType();
     if (type === "noise") {
-        setGenerator(noise);
+        setGenerator(noiseGenerator);
     } else {
-        setGenerator(oscillator);
-        oscillator.type = type;
+        setGenerator(oscillationGenerator);
+        oscillationGenerator.audioNode.type = type;
     }
     generator.frequency.value = selectedGeneratorFrequency();
 };
@@ -292,7 +288,6 @@ var sendSelection = function () {
 
     try {
         client.send(JSON.stringify(data));
-        console.log(data); // TODO
     } catch (ignore) {
     }
 };

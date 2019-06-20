@@ -164,10 +164,10 @@ var setGenerator = function (module, newGenerator) {
         return;
     }
     if (module.generator) {
-        module.generator.disconnect();
+        module.generator.audioNode.disconnect();
     }
     module.generator = newGenerator;
-    module.generator.connect(module.generatorInput);
+    module.generator.audioNode.connect(module.generatorInput);
 };
 
 var createModule = function (nodeId) {
@@ -178,13 +178,12 @@ var createModule = function (nodeId) {
     outputClipper.curve = clippingCurve;
     const maxDelayTime = 1; // seconds
     var outputDelay = audioCtx.createDelay(maxDelayTime);
-    var generatorFrequency = 440;
-    var oscillator = audioCtx.createOscillator({frequency: generatorFrequency});
+    var generatorFrequency = 440; // Hz
+    var oscillationGenerator =
+        util.createOscillationGenerator(audioCtx, generatorFrequency);
     var generator;
-    var unfilteredNoise = util.createNoiseGenerator(audioCtx);
-    var noiseBandpass = audioCtx.createBiquadFilter();
-    noiseBandpass.type = "bandpass";
-    var noise = noiseBandpass;
+    var noiseGenerator =
+        util.createNoiseGenerator(audioCtx, generatorFrequency);
     var internalAudioNodes = new Set();
     var generatorAmplitude = audioCtx.createGain();
     var generatorClipper = audioCtx.createWaveShaper();
@@ -206,10 +205,6 @@ var createModule = function (nodeId) {
         false
     ];
 
-    oscillator.start();
-    unfilteredNoise.start();
-    unfilteredNoise.connect(noiseBandpass);
-
     generatorAmplitude.connect(generatorGain);
     generatorOffset.start();
     generatorOffset.connect(generatorGain);
@@ -219,8 +214,8 @@ var createModule = function (nodeId) {
     outputGain.connect(outputClipper);
 
     var module = {
-        oscillator: oscillator,
-        noise: noise,
+        oscillationGenerator: oscillationGenerator,
+        noiseGenerator: noiseGenerator,
         generatorInput: generatorAmplitude,
         generator: generator,
         generatorAmplitude: generatorAmplitude,
@@ -239,7 +234,7 @@ var createModule = function (nodeId) {
         generatorFrequency: generatorFrequency
     };
 
-    setGenerator(module, oscillator);
+    setGenerator(module, oscillationGenerator);
     setGeneratorOffset(module, 0);
     enableOutputCompressor(module);
 
@@ -271,8 +266,8 @@ var detuneGenerator = function (nodeId) {
 };
 
 var refreshOscillatorType = function (module) {
-    if (module.oscillator.type !== module.generatorType) {
-        module.oscillator.type = module.generatorType;
+    if (module.oscillationGenerator.audioNode.type !== module.generatorType) {
+        module.oscillationGenerator.audioNode.type = module.generatorType;
     }
 };
 
@@ -280,9 +275,9 @@ var refreshGenerator = function (nodeId) {
     var module = getOrCreateModule(nodeId);
 
     if (module.generatorType === "noise") {
-        setGenerator(module, module.noise);
+        setGenerator(module, module.noiseGenerator);
     } else {
-        setGenerator(module, module.oscillator);
+        setGenerator(module, module.oscillationGenerator);
         refreshOscillatorType(module);
     }
 

@@ -12,10 +12,10 @@ var nodeIsRootNode = function (id) {
     return id === "^";
 };
 
-var createNoiseGenerator = function (context) {
+var createRawNoiseGenerator = function (audioCtx) {
     const noiseLength = 10; // s
-    const bufferSize = context.sampleRate * noiseLength;
-    const buffer = context.createBuffer(1, bufferSize, context.sampleRate);
+    const bufferSize = audioCtx.sampleRate * noiseLength;
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
     var data = buffer.getChannelData(0);
     var i = 0;
 
@@ -24,14 +24,49 @@ var createNoiseGenerator = function (context) {
         i += 1;
     }
 
-    var bs = context.createBufferSource();
-    bs.buffer = buffer;
-    bs.loop = true;
-    return bs;
+    var audioNode = audioCtx.createBufferSource();
+    audioNode.buffer = buffer;
+    audioNode.loop = true;
+    audioNode.start();
+    return audioNode;
+};
+
+var createNoiseGenerator = function (
+    audioCtx,
+    frequency // Hz
+) {
+    var rawNoise = createRawNoiseGenerator(audioCtx);
+    var noiseBandpass = audioCtx.createBiquadFilter();
+    noiseBandpass.type = "bandpass";
+    noiseBandpass.frequency.value = frequency;
+
+    rawNoise.connect(noiseBandpass);
+
+    return {
+        audioNode: noiseBandpass,
+        frequency: noiseBandpass.frequency,
+        detune: noiseBandpass.detune
+    };
+};
+
+var createOscillationGenerator = function (
+    audioCtx,
+    frequency // Hz
+) {
+    var oscillator = audioCtx.createOscillator();
+    oscillator.frequency.value = frequency;
+    oscillator.start();
+
+    return {
+        audioNode: oscillator,
+        frequency: oscillator.frequency,
+        detune: oscillator.detune
+    };
 };
 
 export default {
     connectionExpiryTime: connectionExpiryTime,
     nodeIsRootNode: nodeIsRootNode,
-    createNoiseGenerator: createNoiseGenerator
+    createNoiseGenerator: createNoiseGenerator,
+    createOscillationGenerator: createOscillationGenerator
 };

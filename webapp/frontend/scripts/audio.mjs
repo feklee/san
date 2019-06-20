@@ -46,8 +46,9 @@ connectInternalAudioNodes.multiply = function (module) {
     var internalAudioNodes = module.internalAudioNodes;
     var lastAudioNode;
 
-    inputs.forEach(function (input) {
-        if (!input) {
+    inputs.forEach(function (input, i) {
+        var inputIsConnected = module.inputIsConnectedList[i];
+        if (!inputIsConnected) {
             return;
         }
 
@@ -86,29 +87,15 @@ var reconnectInternalAudioNodes = function (module) {
     connectInternalAudioNodes[module.modulator](module);
 };
 
-var createInput = function (module, portNumber) {
-    var input = audioCtx.createGain();
-    module.inputs[portNumber] = input;
-    return input;
-};
-
 var connect = function (options) {
     var sourceModule = options.sourcePort.node.audioModule;
     var destinationPortNumber = options.destinationPort.portNumber;
     var destinationModule = options.destinationPort.node.audioModule;
-    var destinationInput =
-            createInput(destinationModule, destinationPortNumber);
+    var destinationInput = destinationModule.inputs[destinationPortNumber];
     sourceModule.output.connect(destinationInput);
+    destinationModule.inputIsConnectedList[destinationPortNumber] = true;
 
     reconnectInternalAudioNodes(destinationModule);
-};
-
-var destroyInput = function (module, portNumber) {
-    var input = module.inputs[portNumber];
-    if (input === null) {
-        return;
-    }
-    module.inputs[portNumber] = null;
 };
 
 var disconnect = function (options) {
@@ -124,24 +111,30 @@ var disconnect = function (options) {
     if (sourceOutput.numberOfOutputs > 0) {
         try {
             sourceOutput.disconnect(destinationInput);
+            reconnectInternalAudioNodes(destinationModule);
+            destinationModule.inputIsConnectedList[destinationPortNumber] =
+                false;
         } catch (ignore) {} // may not be needed, but doesn't hurt
     }
-    destroyInput(destinationModule, destinationPortNumber);
-
-    reconnectInternalAudioNodes(destinationModule);
 };
 
 var createMasterModule = function (node) {
     var inputs = [
-        null, // no source
+        null, // source input, but the master module doesn't have a source
         audioCtx.createGain() // port 1
+    ];
+    var inputIsConnectedList = [
+        false,
+        false
     ];
     var internalAudioNodes = new Set();
     var module = {
         inputs: inputs,
+        inputIsConnectedList: inputIsConnectedList,
         internalAudioNodes: internalAudioNodes,
         modulator: "add",
-        outputInternal: audioCtx.destination
+        outputInternal: audioCtx.destination,
+        output: audioCtx.destination
     };
 
     connectInternalAudioNodes[module.modulator](module);
@@ -186,7 +179,7 @@ var createModule = function (nodeId) {
     const maxDelayTime = 1; // seconds
     var outputDelay = audioCtx.createDelay(maxDelayTime);
     var sourceFrequency = 440;
-    var oscillator = audioCtx.createOscillator({frequency: sourceFrequency});
+    var oscillator = audioCtx.createOscillator({frequency: sourceFrequency}); // TODO: source -> generator
     var source;
     var unfilteredNoise = util.createNoiseSource(audioCtx);
     var noiseBandpass = audioCtx.createBiquadFilter();
@@ -199,11 +192,18 @@ var createModule = function (nodeId) {
     var sourceOffset = audioCtx.createConstantSource();
     var sourceGain = audioCtx.createGain();
     var inputs = [
-        sourceClipper,
-        null, // port 1
-        null, // port 2
-        null, // ...
-        null
+        sourceClipper, // source
+        audioCtx.createGain(), // port 1
+        audioCtx.createGain(), // port 2
+        audioCtx.createGain(), // ...
+        audioCtx.createGain()
+    ];
+    var inputIsConnectedList = [
+        true, // source
+        false, // port 1
+        false, // port 2
+        false, // ...
+        false
     ];
 
     oscillator.start();
@@ -228,6 +228,7 @@ var createModule = function (nodeId) {
         sourceDetuning: 400,
         internalAudioNodes: internalAudioNodes,
         inputs: inputs,
+        inputIsConnectedList: inputIsConnectedList,
         outputDelay: outputDelay,
         outputGain: outputGain,
         output: outputClipper,

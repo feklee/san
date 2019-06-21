@@ -102,7 +102,6 @@ client.onmessage = function (e) {
 };
 
 var asideEl = document.querySelector("aside");
-asideEl.style.width = settings.asideWidth + "px";
 document.body.classList.remove("hidden");
 
 audio.enableMuteButton();

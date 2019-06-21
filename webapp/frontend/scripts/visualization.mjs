@@ -28,7 +28,8 @@ var controls;
 var visualizationEl = document.querySelector("div.visualization");
 
 var updateSize = function () {
-    var width = window.innerWidth - settings.asideWidth;
+    var asideWidth = document.querySelector("aside").offsetWidth;
+    var width = window.innerWidth - asideWidth;
     var height = window.innerHeight;
 
     camera.aspect = width / height;

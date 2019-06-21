@@ -1,7 +1,6 @@
 /*jslint browser: true, maxlen: 80 */
 
 export default {
-    asideWidth: 400, // px
     defaultNodeColor: "#111",
     locationOptimizer: {
         sideLength: 3, // size of box containing solution

@@ -79,7 +79,7 @@ var graphicalAnalyzerSetup = function (settings) {
     canvasEl = settings.canvasEl;
 
     analyzer = audioCtx.createAnalyser();
-    analyzer.fftSize = 32768;
+    analyzer.fftSize = 8192;
     bufferLength = analyzer.frequencyBinCount;
     dataArray = new Uint8Array(bufferLength);
     canvasCtx = setUpHidpiCanvas(canvasEl);

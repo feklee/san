@@ -1,4 +1,4 @@
-/*jslint browser: true, maxlen: 80 */
+/*jslint browser: true, maxlen: 80, getset: true */
 
 import {
     connectionExpiryDuration // ms
@@ -31,24 +31,9 @@ var createRawNoiseGenerator = function (audioCtx) {
     return audioNode;
 };
 
-function impulseResponse(audioCtx, duration, decay) { // TODO: replace with something that works
-    var sampleRate = audioCtx.sampleRate;
-    var length = sampleRate * duration;
-    var impulse = audioCtx.createBuffer(1, length, sampleRate);
-    var impulseL = impulse.getChannelData(0);
-
-    for (var i = 0; i < length; i++){
-      var n = i;
-      impulseL[i] = 1 * Math.pow(1 - n / length, decay);
-    }
-    return impulse;
-}
-
-var createNormalizer = function (audioCtx) {
-    var convolverNode = audioCtx.createConvolver();
-    convolverNode.normalize = true;
-    convolverNode.buffer = impulseResponse(audioCtx, 4, 100000, false);
-    return convolverNode;
+// empricially determined, based on manual adjustments
+var bandpassAttenuationCompensation = function (f) {
+    return Math.max(70 / Math.sqrt(f), 1);
 };
 
 var createNoiseGenerator = function (
@@ -62,12 +47,20 @@ var createNoiseGenerator = function (
     noiseBandpass.frequency.value = frequency;
     rawNoise.connect(noiseBandpass);
 
-    var normalizer = createNormalizer(audioCtx);
+    var normalizer = audioCtx.createGain();
     noiseBandpass.connect(normalizer);
 
     return {
         audioNode: normalizer,
-        frequency: noiseBandpass.frequency,
+        frequency: {
+            get value() {
+                return noiseBandpass.frequency.value;
+            },
+            set value(f) {
+                noiseBandpass.frequency.value = f;
+                normalizer.gain.value = bandpassAttenuationCompensation(f);
+            }
+        },
         detune: noiseBandpass.detune
     };
 };

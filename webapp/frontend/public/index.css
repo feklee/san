@@ -135,7 +135,7 @@ p.audio {
     position: absolute;
 }
 
-p.audio button {
+p.audio button.mute {
     background: transparent;
     border: 0;
     padding: 0;
@@ -145,12 +145,20 @@ p.audio button {
     cursor: pointer;
 }
 
+p.audio button.mute::after {
+    content: "🔊";
+}
+
+body.muted p.audio button.mute::after {
+    content: "🔇";
+}
+
 p.audio a.first-node {
     margin-left: 5px;
     color: white;
     text-decoration: none;
 }
 
-p.audio a.first-node.hidden {
+body.muted p.audio a.first-node, p.audio a.first-node.hidden {
     visibility: hidden;
 }

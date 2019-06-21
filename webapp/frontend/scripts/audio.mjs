@@ -14,9 +14,9 @@ var audioModules = {}; // There may be more audio modules maintained than nodes
 
 audioCtx.addEventListener("statechange", function () {
     if (audioCtx.state === "suspended") {
-        muteButtonEl.textContent = "🔇";
+        document.body.classList.add("muted");
     } else {
-        muteButtonEl.textContent = "🔊";
+        document.body.classList.remove("muted");
     }
 });
 

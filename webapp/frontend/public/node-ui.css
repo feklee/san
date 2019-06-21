@@ -80,6 +80,8 @@ ul.all.nodes>li.root.node-icon {
 
 .graph canvas {
     display: block;
+    width: 100%;
+    height: 80px;
 }
 
 .graph button.show {

@@ -3,9 +3,15 @@
 Introduction
 ============
 
+*Knowing yourself is the beginning of all wisdom.* ― Aristotle
+
 SAN (Self Aware Network) is an experiment about the [future of
-architecture][1]. The network understands its own topology. To get
-started:
+architecture][1]. The network understands its own topology, a first
+step to understand and eventually interact with the environment.
+
+
+Getting started
+===============
 
  1. Build nodes, edges, and the root node.
 

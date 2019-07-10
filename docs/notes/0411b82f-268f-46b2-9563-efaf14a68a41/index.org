@@ -1,4 +1,4 @@
-#+HTML_HEAD: <style>img{max-width:100%}.figure-number{display:none}</style>
+#+HTML_HEAD: <style>body{max-width:42em}img{max-width:100%}.figure-number{display:none}</style>
 
 #+TITLE: SAN: Master Plan
 
@@ -17,7 +17,6 @@ and auditory feedback concerning how it perceives its construction and
 its integration with the environment.
 
 #+CAPTION: Concept
-#+ATTR_HTML: :width 100%
 [[./images/2019-UABB-concept.jpg]]
 
 

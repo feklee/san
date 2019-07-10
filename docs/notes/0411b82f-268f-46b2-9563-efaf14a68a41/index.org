@@ -16,4 +16,4 @@ integration with the environment.
 
 * See also
 
-- [[https://feklee.github.io/san/notes/37a9c365-c0a9-45d4-bf89-23a359c176fa/][application for UABB]]
+- [[https://feklee.github.io/san/notes/37a9c365-c0a9-45d4-bf89-23a359c176fa/][UABB application]]

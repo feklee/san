@@ -9,6 +9,8 @@ SAN (Self Aware Network) is an experiment about the [future of
 architecture][1]. The network understands its own topology, a first
 step towards being able to dynamically adapt to its environment.
 
+SAN is an intermediate step in a [master plan][6].
+
 
 Getting started
 ===============
@@ -54,3 +56,4 @@ Hocevar. See the COPYING file for more details.
 [3]: https://github.com/davidblitz
 [4]: https://github.com/davidblitz/san-optimizer
 [5]: https://feklee.github.io/san/notes/f8d89da9-c285-4b5a-921b-7af3444b9229/
+[6]: https://feklee.github.io/san/notes/0411b82f-268f-46b2-9563-efaf14a68a41/

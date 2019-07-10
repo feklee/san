@@ -16,6 +16,11 @@ join a collaborative construction process.  The network gives visual
 and auditory feedback concerning how it perceives its construction and
 its integration with the environment.
 
+#+CAPTION: Concept
+#+ATTR_HTML: :width 100%
+[[./images/2019-UABB-concept.jpg]]
+
+
 * See also
 
 - [[https://feklee.github.io/san/notes/37a9c365-c0a9-45d4-bf89-23a359c176fa/][UABB application]]

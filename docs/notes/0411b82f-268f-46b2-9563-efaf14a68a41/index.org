@@ -18,3 +18,15 @@ its integration with the environment.
 
 #+CAPTION: Concept for [[https://feklee.github.io/san/notes/37a9c365-c0a9-45d4-bf89-23a359c176fa/][UABB]]
 [[./images/2019-UABB-concept.jpg]]
+
+* Outside of SAN
+
+- Organic buildings: Just as [[https://en.wikipedia.org/wiki/Full_Grown][chairs]], houses – possibly at first models
+  in workshops with children – could be grown.  Such buildings are
+  literally partaking in their construction.
+
+- Sustainability and robotics: Robots may be able to construct
+  individualized buildings from scrap found on the “ground” in way
+  more sophisticated ways than humans.  Furthermore, buildings can be
+  reconfigured continuously, preventing waste of material and offering
+  endless possibility for play and experimentation.

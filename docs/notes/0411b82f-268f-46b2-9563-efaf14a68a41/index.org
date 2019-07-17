@@ -22,7 +22,7 @@ its integration with the environment.
 * Beyond SAN
 
 - Organic buildings: Just as [[https://en.wikipedia.org/wiki/Full_Grown][chairs]] out of trees or objects out of
-  [[https://en.wikipedia.org/wiki/Ecovative_Design][mushrooms]] – houses could be grown.  Such buildings are literally
+  [[https://en.wikipedia.org/wiki/Ecovative_Design][mycelium]] – houses could be grown.  Such buildings are literally
   partaking in their construction.  A start would be models grown over
   the course or a few weeks or months.
 
@@ -31,3 +31,6 @@ its integration with the environment.
   more sophisticated ways than humans.  Furthermore, buildings can be
   reconfigured continuously, preventing waste of material and offering
   endless possibility for play and experimentation.
+
+  Let’s invent a robot that you can take with you, and that can build
+  you a shelter for a night.

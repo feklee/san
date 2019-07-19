@@ -37,7 +37,7 @@ var connectInternalAudioNodes = {};
 connectInternalAudioNodes.add = function (module) {
     module.inputs.forEach(function (input) {
         if (input) {
-            input.connect(module.outputInternal);
+            input.connect(module.output.input);
         }
     });
 };
@@ -67,7 +67,7 @@ connectInternalAudioNodes.multiply = function (module) {
         lastAudioNode = multiplier;
     });
 
-    lastAudioNode.connect(module.outputInternal);
+    lastAudioNode.connect(module.output.input);
 };
 
 var disconnectInternalAudioNodes = function (module) {
@@ -93,7 +93,7 @@ var connect = function (options) {
     var destinationPortNumber = options.destinationPort.portNumber;
     var destinationModule = options.destinationPort.node.audioModule;
     var destinationInput = destinationModule.inputs[destinationPortNumber];
-    sourceModule.output.connect(destinationInput);
+    sourceModule.output.output.connect(destinationInput);
     destinationModule.inputIsConnectedList[destinationPortNumber] = true;
 
     reconnectInternalAudioNodes(destinationModule);
@@ -105,7 +105,7 @@ var disconnect = function (options) {
     var destinationModule = options.destinationPort.node.audioModule;
     var destinationInput =
             destinationModule.inputs[destinationPortNumber];
-    var sourceOutput = sourceModule.output;
+    var sourceOutput = sourceModule.output.output;
     if (!destinationInput) {
         return;
     }
@@ -143,8 +143,10 @@ var createMasterModule = function (node) {
         inputIsConnectedList: inputIsConnectedList,
         internalAudioNodes: internalAudioNodes,
         modulator: "add",
-        outputInternal: analyzer,
-        output: audioCtx.destination
+        output: {
+            input: analyzer,
+            output: audioCtx.destination
+        }
     };
 
     connectInternalAudioNodes[module.modulator](module);
@@ -157,16 +159,16 @@ var setGeneratorOffset = function (module, value) {
 };
 
 var enableOutputCompressor = function (module) {
-    module.outputDelay.disconnect();
-    module.outputDelay.connect(module.outputCompressor);
-    module.outputCompressor.connect(module.outputGain);
-    module.outputCompressorIsEnabled = true;
+    module.output.filter1Delay.disconnect();
+    module.output.filter1Delay.connect(module.output.filter2Compressor);
+    module.output.filter2Compressor.connect(module.output.filter3Gain);
+    module.output.compressorIsEnabled = true;
 };
 
 var disableOutputCompressor = function (module) {
-    module.outputDelay.disconnect();
-    module.outputDelay.connect(module.outputGain);
-    module.outputCompressorIsEnabled = false;
+    module.output.filter1Delay.disconnect();
+    module.output.filter1Delay.connect(module.output.filter3Gain);
+    module.output.compressorIsEnabled = false;
 };
 
 var setGeneratorSource = function (module, newGenerator) {
@@ -246,11 +248,15 @@ var createModule = function (nodeId) {
         internalAudioNodes: internalAudioNodes,
         inputs: inputs,
         inputIsConnectedList: inputIsConnectedList,
-        outputDelay: outputDelay,
-        outputGain: outputGain,
-        output: outputClipper,
+        output: {
+            compressorIsEnabled: true,
+            input: outputDelay,
+            filter1Delay: outputDelay,
+            filter2Compressor: outputCompressor,
+            filter3Gain: outputGain,
+            output: outputClipper
+        },
         outputInternal: outputDelay,
-        outputCompressor: outputCompressor,
         modulator: "add"
     };
 
@@ -312,11 +318,11 @@ var refresh = function () {
 };
 
 var setOutputGain = function (module, value) {
-    module.outputGain.gain.value = value;
+    module.output.filter3Gain.gain.value = value;
 };
 
 var setOutputDelay = function (module, value) {
-    module.outputDelay.delayTime.value = value;
+    module.output.filter1Delay.delayTime.value = value;
 };
 
 var setGeneratorAmplitude = function (module, value) {
@@ -324,11 +330,11 @@ var setGeneratorAmplitude = function (module, value) {
 };
 
 var setOutputCompressor = function (module, shouldBeEnabled) {
-    if (module.outputCompressorIsEnabled === shouldBeEnabled) {
+    if (module.output.compressorIsEnabled === shouldBeEnabled) {
         return;
     }
 
-    if (module.outputCompressorIsEnabled) {
+    if (module.output.compressorIsEnabled) {
         disableOutputCompressor(module);
     } else {
         enableOutputCompressor(module);

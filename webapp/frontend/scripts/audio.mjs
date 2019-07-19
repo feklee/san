@@ -177,7 +177,9 @@ var setGeneratorSource = function (module, newGenerator) {
         module.generator.source.audioNode.disconnect();
     }
     module.generator.source = newGenerator;
-    module.generator.source.audioNode.connect(module.generatorInput);
+    module.generator.source.audioNode.connect(
+        module.generator.filter1Amplitude
+    );
 };
 
 var createModule = function (nodeId) {
@@ -226,10 +228,9 @@ var createModule = function (nodeId) {
         oscillationSource: oscillationSource,
         noiseSource: noiseSource,
         generator: {
-            source: undefined
+            source: undefined,
+            filter1Amplitude: generatorAmplitude
         },
-        generatorInput: generatorAmplitude, // TODO: -> inputForGeneratorSource
-        generatorAmplitude: generatorAmplitude,
         generatorOffset: generatorOffset,
         generatorDetuning: 400,
         internalAudioNodes: internalAudioNodes,
@@ -311,7 +312,7 @@ var setOutputDelay = function (module, value) {
 };
 
 var setGeneratorAmplitude = function (module, value) {
-    module.generatorAmplitude.gain.value = value;
+    module.generator.filter1Amplitude.gain.value = value;
 };
 
 var setOutputCompressor = function (module, shouldBeEnabled) {

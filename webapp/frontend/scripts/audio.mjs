@@ -133,7 +133,7 @@ var createMasterModule = function (node) {
     var analyzer = graphicalAnalyzerSetup({
         audioCtx: audioCtx,
         canvasEl: document.querySelector("canvas.audio"),
-        input: inputs[1] // TODO: maybe rename
+        input: inputs[1]
     });
 
     analyzer.connect(audioCtx.destination);
@@ -217,12 +217,29 @@ var createGenerator = function () {
     return generator;
 };
 
-var createModule = function (nodeId) {
-    var outputGain = audioCtx.createGain();
-    var outputCompressor = audioCtx.createDynamicsCompressor();
-    var outputClipper = createClipper();
+var createOutput = function () {
     const maxDelayTime = 1; // seconds
-    var outputDelay = audioCtx.createDelay(maxDelayTime);
+
+    var output = {
+        compressorIsEnabled: false,
+        input: undefined,
+        filter1Delay: audioCtx.createDelay(maxDelayTime),
+        filter2Compressor: audioCtx.createDynamicsCompressor(),
+        filter3Gain: audioCtx.createGain(),
+        filter4Clipper: createClipper(),
+        output: undefined
+    };
+
+    output.filter1Delay.connect(output.filter3Gain);
+    output.filter3Gain.connect(output.filter4Clipper);
+
+    output.input = output.filter1Delay;
+    output.output = output.filter4Clipper;
+
+    return output;
+};
+
+var createModule = function (nodeId) {
     var internalAudioNodes = new Set();
     var generator = createGenerator();
     var inputs = [
@@ -240,23 +257,12 @@ var createModule = function (nodeId) {
         false
     ];
 
-    outputDelay.connect(outputGain);
-    outputGain.connect(outputClipper);
-
     var module = {
         generator: generator,
         internalAudioNodes: internalAudioNodes,
         inputs: inputs,
         inputIsConnectedList: inputIsConnectedList,
-        output: {
-            compressorIsEnabled: true,
-            input: outputDelay,
-            filter1Delay: outputDelay,
-            filter2Compressor: outputCompressor,
-            filter3Gain: outputGain,
-            output: outputClipper
-        },
-        outputInternal: outputDelay,
+        output: createOutput(),
         modulator: "add"
     };
 
@@ -290,8 +296,10 @@ var detuneGenerator = function (nodeId) {
 };
 
 var refreshOscillatorType = function (module) {
-    if (module.generator.oscillationSource.audioNode.type !== module.generator.sourceType) {
-        module.generator.oscillationSource.audioNode.type = module.generator.sourceType;
+    if (module.generator.oscillationSource.audioNode.type !==
+        module.generator.sourceType) {
+        module.generator.oscillationSource.audioNode.type =
+            module.generator.sourceType;
     }
 };
 

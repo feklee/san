@@ -169,15 +169,15 @@ var disableOutputCompressor = function (module) {
     module.outputCompressorIsEnabled = false;
 };
 
-var setGenerator = function (module, newGenerator) {
-    if (module.generator === newGenerator) {
+var setGeneratorSource = function (module, newGenerator) {
+    if (module.generator.source === newGenerator) {
         return;
     }
-    if (module.generator) {
-        module.generator.audioNode.disconnect();
+    if (module.generator.source) {
+        module.generator.source.audioNode.disconnect();
     }
-    module.generator = newGenerator;
-    module.generator.audioNode.connect(module.generatorInput);
+    module.generator.source = newGenerator;
+    module.generator.source.audioNode.connect(module.generatorInput);
 };
 
 var createModule = function (nodeId) {
@@ -189,17 +189,16 @@ var createModule = function (nodeId) {
     const maxDelayTime = 1; // seconds
     var outputDelay = audioCtx.createDelay(maxDelayTime);
     var generatorFrequency = 440; // Hz
-    var oscillationGenerator =
-        util.createOscillationGenerator(audioCtx, generatorFrequency);
-    var generator;
-    var noiseGenerator =
-        util.createNoiseGenerator(audioCtx, generatorFrequency);
+    var oscillationSource =
+        util.createOscillationSource(audioCtx, generatorFrequency);
+    var noiseSource =
+        util.createNoiseSource(audioCtx, generatorFrequency);
     var internalAudioNodes = new Set();
     var generatorAmplitude = audioCtx.createGain();
     var generatorClipper = audioCtx.createWaveShaper();
     generatorClipper.curve = clippingCurve;
     var generatorOffset = audioCtx.createConstantSource();
-    var generatorGain = audioCtx.createGain();
+    var generatorGain = audioCtx.createGain(); // TODO: gain -> GeneratorWithOffset
     var inputs = [
         generatorClipper, // generator
         audioCtx.createGain(), // port 1
@@ -224,10 +223,12 @@ var createModule = function (nodeId) {
     outputGain.connect(outputClipper);
 
     var module = {
-        oscillationGenerator: oscillationGenerator,
-        noiseGenerator: noiseGenerator,
-        generatorInput: generatorAmplitude,
-        generator: generator,
+        oscillationSource: oscillationSource,
+        noiseSource: noiseSource,
+        generator: {
+            source: undefined
+        },
+        generatorInput: generatorAmplitude, // TODO: -> inputForGeneratorSource
         generatorAmplitude: generatorAmplitude,
         generatorOffset: generatorOffset,
         generatorDetuning: 400,
@@ -244,7 +245,7 @@ var createModule = function (nodeId) {
         generatorFrequency: generatorFrequency
     };
 
-    setGenerator(module, oscillationGenerator);
+    setGeneratorSource(module, oscillationSource);
     setGeneratorOffset(module, 0);
     enableOutputCompressor(module);
 
@@ -268,14 +269,14 @@ var detuneGenerator = function (nodeId) {
         return;
     }
     var module = node.audioModule;
-    var generator = module.generator;
-    generator.detune.value =
+    var source = module.generator.source;
+    source.detune.value =
             module.generatorDetuning * node.animatedLocation.z; // cents
 };
 
 var refreshOscillatorType = function (module) {
-    if (module.oscillationGenerator.audioNode.type !== module.generatorType) {
-        module.oscillationGenerator.audioNode.type = module.generatorType;
+    if (module.oscillationSource.audioNode.type !== module.generatorType) {
+        module.oscillationSource.audioNode.type = module.generatorType;
     }
 };
 
@@ -283,15 +284,15 @@ var refreshGenerator = function (nodeId) {
     var module = getOrCreateModule(nodeId);
 
     if (module.generatorType === "noise") {
-        setGenerator(module, module.noiseGenerator);
+        setGeneratorSource(module, module.noiseSource);
     } else {
-        setGenerator(module, module.oscillationGenerator);
+        setGeneratorSource(module, module.oscillationSource);
         refreshOscillatorType(module);
     }
 
-    var generator = module.generator;
-    if (generator.frequency.value !== module.generatorFrequency) {
-        generator.frequency.value = module.generatorFrequency;
+    var source = module.generator.source;
+    if (source.frequency.value !== module.generatorFrequency) {
+        source.frequency.value = module.generatorFrequency;
     }
 
     detuneGenerator(nodeId);

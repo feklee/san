@@ -15,13 +15,13 @@ var generator = {
     source: undefined,
     offset: audioCtx.createConstantSource(),
     filter1Amplitude: audioCtx.createGain(),
-    filter2Offset: audioCtx.createGain(),
+    filter2Offset: audioCtx.createGain()
 };
 
 var initialFrequency = 440; // Hz
 var oscillationSource =
-        util.createOscillationGenerator(audioCtx, initialFrequency);
-var noiseSource = util.createNoiseGenerator(audioCtx, initialFrequency);
+        util.createOscillationSource(audioCtx, initialFrequency);
+var noiseSource = util.createNoiseSource(audioCtx, initialFrequency);
 
 generator.filter1Amplitude.connect(generator.filter2Offset);
 generator.offset.start();

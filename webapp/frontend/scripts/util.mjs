@@ -12,7 +12,7 @@ var nodeIsRootNode = function (id) {
     return id === "^";
 };
 
-var createRawNoiseGenerator = function (audioCtx) {
+var createRawNoiseSource = function (audioCtx) {
     const noiseLength = 10; // s
     const bufferSize = audioCtx.sampleRate * noiseLength;
     const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
@@ -36,11 +36,11 @@ var bandpassAttenuationCompensation = function (f) {
     return Math.max(70 / Math.sqrt(f), 1);
 };
 
-var createNoiseGenerator = function (
+var createNoiseSource = function (
     audioCtx,
     frequency // Hz
 ) {
-    var rawNoise = createRawNoiseGenerator(audioCtx);
+    var rawNoise = createRawNoiseSource(audioCtx);
 
     var noiseBandpass = audioCtx.createBiquadFilter();
     noiseBandpass.type = "bandpass";
@@ -65,7 +65,7 @@ var createNoiseGenerator = function (
     };
 };
 
-var createOscillationGenerator = function (
+var createOscillationSource = function (
     audioCtx,
     frequency // Hz
 ) {
@@ -84,6 +84,6 @@ var createOscillationGenerator = function (
 export default {
     connectionExpiryTime: connectionExpiryTime,
     nodeIsRootNode: nodeIsRootNode,
-    createNoiseGenerator: createNoiseGenerator,
-    createOscillationGenerator: createOscillationGenerator
+    createNoiseSource: createNoiseSource,
+    createOscillationSource: createOscillationSource
 };

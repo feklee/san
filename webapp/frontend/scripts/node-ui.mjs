@@ -73,8 +73,9 @@ var setGeneratorFrequencyExp = function (value) {
     controlEl("generator", "frequency", "input").value = value;
 };
 
-var selectedGeneratorType = function () {
-    return document.querySelector("input[name=generator-type]:checked").value;
+var selectedGeneratorSourceType = function () {
+    return document.querySelector("input[name=generator-source-type]:checked").
+        value;
 };
 
 var deselectAllRadioButtons = function (selectors) {
@@ -83,10 +84,10 @@ var deselectAllRadioButtons = function (selectors) {
     });
 };
 
-var setGeneratorType = function (value) {
-    deselectAllRadioButtons("input[name=generator-type]");
+var setGeneratorSourceType = function (value) {
+    deselectAllRadioButtons("input[name=generator-source-type]");
     var el = document.querySelector(
-        "input[name=generator-type][value=\"" + value + "\"]"
+        "input[name=generator-source-type][value=\"" + value + "\"]"
     );
     if (el) {
         el.checked = true;
@@ -120,12 +121,12 @@ var setGeneratorOffset = function (value) {
 var updateGenerator = function () {
     generator.offset.offset.value = selectedGeneratorOffset();
     generator.filter1Amplitude.gain.value = selectedGeneratorAmplitude();
-    var type = selectedGeneratorType();
-    if (type === "noise") {
+    var sourceType = selectedGeneratorSourceType();
+    if (sourceType === "noise") {
         setGeneratorSource(noiseSource);
     } else {
         setGeneratorSource(oscillationSource);
-        oscillationSource.audioNode.type = type;
+        oscillationSource.audioNode.type = sourceType;
     }
     generator.source.frequency.value = selectedGeneratorFrequency();
 };
@@ -210,7 +211,7 @@ var sendSelection = function () {
         type: "audio module",
         modulator: selectedModulator(),
         generator: {
-            type: selectedGeneratorType(),
+            sourceType: selectedGeneratorSourceType(),
             offset: selectedGeneratorOffset(),
             amplitude: selectedGeneratorAmplitude(),
             frequency: selectedGeneratorFrequency(),
@@ -236,7 +237,7 @@ var parseModuleMessage = function (message) {
         return;
     }
 
-    setGeneratorType(message.generator.type);
+    setGeneratorSourceType(message.generator.sourceType);
     setGeneratorFrequencyExp(message.generator.frequencyExp);
     setGeneratorDetuning(message.generator.detuning);
     setGeneratorOffset(message.generator.offset);
@@ -322,7 +323,7 @@ var removeNodeIcon = function (node) {
 var createNode = function (nodeId, type) {
     var node = {
         id: nodeId,
-        type: type, // TODO: -> sourceType?
+        type: type,
         iconEl: createNodeIconEl(nodeId)
     };
     resetNodeExpiryTime(node);

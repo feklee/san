@@ -354,7 +354,7 @@ var parseModuleMessage = function (message) {
     var module = getOrCreateModule(nodeId);
 
     module.generator.frequency = message.generator.frequency;
-    module.generator.sourceType = message.generator.type;
+    module.generator.sourceType = message.generator.sourceType;
 
     setGeneratorOffset(module, message.generator.offset);
     setGeneratorAmplitude(module, message.generator.amplitude);

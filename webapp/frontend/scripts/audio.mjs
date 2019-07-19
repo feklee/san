@@ -229,7 +229,9 @@ var createModule = function (nodeId) {
         noiseSource: noiseSource,
         generator: {
             source: undefined,
-            filter1Amplitude: generatorAmplitude
+            filter1Amplitude: generatorAmplitude,
+            filter2Offset: generatorGain,
+            filter3Clipper: generatorClipper
         },
         generatorOffset: generatorOffset,
         generatorDetuning: 400,

@@ -11,32 +11,34 @@ import graphicalAnalyzerSetup from "./graphical-analyzer-setup.mjs";
 var idOfThisNode = window.location.pathname.substr(1, 1);
 var audioCtx = new window.AudioContext();
 
-var generatorAmplitude = audioCtx.createGain();
-var generatorOffset = audioCtx.createConstantSource();
-var generatorGain = audioCtx.createGain();
-var initialFrequency = 440; // Hz
-var oscillationGenerator =
-        util.createOscillationGenerator(audioCtx, initialFrequency);
-var noiseGenerator = util.createNoiseGenerator(audioCtx, initialFrequency);
-var generatorInput = generatorAmplitude;
-var generator;
-
-generatorAmplitude.connect(generatorGain);
-generatorOffset.start();
-generatorOffset.connect(generatorGain);
-
-var setGenerator = function (newGenerator) {
-    if (generator === newGenerator) {
-        return;
-    }
-    if (generator) {
-        generator.audioNode.disconnect();
-    }
-    generator = newGenerator;
-    generator.audioNode.connect(generatorInput);
+var generator = {
+    source: undefined,
+    offset: audioCtx.createConstantSource(),
+    filter1Amplitude: audioCtx.createGain(),
+    filter2Offset: audioCtx.createGain(),
 };
 
-setGenerator(oscillationGenerator);
+var initialFrequency = 440; // Hz
+var oscillationSource =
+        util.createOscillationGenerator(audioCtx, initialFrequency);
+var noiseSource = util.createNoiseGenerator(audioCtx, initialFrequency);
+
+generator.filter1Amplitude.connect(generator.filter2Offset);
+generator.offset.start();
+generator.offset.connect(generator.filter2Offset);
+
+var setGeneratorSource = function (newSource) {
+    if (generator.source === newSource) {
+        return;
+    }
+    if (generator.source) {
+        generator.source.audioNode.disconnect();
+    }
+    generator.source = newSource;
+    generator.source.audioNode.connect(generator.filter1Amplitude);
+};
+
+setGeneratorSource(oscillationSource);
 
 var controlEl = function (groupClass, nameClass, type) {
     var typeSelector = type !== "input"
@@ -116,16 +118,16 @@ var setGeneratorOffset = function (value) {
 };
 
 var updateGenerator = function () {
-    generatorOffset.offset.value = selectedGeneratorOffset();
-    generatorAmplitude.gain.value = selectedGeneratorAmplitude();
+    generator.offset.offset.value = selectedGeneratorOffset();
+    generator.filter1Amplitude.gain.value = selectedGeneratorAmplitude();
     var type = selectedGeneratorType();
     if (type === "noise") {
-        setGenerator(noiseGenerator);
+        setGeneratorSource(noiseSource);
     } else {
-        setGenerator(oscillationGenerator);
-        oscillationGenerator.audioNode.type = type;
+        setGeneratorSource(oscillationSource);
+        oscillationSource.audioNode.type = type;
     }
-    generator.frequency.value = selectedGeneratorFrequency();
+    generator.source.frequency.value = selectedGeneratorFrequency();
 };
 
 var updateGeneratorNumbers = function () {
@@ -162,7 +164,7 @@ showButtonEl.onclick = resumeAudioCtx;
 graphicalAnalyzerSetup({
     audioCtx: audioCtx,
     canvasEl: document.querySelector("canvas"),
-    input: generatorGain
+    input: generator.filter2Offset
 });
 
 var selectedModulator = function () {
@@ -320,7 +322,7 @@ var removeNodeIcon = function (node) {
 var createNode = function (nodeId, type) {
     var node = {
         id: nodeId,
-        type: type,
+        type: type, // TODO: -> sourceType?
         iconEl: createNodeIconEl(nodeId)
     };
     resetNodeExpiryTime(node);

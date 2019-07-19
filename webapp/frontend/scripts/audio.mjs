@@ -153,7 +153,7 @@ var createMasterModule = function (node) {
 };
 
 var setGeneratorOffset = function (module, value) {
-    module.generatorOffset.offset.value = value;
+    module.generator.offset.offset.value = value;
 };
 
 var enableOutputCompressor = function (module) {
@@ -182,27 +182,49 @@ var setGeneratorSource = function (module, newGenerator) {
     );
 };
 
+var createClipper = function () {
+    var clipper = audioCtx.createWaveShaper();
+    clipper.curve = new Float32Array([-1, 1]);
+    return clipper;
+};
+
+var createGenerator = function () {
+    var frequency = 440; // Hz
+
+    var generator = {
+        oscillationSource: util.createOscillationSource(audioCtx, frequency),
+        noiseSource: util.createNoiseSource(audioCtx, frequency),
+        source: undefined,
+        offset: audioCtx.createConstantSource(),
+        detuning: 400,
+        sourceType: "sine", // TODO: also rename in messages
+        frequency: frequency,
+        filter1Amplitude: audioCtx.createGain(),
+        filter2Offset: audioCtx.createGain(),
+        filter3Clipper: createClipper(),
+        output: undefined
+    };
+
+    generator.filter1Amplitude.connect(generator.filter2Offset);
+    generator.offset.start();
+    generator.offset.connect(generator.filter2Offset);
+    generator.filter2Offset.connect(generator.filter3Clipper);
+
+    generator.output = generator.filter3Clipper;
+
+    return generator;
+};
+
 var createModule = function (nodeId) {
     var outputGain = audioCtx.createGain();
     var outputCompressor = audioCtx.createDynamicsCompressor();
-    var clippingCurve = new Float32Array([-1, 1]);
-    var outputClipper = audioCtx.createWaveShaper();
-    outputClipper.curve = clippingCurve;
+    var outputClipper = createClipper();
     const maxDelayTime = 1; // seconds
     var outputDelay = audioCtx.createDelay(maxDelayTime);
-    var generatorFrequency = 440; // Hz
-    var oscillationSource =
-        util.createOscillationSource(audioCtx, generatorFrequency);
-    var noiseSource =
-        util.createNoiseSource(audioCtx, generatorFrequency);
     var internalAudioNodes = new Set();
-    var generatorAmplitude = audioCtx.createGain();
-    var generatorClipper = audioCtx.createWaveShaper();
-    generatorClipper.curve = clippingCurve;
-    var generatorOffset = audioCtx.createConstantSource();
-    var generatorGain = audioCtx.createGain(); // TODO: gain -> GeneratorWithOffset
+    var generator = createGenerator();
     var inputs = [
-        generatorClipper, // generator
+        generator.output,
         audioCtx.createGain(), // port 1
         audioCtx.createGain(), // port 2
         audioCtx.createGain(), // ...
@@ -216,25 +238,11 @@ var createModule = function (nodeId) {
         false
     ];
 
-    generatorAmplitude.connect(generatorGain);
-    generatorOffset.start();
-    generatorOffset.connect(generatorGain);
-    generatorGain.connect(generatorClipper);
-
     outputDelay.connect(outputGain);
     outputGain.connect(outputClipper);
 
     var module = {
-        oscillationSource: oscillationSource,
-        noiseSource: noiseSource,
-        generator: {
-            source: undefined,
-            filter1Amplitude: generatorAmplitude,
-            filter2Offset: generatorGain,
-            filter3Clipper: generatorClipper
-        },
-        generatorOffset: generatorOffset,
-        generatorDetuning: 400,
+        generator: generator,
         internalAudioNodes: internalAudioNodes,
         inputs: inputs,
         inputIsConnectedList: inputIsConnectedList,
@@ -243,12 +251,10 @@ var createModule = function (nodeId) {
         output: outputClipper,
         outputInternal: outputDelay,
         outputCompressor: outputCompressor,
-        modulator: "add",
-        generatorType: "sine",
-        generatorFrequency: generatorFrequency
+        modulator: "add"
     };
 
-    setGeneratorSource(module, oscillationSource);
+    setGeneratorSource(module, generator.oscillationSource);
     setGeneratorOffset(module, 0);
     enableOutputCompressor(module);
 
@@ -274,28 +280,28 @@ var detuneGenerator = function (nodeId) {
     var module = node.audioModule;
     var source = module.generator.source;
     source.detune.value =
-            module.generatorDetuning * node.animatedLocation.z; // cents
+            module.generator.detuning * node.animatedLocation.z; // cents
 };
 
 var refreshOscillatorType = function (module) {
-    if (module.oscillationSource.audioNode.type !== module.generatorType) {
-        module.oscillationSource.audioNode.type = module.generatorType;
+    if (module.generator.oscillationSource.audioNode.type !== module.generator.sourceType) {
+        module.generator.oscillationSource.audioNode.type = module.generator.sourceType;
     }
 };
 
 var refreshGenerator = function (nodeId) {
     var module = getOrCreateModule(nodeId);
 
-    if (module.generatorType === "noise") {
-        setGeneratorSource(module, module.noiseSource);
+    if (module.generator.sourceType === "noise") {
+        setGeneratorSource(module, module.generator.noiseSource);
     } else {
-        setGeneratorSource(module, module.oscillationSource);
+        setGeneratorSource(module, module.generator.oscillationSource);
         refreshOscillatorType(module);
     }
 
     var source = module.generator.source;
-    if (source.frequency.value !== module.generatorFrequency) {
-        source.frequency.value = module.generatorFrequency;
+    if (source.frequency.value !== module.generator.frequency) {
+        source.frequency.value = module.generator.frequency;
     }
 
     detuneGenerator(nodeId);
@@ -333,8 +339,8 @@ var parseModuleMessage = function (message) {
     var nodeId = message.nodeId;
     var module = getOrCreateModule(nodeId);
 
-    module.generatorFrequency = message.generator.frequency;
-    module.generatorType = message.generator.type;
+    module.generator.frequency = message.generator.frequency;
+    module.generator.sourceType = message.generator.type;
 
     setGeneratorOffset(module, message.generator.offset);
     setGeneratorAmplitude(module, message.generator.amplitude);
@@ -342,7 +348,7 @@ var parseModuleMessage = function (message) {
     setOutputDelay(module, message.output.delay);
     setOutputCompressor(module, message.output.compressorShouldBeEnabled);
 
-    module.generatorDetuning = message.generator.detuning;
+    module.generator.detuning = message.generator.detuning;
 
     refreshGenerator(nodeId);
 

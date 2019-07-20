@@ -1,10 +1,8 @@
 #+HTML_HEAD: <style>body{max-width:42em}img{max-width:100%}.figure-number{display:none}</style>
 
-#+TITLE: SAN: Master Plan
+#+TITLE: SAN: Manifesto
 
-* The big goal
-
-The big goal is to democratize architecture the way maker spaces have
+The intention is to democratize architecture the way maker spaces have
 democratized industrial design.  And of course we’re not creating
 static buildings of the last millennium.  We’re inviting the buildings
 themselves to partake in their construction.

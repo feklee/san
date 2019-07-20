@@ -9,7 +9,7 @@ SAN (Self Aware Network) is an experiment about the [future of
 architecture][1]. The network understands its own topology, a first
 step towards being able to dynamically adapt to its environment.
 
-SAN is an intermediate step in a [master plan][6].
+SAN is an intermediate step: [Manifesto][6]
 
 
 Getting started

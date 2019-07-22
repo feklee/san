@@ -148,6 +148,9 @@ var updateOutputNumbers = function () {
     controlEl("output", "delay", "number").textContent = parseFloat(
         controlEl("output", "delay", "input").value
     ).toFixed(2);
+    controlEl("output", "cutoff", "number").textContent = parseFloat(
+        controlEl("output", "cutoff", "input").value
+    );
     controlEl("output", "gain", "number").textContent = Math.round(
         100 * controlEl("output", "gain", "input").value
     );
@@ -198,6 +201,14 @@ var setOutputDelay = function (value) {
     controlEl("output", "delay", "input").value = value;
 };
 
+var selectedOutputCutoff = function () {
+    return parseFloat(controlEl("output", "cutoff", "input").value);
+};
+
+var setOutputCutoff = function (value) {
+    controlEl("output", "cutoff", "input").value = value;
+};
+
 var selectedOutputCompressor = function () {
     return controlEl("output", "compressor", "input").checked;
 };
@@ -221,6 +232,7 @@ var sendSelection = function () {
         output: {
             gain: selectedOutputGain(),
             delay: selectedOutputDelay(),
+            cutoff: selectedOutputCutoff(),
             compressorShouldBeEnabled: selectedOutputCompressor()
         },
         nodeId: idOfThisNode
@@ -248,6 +260,7 @@ var parseModuleMessage = function (message) {
     setModulator(message.modulator);
 
     setOutputDelay(message.output.delay);
+    setOutputCutoff(message.output.cutoff);
     setOutputCompressor(message.output.compressorShouldBeEnabled);
     setOutputGain(message.output.gain);
     updateOutputNumbers();

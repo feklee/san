@@ -74,8 +74,8 @@ var setGeneratorFrequencyExp = function (value) {
 };
 
 var selectedGeneratorSourceType = function () {
-    return document.querySelector("input[name=generator-source-type]:checked").
-        value;
+    return document.querySelector("input[name=generator-source-type]:checked")
+        .value;
 };
 
 var deselectAllRadioButtons = function (selectors) {
@@ -144,18 +144,6 @@ var updateGeneratorNumbers = function () {
     ).toFixed(2);
 };
 
-var updateOutputNumbers = function () {
-    controlEl("output", "delay", "number").textContent = parseFloat(
-        controlEl("output", "delay", "input").value
-    ).toFixed(2);
-    controlEl("output", "cutoff", "number").textContent = parseFloat(
-        controlEl("output", "cutoff", "input").value
-    );
-    controlEl("output", "gain", "number").textContent = Math.round(
-        100 * controlEl("output", "gain", "input").value
-    );
-};
-
 var resumeAudioCtx = function () {
     if (audioCtx.state !== "running") {
         audioCtx.resume();
@@ -201,11 +189,25 @@ var setOutputDelay = function (value) {
     controlEl("output", "delay", "input").value = value;
 };
 
-var selectedOutputCutoff = function () {
+var selectedOutputCutoffExp = function () {
     return parseFloat(controlEl("output", "cutoff", "input").value);
 };
 
-var setOutputCutoff = function (value) {
+var updateOutputCutoffNumber = function () {
+    var outputCutoffExp = selectedOutputCutoffExp();
+    var outputCutoff = Math.pow(2, outputCutoffExp); // Hz
+    controlEl("output", "cutoff", "number").textContent =
+        outputCutoff.toFixed(2);
+};
+
+var selectedOutputCutoff = function () { // Hz
+    updateOutputCutoffNumber();
+    return parseFloat(
+        controlEl("output", "cutoff", "number").textContent
+    );
+};
+
+var setOutputCutoffExp = function (value) {
     controlEl("output", "cutoff", "input").value = value;
 };
 
@@ -215,6 +217,16 @@ var selectedOutputCompressor = function () {
 
 var setOutputCompressor = function (value) {
     controlEl("output", "compressor", "input").checked = value;
+};
+
+var updateOutputNumbers = function () {
+    controlEl("output", "delay", "number").textContent = parseFloat(
+        controlEl("output", "delay", "input").value
+    ).toFixed(2);
+    updateOutputCutoffNumber();
+    controlEl("output", "gain", "number").textContent = Math.round(
+        100 * controlEl("output", "gain", "input").value
+    );
 };
 
 var sendSelection = function () {
@@ -233,6 +245,7 @@ var sendSelection = function () {
             gain: selectedOutputGain(),
             delay: selectedOutputDelay(),
             cutoff: selectedOutputCutoff(),
+            cutoffExp: selectedOutputCutoffExp(),
             compressorShouldBeEnabled: selectedOutputCompressor()
         },
         nodeId: idOfThisNode
@@ -260,7 +273,7 @@ var parseModuleMessage = function (message) {
     setModulator(message.modulator);
 
     setOutputDelay(message.output.delay);
-    setOutputCutoff(message.output.cutoff);
+    setOutputCutoffExp(message.output.cutoffExp);
     setOutputCompressor(message.output.compressorShouldBeEnabled);
     setOutputGain(message.output.gain);
     updateOutputNumbers();

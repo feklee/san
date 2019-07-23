@@ -130,6 +130,9 @@ duration of a repeating loop, that the user can attach inputs to.
 Also the node could be made freely programmable, perhaps globally for
 all nodes at once.
 
+In addition to the sliders, users could be given the option to tap on
+number and modify it using text entry.
+
 *** Examples for collaborative synths
 
 - [[https://github.com/CarloCattano/PopularSynth][Popular Synth]] by Carlo Cattano (host of [[https://www.meetup.com/de-DE/spektrum/events/ckdswpyxqbxb][Sonic Code Sessions]] in

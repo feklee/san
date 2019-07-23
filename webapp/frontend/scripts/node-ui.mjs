@@ -1,5 +1,6 @@
 /*jslint browser: true, maxlen: 80 */
 
+import webSocket from "./web-socket.mjs";
 import client from "./web-socket-client.mjs";
 import util from "./util.mjs";
 import nodeColors from "./node-colors.mjs";
@@ -252,7 +253,7 @@ var sendSelection = function () {
     };
 
     try {
-        client.send(JSON.stringify(data));
+        webSocket.send(JSON.stringify(data));
     } catch (ignore) {
     }
 };
@@ -402,25 +403,37 @@ var parseData = function (data) {
     }
 };
 
-client.onmessage = function (e) {
-    var message;
-    var json;
-    if (typeof e.data === "string") {
-        json = e.data;
-        message = JSON.parse(json);
-    } else {
-        return;
-    }
+var connectionLostErrorEl = document.querySelector(".connection-lost-error");
 
-    switch (message.type) {
-    case "data":
-        parseData(message.text);
-        break;
-    case "audio module":
-        parseModuleMessage(message);
-        break;
+webSocket.setup({
+    onopen: function () {
+        connectionLostErrorEl.classList.add("hidden");
+    },
+    onclose: function () {
+        connectionLostErrorEl.classList.remove("hidden");
+    },
+    onmessage: function (e) {
+        var message;
+        var json;
+        if (typeof e.data === "string") {
+            json = e.data;
+            message = JSON.parse(json);
+        } else {
+            return;
+        }
+
+        switch (message.type) {
+        case "data":
+            parseData(message.text);
+            break;
+        case "audio module":
+            parseModuleMessage(message);
+            break;
+        }
     }
-};
+});
+
+webSocket.connect();
 
 document.querySelectorAll("input").forEach(
     (el) => el.addEventListener("input", function () {
@@ -432,6 +445,13 @@ document.querySelectorAll("input").forEach(
 
 document.querySelectorAll(".output.controls input").forEach(
     (el) => el.addEventListener("input", updateOutputNumbers)
+);
+
+document.querySelector("button.reconnect").addEventListener(
+    "click",
+    function () {
+        webSocket.connect();
+    }
 );
 
 updateGeneratorNumbers();

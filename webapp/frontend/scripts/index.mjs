@@ -100,7 +100,6 @@ client.onmessage = function (e) {
     }
 };
 
-var asideEl = document.querySelector("aside");
 document.body.classList.remove("hidden");
 
 audio.enableMuteButton();

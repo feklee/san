@@ -110,7 +110,7 @@ interaction.
 
 - Outputs: parent nodes, or root node (master)
 
-#+CAPTION: Screenshot of a module connected to master, June 12 2019
+#+CAPTION: Screenshot of a module connected to master, July 23 2019
 [[./images/module.png]]
 
 *** Possible extensions

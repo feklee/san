@@ -1,7 +1,6 @@
 /*jslint browser: true, maxlen: 80 */
 
 import webSocket from "./web-socket.mjs";
-import client from "./web-socket-client.mjs";
 import util from "./util.mjs";
 import nodeColors from "./node-colors.mjs";
 import {

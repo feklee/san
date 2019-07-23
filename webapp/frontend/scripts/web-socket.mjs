@@ -15,7 +15,12 @@ var connect = function () {
     client.onmessage = settings.onmessage;
 };
 
+var send = function (data) {
+    client.send(data);
+};
+
 export default {
     setup: setup,
-    connect: connect
+    connect: connect,
+    send: send
 };

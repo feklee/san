@@ -4,19 +4,7 @@ import log from "./log.mjs";
 import nodeManager from "./node-manager.mjs";
 import nodes from "./nodes.mjs";
 import audio from "./audio.mjs";
-import client from "./web-socket-client.mjs";
-
-client.onerror = function () {
-    log.append("error", "WebSocket error");
-};
-
-client.onopen = function () {
-    log.append("info", "WebSocket opened");
-};
-
-client.onclose = function () {
-    log.append("warn", "WebSocket closed");
-};
+import webSocket from "./web-socket.mjs";
 
 var angleInRad = function ( // rad
     angleInDeg // deg
@@ -77,28 +65,41 @@ var parseData = function (data) {
     }
 };
 
-client.onmessage = function (e) {
-    var message;
-    var json;
-    if (typeof e.data === "string") {
-        json = e.data;
-        message = JSON.parse(json);
-    } else {
-        return;
-    }
+webSocket.setup({
+    onerror: function () {
+        log.append("error", "WebSocket error");
+    },
+    onopen: function () {
+        log.append("info", "WebSocket opened");
+    },
+    onclose: function () {
+        log.append("warn", "WebSocket closed");
+    },
+    onmessage: function (e) {
+        var message;
+        var json;
+        if (typeof e.data === "string") {
+            json = e.data;
+            message = JSON.parse(json);
+        } else {
+            return;
+        }
 
-    if (message.type === "data") {
-        parseData(message.text);
-    } else if (message.type === "audio module") {
-        log.append(
-            "info",
-            "audio module update for " + message.nodeId
-        );
-        audio.parseModuleMessage(message);
-    } else {
-        log.append(message.type, message.text);
+        if (message.type === "data") {
+            parseData(message.text);
+        } else if (message.type === "audio module") {
+            log.append(
+                "info",
+                "audio module update for " + message.nodeId
+            );
+            audio.parseModuleMessage(message);
+        } else {
+            log.append(message.type, message.text);
+        }
     }
-};
+});
+
+webSocket.connect();
 
 document.body.classList.remove("hidden");
 

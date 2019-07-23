@@ -423,17 +423,10 @@ client.onmessage = function (e) {
 };
 
 document.querySelectorAll("input").forEach(
-    (el) => el.addEventListener("change", function () {
+    (el) => el.addEventListener("input", function () {
         updateGenerator();
         sendSelection();
         resumeAudioCtx();
-    })
-);
-
-document.querySelectorAll(".generator.controls input").forEach(
-    (el) => el.addEventListener("input", function () {
-        updateGeneratorNumbers();
-        updateGenerator();
     })
 );
 

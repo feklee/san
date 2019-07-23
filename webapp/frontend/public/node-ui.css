@@ -5,7 +5,7 @@
                                             var(--node-icon-size));
     --module-connection-length: 20px;
     --stroke-width: 1px;
-    --body-width: 401px; /* uneven -> connectors can be perfectly in middle */
+    --body-width: 421px; /* uneven -> connectors can be perfectly in middle */
     --special-icon-height: 25px;
     --root-node-width: 101px;
     --root-node-padding: 5px;
@@ -228,7 +228,7 @@ ul.controls>li>div {
 }
 
 .range-selector span.number {
-    width: 60px;
+    width: 70px;
     text-align: right;
 }
 

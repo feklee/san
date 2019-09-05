@@ -19,7 +19,7 @@ Getting started
 
  2. Program the root node and the nodes.
 
- 3. Connect the root node to the computer.
+ 3. Connect the root node to the computer. (or use the WiFi root node)
 
  4. Run the web app.
 

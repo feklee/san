@@ -1,0 +1,11 @@
+[Unit]
+Description=SAN
+After=network-online.target
+
+[Service]
+WorkingDirectory=/home/pi/san/webapp
+ExecStart=/usr/bin/yarn start simulate
+User=pi
+
+[Install]
+WantedBy=multi-user.target

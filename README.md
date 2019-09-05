@@ -19,9 +19,12 @@ Getting started
 
  2. Program the root node and the nodes.
 
- 3. Connect the root node to the computer. (or use the WiFi root node)
-
- 4. Run the web app.
+ 3. If using the USB root node, connect that to your computer, then run the web
+    app.
+    
+    If using the WiFi root node, simply connect to it with a web browser.
+    
+ 4. Build a structure.
 
 There may be [apps][5] built on top of the system.
 

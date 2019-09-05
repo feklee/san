@@ -66,7 +66,8 @@ Software setup
 
   * Set up the Pi as a [WiFi access point][1].
 
-  * Create a systemd service unit, and enable and start it:
+  * Create a systemd service unit that runs the web app. Enable and start the
+    service:
 
         $ sudo ln -s "$PWD/san.service" /etc/systemd/system/
         $ sudo systemctl start san.service
@@ -146,14 +147,26 @@ Software setup
         $ ~/arduino-1.8.9/arduino --install-library "MultiTrans"
         $ ~/arduino-1.8.9/arduino --install-library "Adafruit NeoPixel"
 
-  * Upload the root node firmware to the Arduino.
+  * Upload the root node firmware to the Arduino. The root node is programmed
+    just like the other nodes. The root node needs to have as ID: `^`
 
-    First make sure that no other software, such as SAN, is accessing
-    the serial port!
+    When uploading, first make sure that no other software, such as SAN, is
+    accessing the serial port!
 
         $ ~/arduino-1.8.9/arduino \
           --board arduino:avr:pro:cpu=16MHzatmega328 \
           --port /dev/serial0 --upload ~/san/nodes/Firmware/Firmware.ino
+
+  * Optionally, set up an overlay file system.
+  
+    It may happen that power is removed while the Raspberry Pi is writing to its
+    microSD card. In this case, the card may become corrupted. To alleviate the
+    problem, the root file system may be mounted read-only with an overlay file
+    system on top, following the guide [Raspberry Pi Overlay Root
+    Filesystem][7].
+
+    The home directory may be on a separate partition which is writeable. During
+    normal operation of SAN, there should be no writes to the home directory.
 
 
 To view serial output
@@ -197,3 +210,4 @@ On the Pi:
 [4]: https://www.raspberrypi.org/forums/viewtopic.php?f=66&t=90155&p=764850#p764850
 [5]: https://oscarliang.com/raspberry-pi-and-arduino-connected-serial-gpio/
 [6]: https://www.raspberrypi.org/documentation/configuration/uart.md
+[7]: https://yagrebu.net/unix/rpi-overlay.md

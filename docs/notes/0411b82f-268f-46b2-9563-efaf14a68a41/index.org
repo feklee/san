@@ -2,35 +2,55 @@
 
 #+TITLE: SAN: Manifesto
 
-* The intention
+* Intention
 
 The intention is to democratize architecture the way maker spaces have
-democratized industrial design.  And of course we’re not creating
-static buildings of the last millennium.  We’re inviting the buildings
-themselves to partake in their construction.
+democratized industrial design.  And of course we’re not creating static
+buildings of the last millennium.  We’re inviting the buildings to partake in
+their construction.
 
-* The role of SAN
+* What to strive for in a project
 
-The [[https://github.com/feklee/san][Self Aware Network]] (SAN) is an intermediate step.  Individuals
-join a collaborative construction process.  The network gives visual
-and auditory feedback concerning how it perceives its construction and
-its integration with the environment.
+1. Accessibility: Digital fabrication lowers the barrier of entrance.  It should
+   not be required to have architectural training or to possess particular
+   manual skills.  Everybody is invited.
+
+2. Inhabitability: Some of the best projects are those that are for personal
+   use.  In an architectural maker space, it should be possible to live in the
+   structures built, even if only temporarily.
+
+3. Reconfigurability: In a typical maker space, a lot of prototypes go to waste.
+   This is not feasible at architectural scale.  For example, instead of
+   experimenting with 3D printing, it may be more interesting to work on a robot
+   that can assemble and reconfigure constructions out of simple building
+   blocks.  Architecture probably should be less rigid anyhow, able to adapt to
+   changing needs.
+
+4. Fast production: Ideally, constructions can be quickly assembled, for fast
+   iteration and for getting results in an afternoon.
+
+* SAN as an intermediate step
+
+The [[https://github.com/feklee/san][Self Aware Network]] (SAN) is an intermediate step.  Individuals join a
+collaborative construction process.  The network gives visual and auditory
+feedback concerning how it perceives its construction and its integration with
+the environment.  It is not a habitable structure however.
 
 #+CAPTION: Concept for [[https://feklee.github.io/san/notes/37a9c365-c0a9-45d4-bf89-23a359c176fa/][UABB]]
 [[./images/2019-UABB-concept.jpg]]
 
 * Beyond SAN
 
-- Organic buildings: Just as [[https://en.wikipedia.org/wiki/Full_Grown][chairs]] out of trees or objects out of
-  [[https://en.wikipedia.org/wiki/Ecovative_Design][mycelium]] – houses could be grown.  Such buildings are literally
-  partaking in their construction.  A start would be models grown over
-  the course or a few weeks or months.
+- Organic buildings: Just as [[https://en.wikipedia.org/wiki/Full_Grown][chairs]] out of trees or objects out of [[https://en.wikipedia.org/wiki/Ecovative_Design][mycelium]] –
+  houses could be grown.  Such buildings are literally partaking in their
+  construction.  A start would be models grown over the course of a few weeks or
+  months.
 
-- Sustainability and robotics: Robots may be able to construct
-  individualized buildings from scrap found on the “ground” in way
-  more sophisticated ways than humans.  Furthermore, buildings can be
-  reconfigured continuously, preventing waste of material and offering
-  endless possibility for play and experimentation.
+- Sustainability and robotics: Robots may be able to construct individualized
+  buildings from scrap found on the ground in way more sophisticated ways than
+  humans.  Furthermore, buildings can be reconfigured continuously, preventing
+  waste of material and offering endless possibility for play and
+  experimentation.
 
-  Let’s invent a robot that you can take with you, and that can build
-  you a shelter for a night.
+- Let’s invent a portable machine that you can take with you, and that aids with
+  building a shelter for a night.

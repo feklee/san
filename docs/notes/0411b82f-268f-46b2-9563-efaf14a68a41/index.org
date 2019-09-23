@@ -11,22 +11,22 @@ their construction.
 
 * What to strive for in a project
 
-1. Accessibility: Digital fabrication lowers the barrier of entrance.  It should
-   not be required to have architectural training or to possess particular
-   manual skills.  Everybody is invited.
+1. /Accessibility:/ Digital fabrication lowers the barrier of entrance.  It
+   should not be required to have architectural training or to possess
+   particular manual skills.  Everybody is invited.
 
-2. Inhabitability: Some of the best projects are those that are for personal
+2. /Inhabitability:/ Some of the best projects are those that are for personal
    use.  In an architectural maker space, it should be possible to live in the
    structures built, even if only temporarily.
 
-3. Reconfigurability: In a typical maker space, a lot of prototypes go to waste.
-   This is not feasible at architectural scale.  For example, instead of
+3. /Reconfigurability:/ In a typical maker space, a lot of prototypes go to
+   waste.  This is not feasible at architectural scale.  For example, instead of
    experimenting with 3D printing, it may be more interesting to work on a robot
    that can assemble and reconfigure constructions out of simple building
    blocks.  Architecture probably should be less rigid anyhow, able to adapt to
    changing needs.
 
-4. Fast production: Ideally, constructions can be quickly assembled, for fast
+4. /Fast production:/ Ideally, constructions can be quickly assembled, for fast
    iteration and for getting results in an afternoon.
 
 * SAN as an intermediate step

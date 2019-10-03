@@ -1,0 +1,133 @@
+#+HTML_HEAD: <style>body{max-width:42em}img{max-width:100%}.figure-number{display:none}</style>
+
+#+TITLE: SAN: Coco Nodes & Bamboo Edges
+
+* Introduction
+
+The /Self Aware Network/ (SAN) is a kit for assembling architectural structures
+that are aware of themselves.  A structure is comprised of a network.  Nodes
+communicate and send information to the brain, a computer which is able to
+understand what has been built.  Structures communicate with the environment
+visually and auditory.
+
+#+BEGIN_EXPORT html
+<iframe width="560" height="315" src="https://www.youtube.com/embed/u5LrP_wYdv0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+#+END_EXPORT
+
+
+* Objectives of this document
+
+- Find a way to scale up SAN, using coconuts and bamboo canes as elements
+
+- Decide on components.
+
+- Design PCB for controller.
+
+- Design PCB for IR transceiver.
+
+- Create a manufacturing ready board layouts.
+
+- Optimize price and manufacturing time.
+
+
+* SAN desktop system
+
+The SAN desktop system is fully functional, asides from a bunch of bugs.  Nodes
+are 3D printed spheres with a diameter of 50 mm.  Edges have a length of 100 mm.
+Nodes and edges are connected using BNC connectors.  Signals are transmitted via
+wires to the network’s brain using a two layer protocol based on [[https://github.com/feklee/MultiTrans/][MultiTrans]].
+
+#+CAPTION: Desktop system at Maker Faire Berlin 2019, photo © Tobi Giessen
+[[./images/Maker-Faire-Berlin-2019.jpg]]
+
+
+* SAN life-size system
+
+The SAN life-size system is under development.  It is not functional.  Only part
+of it has been prototyped.  Nodes are coconuts of about 150 mm diameter, and
+edges are bamboo canes of 500 mm in length.  Nodes identify themselves to their
+neighbors using IR traveling through the bamboo canes.  Nodes send information
+to the brain wirelessly.  No complex protocol is required.
+
+#+CAPTION: Porposal for the deTour 2019 art festival Hong Kong
+[[./images/life-size-system.png]]
+
+
+* Brain
+
+The brain is the central computer that visualizes the network and that allows
+controlling how nodes in the network generate and modulate sound.
+
+#+CAPTION: Control panel of brain
+[[./images/control-panel.png]]
+
+
+* Bamboo edge
+
+| Component                    | QTY |
+|------------------------------+-----|
+| Bambo pole                   |   1 |
+| Quick-connect, female, brass |   2 |
+
+Preparation:
+
+- Perforate all segments, so that light can pass through pole.
+
+- Prepare ends of pole for inside and outside diameter matching quick-connect.
+
+- Mount quick-connects onto ends and secure them with epoxy.
+
+#+CAPTION: Prototype
+[[./images/bamboo-edge.jpg]]
+
+
+* Coco node
+
+| Component                  | QTY |
+|----------------------------+-----|
+| Coconut shell              |   1 |
+| Quick-connect, male, brass |   4 |
+| IR transceiver             |   4 |
+| Cable tie                  |   4 |
+| Battery                    |   1 |
+| Camera                     |   1 |
+| Microphone                 |   1 |
+| Speaker                    |   1 |
+| Controller                 |   1 |
+
+Preparation:
+
+- Cut coconut shell in half.
+
+- Consume coconut water and flesh.
+
+- Drill holes for components and for cable ties.
+
+- Mount quick-connects onto shell and secure them with epoxy.
+
+- Prepare controllers and IR transceivers.
+
+- Mount IR transceivers in quick-connects.
+
+- Mount camera, speaker, microphone onto shell.
+
+- Mount controller and battery into shell and solder connections.
+
+Requirements for controller:
+
+- Transmit ID and port numbers to neighboring nodes via IR transceivers.
+
+- Receive IDs and port numbers from neighboring nodes via IR transceivers.
+
+- Send information who neighbors who to brain, e.g. via WiFi.
+
+- Low priority: Transmit audio and camera stream to brain.
+
+- Low priority: Receive audio stream from brain and output it.
+
+Camera, speaker, and microphone: low priority
+
+Controller could be: Raspberry Pi 0 + Arduino Pro Mini
+
+#+CAPTION: Non-functional prototype
+[[./images/coco-node.jpg]]

@@ -1,6 +1,6 @@
 #+HTML_HEAD: <style>img{max-width:100%}.figure-number{display:none}</style>
 
-#+TITLE: SAN: PCB Design
+#+TITLE: SAN: PCB Design for Desktop System
 
 * Objectives
 

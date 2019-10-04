@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1600"
+   height="900"
+   viewBox="0 0 1600 900"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="transceiver.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1"
+     inkscape:cx="777.15871"
+     inkscape:cy="468.5625"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer2"
+     showgrid="true"
+     units="px"
+     inkscape:pagecheckerboard="false"
+     inkscape:window-width="3000"
+     inkscape:window-height="1966"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:snap-grids="true"
+     inkscape:snap-nodes="false"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="false"
+     inkscape:bbox-nodes="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3721"
+       spacingx="2.6458334"
+       spacingy="2.6458334"
+       empspacing="10" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Board"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-58.874984)"
+     style="display:inline"
+     sodipodi:insensitive="true">
+    <circle
+       style="display:inline;fill:#a4d2bd;fill-opacity:1;stroke-width:1.20000005"
+       id="path4002"
+       cx="450"
+       cy="-508.87497"
+       r="420"
+       transform="scale(1,-1)" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Components &amp; Annotations">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none"
+       x="576.07422"
+       y="343.04688"
+       id="text4006"><tspan
+         sodipodi:role="line"
+         id="tspan4004"
+         x="576.07422"
+         y="343.04688">IR-LED @56kHz</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none"
+       x="583.16406"
+       y="589.43359"
+       id="text4006-6"><tspan
+         sodipodi:role="line"
+         id="tspan4004-5"
+         x="583.16406"
+         y="589.43359">56kHz-Sensor</tspan></text>
+    <circle
+       style="display:inline;fill:#000000;stroke-width:1.84507024"
+       id="path4048"
+       cx="454.05637"
+       cy="-334.05634"
+       r="95.943649"
+       transform="scale(1,-1)" />
+    <circle
+       style="display:inline;fill:#000000;stroke-width:1.84507024"
+       id="path4048-5"
+       cx="454.05637"
+       cy="-575.94366"
+       r="95.943649"
+       transform="scale(1,-1)" />
+    <rect
+       style="fill:#000000;fill-opacity:1"
+       id="rect4879"
+       width="70"
+       height="65"
+       x="420"
+       y="735" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none"
+       x="516.07422"
+       y="781.67969"
+       id="text4006-7"><tspan
+         sodipodi:role="line"
+         id="tspan4004-8"
+         x="516.07422"
+         y="781.67969">Decoupling Capacitor</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 456,610 V 770"
+       id="path4905"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 852,426 c 10.33333,0.66667 20.64826,1.74752 31,2 14.70239,0.35859 32.31764,-3.30588 47,-5 21.05656,-2.4296 42.8186,-4.11744 64,-5 3.66349,-0.15265 7.3484,0.33196 11,0 3.7115,-0.33741 7.29,-1.64667 11,-2 8.4674,-0.80642 18.4777,-0.56815 27,0 9.0566,0.60377 18.0821,1.72601 27,3 3.3583,0.47975 7.7977,-1.06744 11,0 2.4696,0.82321 2.6638,3 6,3"
+       id="path4986"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 1094,375 c 1.8573,22.5353 3.4708,38.93761 2,61 -0.2212,3.31758 -2.7261,16.54789 -1,20 1.633,3.26598 9.7853,-1 12,-1 6.3505,0 11.7412,2.10589 18,3 6.4072,0.91532 13.7004,-0.25992 20,1 3.6391,0.72783 8.1878,1.95304 12,1 0.7231,-0.18078 1.2546,-1 2,-1 0.7454,0 1.2546,1 2,1 1.0593,0 6.1503,-2.57513 7,-3 1.0914,-0.5457 1.478,-2.13001 2,-3 4.9754,-8.29236 3.8656,-13.92478 5,-23 0.7624,-6.09922 3.437,-11.80681 4,-18 0.4699,-5.16865 -1,-10.01173 -1,-15 0,-1.37437 1.1368,-2.63245 1,-4 -0.5128,-5.12767 -3.6473,-6.94183 -5,-11 -0.2891,-0.86735 -1.0344,-3.51722 -2,-4 -0.5963,-0.29814 -1.3675,0.21082 -2,0 -0.8944,-0.29814 -1.0572,-2 -2,-2 -0.3333,0 0.2357,0.7643 0,1 -0.4714,0.4714 -1.3333,0 -2,0 -3.9692,0 -8.016,2.336 -12,3 -5.956,0.99267 -12.9525,0 -19,0 -4.5631,0 -9.4739,0.5029 -14,0 -5.6586,-0.62874 -10.549,-2.9098 -16,-4 -1.3074,-0.26149 -3.0572,-0.94281 -4,0 -0.2357,0.2357 0.3333,1 0,1 -1.0541,0 1.9459,-1 3,-1"
+       id="path4988"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 1178,393 c 16.1456,-3.79983 26.6191,-4 41,-4 2.3333,0 2,0.66667 2,-1"
+       id="path4990"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 1174,416 c 10.7079,11.05419 28.7387,-6.13063 41,0"
+       id="path4992"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 1167,435 c 13.2111,-4.92335 26.7889,1 40,1 0.7454,0 1.2546,-1 2,-1 0.7348,0 2.6679,1.33209 3,1 0.2357,-0.2357 0,-0.66667 0,-1"
+       id="path4994"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 1165,455 c -1.1821,-6.66978 49,7.36641 49,1"
+       id="path4996"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="1254.1016"
+       y="439.6875"
+       id="text5014"><tspan
+         sodipodi:role="line"
+         id="tspan5012"
+         x="1254.1016"
+         y="439.6875">Connector:</tspan><tspan
+         sodipodi:role="line"
+         x="1254.1016"
+         y="489.6875"
+         id="tspan5016">GND</tspan><tspan
+         sodipodi:role="line"
+         x="1254.1016"
+         y="539.6875"
+         id="tspan5018">Signal IR-LED</tspan><tspan
+         sodipodi:role="line"
+         x="1254.1016"
+         y="589.6875"
+         id="tspan5026">VCC Sensor</tspan><tspan
+         sodipodi:role="line"
+         x="1254.1016"
+         y="639.6875"
+         id="tspan5028">DOUT Sensor</tspan><tspan
+         sodipodi:role="line"
+         x="1254.1016"
+         y="689.6875"
+         id="tspan5022" /></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="1089.6875"
+       y="870.39062"
+       id="text5032"><tspan
+         sodipodi:role="line"
+         id="tspan5030"
+         x="1089.6875"
+         y="870.39062">Alternative freq.: 38kHz</tspan></text>
+    <path
+       style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 464,199 c -0.66667,11 -1.38871,21.99678 -2,33 -0.18388,3.30987 0,6.68219 0,10 0,1 0,4 0,3 0,-1.33333 0,-2.66667 0,-4"
+       id="path881"
+       inkscape:connector-curvature="0" />
+    <path
+       style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 464,194 c -42.18951,-16.52875 -31.64941,-8.14024 -17,-14 3.59866,-1.43946 7.26005,-4.06501 11,-5 2.18803,-0.54701 4.81197,-0.45299 7,-1 2.58859,-0.64715 4.29431,-3.32358 7,-4 1.80329,-0.45082 8.85413,0.14587 10,-1 1.42689,-1.42689 -6.50662,-4.7511 -8,-5 -2.0928,-0.3488 -4.92008,-0.30669 -7,-1 -2.35635,-0.78545 -4.31807,-3.32952 -7,-4 -2.46173,-0.61543 -4.6467,-0.41168 -7,-1 -1.4462,-0.36155 -2.5538,-1.63845 -4,-2 -3.36945,-0.84236 -7.9963,-0.9963 -10,-3 -0.2357,-0.2357 -0.33333,-1 0,-1 0.4714,0 -0.66667,1.33333 -1,1 -1.70663,-1.70663 4.89213,-0.48202 8,-1 2.26858,-0.3781 5.46336,-2.36584 8,-3 3.79376,-0.94844 7.5774,-0.2887 11,-2 1.76694,-0.88347 5.05153,0.48712 7,0 1.80994,0.60273 1.85982,-1.61994 3,-2 1.83723,-0.61241 3.97616,-0.32539 6,-1 1.30201,-0.434 3.77571,0.61215 5,0 0.12121,-0.0606 0.83809,-2.83809 1,-3 0.4714,-0.4714 2,-0.66667 2,0 0,0.74536 -1.29289,-0.7643 -2,-1 -2.33859,-0.77953 -5.61423,-0.20474 -8,-1 -4.16557,-1.38852 -9.50439,-0.8348 -13,-2 -5.60384,-1.86795 -11.65878,-5.43918 -17,-9 -0.82297,-0.54865 -4.57814,-0.57814 -5,-1 -2.4037,-2.4037 6.60065,-2 10,-2 6.63316,0 -1.41421,0.4714 3,-1 2.1,-0.7 4.9,0.7 7,0 1.49316,-0.49772 2.23805,-2 4,-2 0.35074,0 4.61743,0.38257 5,0 0.099,-0.0991 -6,-8.20802 -6,-13 0,-3.60103 -0.35485,-35.645145 0,-36 0.2357,-0.235702 1,0.333333 1,0 0,-0.471405 -0.5286,-1 -1,-1 -0.52508,0 2,8.220177 2,9"
+       id="path885"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#000000;fill-opacity:1;stroke:none"
+       x="513.19666"
+       y="178.67186"
+       id="text4006-0"><tspan
+         sodipodi:role="line"
+         id="tspan4004-2"
+         x="513.19666"
+         y="178.67186">Resistor</tspan></text>
+  </g>
+</svg>

@@ -131,3 +131,18 @@ Controller could be: Raspberry Pi 0 + Arduino Pro Mini
 
 #+CAPTION: Non-functional prototype
 [[./images/coco-node.jpg]]
+
+
+** IR transceiver
+
+| Component        | QTY |
+|------------------+-----|
+| Board, ⌀ 25.7 mm |   1 |
+| Capacitor        |   1 |
+| Resistor         |   1 |
+| IR-LED           |   1 |
+| Sensor           |   1 |
+| Connector        |   1 |
+
+#+CAPTION: Sketch
+[[./images/transceiver.svg]]

@@ -130,7 +130,8 @@ Camera, speaker, and microphone: low priority
 
 Possible CPUs:
 
-- Raspberry Pi 0 (lots of power, full Linux, can program the MCU directly)
+- Raspberry Pi 0 (lots of power, full Linux, can program the MCU directly,
+  author knows it)
 
 - ESP-EYE (cheap, with cam and mic on board, but limited power, MCU may need to
   be programmed separately)
@@ -141,11 +142,7 @@ Possible MCUs:
 
 - Arduino Pro Mini 328p (sufficient, used in SAN desktop system)
 
-Open questions:
-
-- Can the MCU be programmed from the ESP-EYE?  (a Raspi I can set up so that it
-  uploads automatically to a connected Arduino in case the version number of a
-  git repo changes – very convenient, especially when updating a lot of boards)
+- /something that has an accelerometer already on board/
 
 #+CAPTION: Components
 [[./images/node.svg]]

@@ -130,6 +130,15 @@ Camera, speaker, and microphone: low priority
 
 Controller could be: Raspberry Pi 0 + Arduino Pro Mini
 
+Open questions:
+
+- Can the MCU be programmed from the ESP-EYE?  (a Raspi I can set up so that it
+  uploads automatically to a connected Arduino in case the version number of a
+  git repo changes – very convenient, especially when updating a lot of boards)
+
+#+CAPTION: Components
+[[./images/node.svg]]
+
 #+CAPTION: Non-functional prototype
 [[./images/coco-node.jpg]]
 
@@ -145,5 +154,5 @@ Controller could be: Raspberry Pi 0 + Arduino Pro Mini
 | Sensor           |   1 |
 | Connector        |   1 |
 
-#+CAPTION: Sketch
+#+CAPTION: Components
 [[./images/transceiver.svg]]

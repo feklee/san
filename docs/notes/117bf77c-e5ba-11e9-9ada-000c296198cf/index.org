@@ -67,6 +67,7 @@ controlling how nodes in the network generate and modulate sound.
 | Component                    | QTY |
 |------------------------------+-----|
 | Bambo pole                   |   1 |
+| Light pipe, acrylics ⌀ 10 mm |   1 |
 | Quick-connect, female, brass |   2 |
 
 Preparation:

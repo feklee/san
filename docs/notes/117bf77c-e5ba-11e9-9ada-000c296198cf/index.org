@@ -128,7 +128,18 @@ Requirements for controller:
 
 Camera, speaker, and microphone: low priority
 
-Controller could be: Raspberry Pi 0 + Arduino Pro Mini
+Possible CPUs:
+
+- Raspberry Pi 0 (lots of power, full Linux, can program the MCU directly)
+
+- ESP-EYE (cheap, with cam and mic on board, but limited power, MCU may need to
+  be programmed separately)
+
+Possible MCUs:
+
+- STM32 Black Pill
+
+- Arduino Pro Mini 328p (sufficient, used in SAN desktop system)
 
 Open questions:
 
@@ -145,14 +156,14 @@ Open questions:
 
 ** IR transceiver
 
-| Component        | QTY |
-|------------------+-----|
-| Board, ⌀ 25.7 mm |   1 |
-| Capacitor        |   1 |
-| Resistor         |   1 |
-| IR-LED           |   1 |
-| Sensor           |   1 |
-| Connector        |   1 |
+| Component            | QTY |
+|----------------------+-----|
+| Board, ⌀ 25.7 mm     |   1 |
+| Capacitor            |   1 |
+| Resistor             |   1 |
+| IR-LED               |   1 |
+| Sensor (38 ∨ 56 kHz) |   1 |
+| Connector            |   1 |
 
 #+CAPTION: Components
 [[./images/transceiver.svg]]

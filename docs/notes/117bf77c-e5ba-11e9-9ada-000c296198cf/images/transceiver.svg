@@ -69,9 +69,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="670.81545"
-     inkscape:cy="378.61695"
+     inkscape:zoom="1"
+     inkscape:cx="740.33287"
+     inkscape:cy="512.86079"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="true"
@@ -87,7 +87,7 @@
      inkscape:snap-bbox="true"
      inkscape:bbox-paths="false"
      inkscape:bbox-nodes="true"
-     inkscape:snap-global="false">
+     inkscape:snap-global="true">
     <inkscape:grid
        type="xygrid"
        id="grid3721"
@@ -129,32 +129,28 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
-       x="883.73163"
-       y="341.9473"
+       x="886.75391"
+       y="363.14191"
        id="text5014"><tspan
          sodipodi:role="line"
-         x="883.73163"
-         y="341.9473"
+         x="886.75391"
+         y="363.14191"
          id="tspan5016">Connector:</tspan><tspan
          sodipodi:role="line"
-         x="883.73163"
-         y="391.9473"
-         id="tspan14616">GND</tspan><tspan
+         x="886.75391"
+         y="413.14191"
+         id="tspan14616">1. GND</tspan><tspan
          sodipodi:role="line"
-         x="883.73163"
-         y="441.9473"
-         id="tspan5018">Signal IR-LED</tspan><tspan
+         x="886.75391"
+         y="463.14191"
+         id="tspan5018">2. Signal IR-LED / DOUT sensor</tspan><tspan
          sodipodi:role="line"
-         x="883.73163"
-         y="491.9473"
-         id="tspan5026">VCC Sensor</tspan><tspan
+         x="886.75391"
+         y="513.14197"
+         id="tspan5028">3. VCC S sensor</tspan><tspan
          sodipodi:role="line"
-         x="883.73163"
-         y="541.94727"
-         id="tspan5028">DOUT Sensor</tspan><tspan
-         sodipodi:role="line"
-         x="883.73163"
-         y="591.94727"
+         x="886.75391"
+         y="563.14197"
          id="tspan5022" /></text>
     <g
        id="g901"
@@ -179,7 +175,7 @@
     </g>
     <g
        id="g896"
-       transform="translate(-1.2928932,-29.698485)">
+       transform="translate(0.70710678,-29.698485)">
       <circle
          transform="scale(1,-1)"
          r="95.943649"
@@ -243,35 +239,29 @@
        height="100%"
        transform="matrix(0.5,0,0,0.49731549,376.92628,675.16356)" />
     <g
-       id="g14614"
-       transform="translate(-159.55119,226.12501)">
+       id="g168825">
       <rect
          transform="scale(1,-1)"
-         y="-289.45831"
-         x="955.30121"
-         height="128.29167"
+         y="-501.125"
+         x="796.55121"
+         height="101.83335"
          width="48.115482"
          id="rect14597"
          style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:3.99999952;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <path
          inkscape:connector-curvature="0"
          id="path14601"
-         d="M 978.95836,185.62498 H 926.04169"
+         d="M 820.20835,423.74999 H 767.29168"
          style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
       <path
          inkscape:connector-curvature="0"
          id="path14603"
-         d="M 978.95836,212.08332 H 926.04169"
+         d="M 820.20835,450.20833 H 767.29168"
          style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
       <path
          inkscape:connector-curvature="0"
          id="path14605"
-         d="M 978.95836,238.54165 H 926.04169"
-         style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path14607"
-         d="M 978.95836,264.99998 H 926.04169"
+         d="M 820.20835,476.66666 H 767.29168"
          style="opacity:1;vector-effect:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
     </g>
   </g>

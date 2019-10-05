@@ -88,13 +88,15 @@ Preparation:
 |----------------------------+-----|
 | Coconut shell              |   1 |
 | Quick-connect, male, brass |   4 |
-| IR transceiver             |   4 |
 | Cable tie                  |   4 |
+| CPU                        |   1 |
+| MCU                        |   1 |
+| IR transceiver             |   4 |
 | Battery                    |   1 |
 | Camera                     |   1 |
 | Microphone                 |   1 |
-| Speaker                    |   1 |
-| Controller                 |   1 |
+| Accelerometer              |   1 |
+| (Speaker)                  |   1 |
 
 Preparation:
 

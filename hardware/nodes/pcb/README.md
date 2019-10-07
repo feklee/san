@@ -43,11 +43,21 @@ For each node (not part of PCBA):
   * 4 × nut: DIN 934, M2
 
 
-Burning bootloader
-==================
+Burning the boot loader to the PCB
+==================================
 
-To burn the bootloader onto the 328P, use an Arduino with the ~ArduinoISP~
-sketch (in examples distributed with the Arduino 1.8.8 IDE).
+To burn the bootloader onto the 328P:
+
+  * Mount the shield onto an Arduino Uno.
+  
+  * Use the Tag-Connect cable to connect the shield and the PCB.
+  
+  * Use the ~ArduinoISP~ sketch (in examples distributed with the Arduino 1.8.8
+    IDE) to burn the boot loader to the PCB.
+
+![Burner shield top](images/shield_top.jpg)
+
+![Burner shield bottom](images/shield_bottom.jpg)
 
 
 Reading

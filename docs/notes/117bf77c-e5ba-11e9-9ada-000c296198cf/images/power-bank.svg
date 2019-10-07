@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1600"
+   height="900"
+   viewBox="0 0 1600 900"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="power-bank.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <defs
+     id="defs2">
+    <symbol
+       id="icon-rss">
+      <title
+         id="title20480">rss</title>
+      <path
+         d="M0 896c0-70.692 57.308-128 128-128s128 57.308 128 128c0 70.692-57.308 128-128 128s-128-57.308-128-128zM192 0v128c388.736 0 704 315.232 704 704h128c0-459.456-372.576-832-832-832zM192.736 256.256c-0.256 0-0.48 0.032-0.736 0.032v128c0.256 0 0.48-0.032 0.736-0.032 247.328 0 447.872 200.48 448 447.744h128c-0.128-317.984-257.984-575.744-576-575.744zM192.736 512.256c-0.256 0-0.48 0.032-0.736 0.032v128c0.256 0 0.48-0.032 0.736-0.032 105.952 0 191.872 85.856 192 191.744h128c-0.128-176.608-143.36-319.744-320-319.744z"
+         id="path20482" />
+    </symbol>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.31125"
+     inkscape:cx="800"
+     inkscape:cy="398.04141"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer2"
+     showgrid="true"
+     units="px"
+     inkscape:pagecheckerboard="false"
+     inkscape:window-width="3000"
+     inkscape:window-height="1966"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:snap-grids="true"
+     inkscape:snap-nodes="true"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-paths="false"
+     inkscape:bbox-nodes="false"
+     inkscape:snap-global="true"
+     inkscape:snap-bbox-edge-midpoints="true"
+     inkscape:snap-bbox-midpoints="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3721"
+       spacingx="10"
+       spacingy="10"
+       empspacing="10" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Components &amp; Annotations">
+    <ellipse
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path96713-3"
+       cx="1080"
+       cy="50"
+       rx="40"
+       ry="20" />
+    <ellipse
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path96713-3-6"
+       cx="1080"
+       cy="850"
+       rx="40"
+       ry="20" />
+    <ellipse
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path96713-3-6-1"
+       cx="520"
+       cy="850"
+       rx="40"
+       ry="20" />
+    <ellipse
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path96713"
+       cx="520"
+       cy="50"
+       rx="40"
+       ry="20" />
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke:none;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect96656"
+       width="1400"
+       height="700"
+       x="100"
+       y="100"
+       ry="350" />
+    <rect
+       style="fill:#5353fc;fill-opacity:1;stroke:none;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect96654"
+       width="1200"
+       height="300"
+       x="200"
+       y="300"
+       ry="20" />
+    <rect
+       style="fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect96658"
+       width="40"
+       height="800"
+       x="500"
+       y="50" />
+    <rect
+       style="fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:3.99999976;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect96658-0"
+       width="40"
+       height="800"
+       x="1060"
+       y="50" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none"
+       x="670.9668"
+       y="454.91211"
+       id="text96677"><tspan
+         sodipodi:role="line"
+         id="tspan96675"
+         x="670.9668"
+         y="454.91211">Power Bank</tspan></text>
+    <rect
+       style="fill:#1a1a1a;fill-opacity:1;stroke:none;stroke-width:4;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect96679"
+       width="50"
+       height="100"
+       x="150"
+       y="400" />
+    <path
+       style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#1a1a1a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:16;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       d="M 156 442.15234 C 101.90059 442.71568 70.5979 442.86651 43.322266 454.74805 C 28.11469 461.37262 14.816661 471.39195 0 486.4707 L 0 510.07031 C 19.039158 488.68297 33.518106 476.47062 49.712891 469.41602 C 72.798754 459.35958 102.17547 458.80628 156 458.16992 L 156 442.15234 z "
+       id="path96687" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="58.613281"
+       y="429.43359"
+       id="text96701"><tspan
+         sodipodi:role="line"
+         id="tspan96699"
+         x="58.613281"
+         y="429.43359">USB</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="357.32422"
+       y="-549.60938"
+       id="text96705"
+       transform="rotate(90)"><tspan
+         sodipodi:role="line"
+         id="tspan96703"
+         x="357.32422"
+         y="-549.60938">Cable Tie</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none"
+       x="692.54883"
+       y="714.91211"
+       id="text96709"><tspan
+         sodipodi:role="line"
+         id="tspan96707"
+         x="692.54883"
+         y="714.91211">Foam Pad</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="1126.0742"
+       y="64.912109"
+       id="text96771"><tspan
+         sodipodi:role="line"
+         id="tspan96769"
+         x="1126.0742"
+         y="64.912109">Hole in Coconut Shell</tspan></text>
+  </g>
+</svg>

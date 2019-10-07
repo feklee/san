@@ -96,7 +96,7 @@ Preparation:
 | CPU                        |   1 |
 | MCU                        |   1 |
 | IR transceiver             |   4 |
-| Battery                    |   1 |
+| Power bank                 |   1 |
 | Camera                     |   1 |
 | Microphone                 |   1 |
 | Accelerometer              |   1 |
@@ -172,3 +172,11 @@ Possible MCUs:
 
 #+CAPTION: Components
 [[./images/transceiver.svg]]
+
+
+** Power bank
+
+The power bank could be positioned on top of a foam pad and fixed with cable
+ties.  Like that it’s easy to replace.
+
+[[./images/power-bank.svg]]

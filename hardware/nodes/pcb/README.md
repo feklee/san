@@ -52,7 +52,7 @@ To burn the bootloader onto the 328P:
   
   * Use the Tag-Connect cable to connect the shield and the PCB.
   
-  * Use the ~ArduinoISP~ sketch (in examples distributed with the Arduino 1.8.8
+  * Use the `ArduinoISP` sketch (in examples distributed with the Arduino 1.8.8
     IDE) to burn the boot loader to the PCB.
 
 ![Burner shield top](images/shield_top.jpg)

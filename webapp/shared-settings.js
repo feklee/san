@@ -8,7 +8,7 @@ var graphUpdateInterval = 0;
 var connectionExpiryDuration = 0;
 
 try {
-    var cppData = fs.readFileSync("../nodes/Firmware/sharedSettings.h",
+    var cppData = fs.readFileSync("../hardware/nodes/Firmware/sharedSettings.h",
                                   "utf8");
     var assignmentsInCpp =
         cppData.match(new RegExp(

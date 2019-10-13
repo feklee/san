@@ -158,19 +158,6 @@ var setGeneratorOffset = function (module, value) {
     module.generator.offset.offset.value = value;
 };
 
-var enableOutputCompressor = function (module) {
-    module.output.filter2Cutoff.disconnect();
-    module.output.filter2Cutoff.connect(module.output.filter3Compressor);
-    module.output.filter3Compressor.connect(module.output.filter4Gain);
-    module.output.compressorIsEnabled = true;
-};
-
-var disableOutputCompressor = function (module) {
-    module.output.filter2Cutoff.disconnect();
-    module.output.filter2Cutoff.connect(module.output.filter4Gain);
-    module.output.compressorIsEnabled = false;
-};
-
 var setGeneratorSource = function (module, newGenerator) {
     if (module.generator.source === newGenerator) {
         return;
@@ -217,29 +204,63 @@ var createGenerator = function () {
     return generator;
 };
 
+var disableFilter = function (filter) {
+    console.log(filter);
+    filter.inputNode.disconnect();
+    filter.inputNode.connect(filter.outputNode);
+    filter.isEnabled = false;
+};
+
+var enableFilter = function (filter) {
+    filter.inputNode.disconnect();
+    filter.inputNode.connect(filter.node);
+    filter.node.disconnect();
+    filter.node.connect(filter.outputNode);
+    filter.isEnabled = true;
+};
+
+var connectFilters = function (firstFilter, secondFilter) {
+    firstFilter.node.connect(secondFilter.node);
+    firstFilter.outputNode = secondFilter.node;
+    secondFilter.inputNode = firstFilter.node;
+    firstFilter.isEnabled = true;
+};
+
 var createOutput = function () {
     const maxDelayTime = 1; // seconds
 
     var output = {
-        compressorIsEnabled: false,
-        input: undefined,
-        filter1Delay: audioCtx.createDelay(maxDelayTime),
-        filter2Cutoff: audioCtx.createBiquadFilter(),
-        filter3Compressor: audioCtx.createDynamicsCompressor(),
-        filter4Gain: audioCtx.createGain(),
-        filter5Clipper: createClipper(),
-        output: undefined
+        input: undefined, // TODO: -> inputNode?
+        filter1Delay: {
+            node: audioCtx.createDelay(maxDelayTime)
+        },
+        filter2Cutoff: {
+            node: audioCtx.createBiquadFilter()
+        },
+        filter3Compressor: {
+            node: audioCtx.createDynamicsCompressor()
+        },
+        filter4Gain: {
+            node: audioCtx.createGain()
+        },
+        filter5Clipper: {
+            node: createClipper()
+        },
+        output: undefined // TODO: -> outputNode?
     };
 
-    output.filter1Delay.connect(output.filter2Cutoff);
-    output.filter2Cutoff.connect(output.filter4Gain);
-    output.filter4Gain.connect(output.filter5Clipper);
+    connectFilters(output.filter1Delay, output.filter2Cutoff);
+    connectFilters(output.filter2Cutoff, output.filter3Compressor);
+    connectFilters(output.filter3Compressor, output.filter4Gain);
+    connectFilters(output.filter4Gain, output.filter5Clipper);
 
-    output.filter2Cutoff.type = "lowpass";
-    output.filter2Cutoff.frequency.value = 20000; // Hz // TODO: disable instead
+    // TODO: Set input node for output.filter1Delay and output node for output.filter5Clipper, or else these cannot be disabled / enabled
 
-    output.input = output.filter1Delay;
-    output.output = output.filter5Clipper;
+    output.filter2Cutoff.node.type = "lowpass";
+    output.filter2Cutoff.node.frequency.value = 20000; // Hz // TODO: disable instead
+
+    output.input = output.filter1Delay.node;
+    output.output = output.filter5Clipper.node;
 
     return output;
 };
@@ -273,7 +294,6 @@ var createModule = function (nodeId) {
 
     setGeneratorSource(module, generator.oscillationSource);
     setGeneratorOffset(module, 0);
-    enableOutputCompressor(module);
 
     connectInternalAudioNodes[module.modulator](module);
 
@@ -331,18 +351,18 @@ var refresh = function () {
 };
 
 var setOutputGain = function (module, value) {
-    module.output.filter4Gain.gain.value = value;
+    module.output.filter4Gain.node.gain.value = value;
 };
 
 var setOutputDelay = function (module, value) {
-    module.output.filter1Delay.delayTime.value = value;
+    module.output.filter1Delay.node.delayTime.value = value;
 };
 
 var setOutputCutoff = function (module, value) {
     if (value === null) {
         value = 100000; // TODO: completely disable instead
     }
-    module.output.filter2Cutoff.frequency.value = value;
+    module.output.filter2Cutoff.node.frequency.value = value;
 };
 
 var setGeneratorAmplitude = function (module, value) {
@@ -350,14 +370,14 @@ var setGeneratorAmplitude = function (module, value) {
 };
 
 var setOutputCompressor = function (module, shouldBeEnabled) {
-    if (module.output.compressorIsEnabled === shouldBeEnabled) {
+    if (module.output.filter3Compressor.isEnabled === shouldBeEnabled) {
         return;
     }
 
-    if (module.output.compressorIsEnabled) {
-        disableOutputCompressor(module);
+    if (shouldBeEnabled) {
+        enableFilter(module.output.filter3Compressor);
     } else {
-        enableOutputCompressor(module);
+        disableFilter(module.output.filter3Compressor);
     }
 };
 

@@ -10,6 +10,7 @@ import graphicalAnalyzerSetup from "./graphical-analyzer-setup.mjs";
 
 var idOfThisNode = window.location.pathname.substr(1, 1);
 var audioCtx = new window.AudioContext();
+var noCutoffSymbol = "∞";
 
 var generator = {
     source: undefined,
@@ -196,17 +197,21 @@ var selectedOutputCutoffExp = function () {
 var updateOutputCutoffNumber = function () {
     var outputCutoffExp = selectedOutputCutoffExp();
     var outputCutoff = Math.pow(2, outputCutoffExp); // Hz
-    var text = (outputCutoff >= 20000) ? // TODO: use common # for audio.js as well
-        "∞" :
-        outputCutoff.toFixed(2);
+    var text = (outputCutoff > 20000)
+        ? noCutoffSymbol
+        : outputCutoff.toFixed(2);
     controlEl("output", "cutoff", "number").textContent = text;
 };
 
 var selectedOutputCutoff = function () { // Hz
     updateOutputCutoffNumber();
-    return parseFloat(
-        controlEl("output", "cutoff", "number").textContent
-    );
+    var cutoffText = controlEl("output", "cutoff", "number").textContent;
+
+    if (cutoffText === noCutoffSymbol) {
+        return null;
+    }
+
+    return parseFloat(cutoffText);
 };
 
 var setOutputCutoffExp = function (value) {

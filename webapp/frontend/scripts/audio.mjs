@@ -236,7 +236,7 @@ var createOutput = function () {
     output.filter4Gain.connect(output.filter5Clipper);
 
     output.filter2Cutoff.type = "lowpass";
-    output.filter2Cutoff.frequency.value = 20000; // Hz
+    output.filter2Cutoff.frequency.value = 20000; // Hz // TODO: disable instead
 
     output.input = output.filter1Delay;
     output.output = output.filter5Clipper;
@@ -339,6 +339,9 @@ var setOutputDelay = function (module, value) {
 };
 
 var setOutputCutoff = function (module, value) {
+    if (value === null) {
+        value = 100000; // TODO: completely disable instead
+    }
     module.output.filter2Cutoff.frequency.value = value;
 };
 
@@ -359,6 +362,8 @@ var setOutputCompressor = function (module, shouldBeEnabled) {
 };
 
 var parseModuleMessage = function (message) {
+    console.log(message); // TODO
+
     var nodeId = message.nodeId;
     var module = getOrCreateModule(nodeId);
 

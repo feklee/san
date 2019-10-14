@@ -186,7 +186,7 @@ var createGenerator = function () {
         source: undefined,
         offset: audioCtx.createConstantSource(),
         detuning: 400,
-        sourceType: "sine", // TODO: also rename in messages
+        sourceType: "sine",
         frequency: frequency,
         filter1Amplitude: audioCtx.createGain(),
         filter2Offset: audioCtx.createGain(),

@@ -1,6 +1,4 @@
 #+HTML_HEAD: <style>body{max-width:42em}img{max-width:100%}.figure-number{display:none}</style>
-#+HTML_HEAD: <script type="text/javascript" src="x3dom.js"></script>
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="x3dom.css" />
 
 #+TITLE: SAN: Coco Nodes & Bamboo Edges
 
@@ -105,14 +103,6 @@ Preparation:
 | Accelerometer              |   1 |
 | (Speaker)                  |   1 |
 
-#+BEGIN_EXPORT html
-<x3d width="500px" height="400px">
-    <scene>
-            <Inline nameSpaceName="Node" mapDEFToID="true" url="node.x3dv" />
-    </scene>
-</x3d>
-#+END_EXPORT
-
 Preparation:
 
 - Cut coconut shell in half.
@@ -167,6 +157,9 @@ Possible MCUs:
 
 #+CAPTION: Components
 [[./images/node.svg]]
+
+#+CAPTION: Geometry
+[[./images/node.gif]]
 
 #+CAPTION: Non-functional prototype
 [[./images/coco-node.jpg]]

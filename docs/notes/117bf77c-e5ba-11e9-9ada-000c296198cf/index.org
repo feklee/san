@@ -158,7 +158,7 @@ Possible MCUs:
 #+CAPTION: Components
 [[./images/node.svg]]
 
-#+CAPTION: Geometry
+#+CAPTION: Shell with holes
 [[./images/node.gif]]
 
 #+CAPTION: Non-functional prototype

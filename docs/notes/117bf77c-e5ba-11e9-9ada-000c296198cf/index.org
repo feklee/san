@@ -93,6 +93,7 @@ Preparation:
 | Coconut shell              |   1 |
 | Quick-connect, male, brass |   4 |
 | Cable tie                  |   4 |
+| Addressable RGB LED        |   4 |
 | CPU                        |   1 |
 | MCU                        |   1 |
 | IR transceiver             |   4 |
@@ -111,6 +112,8 @@ Preparation:
 - Drill holes for components and for cable ties.
 
 - Fire proof wood.
+
+- Mount LEDs, e.g: [[https://kutop.com/5v-ip68-waterproof-50-nodes-ws2811-ic-rgb-led-pixel-module-string.html][5V IP68 waterproof 50 nodes WS2811 RGB LED]]
 
 - Mount quick-connects onto shell and secure them with epoxy.
 

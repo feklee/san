@@ -83,7 +83,7 @@ Preparation:
 - Mount quick-connects onto ends and secure them with epoxy.
 
 #+CAPTION: Prototype
-[[./images/bamboo-edge.jpg]]
+[[./images/edge.jpg]]
 
 
 * Coco node
@@ -162,7 +162,7 @@ Possible MCUs:
 [[./images/node.gif]]
 
 #+CAPTION: Non-functional prototype
-[[./images/coco-node.jpg]]
+[[./images/node.jpg]]
 
 
 ** IR transceiver

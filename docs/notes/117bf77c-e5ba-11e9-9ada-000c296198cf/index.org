@@ -185,4 +185,13 @@ Possible MCUs:
 The power bank could be positioned on top of a foam pad and fixed with cable
 ties.  Like that it’s easy to replace.
 
+Example product:
+
+- Product page: [[https://www.alibaba.com/product-detail/Single-usb-mini-2600mAh-battery-charger_60406994470.html][Single usb mini 2600mAh battery charger portable cell phone
+  power bank]]
+
+- Dimensions (cylindrical): 91 × 21.8 mm
+
+- Weight: 90 g
+
 [[./images/power-bank.svg]]

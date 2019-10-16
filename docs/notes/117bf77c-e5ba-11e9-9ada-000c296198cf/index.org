@@ -182,9 +182,6 @@ Possible MCUs:
 
 ** Power bank
 
-The power bank could be positioned on top of a foam pad and fixed with cable
-ties.  Like that it’s easy to replace.
-
 Example product:
 
 - Product page: [[https://www.alibaba.com/product-detail/Single-usb-mini-2600mAh-battery-charger_60406994470.html][Single usb mini 2600mAh battery charger portable cell phone
@@ -194,4 +191,10 @@ Example product:
 
 - Weight: 90 g
 
+The power bank could be positioned on top of a foam pad and fixed with cable
+ties.  Like that it’s easy to replace.
+
 [[./images/power-bank.svg]]
+
+Alternatively, the power bank could be positioned loosely, with padding stuffed
+around it, filling the entire coconut.

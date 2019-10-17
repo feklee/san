@@ -12,10 +12,12 @@ var connectingVector = function (node1, node2) {
 };
 
 var squaredAngleDeviationForPair = function (connection1, connection2) {
-    if (!connection1.fromPort.node.isVisible ||
+    if (
+        !connection1.fromPort.node.isVisible ||
             !connection1.toPort.node.isVisible ||
             !connection2.fromPort.node.isVisible ||
-            !connection2.toPort.node.isVisible) {
+            !connection2.toPort.node.isVisible
+    ) {
         return 0;
     }
     var vector1 = connectingVector(
@@ -27,7 +29,7 @@ var squaredAngleDeviationForPair = function (connection1, connection2) {
         connection2.toPort.node
     );
     var expectedDotProduct = -1 / 3;
-    return vector1.dot(vector2) - expectedDotProduct;
+    return Math.pow(vector1.dot(vector2) - expectedDotProduct, 2);
 };
 
 var squaredAngleDeviationsForNode = function (node) {

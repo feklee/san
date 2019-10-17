@@ -7,7 +7,8 @@
 import visibleNodes from "./visible-nodes.mjs";
 import nodes from "./nodes.mjs";
 import settings from "./settings.mjs";
-import fitness from "./fitness.mjs";
+// TODO: import fitness from "./fitness.mjs";
+import fitness from "./alternative-fitness.mjs";
 import vector from "./vector.mjs";
 import {
     Vector3

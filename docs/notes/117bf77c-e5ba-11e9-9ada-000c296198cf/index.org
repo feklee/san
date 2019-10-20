@@ -158,8 +158,11 @@ Possible MCUs:
 #+CAPTION: Components
 [[./images/node.svg]]
 
-#+CAPTION: Shell with holes
+#+CAPTION: Rotating shell with holes
 [[./images/node.gif]]
+
+#+CAPTION: Hole positions
+[[./images/node.png]]
 
 #+CAPTION: Non-functional prototype
 [[./images/node.jpg]]

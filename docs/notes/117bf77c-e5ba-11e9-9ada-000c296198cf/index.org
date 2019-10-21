@@ -63,6 +63,9 @@ controlling how nodes in the network generate and modulate sound.
 
 
 * Bamboo edge
+:PROPERTIES:
+:CUSTOM_ID: edge
+:END:
 
 | Component                    | QTY |
 |------------------------------+-----|
@@ -109,6 +112,9 @@ Quantity: 50
 
 
 * Coco node
+:PROPERTIES:
+:CUSTOM_ID: node
+:END:
 
 | Component                  | QTY |
 |----------------------------+-----|

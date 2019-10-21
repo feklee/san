@@ -70,7 +70,12 @@ controlling how nodes in the network generate and modulate sound.
 | Light pipe, acrylics ⌀ 10 mm |   1 |
 | Quick-connect, female, brass |   2 |
 
-Preparation:
+#+CAPTION: Prototype
+[[./images/edge.jpg]]
+
+** Production
+
+Steps:
 
 - Perforate all segments, so that light can pass through pole.
 
@@ -82,8 +87,21 @@ Preparation:
 
 - Mount quick-connects onto ends and secure them with epoxy.
 
-#+CAPTION: Prototype
-[[./images/edge.jpg]]
+#+CAPTION: Dimensions
+[[./images/edge.png]]
+
+** Material cost estimate
+
+|   | Item                    | Cost / Item | Quantity | Cost / HKD |
+|---+-------------------------+-------------+----------+------------|
+|   | 500 × 20 mm bamboo cane |       20.00 |        1 |      20.00 |
+|   | quick-connect           |        9.00 |        2 |      18.00 |
+|---+-------------------------+-------------+----------+------------|
+| # |                         |             |          |      38.00 |
+| ^ |                         |             |          |       cost |
+#+TBLFM: @2$5..@II$5=$3*$4;%.02f::$cost=vsum(@2..@-1);%0.2f
+
+Quantity: 50
 
 
 * Coco node
@@ -103,7 +121,10 @@ Preparation:
 | Accelerometer              |   1 |
 | (Speaker)                  |   1 |
 
-Preparation:
+#+CAPTION: Non-functional prototype
+[[./images/node.jpg]]
+
+** Production
 
 - Cut coconut shell in half.
 
@@ -113,19 +134,53 @@ Preparation:
 
 - Fire proof wood.
 
-- Mount LEDs, e.g: [[https://kutop.com/5v-ip68-waterproof-50-nodes-ws2811-ic-rgb-led-pixel-module-string.html][5V IP68 waterproof 50 nodes WS2811 RGB LED]]
+- Drill holes.
 
-- Mount quick-connects onto shell and secure them with epoxy.
+- Cut in half.
 
-- Prepare controllers and IR transceivers.
+- Mount electronics:
 
-- Mount IR transceivers in quick-connects.
+  + Mount LEDs, e.g: [[https://kutop.com/5v-ip68-waterproof-50-nodes-ws2811-ic-rgb-led-pixel-module-string.html][5V IP68 waterproof 50 nodes WS2811 RGB LED]]
 
-- Mount camera, speaker, microphone onto shell.
+  + Mount quick-connects onto shell and secure them with epoxy.
 
-- Mount controller and battery into shell and solder connections.
+  + Prepare controllers and IR transceivers.
 
-Requirements for controller:
+  + Mount IR transceivers in quick-connects.
+
+  + Mount camera and microphone onto shell. (plus maybe speaker)
+
+  + Mount controller and battery into shell and solder connections.
+
+#+CAPTION: Rotating shell with holes
+[[./images/node.gif]]
+
+#+CAPTION: Hole positions
+[[./images/node.png]]
+
+
+** Material cost estimate
+
+|   | Item             | Cost / Item | Quantity |   Cost |
+|---+------------------+-------------+----------+--------|
+|   | Coconut          |       15.00 |        1 |  15.00 |
+|   | quick-connect    |        9.00 |        4 |  36.00 |
+|   | Raspberry Pi 0   |      120.00 |        1 | 120.00 |
+|   | microSD card     |       40.00 |        1 |  40.00 |
+|   | Arduino Pro Mini |       50.00 |        1 |  50.00 |
+|   | PCB(s)           |       40.00 |        1 |  40.00 |
+|   | Components       |       50.00 |        1 |  50.00 |
+|   | Camera           |      150.00 |        1 | 150.00 |
+|   | Speaker          |       40.00 |        1 |  40.00 |
+|   | Battery          |      150.00 |        1 | 150.00 |
+|---+------------------+-------------+----------+--------|
+| # |                  |             |          | 691.00 |
+| ^ |                  |             |          |   cost |
+#+TBLFM: @2$5..@II$5=$3*$4;%.02f::$cost=vsum(@2..@-1);%0.2f
+
+Quantity: 25
+
+** Requirements for controller:
 
 - Transmit ID and port numbers to neighboring nodes via IR transceivers.
 
@@ -157,16 +212,6 @@ Possible MCUs:
 
 #+CAPTION: Components
 [[./images/node.svg]]
-
-#+CAPTION: Rotating shell with holes
-[[./images/node.gif]]
-
-#+CAPTION: Hole positions
-[[./images/node.png]]
-
-#+CAPTION: Non-functional prototype
-[[./images/node.jpg]]
-
 
 ** IR transceiver
 

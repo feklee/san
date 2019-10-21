@@ -90,6 +90,10 @@ Steps:
 #+CAPTION: Dimensions
 [[./images/edge.png]]
 
+#+CAPTION: 3/4″ garden hose quick-connect
+[[./images/edge-connector.jpg]]
+
+
 ** Material cost estimate
 
 |   | Item                    | Cost / Item | Quantity | Cost / HKD |
@@ -157,6 +161,9 @@ Quantity: 50
 
 #+CAPTION: Hole positions
 [[./images/node.png]]
+
+#+CAPTION: 3/4″ garden hose quick-connect
+[[./images/node-connector.jpg]]
 
 
 ** Material cost estimate

@@ -80,6 +80,9 @@ clear line of sight through it.
 [[./images/edge.jpg]]
 
 ** Production
+:PROPERTIES:
+:CUSTOM_ID: edge-production
+:END:
 
 Steps:
 

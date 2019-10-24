@@ -94,7 +94,10 @@ Steps:
 [[./images/edge.png]]
 
 #+CAPTION: 3/4″ garden hose quick-connect
-[[./images/edge-connector.jpg]]
+[[./images/edge-connector-dimensions.jpg]]
+
+#+CAPTION: 3/4″ garden hose quick-connect: details
+[[./images/edge-connector-detailed-dimensions.jpg]]
 
 
 ** Material cost estimate
@@ -169,7 +172,7 @@ Quantity: 50
 [[./images/node.png]]
 
 #+CAPTION: 3/4″ garden hose quick-connect
-[[./images/node-connector.jpg]]
+[[./images/node-connector-dimensions.jpg]]
 
 
 ** Material cost estimate

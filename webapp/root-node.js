@@ -1,4 +1,4 @@
-// Interface to root node
+// Serial interface to root node
 
 /*jslint node: true, getset: true, maxlen: 80 */
 

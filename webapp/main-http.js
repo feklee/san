@@ -6,13 +6,15 @@ var startWebServer = require("./start-web-server");
 var webSocket = require("./web-socket");
 var http = require("http");
 var port = 8081;
+var sharedSettings = require("./shared-settings");
 var pairIsValid = require("./pair-is-valid");
 
 var logInfo = function () {
     console.log("HTTP server to receive pairs is listening on port " + port);
+    console.log("Node `A` is permanently connected to the root node `^`.");
 };
 
-var broadcastPair = function (pair) {
+var sendPair = function (pair) {
     var message = {type: "data", text: pair};
     webSocket.broadcast(message);
 };
@@ -24,7 +26,7 @@ var processUrl = function (url) {
         return;
     }
     console.log("Received pair: " + pair);
-    broadcastPair(pair);
+    sendPair(pair);
 };
 
 var startCommandHttpServer = function () {
@@ -37,4 +39,10 @@ var startCommandHttpServer = function () {
     commandHttpServer.listen(port, logInfo);
 };
 
+var sendNodeAConnectedToRootNode = function () {
+    sendPair("^1A0");
+};
+
 startWebServer(startCommandHttpServer);
+
+setInterval(sendNodeAConnectedToRootNode, sharedSettings.graphUpdateInterval);

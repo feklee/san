@@ -7,6 +7,7 @@ var webSocket = require("./web-socket");
 var cli = require("./cli");
 var set = new Set();
 var sharedSettings = require("./shared-settings");
+var pairIsValid = require("./pair-is-valid");
 
 function sendSet() {
     set.forEach(function (data) {
@@ -17,10 +18,6 @@ function sendSet() {
 
 function complainAboutMalformedCommand() {
     console.error("Malformed command");
-}
-
-function pairIsValid(pair) {
-    return /^[a-zA-Z\^][1-4][a-zA-Z][1-4]$/.test(pair);
 }
 
 function addPairCommand(pair) {

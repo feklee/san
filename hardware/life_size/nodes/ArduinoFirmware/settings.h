@@ -6,14 +6,20 @@
 
 #include "sharedSettings.h"
 
+constexpr uint32_t bootDelay = 2000; // ms (time to wait for ESP-EYE to boot)
+
 const uint8_t ledPin = 13;
 const uint8_t maxPairMessageQueueSize = 20;
 constexpr uint8_t ledDataPin = 4;
-constexpr uint8_t pinNumberOfPort1 = 2;
-constexpr uint8_t pinNumberOfPort2 = 3;
-constexpr uint8_t pinNumberOfPort3 = 8;
-constexpr uint8_t pinNumberOfPort4 = 9;
-constexpr uint8_t accelerometerPin = A0;
+constexpr uint8_t rxPinNumberOfPort1 = 2;
+constexpr uint8_t txPinNumberOfPort1 = A0;
+constexpr uint8_t rxPinNumberOfPort2 = 3;
+constexpr uint8_t txPinNumberOfPort2 = A1;
+constexpr uint8_t rxPinNumberOfPort3 = 8;
+constexpr uint8_t txPinNumberOfPort3 = A2;
+constexpr uint8_t rxPinNumberOfPort4 = 9;
+constexpr uint8_t txPinNumberOfPort4 = A3;
+const uint32_t idSendPeriod = 1000; // ms
 
 #ifdef DEBUG
 
@@ -30,7 +36,7 @@ const boolean flashLedIsEnabled = false;
 // The maximum data rate supported by MultiTrans when communicating
 // with four neighboring nodes is at about ~3kbit/s uni-directionally
 // (bit duration exponent: 11).
-// 
+//
 // On stability problems, reduce the data rate (by increasing the bit
 // duration exponent) and increase the announcement period.
 const uint8_t bitDurationExp = 11;

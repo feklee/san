@@ -38,16 +38,26 @@
    If you'd rather not, just change the below entries to strings with
    the config you want - ie #define EXAMPLE_WIFI_SSID "mywifissid"
 */
-#define EXAMPLE_ESP_WIFI_SSID      CONFIG_ESP_WIFI_SSID
-#define EXAMPLE_ESP_WIFI_PASS      CONFIG_ESP_WIFI_PASSWORD
+#define EXAMPLE_ESP_WIFI_SSID      "OtherN3t"
+#define EXAMPLE_ESP_WIFI_PASS      "Awdrghhh2019"
 #define EXAMPLE_ESP_MAXIMUM_RETRY  CONFIG_ESP_MAXIMUM_RETRY
-#define EXAMPLE_ESP_WIFI_AP_SSID   CONFIG_ESP_WIFI_AP_SSID
-#define EXAMPLE_ESP_WIFI_AP_PASS   CONFIG_ESP_WIFI_AP_PASSWORD
-#define EXAMPLE_IP_ADDR            CONFIG_SERVER_IP
 
 static const char *TAG = "camera wifi";
 
 static int s_retry_num = 0;
+
+static void assign_ip()
+{
+    tcpip_adapter_ip_info_t ip_info;
+    int ret = tcpip_adapter_dhcpc_stop(TCPIP_ADAPTER_IF_STA);
+    ESP_LOGI(TAG, "stop dhcp ret = %d\n", ret);
+    memset(&ip_info, 0, sizeof(ip_info));
+    IP4_ADDR(&ip_info.ip, 192, 168, 178, 100);
+    IP4_ADDR(&ip_info.gw, 192, 168, 178, 1);
+    IP4_ADDR(&ip_info.netmask, 255, 255, 255, 0);
+    ret = tcpip_adapter_set_ip_info(TCPIP_ADAPTER_IF_STA, &ip_info);
+    ESP_LOGI(TAG, "fixex ip ret = %d\n", ret);
+}
 
 static esp_err_t event_handler(void *ctx, system_event_t *event)
 {
@@ -55,9 +65,10 @@ static esp_err_t event_handler(void *ctx, system_event_t *event)
     case SYSTEM_EVENT_STA_START:
         esp_wifi_connect();
         break;
-    case SYSTEM_EVENT_STA_GOT_IP:
+    case SYSTEM_EVENT_STA_CONNECTED:
         ESP_LOGI(TAG, "got ip:%s",
                  ip4addr_ntoa(&event->event_info.got_ip.ip_info.ip));
+        assign_ip();
         s_retry_num = 0;
         break;
     case SYSTEM_EVENT_STA_DISCONNECTED:

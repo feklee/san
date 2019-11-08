@@ -62,8 +62,8 @@ void setup(void) {
   ledSetup();
 
   SPI.begin();
-  SPI.setDataMode(SPI_MODE1);
-  SPI.setClockDivider(SPI_CLOCK_DIV8);
+  SPI.setDataMode(SPI_MODE3);
+//  SPI.setClockDivider(SPI_CLOCK_DIV4);
 }
 
 void loop(void) {

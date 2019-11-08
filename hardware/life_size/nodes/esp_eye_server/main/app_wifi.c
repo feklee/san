@@ -16,7 +16,7 @@
 #define ESP_WIFI_PASS      "Awdrghhh2019"
 #define ESP_MAXIMUM_RETRY  CONFIG_ESP_MAXIMUM_RETRY
 
-static const char *TAG = "camera wifi";
+static const char *TAG = "wifi";
 
 static int s_retry_num = 0;
 
@@ -35,12 +35,6 @@ static void assign_ip_info()
     ESP_LOGI(TAG, "fixex ip ret = %d\n", ret);
 }
 
-void set_ip_based_on_id(const char id) {
-    tcpip_adapter_ip_info_t ip_info;
-    u8_t i = id - 'A';
-    IP4_ADDR(&ip_info.ip, gw[0], gw[1], gw[2], 101 + i);
-}
-
 static esp_err_t event_handler(void *ctx, system_event_t *event)
 {
     switch(event->event_id) {
@@ -53,6 +47,7 @@ static esp_err_t event_handler(void *ctx, system_event_t *event)
         assign_ip_info();
         s_retry_num = 0;
         break;
+
     case SYSTEM_EVENT_STA_DISCONNECTED:
         {
             if (s_retry_num < ESP_MAXIMUM_RETRY) {
@@ -81,6 +76,13 @@ static void wifi_init_sta()
     ESP_LOGI(TAG, "wifi_init_sta finished.");
     ESP_LOGI(TAG, "connect to ap SSID:%s password:%s",
              ESP_WIFI_SSID, ESP_WIFI_PASS);
+}
+
+void wifi_set_ip_based_on_id(const char id)
+{
+    tcpip_adapter_ip_info_t ip_info;
+    u8_t i = id - 'A';
+    IP4_ADDR(&ip_info.ip, gw[0], gw[1], gw[2], 101 + i);
 }
 
 void app_wifi_main()

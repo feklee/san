@@ -25,7 +25,7 @@
 #include "sdkconfig.h"
 
 
-static const char *TAG = "app_camera";
+static const char *TAG = "camera";
 
 void app_camera_main ()
 {

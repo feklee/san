@@ -25,7 +25,7 @@
 #define TAG ""
 #else
 #include "esp_log.h"
-static const char* TAG = "camera_httpd";
+static const char* TAG = "httpd";
 #endif
 
 #if CONFIG_ESP_FACE_DETECT_ENABLED

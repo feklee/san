@@ -1,21 +1,21 @@
-# Camera with Web Server
+Introduction
+============
 
-# Preparation
+The ESP-EYE sends information about neighbors of the current node to the
+network’s brain.
 
-To run this example, you need the following components:
 
-* An ESP32 Module: Either **ESP32-WROVER-KIT** or **ESP-EYE**, which we highly recommend for beginners, is used in this example.
-* A Camera Module: Either **OV2640** or **OV3660** image sensor, which we highly recommend for beginners, is used in this example.
+Development with USB connection
+===============================
 
-# Quick Start
+  * Fast flashing of ESP-EYE (builds as well):
 
-After you've completed the hardware settings, please follow the steps below:
+        $ python2 $(which idf.py) -p /dev/ttyUSB0 flash --baud 2000000
 
-1. **Connect** the camera to ESP32 module. For connection pins, please see [here](../../../docs/en/Camera_connections.md)
-2. **Configure** the example through `idf.py menuconfig`;
-3. **Build And Flash** the application to ESP32;
-4. **Open Your Browser** and point it to `http://[ip-of-esp32]/`;
-5. **To Get Image** press `Get Still` or `Start Stream`;
-6. **Use The Options** to enable/disable Face Detection, Face Recognition and more;
+  * Monitoring:
 
-For more details of the http handler, please refer to [esp32-camera](https://github.com/espressif/esp32-camera).
+        $ python2 $(which idf.py) -p /dev/ttyUSB0 monitor
+
+    Note that, if connected, the CLK pin needs to be pulled high, or else the
+    ESP-EYE won’t boot. This is done when the connected Arduino starts. So, if
+    the ESP-EYE doesn’t boot, reset the Arduino, then immediately try again.

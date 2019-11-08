@@ -14,7 +14,9 @@
 
 Adafruit_NeoPixel neoPixel;
 
-constexpr char idOfThisNode = 'R';
+constexpr char idOfThisNode = 'A';
+
+constexpr uint32_t bootDelay = 2000; // ms (time to wait for ESP-EYE to boot)
 
 uint8_t adjustForBrightness(uint8_t subColor) {
   return uint32_t(subColor) * ledBrightness / 0xff;
@@ -57,22 +59,28 @@ void ledSetup() {
 
 void setup(void) {
   digitalWrite(13, HIGH);
-  delay(5000); // wait for ESP-EYE to boot
-
+  delay(bootDelay);
   ledSetup();
 
   SPI.begin();
   SPI.setDataMode(SPI_MODE3);
-//  SPI.setClockDivider(SPI_CLOCK_DIV4);
 }
 
 void loop(void) {
-  const char * const message = "Hello, world"; // multiple of 32bit
+  // With DMA enabled, the ESP32 SPI driver wants to receive multiples of 32
+  // bits:
+  const char message[] = {'I', 'D', '=', idOfThisNode, '\0'};
 
   digitalWrite(SS, LOW);
-  for (char *c = message; *c != '\0'; c++) {
-    SPI.transfer(*c);
+
+  for (int i = 0; i < 2; i++) {
+    for (int j = 0; j < 4; j++) {
+      char c = message[j];
+      SPI.transfer(c);
+    }
   }
+  SPI.transfer('\0');
+
   digitalWrite(SS, HIGH);
 
   delay(1000);

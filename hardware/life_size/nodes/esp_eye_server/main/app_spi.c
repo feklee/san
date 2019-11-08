@@ -1,5 +1,8 @@
 // Based on the SPI slave example in ESP-IDF (public domain / CC0).
 
+#include <string.h>
+#include "driver/spi_common.h"
+#include "driver/spi_master.h"
 #include "driver/spi_slave.h"
 #include "esp_log.h"
 #include "app_wifi.h"
@@ -13,10 +16,18 @@ static const char *TAG = "spi";
 #define GPIO_CS 19   // TP1: SPI_CS:   IO19 GPIO19
 
 #define RECVBUF_SIZE 129
+WORD_ALIGNED_ATTR char recvbuf[RECVBUF_SIZE];
+
+void parse_recvbuf()
+{
+    if (strncmp(recvbuf, "ID=", 3) == 0) {
+        wifi_set_ip_based_on_id(recvbuf[3]);
+        return;
+    }
+}
 
 void app_spi_main() {
   esp_err_t ret;
-  WORD_ALIGNED_ATTR char recvbuf[RECVBUF_SIZE];
 
   // Configuration for the SPI bus:
   spi_bus_config_t buscfg = {
@@ -56,11 +67,15 @@ void app_spi_main() {
     // transaction by pulling CS low and pulsing the clock etc.
     spi_slave_transmit(HSPI_HOST, &t, portMAX_DELAY);
 
+    // TODO: Check why `recvbuf` has garbage at the end for short messages. Just
+    // cut it off for now:
+    recvbuf[4] = '\0';
+
     // `spi_slave_transmit` does not return until the master has
     // done a transmission, so by here we have sent our data and
     // received data from the master. Print it.
-    ESP_LOGI(TAG, "Received: %s\n", recvbuf);
+    ESP_LOGI(TAG, "Received: \"%s\"\n", recvbuf);
 
-    wifi_set_ip_based_on_id('B');
+    parse_recvbuf();
   }
 }

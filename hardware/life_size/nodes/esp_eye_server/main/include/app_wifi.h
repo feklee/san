@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-void set_ip_based_on_id(const char);
+void wifi_set_ip_based_on_id(const char);
 void app_wifi_main();
 
 #ifdef __cplusplus

@@ -1,6 +1,10 @@
 // Based on the SPI slave example in ESP-IDF (public domain / CC0).
 
 #include "driver/spi_slave.h"
+#include "esp_log.h"
+#include "app_wifi.h"
+
+static const char *TAG = "spi";
 
 // ESP-EYE
 #define GPIO_MOSI 2  // TP4: SPI_DIN:  IO2  GPIO2
@@ -23,7 +27,7 @@ void app_spi_main() {
 
   // Configuration for the SPI slave interface:
   spi_slave_interface_config_t slvcfg = {
-            .mode = 1,
+            .mode = 3,
             .spics_io_num = GPIO_CS,
             .queue_size = 3
   };
@@ -45,8 +49,6 @@ void app_spi_main() {
   };
 
   while (1) {
-    printf("Waiting...\n");
-
     // The call below enables the SPI slave interface to
     // send/receive to the sendbuf and recvbuf. The transaction is
     // initialized by the SPI master, however, so it will not
@@ -57,6 +59,8 @@ void app_spi_main() {
     // `spi_slave_transmit` does not return until the master has
     // done a transmission, so by here we have sent our data and
     // received data from the master. Print it.
-    printf("Received: %s\n", recvbuf);
+    ESP_LOGI(TAG, "Received: %s\n", recvbuf);
+
+    wifi_set_ip_based_on_id('B');
   }
 }

@@ -177,3 +177,7 @@ body.muted canvas.audio {
     visibility: hidden;
     margin-bottom: calc(-1 * var(--audio-canvas-height));
 }
+
+p.audio, p.link {
+    visibility: hidden;
+}

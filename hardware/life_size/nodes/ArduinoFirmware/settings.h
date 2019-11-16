@@ -8,7 +8,6 @@
 
 constexpr uint32_t bootDelay = 2000; // ms (time to wait for ESP-EYE to boot)
 
-const uint8_t ledPin = 13;
 const uint8_t maxPairMessageQueueSize = 20;
 constexpr uint8_t ledDataPin = 4;
 constexpr uint8_t rxPinNumberOfPort1 = 2;
@@ -23,15 +22,12 @@ const uint32_t idSendPeriod = 1000; // ms
 
 #ifdef DEBUG
 
-const boolean flashLedIsEnabled = true; // takes time
 const uint32_t announcementPeriod = 2000; // ms
-const uint8_t bitDurationExp = 9;
+const uint8_t bitDurationExp = 9; // TODO: make bigger for IR?
 const uint32_t parentExpiryDuration = 2.5 * 2000; // ms
 const uint8_t ledBrightness = 20;
 
 #else
-
-const boolean flashLedIsEnabled = false;
 
 // The maximum data rate supported by MultiTrans when communicating
 // with four neighboring nodes is at about ~3kbit/s uni-directionally

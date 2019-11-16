@@ -243,9 +243,6 @@ static esp_err_t stream_handler(httpd_req_t *req){
     int64_t fr_encode = 0;
 #endif
 
-    sensor_t * s = esp_camera_sensor_get();
-    s->set_special_effect(s, 2);
-
     static int64_t last_frame = 0;
     if(!last_frame) {
         last_frame = esp_timer_get_time();
@@ -259,10 +256,6 @@ static esp_err_t stream_handler(httpd_req_t *req){
     httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
 
     while(true){
-#if CONFIG_ESP_FACE_DETECT_ENABLED
-        detected = false;
-        face_id = 0;
-#endif
         fb = esp_camera_fb_get();
         if (!fb) {
             ESP_LOGE(TAG, "Camera capture failed");
@@ -318,10 +311,10 @@ static esp_err_t stream_handler(httpd_req_t *req){
                                 fr_recognize = esp_timer_get_time();
 #endif
                                 draw_face_boxes(image_matrix, net_boxes, face_id);
-                                free(net_boxes->score);
-                                free(net_boxes->box);
-                                free(net_boxes->landmark);
-                                free(net_boxes);
+                                dl_lib_free(net_boxes->score);
+                                dl_lib_free(net_boxes->box);
+                                dl_lib_free(net_boxes->landmark);
+                                dl_lib_free(net_boxes);
                             }
                             if(!fmt2jpg(image_matrix->item, fb->width*fb->height*3, fb->width, fb->height, PIXFORMAT_RGB888, 90, &_jpg_buf, &_jpg_buf_len)){
                                 ESP_LOGE(TAG, "fmt2jpg failed");
@@ -389,6 +382,15 @@ static esp_err_t stream_handler(httpd_req_t *req){
         );
 #endif
     }
+
+
+#ifdef CONFIG_LED_ILLUMINATOR_ENABLED
+    isStreaming = false;
+    enable_led(false);
+#endif
+
+    sensor_t * s = esp_camera_sensor_get();
+    s->set_special_effect(s, 2);
 
     last_frame = 0;
     return res;

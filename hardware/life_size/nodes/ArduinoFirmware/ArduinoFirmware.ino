@@ -40,6 +40,23 @@ static uint8_t numberOfPortWithParent = 0; // 0 = no parent
 
 static uint32_t parentExpiryTime = 0; // ms
 
+ISR(TIMER2_COMPA_vect) {
+  transceiverOnPort1.transceiver.handleTimer2Interrupt();
+  transceiverOnPort2.transceiver.handleTimer2Interrupt();
+  transceiverOnPort3.transceiver.handleTimer2Interrupt();
+  transceiverOnPort4.transceiver.handleTimer2Interrupt();
+}
+
+ISR(PCINT2_vect) { // D0-D7
+  transceiverOnPort1.transceiver.handlePinChangeInterrupt();
+  transceiverOnPort2.transceiver.handlePinChangeInterrupt();
+}
+
+ISR(PCINT0_vect) { // D8-D13
+  transceiverOnPort3.transceiver.handlePinChangeInterrupt();
+  transceiverOnPort4.transceiver.handlePinChangeInterrupt();
+}
+
 uint8_t adjustForBrightness(uint8_t subColor) {
   return uint32_t(subColor) * ledBrightness / 0xff;
 }
@@ -52,10 +69,6 @@ uint32_t neoPixelColor(const byte * const color) {
   );
 }
 
-static inline bool thisNodeIsRoot() {
-  return idOfThisNode == '^';
-}
-
 uint8_t listIndexFromIdOfThisNode() {
   return thisNodeIsRoot()
     ? 0
@@ -65,11 +78,12 @@ uint8_t listIndexFromIdOfThisNode() {
 void ledSetup() {
   const uint8_t numberOfLeds = 4;
   const uint8_t listIndex = listIndexFromIdOfThisNode();
+  const uint8_t dataPin = ledDataPin;
   const byte * const * const nodeColors = nodeColorsList[listIndex];
   const uint32_t colorOfTopHemisphere = neoPixelColor(nodeColors[0]);
   const uint32_t colorOfBottomHemisphere = neoPixelColor(nodeColors[1]);
 
-  neoPixel = Adafruit_NeoPixel(numberOfLeds, ledDataPin,
+  neoPixel = Adafruit_NeoPixel(numberOfLeds, dataPin,
                                NEO_RGB + NEO_KHZ800);
   neoPixel.begin();
   neoPixel.setPixelColor(0, colorOfTopHemisphere);
@@ -79,14 +93,35 @@ void ledSetup() {
   neoPixel.show();
 }
 
-void setup(void) {
-  digitalWrite(13, HIGH); // during boot, the ESP-EYE CLK pin needs to be kept
-                          // high or unconnected
+// During boot, the ESP-EYE CLK pin needs to be kept high (if unconnected).
+void waitForEspToBoot() {
+  digitalWrite(13, HIGH);
   delay(bootDelay);
-  ledSetup();
+}
+
+void setup() {
+#if 1 // TODO
+//  pinMode(A3, OUTPUT);
+  digitalWrite(A3, HIGH);
+  delay(100000);
+#endif
+
+  waitForEspToBoot();
 
   SPI.begin();
   SPI.setDataMode(SPI_MODE3);
+
+  ledSetup();
+
+  if (thisNodeIsRoot()) {
+    Serial.begin(115200);
+  }
+
+  setupMultiTransceiver();
+}
+
+bool iHaveAParent() {
+  return numberOfPortWithParent != 0;
 }
 
 void sendMyIdViaSpi() {
@@ -117,6 +152,204 @@ void periodicallySendMyIdViaSpi() {
   }
 }
 
-void loop(void) {
+void parseMessages() {
+  bool messageHasBeenReceived;
+
+  do {
+    messageHasBeenReceived = false;
+    messageHasBeenReceived |= 
+      parseMessage(transceiverOnPort1, transceiverOnPort1.getMessage());
+    messageHasBeenReceived |=
+      parseMessage(transceiverOnPort2, transceiverOnPort2.getMessage());
+    messageHasBeenReceived |=
+      parseMessage(transceiverOnPort3, transceiverOnPort3.getMessage());
+    messageHasBeenReceived |=
+      parseMessage(transceiverOnPort4, transceiverOnPort4.getMessage());
+  } while (messageHasBeenReceived);
+}
+
+void loop() {
   periodicallySendMyIdViaSpi();
+
+  parseMessages();
+
+#if 1 // TODO
+  periodicallyAnnounceMe();
+#else
+  if (!iHaveAParent()) {
+    clearPairMessageQueue();
+    return;
+  }
+
+  if (!transmissionToParentIsInProgress()) {
+    if (numberOfQueuedPairMessages() > 0) {
+      sendPairMessageToParent(dequeuePairMessage()); // TODO: use SPI instead
+    }
+  }
+  periodicallyAnnounceMe();
+  removeParentIfExpired();
+#endif
+}
+
+bool transmissionToParentIsInProgress() {
+  if (numberOfPortWithParent == transceiverOnPort1.portNumber) {
+    return transceiverOnPort1.transceiver.transmissionIsInProgress();
+  }
+  if (numberOfPortWithParent == transceiverOnPort2.portNumber) {
+    return transceiverOnPort2.transceiver.transmissionIsInProgress();
+  }
+  if (numberOfPortWithParent == transceiverOnPort3.portNumber) {
+    return transceiverOnPort3.transceiver.transmissionIsInProgress();
+  }
+  if (numberOfPortWithParent == transceiverOnPort4.portNumber) {
+    return transceiverOnPort4.transceiver.transmissionIsInProgress();
+  }
+  return false;
+}
+
+void removeParent() {
+  numberOfPortWithParent = 0;
+}
+
+void removeParentIfExpired() {
+  if (iHaveAParent() && millis() > parentExpiryTime) {
+    removeParent();
+  }
+}
+
+void periodicallyAnnounceMe() {
+#if 1 // TODO
+  announceMeToChildren();
+#else
+  static uint32_t scheduledAnnouncementTime =
+    millis() + announcementPeriod; // ms
+  uint32_t now = millis(); // ms
+
+  if (now >= scheduledAnnouncementTime) {
+    announceMeToChildren();
+    scheduledAnnouncementTime = now + announcementPeriod;
+  }
+#endif
+}
+
+static inline uint8_t digitFromChar(char c) {
+  return c - 48;
+}
+
+static inline char charFromDigit(uint8_t digit) {
+  return digit + 48;
+}
+
+static inline bool thisNodeIsRoot() {
+  return idOfThisNode == '^';
+}
+
+template <typename T>
+void sendPairMessageToParent(T &transceiverOnPort, const byte *pairMessage) {
+  transceiverOnPort.transceiver.startTransmissionOfBytes(pairMessage,
+                                                         pairMessageSize);
+}
+
+void enablePinChangeInterrupts() {
+  PCICR |= // Pin Change Interrupt Control Register
+    bit(PCIE2) | // D0 to D7
+    bit(PCIE0); // D8 to D15
+}
+
+void setupMultiTransceiver() {
+  multiTransceiver.startTimer1();
+  multiTransceiver.startTimer2();
+  enablePinChangeInterrupts();
+  transceiverOnPort1.transceiver.begin();
+  transceiverOnPort2.transceiver.begin();
+  transceiverOnPort3.transceiver.begin();
+  transceiverOnPort4.transceiver.begin();
+}
+
+template <typename T>
+void transmitAnnouncement(T &transceiverOnPort) {
+  transceiverOnPort.transceiver.startTransmissionOfBytes(
+    buildAnnouncementMessage({idOfThisNode, transceiverOnPort.portNumber}),
+    announcementMessageSize
+  );
+}
+
+template <typename T>
+void announceMeToChild(T &transceiverOnPort) {
+  if (transceiverOnPort.portNumber == numberOfPortWithParent) {
+    return;
+  }
+  transmitAnnouncement(transceiverOnPort);
+}
+
+void resetParentExpiryTime() {
+  parentExpiryTime = millis() + parentExpiryDuration; // ms
+}
+
+template <typename T>
+void parseAnnouncementMessage(T &transceiverOnPort, const byte *message) {
+  if (thisNodeIsRoot()) {
+    return; // root cannot have a parent => ignore announcement
+  }
+
+  if (!iHaveAParent()) {
+    numberOfPortWithParent = transceiverOnPort.portNumber;
+  }
+
+  if (transceiverOnPort.portNumber == numberOfPortWithParent) {
+    resetParentExpiryTime(); // call regularly to keep parent fresh
+  }
+
+  // Create pair, either describing a parent-child relationship or a loop:
+  Port port = decodePort(message[1]);
+  Pair pair;
+  pair.parentPort = port;
+  pair.childPort = {idOfThisNode, transceiverOnPort.portNumber};
+  enqueuePairMessage(buildPairMessage(pair));
+}
+
+static inline Pair pairFromPairMessage(const byte *message) {
+  Pair pair;
+  pair.parentPort = decodePort(message[1]);
+  pair.childPort = decodePort(message[2]);
+  return pair;
+}
+
+template <typename T>
+bool parseMessage(T &transceiverOnPort, byte *message) {
+  if (message == 0) {
+    return false;
+  }
+
+  if (message[0] & B01000000) {
+    // pair message
+    enqueuePairMessage(message);
+    return true;
+  } else {
+    // announcement message
+    parseAnnouncementMessage(transceiverOnPort, message);
+    return true;
+  }
+  return false;
+}
+
+void sendPairMessageToParent(const byte *pairMessage) {
+  if (numberOfPortWithParent == transceiverOnPort1.portNumber) {
+    sendPairMessageToParent(transceiverOnPort1, pairMessage);
+  } else if (numberOfPortWithParent == transceiverOnPort2.portNumber) {
+    sendPairMessageToParent(transceiverOnPort2, pairMessage);
+  } else if (numberOfPortWithParent == transceiverOnPort3.portNumber) {
+    sendPairMessageToParent(transceiverOnPort3, pairMessage);
+  } else if (numberOfPortWithParent == transceiverOnPort4.portNumber) {
+    sendPairMessageToParent(transceiverOnPort4, pairMessage);
+  }
+}
+
+void announceMeToChildren() {
+  announceMeToChild(transceiverOnPort1);
+  if (!thisNodeIsRoot()) {
+    announceMeToChild(transceiverOnPort2);
+    announceMeToChild(transceiverOnPort3);
+    announceMeToChild(transceiverOnPort4);
+  }
 }

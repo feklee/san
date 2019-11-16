@@ -6,5 +6,4 @@
 struct Pair {
   Port parentPort;
   Port childPort;
-  uint8_t childAngle;
 };

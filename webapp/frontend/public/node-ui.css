@@ -12,6 +12,7 @@
     --all-node-icon-shadow-width: 3px;
     --line-height: 20px;
     --spacing: 5px;
+    --video-height: 160px;
 }
 
 * {
@@ -76,6 +77,18 @@ ul.all.nodes>li.this.node-icon {
 
 ul.all.nodes>li.root.node-icon {
     display: none;
+}
+
+.video img {
+    display: block;
+    width: 100%;
+    height: var(--video-height);
+    object-fit: cover;
+}
+
+.video img.stream {
+    margin-top: calc(-1 * var(--video-height));
+    color: transparent;
 }
 
 .graph div {
@@ -199,7 +212,7 @@ ul.controls>li:last-child::after {
     height: 0;
 }
 
-ul.controls>li.graph::after {
+ul.controls>li.video::after, ul.controls>li.graph::after {
     border: 0;
 }
 

@@ -20,6 +20,23 @@
     </ul>
 
     <ul class="generator controls">
+      <li class="video">
+        <div>
+          <img src="noise/320x240.gif" alt="Default" />
+          <img src="noise/320x240.gif"
+               width="320" height="240"
+               alt="Video stream"
+               class="stream"
+               crossorigin
+               />
+        </div>
+        <script> 
+          // TODO: to illustrate dynamic loading, move to other code
+          const view = document.querySelector(".video img.stream");
+          const url = "http://192.168.43.200/stream";
+          view.src = url;
+        </script>
+      </li>
       <li class="hidden graph">
         <div>
           <canvas></canvas>

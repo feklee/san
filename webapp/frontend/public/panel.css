@@ -6,19 +6,16 @@ html, body {
     color: white;
 }
 
-body {
-    layout: flex;
-}
-
 body>* {
     height: 100%;
     overflow: hidden;
+    float: left;
 }
 
 #node-ui {
-    width: 30%;
+    width: 20%;
 }
 
 #structure {
-    width: 69%;
+    width: 80%;
 }

@@ -1,0 +1,24 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: black;
+    color: white;
+}
+
+body {
+    layout: flex;
+}
+
+body>* {
+    height: 100%;
+    overflow: hidden;
+}
+
+#node-ui {
+    width: 30%;
+}
+
+#structure {
+    width: 69%;
+}

@@ -9,11 +9,11 @@
 
 static const char *TAG = "spi";
 
-// ESP32-CAM
-#define GPIO_MOSI 2  // HS2_CLK in ESP32-CAM schematic
-#define GPIO_MISO 12 // HS2_CMD
-#define GPIO_SCLK 14 // HS2_DATA0
-#define GPIO_CS 15   // HS2_DATA3
+// ESP-EYE
+#define GPIO_MOSI 2  // TP4: SPI_DIN:  IO2  GPIO2
+#define GPIO_MISO 12 // TP3: SPI_DOUT: IO12 MTDI
+#define GPIO_SCLK 0  // TP2: SPI_CLK:  IO0  GPIO0
+#define GPIO_CS 19   // TP1: SPI_CS:   IO19 GPIO19
 
 #define RECVBUF_SIZE 129
 WORD_ALIGNED_ATTR char recvbuf[RECVBUF_SIZE];

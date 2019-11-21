@@ -12,12 +12,12 @@
 #include "lwip/err.h"
 #include "lwip/sys.h"
 
-#define ESP_WIFI_SSID      "OnePlus 6T"
-#define ESP_WIFI_PASS      "g1r4ff3nH$US"
+#define ESP_WIFI_SSID "SAN"
+#define ESP_WIFI_PASS "c0c0NODE$"
 
 static const char *TAG = "wifi";
 
-static const u8_t gw[] = {192, 168, 43, 182};
+static const u8_t gw[] = {192, 168, 100, 1};
 static const u8_t initialLastOctet = 200;
 
 static void set_ip(const u8_t lastOctet)

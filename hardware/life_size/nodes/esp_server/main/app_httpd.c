@@ -389,9 +389,6 @@ static esp_err_t stream_handler(httpd_req_t *req){
     enable_led(false);
 #endif
 
-    sensor_t * s = esp_camera_sensor_get();
-    s->set_special_effect(s, 2);
-
     last_frame = 0;
     return res;
 }

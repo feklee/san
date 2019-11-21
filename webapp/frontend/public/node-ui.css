@@ -89,7 +89,7 @@ ul.all.nodes>li.root.node-icon {
 
 .video img.stream {
     margin-top: calc(-1 * var(--video-height));
-    color: transparent;
+    filter: grayscale(100%);
 }
 
 .graph div {

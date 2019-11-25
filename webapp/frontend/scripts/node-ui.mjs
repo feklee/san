@@ -415,7 +415,7 @@ var setVideoStream = function () {
     const view = document.querySelector(".video img.stream");
     const url =
             "http://192.168.100." +
-            (idOfThisNode.charCodeAt() + 136) +
+            (idOfThisNode.charCodeAt() + 36) +
             "/stream";
     view.src = url;
 };

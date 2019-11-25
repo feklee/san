@@ -8,10 +8,9 @@ communicates via SPI with the ESP-EYE.
 Flashing from Linux command line
 ================================
 
-Example on Linux (replace device name as needed):
+Example on Linux (replace device name and node ID as needed):
 
-    $ arduino --board arduino:avr:pro:cpu=16MHzatmega328 \
-      --port /dev/ttyUSB0 --upload ArduinoFirmware.ino
+    $ ./upload.sh /dev/ttyUSB0 A
 
 To view serial output (to quite, press <kbd>Ctrl</kbd>-<kbd>a</kbd> followed by
 <kbd>k</kbd>):

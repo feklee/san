@@ -411,6 +411,15 @@ var parseData = function (data) {
 
 var connectionLostErrorEl = document.querySelector(".connection-lost-error");
 
+var setVideoStream = function () {
+    const view = document.querySelector(".video img.stream");
+    const url =
+            "http://192.168.100." +
+            (idOfThisNode.charCodeAt() + 136) +
+            "/stream";
+    view.src = url;
+};
+
 webSocket.setup({
     onopen: function () {
         connectionLostErrorEl.classList.add("hidden");
@@ -463,5 +472,6 @@ document.querySelector("button.reconnect").addEventListener(
 updateGeneratorNumbers();
 updateGenerator();
 updateOutputNumbers();
+setVideoStream();
 
 setInterval(removeExpiredNodes, graphUpdateInterval);

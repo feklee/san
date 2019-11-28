@@ -135,13 +135,7 @@ bool iHaveAParent() {
   }
 }
 
-void sendMyIdViaSpi() {
-  // With DMA enabled, the ESP32 SPI driver wants to receive multiples of 32
-  // bits:
-  const char message[] = {'I', 'D', '=', idOfThisNode, '\0'};
-
-  Serial.println("id"); // TODO
-
+void sendViaSpi(char *message) {
   digitalWrite(SS, LOW);
 
   for (int i = 0; i < 2; i++) {
@@ -153,6 +147,16 @@ void sendMyIdViaSpi() {
   SPI.transfer('\0');
 
   digitalWrite(SS, HIGH);
+}
+
+void sendMyIdViaSpi() {
+  // With DMA enabled, the ESP32 SPI driver wants to receive multiples of 32
+  // bits:
+  const char message[] = {'I', 'D', '=', idOfThisNode, '\0'};
+
+  sendViaSpi(message);
+
+  Serial.println(message); // TODO
 }
 
 void periodicallySendMyIdViaSpi() {
@@ -182,15 +186,15 @@ void parseMessages() {
 }
 
 void sendPairViaSpi(const Pair &pair) {
-  char buffer[] = {
-                   pair.parentPort.nodeId,
-                   charFromDigit(pair.parentPort.portNumber),
-                   pair.childPort.nodeId,
-                   charFromDigit(pair.childPort.portNumber),
-                   '\0'
+  char message[] = {
+                    pair.parentPort.nodeId,
+                    charFromDigit(pair.parentPort.portNumber),
+                    pair.childPort.nodeId,
+                    charFromDigit(pair.childPort.portNumber),
+                    '\0'
   };
-
-  Serial.println(buffer);
+  sendViaSpi(message);
+  Serial.println(message);
 }
 
 void loop() {

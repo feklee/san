@@ -23,7 +23,7 @@ const uint32_t idSendPeriod = 1000; // ms
 #ifdef DEBUG
 
 const uint32_t announcementPeriod = 2000; // ms
-const uint8_t bitDurationExp = 9; // TODO: make bigger for IR?
+const uint8_t bitDurationExp = 13;
 const uint32_t parentExpiryDuration = 2.5 * 2000; // ms
 const uint8_t ledBrightness = 20;
 
@@ -35,7 +35,7 @@ const uint8_t ledBrightness = 20;
 //
 // On stability problems, reduce the data rate (by increasing the bit
 // duration exponent) and increase the announcement period.
-const uint8_t bitDurationExp = 11;
+const uint8_t bitDurationExp = 13; // maximum speed for IR setup
 
 // The announcement period needs to be long enough so that all pairs
 // can be transmitted in between two announcements. It depends on the

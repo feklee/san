@@ -36,7 +36,8 @@ static TransceiverOnPort<rxPinNumberOfPort3, txPinNumberOfPort3, 3>
   transceiverOnPort3;
 static TransceiverOnPort<rxPinNumberOfPort4, txPinNumberOfPort4, 4>
   transceiverOnPort4;
-static uint8_t numberOfPortWithParent = 0; // 0 = no parent
+static uint8_t numberOfPortWithParent = 0; // 0 = no parent, unless node ID is A
+                                           // (A is always connected to root)
 
 static uint32_t parentExpiryTime = 0; // ms
 
@@ -93,15 +94,23 @@ void ledSetup() {
   neoPixel.show();
 }
 
-// During boot, the ESP-EYE CLK pin needs to be kept high (if unconnected).
+// During boot, the ESP-EYE CLK pin needs to be kept high (unless unconnected).
 void waitForEspToBoot() {
+  pinMode(A7, OUTPUT);
+  digitalWrite(A7, LOW);
+  pinMode(10, OUTPUT);
+  digitalWrite(10, HIGH);
+  pinMode(11, OUTPUT);
+  digitalWrite(11, HIGH);
+  pinMode(12, INPUT_PULLUP);
+  pinMode(13, OUTPUT);
   digitalWrite(13, HIGH);
   delay(bootDelay);
 }
 
 void setup() {
-#if 1 // TODO
-//  pinMode(A3, OUTPUT);
+#if 0 // TODO: just for testing if IR LED lights up (behind 220 resistor)
+  pinMode(A3, OUTPUT);
   digitalWrite(A3, HIGH);
   delay(100000);
 #endif
@@ -113,21 +122,25 @@ void setup() {
 
   ledSetup();
 
-  if (thisNodeIsRoot()) {
-    Serial.begin(115200);
-  }
+  Serial.begin(115200);
 
   setupMultiTransceiver();
 }
 
 bool iHaveAParent() {
-  return numberOfPortWithParent != 0;
+  if (idOfThisNode == 'A') { // A is always connected to root
+    return true;
+  } else {
+    return numberOfPortWithParent != 0;
+  }
 }
 
 void sendMyIdViaSpi() {
   // With DMA enabled, the ESP32 SPI driver wants to receive multiples of 32
   // bits:
   const char message[] = {'I', 'D', '=', idOfThisNode, '\0'};
+
+  Serial.println("id"); // TODO
 
   digitalWrite(SS, LOW);
 
@@ -168,27 +181,23 @@ void parseMessages() {
   } while (messageHasBeenReceived);
 }
 
+void sendPairViaSpi(const Pair &pair) {
+  char buffer[] = {
+                   pair.parentPort.nodeId,
+                   charFromDigit(pair.parentPort.portNumber),
+                   pair.childPort.nodeId,
+                   charFromDigit(pair.childPort.portNumber),
+                   '\0'
+  };
+
+  Serial.println(buffer);
+}
+
 void loop() {
   periodicallySendMyIdViaSpi();
-
   parseMessages();
-
-#if 1 // TODO
-  periodicallyAnnounceMe();
-#else
-  if (!iHaveAParent()) {
-    clearPairMessageQueue();
-    return;
-  }
-
-  if (!transmissionToParentIsInProgress()) {
-    if (numberOfQueuedPairMessages() > 0) {
-      sendPairMessageToParent(dequeuePairMessage()); // TODO: use SPI instead
-    }
-  }
   periodicallyAnnounceMe();
   removeParentIfExpired();
-#endif
 }
 
 bool transmissionToParentIsInProgress() {
@@ -218,9 +227,6 @@ void removeParentIfExpired() {
 }
 
 void periodicallyAnnounceMe() {
-#if 1 // TODO
-  announceMeToChildren();
-#else
   static uint32_t scheduledAnnouncementTime =
     millis() + announcementPeriod; // ms
   uint32_t now = millis(); // ms
@@ -229,7 +235,6 @@ void periodicallyAnnounceMe() {
     announceMeToChildren();
     scheduledAnnouncementTime = now + announcementPeriod;
   }
-#endif
 }
 
 static inline uint8_t digitFromChar(char c) {
@@ -305,7 +310,8 @@ void parseAnnouncementMessage(T &transceiverOnPort, const byte *message) {
   Pair pair;
   pair.parentPort = port;
   pair.childPort = {idOfThisNode, transceiverOnPort.portNumber};
-  enqueuePairMessage(buildPairMessage(pair));
+
+  sendPairViaSpi(pair);
 }
 
 static inline Pair pairFromPairMessage(const byte *message) {
@@ -322,8 +328,7 @@ bool parseMessage(T &transceiverOnPort, byte *message) {
   }
 
   if (message[0] & B01000000) {
-    // pair message
-    enqueuePairMessage(message);
+    // pair message, ignore (not needed in this version)
     return true;
   } else {
     // announcement message

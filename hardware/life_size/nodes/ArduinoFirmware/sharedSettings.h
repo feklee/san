@@ -14,27 +14,31 @@ const uint32_t connectionExpiryDuration =
 
 const byte * const nodeColorsList[][2] =
   {
-   {gray, gray}, // ^: {color of top hemisphere, color of bottom hemisphere}
-   {red, red}, // A
-   {yellow, yellow}, // B
-   {lime, lime}, // ...
-   {aqua, aqua},
-   {blue, blue},
-   {fuchsia, fuchsia},
-   {red, yellow},
-   {red, lime},
-   {red, aqua},
-   {red, blue},
-   {red, fuchsia},
-   {yellow, lime},
-   {yellow, aqua},
-   {yellow, blue},
-   {yellow, fuchsia},
-   {lime, aqua},
-   {lime, blue},
-   {lime, fuchsia},
-   {aqua, blue},
-   {aqua, fuchsia},
-   {blue, fuchsia},
-   {white, red}
+   {gray, gray},       // ^: {color of top hemisphere, color of bottom hemisph.}
+   {red, red},         // A
+   {yellow, yellow},   // B
+   {lime, lime},       // C
+   {aqua, aqua},       // D
+   {blue, blue},       // E
+   {fuchsia, fuchsia}, // F
+   {red, yellow},      // G
+   {red, lime},        // H
+   {red, aqua},        // I
+   {red, blue},        // J
+   {red, fuchsia},     // K
+   {yellow, lime},     // L
+   {yellow, aqua},     // M
+   {yellow, blue},     // N
+   {yellow, fuchsia},  // O
+   {lime, aqua},       // P
+   {lime, blue},       // Q
+   {lime, fuchsia},    // R
+   {aqua, blue},       // S
+   {aqua, fuchsia},    // T
+   {blue, fuchsia},    // U
+   {white, red},       // V
+   {white, yellow},    // W
+   {white, lime},      // X
+   {white, aqua},      // Y
+   {white, blue}       // Z
   };

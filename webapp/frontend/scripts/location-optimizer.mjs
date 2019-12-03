@@ -14,7 +14,7 @@ import {
     Vector3
 } from "../../node_modules/three/build/three.module.js";
 import jsga from "jsga-feklee";
-import GradientDescentIterator from "./powell-iterator.js"
+import PowellIterator from "./powell-iterator.js"
 
 var loSettings = settings.locationOptimizer;
 

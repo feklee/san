@@ -1,5 +1,5 @@
 /*
- * GradientDescentIterator
+ * PowellIterator
  *
  * Inspired by Cory McCartan
  * ©2019 David Mickisch, Felix E. Klee
@@ -29,7 +29,7 @@ import dummy_minimize from "optimization-js";
      *   @param options.fitness {Function} the fitness function (passed an
      *   individual, return a number)
      */
-    let GradientDescentIterator = function(options) {
+    let PowellIterator = function(options) {
         let length = options.length || err("Expected length parameter.");
         let radix = options.radix || err("Expected radix parameter.");
         let fitness = options.fitness || err("Expected fitness parameter.");
@@ -67,17 +67,17 @@ import dummy_minimize from "optimization-js";
         return self;
     };
 
-    var GradientDescentIteratorVERSION = "0.1.0";
+    var PowellIteratorVERSION = "0.1.0";
 
     // export the object for Node and the browser.
     if (typeof exports != 'undefined' && !exports.nodeType) {
         if (typeof module != 'undefined' && !module.nodeType && module.exports) {
-            exports = module.exports = GradientDescentIterator;
+            exports = module.exports = PowellIterator;
         }
-        exports.GradientDescentIterator = GradientDescentIterator;
+        exports.PowellIterator = PowellIterator;
     } else {
-        root.GradientDescentIterator = GradientDescentIterator;
+        root.PowellIterator = PowellIterator;
     }
 })();
 
-export default GradientDescentIterator
+export default PowellIterator

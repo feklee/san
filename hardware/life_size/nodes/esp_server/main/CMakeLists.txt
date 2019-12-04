@@ -7,6 +7,7 @@ set(COMPONENT_REQUIRES
     nvs_flash
     esp_http_server
     fb_gfx
+    esp_http_client
     )
 
 register_component()

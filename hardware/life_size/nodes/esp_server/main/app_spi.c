@@ -5,6 +5,7 @@
 #include "driver/spi_master.h"
 #include "driver/spi_slave.h"
 #include "esp_log.h"
+#include "esp_http_client.h"
 #include "app_wifi.h"
 
 static const char *TAG = "spi";
@@ -18,11 +19,34 @@ static const char *TAG = "spi";
 #define RECVBUF_SIZE 129
 WORD_ALIGNED_ATTR char recvbuf[RECVBUF_SIZE];
 
-void parse_recvbuf()
+static void send_pair_to_server(const char *pair)
+{
+    char url[81];
+    sprintf(url, "http://192.168.100.100:8081/%.4s", pair);
+
+    esp_http_client_config_t config = { .url = url };
+    esp_http_client_handle_t client = esp_http_client_init(&config);
+
+    esp_err_t err = esp_http_client_perform(client);
+    ESP_LOGI(TAG, "URL: %s", url);
+    if (err == ESP_OK) {
+        ESP_LOGI(TAG, "HTTP GET Status = %d, content_length = %d",
+                esp_http_client_get_status_code(client),
+                esp_http_client_get_content_length(client));
+    } else {
+        ESP_LOGE(TAG, "HTTP GET request failed: %s", esp_err_to_name(err));
+    }
+
+    esp_http_client_cleanup(client);
+}
+
+static void parse_recvbuf()
 {
     if (strncmp(recvbuf, "ID=", 3) == 0) {
         wifi_set_ip_based_on_id(recvbuf[3]);
         return;
+    } else {
+        send_pair_to_server(recvbuf);
     }
 }
 

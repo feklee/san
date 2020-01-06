@@ -41,6 +41,12 @@ Acknowledgments
     
   * Herbert Poetzl for advice on electronics and for the suggestion to
     use optical communication between nodes
+  
+  * Loay Yari for helping with PCB design and manufacturing
+    
+  * [Pietro Mincuzzi][7] for the o-ring trick
+  
+  * Kliment for advice on electronics, optics, and the ESP32
 
 
 License
@@ -60,3 +66,4 @@ Hocevar. See the COPYING file for more details.
 [4]: https://github.com/davidblitz/san-optimizer
 [5]: https://feklee.github.io/san/notes/f8d89da9-c285-4b5a-921b-7af3444b9229/
 [6]: https://feklee.github.io/san/notes/0411b82f-268f-46b2-9563-efaf14a68a41/
+[7]: https://pietro.mincuzzi.asia

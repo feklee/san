@@ -14,6 +14,7 @@ import {
     Vector3
 } from "../../node_modules/three/build/three.module.js";
 import jsga from "jsga-feklee";
+import PowellIterator from "./powell-iterator.js"
 
 var loSettings = settings.locationOptimizer;
 
@@ -225,7 +226,7 @@ var assignLocationsToNodes = function (locationType, individual) {
 
 var fitnessOfIndividual = function (individual) {
     assignLocationsToNodes("testLocation", individual);
-    return fitness();
+    return -fitness();
 };
 
 var update = function () {
@@ -246,6 +247,13 @@ var update = function () {
         mutationRate: loSettings.mutationRate,
         crossovers: loSettings.crossovers
     });
+    
+    var algorithm = GradientDescentIterator({
+        length: length,
+        radix: loSettings.sideLength * loSettings.resolution,
+        fitness: fitnessOfIndividual,
+    });
+
     var iterable = algorithm.run(-1);
     iterator = iterable[Symbol.iterator]();
 };
@@ -279,8 +287,8 @@ var updateNodeLocations = function (generation) {
         console.log(
             elapsedTime,
             generation.generation,
-            fitnessOfIndividual(generation.best.params),
-            deviation(generation.population)
+            fitnessOfIndividual(generation.best.params)
+            //deviation(generation.population)
         );
     }
     assignLocationsToNodes("location", generation.best.params);

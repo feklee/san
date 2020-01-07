@@ -248,7 +248,7 @@ var update = function () {
         crossovers: loSettings.crossovers
     });
     
-    var algorithm = GradientDescentIterator({
+    var algorithm = PowellIterator({
         length: length,
         radix: loSettings.sideLength * loSettings.resolution,
         fitness: fitnessOfIndividual,

@@ -14,7 +14,7 @@ import {
     Vector3
 } from "../../node_modules/three/build/three.module.js";
 import jsga from "jsga-feklee";
-import PowellIterator from "./powell-iterator.js"
+import powellIterator from "./powell-iterator.js"
 
 var loSettings = settings.locationOptimizer;
 
@@ -250,7 +250,7 @@ var update = function () {
     });
 */
 
-    var algorithm = PowellIterator({
+    var algorithm = powellIterator({
         length: length,
         radix: loSettings.sideLength * loSettings.resolution,
         fitness: fitnessOfIndividual,

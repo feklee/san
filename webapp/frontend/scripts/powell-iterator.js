@@ -42,7 +42,7 @@ import dummy_minimize from "optimization-js";
          * Run the algorithm
          * @param max_iters {Number} the number of iterations to run
          */
-        self.run = function* (max_iter) {	
+        self.run = function* (max_iter) {
             // for every iteration
             for (let i = 0; i !== max_iter; i++) {
                 let ret = optimize(currSolution)
@@ -61,7 +61,7 @@ import dummy_minimize from "optimization-js";
         }
 
         var optimize = function(x0) {
-            return minimize_Powell(fitness, x0)
+            return minimize_Powell((x) => -fitness(x), x0)
         }
 
         return self;

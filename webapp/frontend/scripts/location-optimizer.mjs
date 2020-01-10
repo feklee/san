@@ -226,7 +226,7 @@ var assignLocationsToNodes = function (locationType, individual) {
 
 var fitnessOfIndividual = function (individual) {
     assignLocationsToNodes("testLocation", individual);
-    return -fitness();
+    return fitness();
 };
 
 var update = function () {
@@ -238,6 +238,7 @@ var update = function () {
 
     var length = (3 * // number of coordinates per 3D point
                   numberOfVisibleNodes);
+/* TODO
     var algorithm = jsga({
         length: length,
         radix: loSettings.sideLength * loSettings.resolution,
@@ -247,7 +248,8 @@ var update = function () {
         mutationRate: loSettings.mutationRate,
         crossovers: loSettings.crossovers
     });
-    
+*/
+
     var algorithm = PowellIterator({
         length: length,
         radix: loSettings.sideLength * loSettings.resolution,

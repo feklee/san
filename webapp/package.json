@@ -16,8 +16,8 @@
   "dependencies": {
     "commander": "^2.15.1",
     "jsga-feklee": "^1.1.1",
+    "jspowell": "^1.0.0",
     "node-static": "^0.7.10",
-    "optimization-js": "^1.5.0",
     "reset-css": "^3.0.0",
     "serialport": "^8.0.6",
     "source-code-pro": "^2.30.1",

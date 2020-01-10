@@ -14,7 +14,7 @@ import {
     Vector3
 } from "../../node_modules/three/build/three.module.js";
 import jsga from "jsga-feklee";
-import jspm from "powell";
+import jspowell from "jspowell";
 
 var loSettings = settings.locationOptimizer;
 
@@ -250,7 +250,7 @@ var update = function () {
     });
 */
 
-    var algorithm = jspm({
+    var algorithm = jspowell({
         length: length,
         radix: loSettings.sideLength * loSettings.resolution,
         fitness: fitnessOfIndividual,

@@ -1,8 +1,9 @@
 /*
- * PowellIterator
+ * This library takes Powell's conjugate direction method from "optimization-js"
+ * and provides a wrapper that makes it compatible to the interface of Cory
+ * McCartan's "jsga" ES6 genetic algorithm library.
  *
- * Inspired by Cory McCartan
- * ©2019 David Mickisch, Felix E. Klee
+ * ©2019-2020 David Mickisch, Felix E. Klee
  */
 
 import {minimize_Powell} from "optimization-js";

@@ -1,0 +1,39 @@
+{
+  "name": "jspm",
+  "version": "1.0.0",
+  "description": "Interface to Powell's method compatible with Cory McCartan's jsga.",
+  "main": "jspm.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feklee/powell.git"
+  },
+  "keywords": [
+    "powell",
+    "algorithm",
+    "method",
+    "jsga",
+    "conjugate",
+    "direction",
+    "optimization"
+  ],
+  "author": "David Mickisch",
+  "contributors": [{
+      "name": "Felix E. Klee",
+      "email": "felix.klee@inka.de"
+  }],
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/feklee/powell/issues"
+  },
+  "homepage": "https://github.com/feklee/powell#readme",
+  "files": [
+      "jspm.js"
+  ],
+  "dependencies": {
+    "optimization-js": "^1.5.0"
+  }
+}

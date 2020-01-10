@@ -14,7 +14,7 @@ import {
     Vector3
 } from "../../node_modules/three/build/three.module.js";
 import jsga from "jsga-feklee";
-import jspm from "./powell/jspm.js";
+import jspm from "powell";
 
 var loSettings = settings.locationOptimizer;
 

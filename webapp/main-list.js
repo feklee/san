@@ -4,12 +4,14 @@
 
 const SerialPort = require("serialport");
 
-SerialPort.list(function (ignore, ports) {
-    var comNames = ports.map(function (port) {
-        return port.comName;
-    });
-    comNames.sort();
-    comNames.forEach(function (comName) {
-        console.log(comName);
-    });
-});
+SerialPort.list().then(
+    function (ports) {
+        var comNames = ports.map(function (port) {
+            return port.path;
+        });
+        comNames.sort();
+        comNames.forEach(function (comName) {
+            console.log(comName);
+        });
+    }
+);

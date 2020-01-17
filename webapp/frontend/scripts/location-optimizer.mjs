@@ -253,7 +253,7 @@ var update = function () {
     var algorithm = jspowell({
         length: length,
         radix: loSettings.sideLength * loSettings.resolution,
-        fitness: fitnessOfIndividual,
+        fitness: fitnessOfIndividual
     });
 
     var iterable = algorithm.run(-1);

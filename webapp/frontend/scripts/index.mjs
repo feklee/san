@@ -98,7 +98,7 @@ webSocket.setup({
                 lines: es.map((e) =>
                                   Array.from(e.nodes).map((n) =>
                                                           n.animatedLocation.toArray())),
-                tiltAngles: [] // TODO: implement
+                tiltAngles: [] // TODO: implement (maybe use random number, if null)
             };
 
             console.log(data); // TODO: remove

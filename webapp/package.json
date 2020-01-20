@@ -14,6 +14,7 @@
     "url": "https://github.com/feklee/san.git"
   },
   "dependencies": {
+    "color-convert": "^2.0.1",
     "commander": "^2.15.1",
     "jsga-feklee": "^1.1.1",
     "jspowell": "^1.0.0",

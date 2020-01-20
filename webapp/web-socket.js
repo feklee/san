@@ -7,6 +7,7 @@
 var WebSocketServer = require("websocket").server;
 var cli = require("./cli");
 var audioModules = require("./audio-modules");
+var latestGraph = "";
 var connectionSet = new Set();
 
 var broadcast = function (message) {
@@ -23,12 +24,21 @@ var interpretMessage = function (message) {
         audioModules.store(data);
         broadcast(data);
     }
+
+    if (data.type === "graph") {
+        latestGraph = data;
+        broadcast(data);
+    }
 };
 
 var sendAudioModules = function (connection) {
     audioModules.forEach(function (audioModule) {
         connection.sendUTF(JSON.stringify(audioModule));
     });
+};
+
+var sendLatestGraph = function (connection) {
+    connection.sendUTF(JSON.stringify(latestGraph));
 };
 
 var onNewConnection = function (connection) {
@@ -44,6 +54,7 @@ var onNewConnection = function (connection) {
     });
 
     sendAudioModules(connection);
+    sendLatestGraph(connection);
 };
 
 function create(httpServer) {

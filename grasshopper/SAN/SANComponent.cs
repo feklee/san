@@ -11,7 +11,7 @@ using Rhino.Geometry;
 
 namespace SAN
 {
-    public class HelloGrasshopperComponent : GH_Component
+    public class SANComponent : GH_Component
     {
         /// <summary>
         /// Each implementation of GH_Component must provide a public 
@@ -20,8 +20,8 @@ namespace SAN
         /// Subcategory the panel. If you use non-existing tab or panel names, 
         /// new tabs/panels will automatically be created.
         /// </summary>
-        public HelloGrasshopperComponent()
-          : base("HelloGrasshopper", "ASpi",
+        public SANComponent()
+          : base("SAN", "ASpi",
               "Construct an Archimedean, or arithmetic, spiral given its radii and number of turns.",
               "Curve", "Primitive")
         {

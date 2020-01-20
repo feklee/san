@@ -59,8 +59,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HelloGrasshopperComponent.cs" />
-    <Compile Include="HelloGrasshopperInfo.cs" />
+    <Compile Include="SANComponent.cs" />
+    <Compile Include="SANInfo.cs" />
     <Compile Include="SanWebSocket.cs" />
     <Compile Include="MyCounter.cs" />
     <Compile Include="SimpleMathematicsComponent.cs" />

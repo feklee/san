@@ -4,7 +4,7 @@ using Grasshopper.Kernel;
 
 namespace SAN
 {
-    public class HelloGrasshopperInfo : GH_AssemblyInfo
+    public class SANInfo : GH_AssemblyInfo
     {
         public override string Name
         {

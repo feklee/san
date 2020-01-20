@@ -4,6 +4,7 @@ import log from "./log.mjs";
 import nodeManager from "./node-manager.mjs";
 import nodes from "./nodes.mjs";
 import visibleNodes from "./visible-nodes.mjs";
+import edges from "./edges.mjs";
 import audio from "./audio.mjs";
 import webSocket from "./web-socket.mjs";
 
@@ -75,21 +76,26 @@ webSocket.setup({
 
         setInterval(function () {
             var ns = visibleNodes;
+            var es = Array.from(edges);
 
             console.log("Hi!");
-            console.log(ns[0]);
-            console.log(ns[0].animatedLocation.toArray());
             var data = {
                 type: "graph",
                 nodeIds: ns.map((n) => n.id),
-                nodeLocations: ns.map((n) => n.animatedLocation.toArray()),
+                nodePoints: ns.map((n) => n.animatedLocation.toArray()),
                 nodeColors: [], // TODO: implement as arrays of four rgb arrays
-                edgeLocations: [], // TODO: implement
+                edgeLines: es.map((e) =>
+                                  Array.from(e.nodes).map((n) =>
+                                                          n.animatedLocation.toArray())),
                 nodeTiltAngles: [] // TODO: implement
             };
 
-            console.log(JSON.stringify(data)); // TODO: remove
-            webSocket.send(JSON.stringify(data));
+            console.log(data); // TODO: remove
+            var json = JSON.stringify(data, function(key, val) {
+                return val.toFixed ? Number(val.toFixed(3)) : val;
+            });
+            console.log(json); // TODO: remove
+            webSocket.send(json);
         }, 1000);
     },
     onclose: function () {

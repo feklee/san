@@ -9,6 +9,8 @@ namespace SAN
 {
     public class Node3D : GH_Component
     {
+        Random rand;
+
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
@@ -17,6 +19,7 @@ namespace SAN
               "3D representation of a node",
               "SAN", "Graph")
         {
+            rand = new Random();
         }
 
         /// <summary>
@@ -24,8 +27,10 @@ namespace SAN
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddColourParameter("Colors", "C", "Colors of node", GH_ParamAccess.list);
+            pManager.AddPointParameter("Point", "P", "Point in location of node", GH_ParamAccess.item);
             pManager[0].Optional = true;
+            pManager.AddColourParameter("Colors", "C", "Colors of node", GH_ParamAccess.list);
+            pManager[1].Optional = true;
         }
 
         /// <summary>
@@ -43,10 +48,10 @@ namespace SAN
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             var mesh = new Mesh();
-            mesh.Vertices.Add(1, 1, 1);
-            mesh.Vertices.Add(-1, -1, 1);
-            mesh.Vertices.Add(-1, 1, -1);
-            mesh.Vertices.Add(1, -1, -1);
+            mesh.Vertices.Add(+1, +1, +1);
+            mesh.Vertices.Add(-1, -1, +1);
+            mesh.Vertices.Add(-1, +1, -1);
+            mesh.Vertices.Add(+1, -1, -1);
 
             mesh.Faces.AddFace(0, 1, 2);
             mesh.Faces.AddFace(0, 1, 3);
@@ -56,11 +61,20 @@ namespace SAN
             mesh.Compact();
 
             var colors = new List<GH_Colour>();
-            DA.GetDataList(0, colors);
+            DA.GetDataList(1, colors);
             foreach (var color in colors)
             {
                 mesh.VertexColors.Add(color.Value);
             }
+
+            mesh.Rotate(rand.NextDouble() * 2 * Math.PI, Vector3d.ZAxis, new Point3d());
+
+            mesh.Scale(0.1);
+
+            var point = new GH_Point();
+            DA.GetData(0, ref point);
+            var p = point.Value;
+            mesh.Translate(new Vector3d(p));
 
             DA.SetData(0, mesh);
         }

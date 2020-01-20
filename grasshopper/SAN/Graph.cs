@@ -13,7 +13,7 @@ using Rhino.Geometry;
 
 namespace SAN
 {
-    public class Graph
+    public class GraphMessageData
     {
         public string type;
         public List<string> nodeIds;
@@ -22,7 +22,7 @@ namespace SAN
         public List<List<List<int>>> colors;
     };
 
-    public class SanWebSocket : GH_Component
+    public class Graph : GH_Component
     {
         private ClientWebSocket webSocket;
         private List<string> receivedMessages;
@@ -30,7 +30,7 @@ namespace SAN
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public SanWebSocket()
+        public Graph()
           : base("SanWebSocket", "SWS", "Web socket client for SAN", "SAN", "Communication")
         {
             receivedMessages = new List<string>();
@@ -55,7 +55,7 @@ namespace SAN
             pManager.AddTextParameter("Type", "type", "Value of \"type\" field in message", GH_ParamAccess.item);
             pManager.AddTextParameter("Text", "text", "Value of \"text\" field in message", GH_ParamAccess.item);
             pManager.AddTextParameter("Messages", "messages", "Received messages", GH_ParamAccess.list);
-            pManager.AddTextParameter("GraphMessage", "graphMessage", "Latest graph message", GH_ParamAccess.item);
+            pManager.AddTextParameter("GraphDataMessage", "GraphDataMessage", "Latest GraphData message", GH_ParamAccess.item);
             pManager.AddTextParameter("NodeIds", "nodeIds", "Node IDs", GH_ParamAccess.list);
             pManager.AddPointParameter("NodePoints", "nodePoints", "Points at node locations", GH_ParamAccess.list);
             pManager.AddLineParameter("EdgeLines", "edgeLines", "Lines along edges", GH_ParamAccess.list);
@@ -82,17 +82,17 @@ namespace SAN
             {
                 ObjectCreationHandling = ObjectCreationHandling.Replace
             };
-            var graph = JsonConvert.DeserializeObject<Graph>(message, settings);
+            var graphMessageData = JsonConvert.DeserializeObject<GraphMessageData>(message, settings);
 
             var nodePoints = new List<GH_Point>();
-            foreach (List<double> point in graph.points)
+            foreach (List<double> point in graphMessageData.points)
             {
                 Point3d p = new Point3d(point[0], point[1], point[2]);
                 nodePoints.Add(new GH_Point(p));
             }
 
             var edgeLines = new List<GH_Line>();
-            foreach (List<List<double>> edgeLine in graph.lines)
+            foreach (List<List<double>> edgeLine in graphMessageData.lines)
             {
                 var pA = new Point3d(edgeLine[0][0], edgeLine[0][1], edgeLine[0][2]);
                 var pB = new Point3d(edgeLine[1][0], edgeLine[1][1], edgeLine[1][2]);
@@ -102,7 +102,7 @@ namespace SAN
 
             var colors = new DataTree<GH_Colour>();
             var pathIndex = 0;
-            foreach (var colorsOfNodeToConvert in graph.colors)
+            foreach (var colorsOfNodeToConvert in graphMessageData.colors)
             {
                 var colorsOfNode = new List<GH_Colour>();
                 foreach (var colorToConvert in colorsOfNodeToConvert)
@@ -116,7 +116,7 @@ namespace SAN
 
             ClearData();
             DA.SetData(7, message);
-            DA.SetDataList(8, graph.nodeIds);
+            DA.SetDataList(8, graphMessageData.nodeIds);
             DA.SetDataList(9, nodePoints);
             DA.SetDataList(10, edgeLines);
             DA.SetDataTree(11, colors);

@@ -59,12 +59,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SANComponent.cs" />
     <Compile Include="SANInfo.cs" />
-    <Compile Include="SanWebSocket.cs" />
-    <Compile Include="MyCounter.cs" />
-    <Compile Include="SimpleMathematicsComponent.cs" />
-    <Compile Include="MyFirstComponent.cs" />
+    <Compile Include="Graph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

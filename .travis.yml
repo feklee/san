@@ -1,4 +1,4 @@
 language: node_js
 before_install: cd webapp
 node_js:
-  - "8.10"
+  - "8.15"

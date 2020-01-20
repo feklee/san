@@ -31,7 +31,7 @@ namespace SAN
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
         public Graph()
-          : base("SanWebSocket", "SWS", "Web socket client for SAN", "SAN", "Communication")
+          : base("Graph", "graph", "Graph showing what has been built", "SAN", "Graph")
         {
             receivedMessages = new List<string>();
         }

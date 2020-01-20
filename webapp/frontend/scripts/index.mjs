@@ -4,9 +4,11 @@ import log from "./log.mjs";
 import nodeManager from "./node-manager.mjs";
 import nodes from "./nodes.mjs";
 import visibleNodes from "./visible-nodes.mjs";
+import nodeColors from "./node-colors.mjs";
 import edges from "./edges.mjs";
 import audio from "./audio.mjs";
 import webSocket from "./web-socket.mjs";
+import colorConvert from "color-convert";
 
 var angleInRad = function ( // rad
     angleInDeg // deg
@@ -67,6 +69,16 @@ var parseData = function (data) {
     }
 };
 
+var dupElements = function (array) {
+    return array.reduce((res, el) => res.concat([el, el]), []);
+};
+
+var colorsOfNode = function (node) {
+    return dupElements(
+        nodeColors(node.id).map(colorConvert.keyword.rgb)
+    );
+};
+
 webSocket.setup({
     onerror: function () {
         log.append("error", "WebSocket error");
@@ -78,12 +90,11 @@ webSocket.setup({
             var ns = visibleNodes;
             var es = Array.from(edges);
 
-            console.log("Hi!");
             var data = {
                 type: "graph",
                 nodeIds: ns.map((n) => n.id),
                 nodePoints: ns.map((n) => n.animatedLocation.toArray()),
-                nodeColors: [], // TODO: implement as arrays of four rgb arrays
+                nodeColors: ns.map(colorsOfNode),
                 edgeLines: es.map((e) =>
                                   Array.from(e.nodes).map((n) =>
                                                           n.animatedLocation.toArray())),

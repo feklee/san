@@ -5,6 +5,8 @@ using System.Text;
 using Grasshopper.Kernel;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.Drawing;
+using Grasshopper;
 using Grasshopper.Kernel.Types;
 using Newtonsoft.Json;
 using Rhino.Geometry;
@@ -57,7 +59,7 @@ namespace SAN
             pManager.AddTextParameter("NodeIds", "nodeIds", "Node IDs", GH_ParamAccess.list);
             pManager.AddPointParameter("NodePoints", "nodePoints", "Points at node locations", GH_ParamAccess.list);
             pManager.AddLineParameter("EdgeLines", "edgeLines", "Lines along edges", GH_ParamAccess.list);
-            pManager.AddColourParameter("NodeColors", "nodeColors", "Four colors for each node", GH_ParamAccess.tree);
+            pManager.AddColourParameter("Colors", "colors", "Four colors for each node", GH_ParamAccess.tree);
         }
 
         private string valueInMessage(string message, string key)
@@ -98,11 +100,26 @@ namespace SAN
                 edgeLines.Add(new GH_Line(l));
             }
 
+            var colors = new DataTree<GH_Colour>();
+            var pathIndex = 0;
+            foreach (var colorsOfNodeToConvert in graph.colors)
+            {
+                var colorsOfNode = new List<GH_Colour>();
+                foreach (var colorToConvert in colorsOfNodeToConvert)
+                {
+                    var color = Color.FromArgb(colorToConvert[0], colorToConvert[1], colorToConvert[2]);
+                    colorsOfNode.Add(new GH_Colour(color));
+                }
+                colors.AddRange(colorsOfNode, new Grasshopper.Kernel.Data.GH_Path(pathIndex));
+                pathIndex++;
+            }
+
             ClearData();
             DA.SetData(7, message);
             DA.SetDataList(8, graph.nodeIds);
             DA.SetDataList(9, nodePoints);
             DA.SetDataList(10, edgeLines);
+            DA.SetDataTree(11, colors);
         }
 
         private void parseMessage(string message, IGH_DataAccess DA)

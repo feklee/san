@@ -15,8 +15,9 @@ namespace SAN
     {
         public string type;
         public List<string> nodeIds;
-        public List<List<double>> nodePoints;
-        public List<List<List<double>>> edgeLines;
+        public List<List<double>> points;
+        public List<List<List<double>>> lines;
+        public List<List<List<int>>> colors;
     };
 
     public class SanWebSocket : GH_Component
@@ -56,6 +57,7 @@ namespace SAN
             pManager.AddTextParameter("NodeIds", "nodeIds", "Node IDs", GH_ParamAccess.list);
             pManager.AddPointParameter("NodePoints", "nodePoints", "Points at node locations", GH_ParamAccess.list);
             pManager.AddLineParameter("EdgeLines", "edgeLines", "Lines along edges", GH_ParamAccess.list);
+            pManager.AddColourParameter("NodeColors", "nodeColors", "Four colors for each node", GH_ParamAccess.tree);
         }
 
         private string valueInMessage(string message, string key)
@@ -81,14 +83,14 @@ namespace SAN
             var graph = JsonConvert.DeserializeObject<Graph>(message, settings);
 
             var nodePoints = new List<GH_Point>();
-            foreach (List<double> point in graph.nodePoints)
+            foreach (List<double> point in graph.points)
             {
                 Point3d p = new Point3d(point[0], point[1], point[2]);
                 nodePoints.Add(new GH_Point(p));
             }
 
             var edgeLines = new List<GH_Line>();
-            foreach (List<List<double>> edgeLine in graph.edgeLines)
+            foreach (List<List<double>> edgeLine in graph.lines)
             {
                 var pA = new Point3d(edgeLine[0][0], edgeLine[0][1], edgeLine[0][2]);
                 var pB = new Point3d(edgeLine[1][0], edgeLine[1][1], edgeLine[1][2]);

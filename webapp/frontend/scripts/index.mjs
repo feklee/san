@@ -93,12 +93,12 @@ webSocket.setup({
             var data = {
                 type: "graph",
                 nodeIds: ns.map((n) => n.id),
-                nodePoints: ns.map((n) => n.animatedLocation.toArray()),
-                nodeColors: ns.map(colorsOfNode),
-                edgeLines: es.map((e) =>
+                points: ns.map((n) => n.animatedLocation.toArray()),
+                colors: ns.map(colorsOfNode),
+                lines: es.map((e) =>
                                   Array.from(e.nodes).map((n) =>
                                                           n.animatedLocation.toArray())),
-                nodeTiltAngles: [] // TODO: implement
+                tiltAngles: [] // TODO: implement
             };
 
             console.log(data); // TODO: remove

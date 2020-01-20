@@ -59,6 +59,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Node3D.cs" />
     <Compile Include="SANInfo.cs" />
     <Compile Include="Graph.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

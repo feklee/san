@@ -1,3 +1,5 @@
+// Graph for easy 3D visualization, e.g. in 3D graphics programs
+
 import nodes from "./nodes.mjs";
 import visibleNodes from "./visible-nodes.mjs";
 import nodeColors from "./node-colors.mjs";

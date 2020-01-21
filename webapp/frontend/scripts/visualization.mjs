@@ -111,7 +111,6 @@ var createHemisphere = function (color, index) {
 var createNodeObject3D = function (node) {
     var sphere = new THREE.Group();
     [0, 1].forEach(function (i) {
-        console.log(node.colors[i]); // TODO
         sphere.add(createHemisphere(node.colors[i], i));
     });
     scene.add(sphere);

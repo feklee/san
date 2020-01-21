@@ -2,7 +2,7 @@
 
 export default {
     defaultNodeColor: "#111",
-    publishGraphInterval: 1000, // ms
+    sendGraphInterval: 1000, // ms
     locationOptimizer: {
         sideLength: 3, // size of box containing solution
         resolution: 5, // discrete points per unit in space

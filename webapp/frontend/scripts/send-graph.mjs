@@ -1,6 +1,5 @@
 // Graph for easy 3D visualization, e.g. in 3D graphics programs
 
-import nodes from "./nodes.mjs";
 import visibleNodes from "./visible-nodes.mjs";
 import nodeColors from "./node-colors.mjs";
 import edges from "./edges.mjs";
@@ -22,7 +21,7 @@ var point = function (node) {
     return location.toArray();
 };
 
-var publishGraph = function () {
+var sendGraph = function () {
     var ns = visibleNodes;
     var es = Array.from(edges);
 
@@ -32,13 +31,15 @@ var publishGraph = function () {
         points: ns.map(point),
         colors: ns.map(colorsOfNode),
         lines: es.map((e) => Array.from(e.nodes).map(point)),
-        tiltAngles: [] // TODO: implement (maybe use random number, if null)
+        axes: ns.map((node) => node.axis.toArray())
     };
 
-    var json = JSON.stringify(data, function(key, val) {
-        return val.toFixed ? Number(val.toFixed(3)) : val;
+    var json = JSON.stringify(data, function (ignore, val) {
+        return val.toFixed
+            ? Number(val.toFixed(3))
+            : val;
     });
     webSocket.send(json);
 };
 
-export default publishGraph;
+export default sendGraph;

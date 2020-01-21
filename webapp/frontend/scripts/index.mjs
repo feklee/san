@@ -5,7 +5,7 @@ import nodeManager from "./node-manager.mjs";
 import nodes from "./nodes.mjs";
 import audio from "./audio.mjs";
 import webSocket from "./web-socket.mjs";
-import publishGraph from "./publish-graph.mjs";
+import sendGraph from "./send-graph.mjs";
 import settings from "./settings.mjs";
 
 var angleInRad = function ( // rad
@@ -73,7 +73,7 @@ webSocket.setup({
     },
     onopen: function () {
         log.append("info", "WebSocket opened");
-        setInterval(publishGraph, settings.publishGraphInterval);
+        setInterval(sendGraph, settings.sendGraphInterval);
     },
     onclose: function () {
         log.append("warn", "WebSocket closed");

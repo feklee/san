@@ -18,6 +18,7 @@ namespace SAN
         public string type;
         public List<string> nodeIds;
         public List<List<double>> points;
+        public List<List<double>> axes;
         public List<List<List<double>>> lines;
         public List<List<List<int>>> colors;
     };
@@ -58,6 +59,7 @@ namespace SAN
             pManager.AddTextParameter("GraphDataMessage", "GraphDataMessage", "Latest GraphData message", GH_ParamAccess.item);
             pManager.AddTextParameter("NodeIds", "nodeIds", "Node IDs", GH_ParamAccess.list);
             pManager.AddPointParameter("NodePoints", "nodePoints", "Points at node locations", GH_ParamAccess.list);
+            pManager.AddVectorParameter("Axes", "A", "Axes defining orientation of nodes", GH_ParamAccess.list);
             pManager.AddLineParameter("EdgeLines", "edgeLines", "Lines along edges", GH_ParamAccess.list);
             pManager.AddColourParameter("Colors", "colors", "Four colors for each node", GH_ParamAccess.tree);
         }
@@ -82,17 +84,25 @@ namespace SAN
             {
                 ObjectCreationHandling = ObjectCreationHandling.Replace
             };
+            Debug.WriteLine(message); // TODO: remove
             var graphMessageData = JsonConvert.DeserializeObject<GraphMessageData>(message, settings);
 
             var nodePoints = new List<GH_Point>();
-            foreach (List<double> point in graphMessageData.points)
+            foreach (var point in graphMessageData.points)
             {
-                Point3d p = new Point3d(point[0], point[1], point[2]);
+                var p = new Point3d(point[0], point[1], point[2]);
                 nodePoints.Add(new GH_Point(p));
             }
 
+            var axes = new List<GH_Vector>();
+            foreach (var axis in graphMessageData.axes)
+            {
+                var v = new Vector3d(axis[0], axis[1], axis[2]);
+                axes.Add(new GH_Vector(v));
+            }
+
             var edgeLines = new List<GH_Line>();
-            foreach (List<List<double>> edgeLine in graphMessageData.lines)
+            foreach (var edgeLine in graphMessageData.lines)
             {
                 var pA = new Point3d(edgeLine[0][0], edgeLine[0][1], edgeLine[0][2]);
                 var pB = new Point3d(edgeLine[1][0], edgeLine[1][1], edgeLine[1][2]);
@@ -118,8 +128,9 @@ namespace SAN
             DA.SetData(7, message);
             DA.SetDataList(8, graphMessageData.nodeIds);
             DA.SetDataList(9, nodePoints);
-            DA.SetDataList(10, edgeLines);
-            DA.SetDataTree(11, colors);
+            DA.SetDataList(10, axes);
+            DA.SetDataList(11, edgeLines);
+            DA.SetDataTree(12, colors);
         }
 
         private void parseMessage(string message, IGH_DataAccess DA)
@@ -145,7 +156,7 @@ namespace SAN
 
         private void receive(IGH_DataAccess DA)
         {
-            byte[] byteArray = new byte[65536];
+            byte[] byteArray = new byte[500000];
             var buffer = new ArraySegment<byte>(byteArray, 0, byteArray.Length);
 
             webSocket.ReceiveAsync(buffer, CancellationToken.None).ContinueWith(res =>

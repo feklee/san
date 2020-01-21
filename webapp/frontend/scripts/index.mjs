@@ -130,7 +130,7 @@ webSocket.setup({
                 "audio module update for " + message.nodeId
             );
             audio.parseModuleMessage(message);
-        } else {
+        } else if (message.type !== "graph") {
             log.append(message.type, message.text);
         }
     }

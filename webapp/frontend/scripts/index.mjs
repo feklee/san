@@ -3,12 +3,10 @@
 import log from "./log.mjs";
 import nodeManager from "./node-manager.mjs";
 import nodes from "./nodes.mjs";
-import visibleNodes from "./visible-nodes.mjs";
-import nodeColors from "./node-colors.mjs";
-import edges from "./edges.mjs";
 import audio from "./audio.mjs";
 import webSocket from "./web-socket.mjs";
-import colorConvert from "color-convert";
+import publishGraph from "./publish-graph.mjs";
+import settings from "./settings.mjs";
 
 var angleInRad = function ( // rad
     angleInDeg // deg
@@ -69,45 +67,13 @@ var parseData = function (data) {
     }
 };
 
-var dupElements = function (array) {
-    return array.reduce((res, el) => res.concat([el, el]), []);
-};
-
-var colorsOfNode = function (node) {
-    return dupElements(
-        nodeColors(node.id).map(colorConvert.keyword.rgb)
-    );
-};
-
 webSocket.setup({
     onerror: function () {
         log.append("error", "WebSocket error");
     },
     onopen: function () {
         log.append("info", "WebSocket opened");
-
-        setInterval(function () {
-            var ns = visibleNodes;
-            var es = Array.from(edges);
-
-            var data = {
-                type: "graph",
-                nodeIds: ns.map((n) => n.id),
-                points: ns.map((n) => n.animatedLocation.toArray()),
-                colors: ns.map(colorsOfNode),
-                lines: es.map((e) =>
-                                  Array.from(e.nodes).map((n) =>
-                                                          n.animatedLocation.toArray())),
-                tiltAngles: [] // TODO: implement (maybe use random number, if null)
-            };
-
-            console.log(data); // TODO: remove
-            var json = JSON.stringify(data, function(key, val) {
-                return val.toFixed ? Number(val.toFixed(3)) : val;
-            });
-            console.log(json); // TODO: remove
-            webSocket.send(json);
-        }, 1000);
+        setInterval(publishGraph, settings.publishGraphInterval);
     },
     onclose: function () {
         log.append("warn", "WebSocket closed");

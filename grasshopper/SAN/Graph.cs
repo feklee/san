@@ -2,6 +2,7 @@
 using System.Net.WebSockets;
 using System.Threading;
 using System.Text;
+using System.Diagnostics;
 using Grasshopper.Kernel;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;

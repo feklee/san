@@ -11,9 +11,12 @@ using Grasshopper;
 using Grasshopper.Kernel.Types;
 using Newtonsoft.Json;
 using Rhino.Geometry;
+using System.Threading.Tasks;
 
 namespace SAN
 {
+    public delegate void ExpireSolutionDelegate(Boolean recompute);
+
     public class GraphMessageData
     {
         public string type;
@@ -27,7 +30,9 @@ namespace SAN
     public class Graph : GH_Component
     {
         private ClientWebSocket webSocket;
-        private List<string> receivedMessages;
+        private string message;
+        private bool messageIsComplete = false;
+        private long numberOfReceivedMessages;
 
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
@@ -35,7 +40,6 @@ namespace SAN
         public Graph()
           : base("Graph", "graph", "Graph showing what has been built", "SAN", "Graph")
         {
-            receivedMessages = new List<string>();
         }
 
         /// <summary>
@@ -56,7 +60,7 @@ namespace SAN
             pManager.AddTextParameter("Buffer", "buffer", "Buffer of received message", GH_ParamAccess.item);
             pManager.AddTextParameter("Type", "type", "Value of \"type\" field in message", GH_ParamAccess.item);
             pManager.AddTextParameter("Text", "text", "Value of \"text\" field in message", GH_ParamAccess.item);
-            pManager.AddTextParameter("Messages", "messages", "Received messages", GH_ParamAccess.list);
+            pManager.AddIntegerParameter("NumberOfReceivedMessages", "#", "Number of received messages", GH_ParamAccess.item);
             pManager.AddTextParameter("GraphDataMessage", "GraphDataMessage", "Latest GraphData message", GH_ParamAccess.item);
             pManager.AddTextParameter("NodeIds", "nodeIds", "Node IDs", GH_ParamAccess.list);
             pManager.AddPointParameter("NodePoints", "nodePoints", "Points at node locations", GH_ParamAccess.list);
@@ -85,7 +89,6 @@ namespace SAN
             {
                 ObjectCreationHandling = ObjectCreationHandling.Replace
             };
-            Debug.WriteLine(message); // TODO: remove
             var graphMessageData = JsonConvert.DeserializeObject<GraphMessageData>(message, settings);
 
             var nodePoints = new List<GH_Point>();
@@ -125,7 +128,6 @@ namespace SAN
                 pathIndex++;
             }
 
-            ClearData();
             DA.SetData(7, message);
             DA.SetDataList(8, graphMessageData.nodeIds);
             DA.SetDataList(9, nodePoints);
@@ -134,51 +136,68 @@ namespace SAN
             DA.SetDataTree(12, colors);
         }
 
-        private void parseMessage(string message, IGH_DataAccess DA)
+        private void parseMessage(IGH_DataAccess DA)
         {
+            if (!messageIsComplete) { return; }
             DA.SetData(3, message);
-            DA.SetData(4, typeOfMessage(message));
-
-            receivedMessages.Add(message);
-            DA.SetDataList(6, receivedMessages);
+            DA.SetData(6, numberOfReceivedMessages);
             if (typeOfMessage(message) == "graph") {
                 parseGraphMessage(message, DA);
             }
         }
 
+        private void expireSolution()
+        {
+            var d = new ExpireSolutionDelegate(ExpireSolution);
+            Rhino.RhinoApp.InvokeOnUiThread(d, true);
+        }
+
         private void parseWebSocketBuffer(WebSocketReceiveResult receiveResult, ArraySegment<byte> buffer, IGH_DataAccess DA)
         {
             DA.SetData(1, receiveResult.MessageType);
-            if (receiveResult.MessageType != WebSocketMessageType.Text) { return; }
-            DA.SetData(2, buffer.ToString());
-            string message = Encoding.UTF8.GetString(buffer.Array, 0, receiveResult.Count);
-            parseMessage(message, DA);
-        }
-
-        private void receive(IGH_DataAccess DA)
-        {
-            byte[] byteArray = new byte[500000];
-            var buffer = new ArraySegment<byte>(byteArray, 0, byteArray.Length);
-
-            webSocket.ReceiveAsync(buffer, CancellationToken.None).ContinueWith(res =>
-            {
-                parseWebSocketBuffer(res.Result, buffer, DA);
-                receive(DA);
-            });
-        }
-
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
-        protected override async void SolveInstance(IGH_DataAccess DA)
-        {
-            if (webSocket != null && webSocket.State == WebSocketState.Open)
-            {
+            if (receiveResult.MessageType != WebSocketMessageType.Text) {
+                message = "";
                 return;
             }
 
+            DA.SetData(2, buffer.ToString());
+            string messageFragment = Encoding.UTF8.GetString(buffer.Array, 0, receiveResult.Count);
+            message += messageFragment;
+            messageIsComplete = receiveResult.EndOfMessage;
+            if (messageIsComplete)
+            {
+                numberOfReceivedMessages++;
+                DA.SetData(6, numberOfReceivedMessages);
+                if (typeOfMessage(message) == "graph")
+                {
+                    expireSolution();
+                    return;
+                }
+                message = "";
+            }
+            receiveNextMessage(DA);
+        }
+
+        private void receiveNextMessage(IGH_DataAccess DA)
+        {
+            byte[] byteArray = new byte[65536];
+            var buffer = new ArraySegment<byte>(byteArray, 0, byteArray.Length);
+            webSocket.ReceiveAsync(buffer, CancellationToken.None).ContinueWith(res =>
+            {
+                parseWebSocketBuffer(res.Result, buffer, DA);
+            });
+        }
+
+        private void publishStatus(IGH_DataAccess DA)
+        {
+            string status = (webSocket == null) ? "Not connected" : webSocket.State.ToString();
+            DA.SetData(0, status);
+        }
+
+        private async void connect(IGH_DataAccess DA)
+        {
             Uri uri = new Uri("ws://felix-arch:8080");
+
             try
             {
                 webSocket = new ClientWebSocket();
@@ -186,13 +205,41 @@ namespace SAN
             }
             catch (Exception ex)
             {
-                DA.SetData(0, ex.ToString());
+                DA.SetData(0, ex.ToString()); // TODO: put in other field
             }
-            if (webSocket == null) { return; }
-            DA.SetData(0, webSocket.State.ToString());
-            if (webSocket.State != WebSocketState.Open) { return; }
 
-            receive(DA);
+            publishStatus(DA);
+
+            while (webSocket.State != WebSocketState.Open)
+            {
+                await Task.Delay(500);
+            }
+
+            publishStatus(DA);
+
+            receiveNextMessage(DA);
+        }
+
+        /// <summary>
+        /// This is the method that actually does the work.
+        /// </summary>
+        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
+        protected override void SolveInstance(IGH_DataAccess DA)
+        {
+            // TODO: cancel outstanding async calls
+
+            publishStatus(DA);
+            parseMessage(DA);
+            message = "";
+
+            if (webSocket == null || webSocket.State != WebSocketState.Open)
+            {
+                connect(DA);
+            }
+            else
+            {
+                receiveNextMessage(DA);
+            }
         }
 
         /// <summary>

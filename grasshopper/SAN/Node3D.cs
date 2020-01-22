@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
@@ -31,6 +30,7 @@ namespace SAN
             pManager[0].Optional = true;
             pManager.AddColourParameter("Colors", "C", "Colors of node", GH_ParamAccess.list);
             pManager[1].Optional = true;
+            // TODO: debug with manually created points + manually created list of color lists
         }
 
         /// <summary>

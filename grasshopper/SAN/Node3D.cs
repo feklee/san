@@ -14,9 +14,7 @@ namespace SAN
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
         public Node3D()
-          : base("Node3D", "node3D",
-              "3D representation of a node",
-              "SAN", "Graph")
+          : base("Node", "Node Mesh", "3D representation of a network node", "SAN", "Graph")
         {
             rand = new Random();
         }
@@ -28,9 +26,10 @@ namespace SAN
         {
             pManager.AddPointParameter("Point", "P", "Point in location of node", GH_ParamAccess.item);
             pManager[0].Optional = true;
-            pManager.AddColourParameter("Colors", "C", "Colors of node", GH_ParamAccess.list);
+            pManager.AddColourParameter("Axis", "A", "Axis of node", GH_ParamAccess.list);
             pManager[1].Optional = true;
-            // TODO: debug with manually created points + manually created list of color lists
+            pManager.AddColourParameter("Colors", "C", "Colors of node", GH_ParamAccess.list);
+            pManager[2].Optional = true;
         }
 
         /// <summary>
@@ -61,7 +60,7 @@ namespace SAN
             mesh.Compact();
 
             var colors = new List<GH_Colour>();
-            DA.GetDataList(1, colors);
+            DA.GetDataList(2, colors);
             foreach (var color in colors)
             {
                 mesh.VertexColors.Add(color.Value);

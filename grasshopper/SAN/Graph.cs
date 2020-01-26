@@ -2,7 +2,6 @@
 using System.Net.WebSockets;
 using System.Threading;
 using System.Text;
-using System.Diagnostics;
 using Grasshopper.Kernel;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
@@ -70,19 +69,12 @@ namespace SAN
         /// </summary>
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddTextParameter("State", "state", "WebSocket state", GH_ParamAccess.item);
-            pManager.AddTextParameter("MessageType", "messageType", "Type of received message", GH_ParamAccess.item);
-            pManager.AddTextParameter("Message", "message", "Received message", GH_ParamAccess.item);
-            pManager.AddTextParameter("Buffer", "buffer", "Buffer of received message", GH_ParamAccess.item);
-            pManager.AddTextParameter("Type", "type", "Value of \"type\" field in message", GH_ParamAccess.item);
-            pManager.AddTextParameter("Text", "text", "Value of \"text\" field in message", GH_ParamAccess.item);
-            pManager.AddIntegerParameter("NumberOfReceivedMessages", "#", "Number of received messages", GH_ParamAccess.item);
-            pManager.AddTextParameter("GraphDataMessage", "GraphDataMessage", "Latest GraphData message", GH_ParamAccess.item);
-            pManager.AddTextParameter("NodeIds", "nodeIds", "Node IDs", GH_ParamAccess.list);
-            pManager.AddPointParameter("NodePoints", "nodePoints", "Points at node locations", GH_ParamAccess.list);
+            pManager.AddTextParameter("State", "S", "WebSocket state", GH_ParamAccess.item);
+            pManager.AddTextParameter("IDs", "I", "Node IDs", GH_ParamAccess.list);
+            pManager.AddPointParameter("Points", "P", "Points at node locations", GH_ParamAccess.list);
             pManager.AddVectorParameter("Axes", "A", "Axes defining orientation of nodes", GH_ParamAccess.list);
-            pManager.AddLineParameter("EdgeLines", "edgeLines", "Lines along edges", GH_ParamAccess.list);
-            pManager.AddColourParameter("Colors", "colors", "Four colors for each node", GH_ParamAccess.tree);
+            pManager.AddLineParameter("Lines", "L", "Lines along edges", GH_ParamAccess.list);
+            pManager.AddColourParameter("Colors", "C", "Four colors for each node", GH_ParamAccess.tree);
         }
 
         private string valueInMessage(string message, string key)
@@ -107,11 +99,11 @@ namespace SAN
             };
             var graphMessageData = JsonConvert.DeserializeObject<GraphMessageData>(message, settings);
 
-            var nodePoints = new List<GH_Point>();
+            var points = new List<GH_Point>();
             foreach (var point in graphMessageData.points)
             {
                 var p = new Point3d(point[0], point[1], point[2]);
-                nodePoints.Add(new GH_Point(p));
+                points.Add(new GH_Point(p));
             }
 
             var axes = new List<GH_Vector>();
@@ -121,13 +113,13 @@ namespace SAN
                 axes.Add(new GH_Vector(v));
             }
 
-            var edgeLines = new List<GH_Line>();
+            var lines = new List<GH_Line>();
             foreach (var edgeLine in graphMessageData.lines)
             {
                 var pA = new Point3d(edgeLine[0][0], edgeLine[0][1], edgeLine[0][2]);
                 var pB = new Point3d(edgeLine[1][0], edgeLine[1][1], edgeLine[1][2]);
                 var l = new Line(pA, pB);
-                edgeLines.Add(new GH_Line(l));
+                lines.Add(new GH_Line(l));
             }
 
             var colors = new DataTree<GH_Colour>();
@@ -144,19 +136,20 @@ namespace SAN
                 pathIndex++;
             }
 
-            DA.SetData(7, message);
-            DA.SetDataList(8, graphMessageData.nodeIds);
-            DA.SetDataList(9, nodePoints);
-            DA.SetDataList(10, axes);
-            DA.SetDataList(11, edgeLines);
-            DA.SetDataTree(12, colors);
+            DA.SetDataList(1, graphMessageData.nodeIds);
+            DA.SetDataList(2, points);
+            DA.SetDataList(3, axes);
+            DA.SetDataList(4, lines);
+            DA.SetDataTree(5, colors);
         }
 
         private void parseMessage(IGH_DataAccess DA)
         {
-            if (!messageIsComplete) { return; }
-            DA.SetData(3, message);
-            if (typeOfMessage(message) == "graph") {
+            if (!messageIsComplete) {
+                return;
+            }
+            if (typeOfMessage(message) == "graph")
+            {
                 parseGraphMessage(message, DA);
             }
         }
@@ -169,13 +162,11 @@ namespace SAN
 
         private void parseWebSocketBuffer(WebSocketReceiveResult receiveResult, ArraySegment<byte> buffer, IGH_DataAccess DA)
         {
-            DA.SetData(1, receiveResult.MessageType);
             if (receiveResult.MessageType != WebSocketMessageType.Text) {
                 message = "";
                 return;
             }
 
-            DA.SetData(2, buffer.ToString());
             string messageFragment = Encoding.UTF8.GetString(buffer.Array, 0, receiveResult.Count);
             message += messageFragment;
             messageIsComplete = receiveResult.EndOfMessage;
@@ -215,16 +206,16 @@ namespace SAN
             }
         }
 
-        private void publishStatus(IGH_DataAccess DA)
+        private void publishState(IGH_DataAccess DA)
         {
-            string status = (webSocket == null) ? "Not connected" : webSocket.State.ToString();
+            string state = (webSocket == null) ? "Not connected" : webSocket.State.ToString();
             if (webSocket != null &&
                 webSocket.State != WebSocketState.Open &&
                 webSocket.State != WebSocketState.Connecting)
             {
-                status += ": " + lastUnreportedErrorMessage;
+                state += ": " + lastUnreportedErrorMessage;
             }
-            DA.SetData(0, status);
+            DA.SetData(0, state);
             lastUnreportedErrorMessage = "";
         }
 
@@ -243,14 +234,14 @@ namespace SAN
                 return;
             }
 
-            publishStatus(DA);
+            publishState(DA);
 
             while (webSocket.State != WebSocketState.Open)
             {
                 await Task.Delay(500);
             }
 
-            publishStatus(DA);
+            publishState(DA);
 
             receiveNextMessage(DA);
         }
@@ -284,7 +275,7 @@ namespace SAN
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            publishStatus(DA);
+            publishState(DA);
             parseMessage(DA);
             message = "";
             refreshUrl(DA);

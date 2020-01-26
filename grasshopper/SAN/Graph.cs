@@ -31,8 +31,11 @@ namespace SAN
     {
         private ClientWebSocket webSocket;
         private string message;
+        private string url;
         private bool messageIsComplete = false;
-        private long numberOfReceivedMessages;
+        private CancellationTokenSource receiveCTSource;
+        private CancellationTokenSource connectCTSource;
+        private Task receiveTask;
 
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
@@ -40,6 +43,8 @@ namespace SAN
         public Graph()
           : base("Graph", "graph", "Graph showing what has been built", "SAN", "Graph")
         {
+            receiveCTSource = new CancellationTokenSource();
+            connectCTSource = new CancellationTokenSource();
         }
 
         /// <summary>
@@ -47,6 +52,7 @@ namespace SAN
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
+            pManager.AddTextParameter("URL", "U", "URL of WebSocket", GH_ParamAccess.item, "ws://192.168.100.1:8080");
         }
 
         /// <summary>
@@ -164,12 +170,8 @@ namespace SAN
             string messageFragment = Encoding.UTF8.GetString(buffer.Array, 0, receiveResult.Count);
             message += messageFragment;
             messageIsComplete = receiveResult.EndOfMessage;
-            if (messageIsComplete)
-            {
-                numberOfReceivedMessages++;
-                DA.SetData(6, numberOfReceivedMessages);
-                if (typeOfMessage(message) == "graph")
-                {
+            if (messageIsComplete) {
+                if (typeOfMessage(message) == "graph") {
                     expireSolution();
                     return;
                 }
@@ -182,8 +184,7 @@ namespace SAN
         {
             byte[] byteArray = new byte[65536];
             var buffer = new ArraySegment<byte>(byteArray, 0, byteArray.Length);
-            webSocket.ReceiveAsync(buffer, CancellationToken.None).ContinueWith(res =>
-            {
+            receiveTask = webSocket.ReceiveAsync(buffer, receiveCTSource.Token).ContinueWith(res => {
                 parseWebSocketBuffer(res.Result, buffer, DA);
             });
         }
@@ -196,16 +197,17 @@ namespace SAN
 
         private async void connect(IGH_DataAccess DA)
         {
-            Uri uri = new Uri("ws://felix-arch:8080");
+            Uri uri = new Uri(url);
 
             try
             {
                 webSocket = new ClientWebSocket();
-                await webSocket.ConnectAsync(uri, CancellationToken.None);
+                await webSocket.ConnectAsync(uri, connectCTSource.Token);
             }
             catch (Exception ex)
             {
                 DA.SetData(0, ex.ToString()); // TODO: put in other field
+                return;
             }
 
             publishStatus(DA);
@@ -220,17 +222,39 @@ namespace SAN
             receiveNextMessage(DA);
         }
 
+        private async void disconnect(IGH_DataAccess DA)
+        {
+            try
+            {
+                await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Disconnect", closeCTSource.Token);
+            }
+            catch (Exception ex)
+            {
+                DA.SetData(0, ex.ToString()); // TODO: put in other field
+            }
+        }
+
+        private void refreshUrl(IGH_DataAccess DA)
+        {
+            string newUrl = "";
+            DA.GetData(0, ref newUrl);
+            if (newUrl != url)
+            {
+                url = newUrl;
+                disconnect(DA);
+            }
+        }
+
         /// <summary>
         /// This is the method that actually does the work.
         /// </summary>
         /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            // TODO: cancel outstanding async calls
-
             publishStatus(DA);
             parseMessage(DA);
             message = "";
+            refreshUrl(DA);
 
             if (webSocket == null || webSocket.State != WebSocketState.Open)
             {
@@ -238,7 +262,9 @@ namespace SAN
             }
             else
             {
-                receiveNextMessage(DA);
+                Debug.Print(receiveTask.Status.ToString());
+                if (receiveTask.Status != TaskStatus.Running && receiveTask.Status != TaskStatus.WaitingForActivation) // TODO: complete?
+                    receiveNextMessage(DA);
             }
         }
 

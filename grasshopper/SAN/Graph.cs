@@ -55,7 +55,7 @@ namespace SAN
         /// </summary>
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
-            pManager.AddTextParameter("URL", "U", "URL of WebSocket", GH_ParamAccess.item, "ws://felix-arch:8080");
+            pManager.AddTextParameter("URL", "U", "URL of WebSocket", GH_ParamAccess.item, "ws://san:8080");
         }
 
         /// <summary>

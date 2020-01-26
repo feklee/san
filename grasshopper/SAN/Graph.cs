@@ -38,6 +38,13 @@ namespace SAN
         private CancellationTokenSource closeCTSource;
         private Task receiveTask;
         private bool receivingMessage = false;
+        private string lastUnreportedErrorMessage = "";
+
+        private void reportError(string errorMessage)
+        {
+            lastUnreportedErrorMessage = errorMessage;
+            expireSolution();
+        }
 
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
@@ -188,15 +195,37 @@ namespace SAN
             byte[] byteArray = new byte[65536];
             var buffer = new ArraySegment<byte>(byteArray, 0, byteArray.Length);
             receivingMessage = true;
-            receiveTask = webSocket.ReceiveAsync(buffer, receiveCTSource.Token).ContinueWith(res => {
-                parseWebSocketBuffer(res.Result, buffer, DA);
-            });
+            try
+            {
+                receiveTask = webSocket.ReceiveAsync(buffer, receiveCTSource.Token).ContinueWith(res =>
+                {
+                    try
+                    {
+                        parseWebSocketBuffer(res.Result, buffer, DA);
+                    }
+                    catch (Exception ex)
+                    {
+                        reportError(ex.Message);
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                reportError(ex.Message);
+            }
         }
 
         private void publishStatus(IGH_DataAccess DA)
         {
             string status = (webSocket == null) ? "Not connected" : webSocket.State.ToString();
+            if (webSocket != null &&
+                webSocket.State != WebSocketState.Open &&
+                webSocket.State != WebSocketState.Connecting)
+            {
+                status += ": " + lastUnreportedErrorMessage;
+            }
             DA.SetData(0, status);
+            lastUnreportedErrorMessage = "";
         }
 
         private async void connect(IGH_DataAccess DA)
@@ -210,7 +239,7 @@ namespace SAN
             }
             catch (Exception ex)
             {
-                DA.SetData(0, ex.ToString()); // TODO: put in other field
+                reportError(ex.Message);
                 return;
             }
 
@@ -234,7 +263,7 @@ namespace SAN
             }
             catch (Exception ex)
             {
-                DA.SetData(0, ex.ToString()); // TODO: put in other field
+                reportError(ex.Message);
             }
         }
 

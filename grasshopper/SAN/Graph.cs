@@ -48,8 +48,7 @@ namespace SAN
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public Graph()
-          : base("Graph", "graph", "Graph showing what has been built", "SAN", "Graph")
+        public Graph() : base("Graph", "Graph", "3D representation of the network", "SAN", "Graph")
         {
             receiveCTSource = new CancellationTokenSource();
             connectCTSource = new CancellationTokenSource();

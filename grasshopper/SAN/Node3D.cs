@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Grasshopper.Kernel;
+using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 
@@ -14,7 +15,7 @@ namespace SAN
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
         public Node3D()
-          : base("Node", "Node Mesh", "3D representation of a network node", "SAN", "Graph")
+          : base("Node Mesh", "Node", "3D representation of a network node", "SAN", "Graph")
         {
             rand = new Random();
         }
@@ -26,7 +27,7 @@ namespace SAN
         {
             pManager.AddPointParameter("Point", "P", "Point in location of node", GH_ParamAccess.item);
             pManager[0].Optional = true;
-            pManager.AddColourParameter("Axis", "A", "Axis of node", GH_ParamAccess.list);
+            pManager.AddColourParameter("Axis", "A", "Axis of node", GH_ParamAccess.item);
             pManager[1].Optional = true;
             pManager.AddColourParameter("Colors", "C", "Colors of node", GH_ParamAccess.list);
             pManager[2].Optional = true;
@@ -66,14 +67,19 @@ namespace SAN
                 mesh.VertexColors.Add(color.Value);
             }
 
-            mesh.Rotate(rand.NextDouble() * 2 * Math.PI, Vector3d.ZAxis, new Point3d());
-
             mesh.Scale(0.1);
 
             var point = new GH_Point();
             DA.GetData(0, ref point);
             var p = point.Value;
             mesh.Translate(new Vector3d(p));
+
+            var axis = new GH_Vector();
+            DA.GetData(1, ref axis);
+            var v = axis.Value;
+
+            var rotation = Transform.Rotation(Vector3d.ZAxis, axis.Value, Point3d.Origin);
+            mesh.Transform(rotation);
 
             DA.SetData(0, mesh);
         }

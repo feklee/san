@@ -16,8 +16,9 @@ static const char *TAG = "spi";
 #define GPIO_SCLK 0  // TP2: SPI_CLK:  IO0  GPIO0
 #define GPIO_CS 19   // TP1: SPI_CS:   IO19 GPIO19
 
-#define RECVBUF_SIZE 129
-WORD_ALIGNED_ATTR char recvbuf[RECVBUF_SIZE];
+#define BUF_SIZE 129
+WORD_ALIGNED_ATTR char sendbuf[BUF_SIZE];
+WORD_ALIGNED_ATTR char recvbuf[BUF_SIZE];
 
 static void send_pair_to_server(const char *pair)
 {
@@ -79,11 +80,14 @@ void app_spi_main() {
 
   // Set up a transaction:
   spi_slave_transaction_t t = {
-                               .length = (RECVBUF_SIZE - 1) * 8,
+                               .length = (BUF_SIZE - 1) * 8,
+                               .tx_buffer = sendbuf,
                                .rx_buffer = recvbuf
   };
 
   while (1) {
+    sprintf(sendbuf, "C1234");
+
     // The call below enables the SPI slave interface to
     // send/receive to the sendbuf and recvbuf. The transaction is
     // initialized by the SPI master, however, so it will not

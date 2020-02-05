@@ -109,12 +109,6 @@ void waitForEspToBoot() {
 }
 
 void setup() {
-#if 0 // TODO: just for testing if IR LED lights up (behind 100 Ω resistor)
-  pinMode(A0, OUTPUT);
-  digitalWrite(A0, HIGH);
-  delay(100000);
-#endif
-
   waitForEspToBoot();
 
   SPI.begin();

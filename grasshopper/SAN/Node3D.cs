@@ -41,45 +41,61 @@ namespace SAN
             pManager.AddMeshParameter("Mesh", "M", "Mesh representing a node", GH_ParamAccess.item);
         }
 
-        /// <summary>
-        /// This is the method that actually does the work.
-        /// </summary>
-        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
-        protected override void SolveInstance(IGH_DataAccess DA)
+        private void orientMeshAlongAxis(Mesh mesh, GH_Vector axis)
+        {
+            var rotation = Transform.Rotation(Vector3d.ZAxis, axis.Value, Point3d.Origin);
+            mesh.Transform(rotation);
+        }
+
+        private void moveMeshToPoint(Mesh mesh, GH_Point point)
+        {
+            mesh.Translate(new Vector3d(point.Value));
+        }
+
+        private void setVertexColorsOfMesh(Mesh mesh, List<GH_Colour> colors)
+        {
+            foreach (var color in colors)
+            {
+                mesh.VertexColors.Add(color.Value);
+            }
+        }
+
+        private Mesh createTetrahedronMesh()
         {
             var mesh = new Mesh();
             mesh.Vertices.Add(+1, +1, +1);
             mesh.Vertices.Add(-1, -1, +1);
             mesh.Vertices.Add(-1, +1, -1);
             mesh.Vertices.Add(+1, -1, -1);
-
             mesh.Faces.AddFace(0, 1, 2);
             mesh.Faces.AddFace(0, 1, 3);
             mesh.Faces.AddFace(0, 2, 3);
             mesh.Faces.AddFace(1, 2, 3);
             mesh.Normals.ComputeNormals();
             mesh.Compact();
+            mesh.Scale(0.1);
+            return mesh;
+        }
+
+        /// <summary>
+        /// This is the method that actually does the work.
+        /// </summary>
+        /// <param name="DA">The DA object is used to retrieve from inputs and store in outputs.</param>
+        protected override void SolveInstance(IGH_DataAccess DA)
+        {
+            Mesh mesh = createTetrahedronMesh();
 
             var colors = new List<GH_Colour>();
             DA.GetDataList(2, colors);
-            foreach (var color in colors)
-            {
-                mesh.VertexColors.Add(color.Value);
-            }
-
-            mesh.Scale(0.1);
-
-            var point = new GH_Point();
-            DA.GetData(0, ref point);
-            var p = point.Value;
-            mesh.Translate(new Vector3d(p));
+            setVertexColorsOfMesh(mesh, colors);
 
             var axis = new GH_Vector();
             DA.GetData(1, ref axis);
-            var v = axis.Value;
+            orientMeshAlongAxis(mesh, axis);
 
-            var rotation = Transform.Rotation(Vector3d.ZAxis, axis.Value, Point3d.Origin);
-            mesh.Transform(rotation);
+            var point = new GH_Point();
+            DA.GetData(0, ref point);
+            moveMeshToPoint(mesh, point);
 
             DA.SetData(0, mesh);
         }

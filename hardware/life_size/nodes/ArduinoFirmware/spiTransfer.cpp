@@ -26,6 +26,8 @@ void doSpiTransfer() {
 
   printRxBuffer[spiBufferLength] = '\0';
   printTxBuffer[spiBufferLength] = '\0';
-//  Serial.println(printRxBuffer);
+  Serial.print("Received: ");
+  Serial.println(printRxBuffer);
+  Serial.print("Transmitted: ");
   Serial.println(printTxBuffer);
 }

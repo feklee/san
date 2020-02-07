@@ -16,7 +16,7 @@ static const char *TAG = "spi";
 #define GPIO_SCLK 0  // TP2: SPI_CLK:  IO0  GPIO0
 #define GPIO_CS 19   // TP1: SPI_CS:   IO19 GPIO19
 
-#define BUF_SIZE 129
+#define BUF_SIZE 129 // TODO: -> 5
 WORD_ALIGNED_ATTR char sendbuf[BUF_SIZE];
 WORD_ALIGNED_ATTR char recvbuf[BUF_SIZE];
 
@@ -86,6 +86,8 @@ void app_spi_main() {
   };
 
   while (1) {
+    ESP_LOGE(TAG, "Waiting..."); // TODO
+
     sprintf(sendbuf, "C1234");
 
     // The call below enables the SPI slave interface to
@@ -95,8 +97,6 @@ void app_spi_main() {
     // transaction by pulling CS low and pulsing the clock etc.
     spi_slave_transmit(VSPI_HOST, &t, portMAX_DELAY);
 
-    // TODO: Check why `recvbuf` has garbage at the end for short messages. Just
-    // cut it off for now:
     recvbuf[4] = '\0';
 
     // `spi_slave_transmit` does not return until the master has

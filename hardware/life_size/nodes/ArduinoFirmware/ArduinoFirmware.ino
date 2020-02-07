@@ -12,7 +12,6 @@
 //
 //   * 13: SCK (clock)
 
-#include <SPI.h>
 #include <Adafruit_NeoPixel.h>
 
 #include "id.h" // ID of this node, e.g.: `#define ID A` (no quotes!)
@@ -24,6 +23,7 @@
 #include "Pair.h"
 #include "message.h"
 #include "pairMessageQueue.h"
+#include "spiTransfer.h"
 
 Adafruit_NeoPixel neoPixel;
 
@@ -108,17 +108,17 @@ void waitForEspToBoot() {
   delay(bootDelay);
 }
 
+void serialSetup() {
+  Serial.begin(115200);
+}
+
 void setup() {
   waitForEspToBoot();
 
-  SPI.begin();
-  SPI.setDataMode(SPI_MODE3);
-
+  spiTransferSetup();
   ledSetup();
-
-  Serial.begin(115200);
-
-  setupMultiTransceiver();
+  serialSetup();
+  multiTransceiverSetup();
 }
 
 bool iHaveAParent() {
@@ -129,28 +129,12 @@ bool iHaveAParent() {
   }
 }
 
-void sendViaSpi(char *message) {
-  digitalWrite(SS, LOW);
-
-  for (int i = 0; i < 2; i++) {
-    for (int j = 0; j < 4; j++) {
-      char c = message[j];
-      SPI.transfer(c);
-    }
-  }
-  SPI.transfer('\0');
-
-  digitalWrite(SS, HIGH);
-}
-
 void sendMyIdViaSpi() {
-  // With DMA enabled, the ESP32 SPI driver wants to receive multiples of 32
-  // bits:
-  const char message[] = {'I', 'D', '=', idOfThisNode, '\0'};
-
-  sendViaSpi(message);
-
-  Serial.println(message); // TODO
+  spiTxBuffer[0] = 'I';
+  spiTxBuffer[1] = 'D';
+  spiTxBuffer[2] = '=';
+  spiTxBuffer[3] = idOfThisNode;
+  doSpiTransfer();
 }
 
 void periodicallySendMyIdViaSpi() {
@@ -180,15 +164,11 @@ void parseMessages() {
 }
 
 void sendPairViaSpi(const Pair &pair) {
-  char message[] = {
-                    pair.parentPort.nodeId,
-                    charFromDigit(pair.parentPort.portNumber),
-                    pair.childPort.nodeId,
-                    charFromDigit(pair.childPort.portNumber),
-                    '\0'
-  };
-  sendViaSpi(message);
-  Serial.println(message);
+  spiTxBuffer[0] = pair.parentPort.nodeId;
+  spiTxBuffer[1] = charFromDigit(pair.parentPort.portNumber);
+  spiTxBuffer[2] = pair.childPort.nodeId;
+  spiTxBuffer[3] = charFromDigit(pair.childPort.portNumber);
+  doSpiTransfer();
 }
 
 void loop() {
@@ -259,7 +239,7 @@ void enablePinChangeInterrupts() {
     bit(PCIE0); // D8 to D15
 }
 
-void setupMultiTransceiver() {
+void multiTransceiverSetup() {
   multiTransceiver.startTimer1();
   multiTransceiver.startTimer2();
   enablePinChangeInterrupts();

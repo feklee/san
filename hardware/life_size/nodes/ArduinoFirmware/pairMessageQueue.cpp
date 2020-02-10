@@ -20,7 +20,7 @@ void enqueuePairMessage(const byte *pairMessage) {
   incrementPosition(last);
 
   if (length < maxPairMessageQueueSize) {
-    length ++;
+    length++;
   } else {
     incrementPosition(first);
   }

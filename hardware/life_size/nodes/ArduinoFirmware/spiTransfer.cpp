@@ -9,10 +9,12 @@ void spiTransferSetup() {
   SPI.setDataMode(SPI_MODE3);
 }
 
+void clearSpiTxBuffer() {
+  memset(spiTxBuffer, '\0', spiBufferLength);
+}
 
 void doSpiTransfer() {
-  char printRxBuffer[spiBufferLength + 1];
-  char printTxBuffer[spiBufferLength + 1];
+  char printTxBuffer[spiBufferLength + 1]; // TODO: remove
 
   digitalWrite(SS, LOW);
   for (int i = 0; i < spiBufferLength; i++) {
@@ -20,14 +22,12 @@ void doSpiTransfer() {
     char rxByte = SPI.transfer(txByte);
     spiRxBuffer[i] = rxByte;
     printTxBuffer[i] = txByte;
-    printRxBuffer[i] = rxByte;
   }
   digitalWrite(SS, HIGH);
 
-  printRxBuffer[spiBufferLength] = '\0';
+#if 1 // TODO: remove this block
   printTxBuffer[spiBufferLength] = '\0';
-  Serial.print("Received: ");
-  Serial.println(printRxBuffer);
   Serial.print("Transmitted: ");
   Serial.println(printTxBuffer);
+#endif
 }

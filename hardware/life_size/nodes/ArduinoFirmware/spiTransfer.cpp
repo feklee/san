@@ -6,7 +6,7 @@ char spiTxBuffer[spiBufferLength];
 
 void spiTransferSetup() {
   SPI.begin();
-  SPI.setDataMode(SPI_MODE3);
+  SPI.setDataMode(SPI_MODE1);
 }
 
 void clearSpiTxBuffer() {

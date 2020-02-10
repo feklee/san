@@ -16,7 +16,7 @@ static const char *TAG = "spi";
 #define GPIO_SCLK 0  // TP2: SPI_CLK:  IO0  GPIO0
 #define GPIO_CS 19   // TP1: SPI_CS:   IO19 GPIO19
 
-#define BUF_SIZE 129 // TODO: -> 5
+#define BUF_SIZE 8 // bytes
 WORD_ALIGNED_ATTR char sendbuf[BUF_SIZE];
 WORD_ALIGNED_ATTR char recvbuf[BUF_SIZE];
 
@@ -51,6 +51,17 @@ static void parse_recvbuf()
     }
 }
 
+void clear_sendbuf() {
+  memset(sendbuf, '\0', BUF_SIZE);
+}
+
+void log_recvbuf() {
+  char s[BUF_SIZE + 1];
+  memcpy(s, recvbuf, BUF_SIZE);
+  recvbuf[BUF_SIZE + 1] = '\0';
+  ESP_LOGI(TAG, "Received: \"%s\"\n", recvbuf);
+}
+
 void app_spi_main() {
   esp_err_t ret;
 
@@ -63,7 +74,7 @@ void app_spi_main() {
 
   // Configuration for the SPI slave interface:
   spi_slave_interface_config_t slvcfg = {
-            .mode = 3,
+            .mode = 1,
             .spics_io_num = GPIO_CS,
             .queue_size = 3
   };
@@ -85,24 +96,20 @@ void app_spi_main() {
                                .rx_buffer = recvbuf
   };
 
+  uint8_t colors[4] = {0b11000000, 0b00001100, 0b11110000, 0b00110000};
+
   while (1) {
-    ESP_LOGE(TAG, "Waiting..."); // TODO
+    clear_sendbuf();
+    sendbuf[0] = 'C';
+    sendbuf[1] = colors[0];
+    sendbuf[2] = colors[1];
+    sendbuf[3] = colors[2];
+    sendbuf[4] = colors[3];
 
-    sprintf(sendbuf, "C1234");
+    ESP_LOGI(TAG, "Sending: \"%s\"\n", sendbuf);
+    spi_slave_transmit(VSPI_HOST, &t, portMAX_DELAY); // initiated by master
 
-    // The call below enables the SPI slave interface to
-    // send/receive to the sendbuf and recvbuf. The transaction is
-    // initialized by the SPI master, however, so it will not
-    // actually happen until the master starts a hardware
-    // transaction by pulling CS low and pulsing the clock etc.
-    spi_slave_transmit(VSPI_HOST, &t, portMAX_DELAY);
-
-    recvbuf[4] = '\0';
-
-    // `spi_slave_transmit` does not return until the master has
-    // done a transmission, so by here we have sent our data and
-    // received data from the master. Print it.
-    ESP_LOGI(TAG, "Received: \"%s\"\n", recvbuf);
+    log_recvbuf();
 
     parse_recvbuf();
   }

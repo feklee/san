@@ -16,6 +16,7 @@ Development with USB connection
 
         $ python2 $(which idf.py) -p /dev/ttyUSB0 monitor
 
-    Note that, if connected, the CLK pin needs to be pulled high, or else the
-    ESP-EYE won’t boot. This is done when the connected Arduino starts. So, if
-    the ESP-EYE doesn’t boot, reset the Arduino, then immediately try again.
+    *Troubleshooting* if the monitor output does not advance (no log output):
+    Unless floating, the CLK pin needs to be pulled high, or else the ESP-EYE
+    won’t boot. This is done when the connected Arduino starts. So, if the
+    ESP-EYE doesn’t boot, reset the Arduino, then immediately try again.

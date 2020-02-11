@@ -12,7 +12,7 @@ const uint32_t graphUpdateInterval = 500; // ms
 const uint32_t connectionExpiryDuration =
   2.5 * graphUpdateInterval; // ms
 
-const byte * const nodeColorsList[][2] =
+const byte nodeColorsList[][2] =
   {
    {gray, gray},       // ^: {color of top hemisphere, color of bottom hemisph.}
    {red, red},         // A

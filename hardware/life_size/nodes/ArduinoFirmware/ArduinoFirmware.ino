@@ -12,11 +12,9 @@
 //
 //   * 13: SCK (clock)
 
-#include <Adafruit_NeoPixel.h>
-
 #include "id.h" // ID of this node, e.g.: `#define ID A` (no quotes!)
+#include "idUtil.h"
 
-#include "util.h"
 #include "settings.h"
 #include "TransceiverOnPort.h"
 #include "Port.h"
@@ -24,10 +22,8 @@
 #include "message.h"
 #include "pairMessageQueue.h"
 #include "spiTransfer.h"
+#include "leds.h"
 
-Adafruit_NeoPixel neoPixel;
-
-constexpr char idOfThisNode = TOSTRING(ID)[0];
 static TransceiverOnPort<rxPinNumberOfPort1, txPinNumberOfPort1, 1>
   transceiverOnPort1;
 static TransceiverOnPort<rxPinNumberOfPort2, txPinNumberOfPort2, 2>
@@ -58,42 +54,6 @@ ISR(PCINT0_vect) { // D8-D13
   transceiverOnPort4.transceiver.handlePinChangeInterrupt();
 }
 
-uint8_t adjustForBrightness(uint8_t subColor) {
-  return uint32_t(subColor) * ledBrightness / 0xff;
-}
-
-uint32_t neoPixelColor(const byte * const color) {
-  return neoPixel.Color(
-    adjustForBrightness(color[0]),
-    adjustForBrightness(color[1]),
-    adjustForBrightness(color[2])
-  );
-}
-
-uint8_t listIndexFromIdOfThisNode() {
-  return thisNodeIsRoot()
-    ? 0
-    : (idOfThisNode - 0x40);
-}
-
-void ledSetup() {
-  const uint8_t numberOfLeds = 4;
-  const uint8_t listIndex = listIndexFromIdOfThisNode();
-  const uint8_t dataPin = ledDataPin;
-  const byte * const * const nodeColors = nodeColorsList[listIndex];
-  const uint32_t colorOfTopHemisphere = neoPixelColor(nodeColors[0]);
-  const uint32_t colorOfBottomHemisphere = neoPixelColor(nodeColors[1]);
-
-  neoPixel = Adafruit_NeoPixel(numberOfLeds, dataPin,
-                               NEO_RGB + NEO_KHZ800);
-  neoPixel.begin();
-  neoPixel.setPixelColor(0, colorOfTopHemisphere);
-  neoPixel.setPixelColor(1, colorOfTopHemisphere);
-  neoPixel.setPixelColor(2, colorOfBottomHemisphere);
-  neoPixel.setPixelColor(3, colorOfBottomHemisphere);
-  neoPixel.show();
-}
-
 // During boot, the ESP-EYE CLK pin needs to be kept high (unless unconnected).
 void waitForEspToBoot() {
   pinMode(A7, OUTPUT);
@@ -116,7 +76,7 @@ void setup() {
   waitForEspToBoot();
 
   spiTransferSetup();
-  ledSetup();
+  ledsSetup();
   serialSetup();
   multiTransceiverSetup();
 }
@@ -129,12 +89,27 @@ bool iHaveAParent() {
   }
 }
 
+void parseSpiRxBuffer() {
+  if (spiRxBuffer[0] != 'C') {
+    return;
+  }
+
+  char buf[81];
+  uint8_t *compressedColors = spiRxBuffer + 1;
+  uint8_t *c = compressedColors;
+  sprintf(buf, "Colors: %d, %d, %d, %d", c[0], c[1], c[2], c[3]);
+  updateLedColors(compressedColors);
+  Serial.println(buf);
+}
+
 void sendMyIdViaSpi() {
+  clearSpiTxBuffer();
   spiTxBuffer[0] = 'I';
   spiTxBuffer[1] = 'D';
   spiTxBuffer[2] = '=';
   spiTxBuffer[3] = idOfThisNode;
   doSpiTransfer();
+  parseSpiRxBuffer();
 }
 
 void periodicallySendMyIdViaSpi() {
@@ -164,11 +139,13 @@ void parseMessages() {
 }
 
 void sendPairViaSpi(const Pair &pair) {
+  clearSpiTxBuffer();
   spiTxBuffer[0] = pair.parentPort.nodeId;
   spiTxBuffer[1] = charFromDigit(pair.parentPort.portNumber);
   spiTxBuffer[2] = pair.childPort.nodeId;
   spiTxBuffer[3] = charFromDigit(pair.childPort.portNumber);
   doSpiTransfer();
+  parseSpiRxBuffer();
 }
 
 void loop() {
@@ -221,10 +198,6 @@ static inline uint8_t digitFromChar(char c) {
 
 static inline char charFromDigit(uint8_t digit) {
   return digit + 48;
-}
-
-static inline bool thisNodeIsRoot() {
-  return idOfThisNode == '^';
 }
 
 template <typename T>

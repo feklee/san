@@ -96,7 +96,7 @@ void app_spi_main() {
                                .rx_buffer = recvbuf
   };
 
-  uint8_t colors[4] = {0b11000000, 0b00001100, 0b11110000, 0b00110000};
+  uint8_t colors[4] = {0b110000, 0b001100, 0b000011, 0b111100};
 
   while (1) {
     clear_sendbuf();

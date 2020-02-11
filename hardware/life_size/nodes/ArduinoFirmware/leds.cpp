@@ -27,8 +27,9 @@ static uint32_t neoPixelColor(const byte * const color) {
   );
 }
 
-static uint32_t colorFromCompressedColor(uint8_t c) {
-  uint8_t cs[] = {c >> 6, c >> 4, c >> 2};
+// Format of compressed color: RRGGBB (binary)
+static uint32_t colorFromCompressedColor(byte c) {
+  uint8_t cs[] = {c >> 4, c >> 2, c};
   for (uint8_t i = 0; i < 3; i++) {
     cs[i] = (cs[i] & 3) << 6;
   }
@@ -53,7 +54,7 @@ void ledsSetup() {
   neoPixel.show();
 }
 
-void updateLedColors(uint8_t compressedColors[4]) {
+void updateLedColors(byte compressedColors[4]) {
   bool colorsHaveNotChanged =
     memcmp(compressedColors, currentCompressedColors, 4) == 0;
   if (colorsHaveNotChanged) {

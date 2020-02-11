@@ -95,8 +95,8 @@ void parseSpiRxBuffer() {
   }
 
   char buf[81];
-  uint8_t *compressedColors = spiRxBuffer + 1;
-  uint8_t *c = compressedColors;
+  byte *compressedColors = spiRxBuffer + 1;
+  byte *c = compressedColors;
   sprintf(buf, "Colors: %d, %d, %d, %d", c[0], c[1], c[2], c[3]);
   updateLedColors(compressedColors);
   Serial.println(buf);

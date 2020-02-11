@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "colors.h"
+#include "namedColors.h"
 
 // How often the entire graph is updated / sent:
 const uint32_t graphUpdateInterval = 500; // ms

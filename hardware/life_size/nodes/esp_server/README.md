@@ -11,6 +11,8 @@ Development with USB connection
   * Fast flashing of ESP-EYE (builds as well):
 
         $ python2 $(which idf.py) -p /dev/ttyUSB0 flash --baud 2000000
+        
+    After flashing, re-plug the USB connection, or else monitoring won’t work.
 
   * Monitoring:
 

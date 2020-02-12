@@ -416,7 +416,7 @@ var setVideoStream = function () {
     const url =
             "http://192.168.100." +
             (idOfThisNode.charCodeAt() + 36) +
-            "/stream";
+            ":81/stream";
     view.src = url;
 };
 

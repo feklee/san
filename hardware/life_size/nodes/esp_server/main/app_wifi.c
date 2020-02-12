@@ -17,7 +17,7 @@
 
 static const char *TAG = "wifi";
 
-static const u8_t gw[] = {192, 168, 100, 1};
+static const u8_t gw[] = {192, 168, 4, 1};
 static const u8_t initialLastOctet = 200;
 
 static void set_ip(const u8_t lastOctet)

@@ -1,6 +1,7 @@
 // Based on the SPI slave example in ESP-IDF (public domain / CC0).
 
 #include <string.h>
+#include <sys/param.h>
 #include "driver/spi_common.h"
 #include "driver/spi_master.h"
 #include "driver/spi_slave.h"
@@ -17,6 +18,7 @@ static const char *TAG = "spi";
 #define GPIO_CS 19   // TP1: SPI_CS:   IO19 GPIO19
 
 #define BUF_SIZE 8 // bytes
+char queued_sendbuf[BUF_SIZE];
 WORD_ALIGNED_ATTR char sendbuf[BUF_SIZE];
 WORD_ALIGNED_ATTR char recvbuf[BUF_SIZE];
 
@@ -51,19 +53,29 @@ static void parse_recvbuf()
     }
 }
 
-void clear_sendbuf() {
+static void clear_queued_sendbuf() {
   memset(sendbuf, '\0', BUF_SIZE);
 }
 
-void log_recvbuf() {
+static void log_recvbuf() {
   char s[BUF_SIZE + 1];
   memcpy(s, recvbuf, BUF_SIZE);
   recvbuf[BUF_SIZE + 1] = '\0';
   ESP_LOGI(TAG, "Received: \"%s\"\n", recvbuf);
 }
 
+void app_spi_send(const char * const data, const int length) {
+  // `sendbuf` isn't written to directly, in case that would interfere with an
+  // interrupt handler accessing it in the middle of copying data to it (not
+  // sure if that's possible, but just in case)
+  clear_queued_sendbuf();
+  memcpy(queued_sendbuf, data, MIN(BUF_SIZE, length));
+}
+
 void app_spi_main() {
   esp_err_t ret;
+
+  clear_queued_sendbuf();
 
   // Configuration for the SPI bus:
   spi_bus_config_t buscfg = {
@@ -96,16 +108,8 @@ void app_spi_main() {
                                .rx_buffer = recvbuf
   };
 
-  uint8_t colors[4] = {0b110000, 0b001100, 0b000011, 0b111100};
-
   while (1) {
-    clear_sendbuf();
-    sendbuf[0] = 'C';
-    sendbuf[1] = colors[0];
-    sendbuf[2] = colors[1];
-    sendbuf[3] = colors[2];
-    sendbuf[4] = colors[3];
-
+    memcpy(sendbuf, queued_sendbuf, BUF_SIZE);
     ESP_LOGI(TAG, "Sending: \"%s\"\n", sendbuf);
     spi_slave_transmit(VSPI_HOST, &t, portMAX_DELAY); // initiated by master
 

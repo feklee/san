@@ -6,6 +6,7 @@ extern "C" {
 #endif
 
 void app_spi_main();
+void app_spi_send(const char * const, const int);
 
 #ifdef __cplusplus
 }

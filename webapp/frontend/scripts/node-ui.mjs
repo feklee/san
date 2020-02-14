@@ -414,9 +414,9 @@ var connectionLostErrorEl = document.querySelector(".connection-lost-error");
 var setVideoStream = function () {
     const view = document.querySelector(".video img.stream");
     const url =
-            "http://192.168.100." +
+            "http://192.168.4." +
             (idOfThisNode.charCodeAt() + 36) +
-            ":81/stream";
+            ":81";
     view.src = url;
 };
 

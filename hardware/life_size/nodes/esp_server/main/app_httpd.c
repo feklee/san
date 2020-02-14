@@ -554,14 +554,14 @@ void app_httpd_main(){
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
 
     httpd_uri_t cmd_uri = {
-        .uri = "/command",
+        .uri = "/",
         .method = HTTP_GET,
         .handler = cmd_handler,
         .user_ctx = NULL
     };
 
     httpd_uri_t stream_uri = {
-        .uri       = "/stream",
+        .uri       = "/",
         .method    = HTTP_GET,
         .handler   = stream_handler,
         .user_ctx  = NULL
@@ -586,7 +586,6 @@ void app_httpd_main(){
     face_id_init(&id_list, FACE_ID_SAVE_NUMBER, ENROLL_CONFIRM_TIMES);
 #endif
 #endif
-
     ESP_LOGI(TAG, "Starting web server on port: '%d'", config.server_port);
     if (httpd_start(&camera_httpd, &config) == ESP_OK)
     {
@@ -595,6 +594,7 @@ void app_httpd_main(){
 
     config.server_port += 1;
     config.ctrl_port += 1;
+
     ESP_LOGI(TAG, "Starting stream server on port: '%d'", config.server_port);
     if (httpd_start(&stream_httpd, &config) == ESP_OK) {
         httpd_register_uri_handler(stream_httpd, &stream_uri);

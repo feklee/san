@@ -396,8 +396,6 @@ static esp_err_t stream_handler(httpd_req_t *req){
 
 static esp_err_t cmd_handler(httpd_req_t *req)
 {
-    ESP_LOGI(TAG, "CMD Handler"); // TODO
-
     char data[] = {'C', 0b110000, 0b001100, 0b000011, 0b111100};
     app_spi_send(data, 5);
     return httpd_resp_send(req, NULL, 0);

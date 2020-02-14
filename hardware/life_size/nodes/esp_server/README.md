@@ -8,13 +8,17 @@ network’s brain.
 Development with USB connection
 ===============================
 
-  * Fast flashing of ESP-EYE (builds as well):
+  * Before flashing, make sure that the correct camera is selected:
+  
+        $ make menuconfig
+
+  * Flash the ESP-EYE (builds as well):
 
         $ python2 $(which idf.py) -p /dev/ttyUSB0 flash --baud 2000000
         
     After flashing, re-plug the USB connection, or else monitoring won’t work.
 
-  * Monitoring:
+  * Monitor:
 
         $ python2 $(which idf.py) -p /dev/ttyUSB0 monitor
 

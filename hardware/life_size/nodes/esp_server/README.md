@@ -8,21 +8,29 @@ network’s brain.
 Development with USB connection
 ===============================
 
-  * Before flashing, make sure that the correct camera is selected:
+  * Flashing:
   
-        $ make menuconfig
+      - Make sure that the correct camera pinout is selected:
+  
+            $ make menuconfig
 
-  * Flash the ESP-EYE (builds as well):
+      - Build and upload: (high baud rate)
 
-        $ python2 $(which idf.py) -p /dev/ttyUSB0 flash --baud 2000000
-        
-    After flashing, re-plug the USB connection, or else monitoring won’t work.
+            $ python2 $(which idf.py) -p /dev/ttyUSB0 flash --baud 2000000
+            
+      - Re-plug the USB connection, or else monitoring won’t work.
 
-  * Monitor:
+  * Monitoring:
+  
+      - If the Arduino is connected, keep the reset button pressed.
 
-        $ python2 $(which idf.py) -p /dev/ttyUSB0 monitor
+        *Background:* Unless floating, the CLK pin needs to be pulled high, or
+        else the ESP-EYE won’t boot.
+      
+      - Start the monitor:
 
-    *Troubleshooting* if the monitor output does not advance (no log output):
-    Unless floating, the CLK pin needs to be pulled high, or else the ESP-EYE
-    won’t boot. This is done when the connected Arduino starts. So, if the
-    ESP-EYE doesn’t boot, reset the Arduino, then immediately try again.
+            $ python2 $(which idf.py) -p /dev/ttyUSB0 monitor
+            
+      - Wait until the ESP-EYE has booted.
+      
+      - Release the Arduino’s reset button.

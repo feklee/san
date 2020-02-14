@@ -34,3 +34,7 @@ Development with USB connection
       - Wait until the ESP-EYE has booted.
       
       - Release the Arduino’s reset button.
+
+  * Troubleshooting if the video stream doesn’t load: Check with the example
+    camera web server included with ESP-WHO. Maybe the camera is not properly
+    connected.

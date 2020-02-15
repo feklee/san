@@ -16,11 +16,13 @@ try {
             "^\\s*#define\\s+" +
                 "(graphUpdateInterval|connectionExpiryDuration)" +
                 ".*",
-            "g"
+            "gm"
         ));
     var assignmentsInJs = assignmentsInC.map(
         function (assignmentInC) {
-            return assignmentInC.replace(/const\s+[^\s]+/g, "");
+            return assignmentInC
+                .replace(/\/\/.*/g, "")
+                .replace(/#define\s+([\w]+)\s+(.*)/g, "$1 = $2;");
         });
     var jsData = assignmentsInJs.join("\n");
     eval(jsData);

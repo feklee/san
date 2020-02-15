@@ -48,6 +48,8 @@ static const char* TAG = "httpd";
 #define FACE_COLOR_PURPLE (FACE_COLOR_BLUE | FACE_COLOR_RED)
 #endif
 
+#define BUF_LEN 81
+
 typedef struct {
         httpd_req_t *req;
         size_t len;
@@ -394,157 +396,47 @@ static esp_err_t stream_handler(httpd_req_t *req){
     return res;
 }
 
+static bool evaluate_color_command(const char * const buf) {
+    const char *c = buf + 1;
+    char data[5] = {'C', 0};
+    for (short i = 0; i < 4; i++) {
+        char color = 0;
+        for (short j = 0; j < 3; j++) {
+            color <<= 2;
+            int value = *c - 48;
+            const bool value_is_valid = value >= 0 && value <= 3;
+            if (!value_is_valid) {
+                return false;
+            }
+            color += value;
+            c++;
+        }
+        data[i + 1] = color;
+    }
+    app_spi_send(data, sizeof(data));
+    return true;
+}
+
 static esp_err_t cmd_handler(httpd_req_t *req)
 {
-    char data[] = {'C', 0b110000, 0b001100, 0b000011, 0b111100};
-    app_spi_send(data, 5);
-    return httpd_resp_send(req, NULL, 0);
+    char buf[BUF_LEN] = {'\0'};
 
-    char *buf;
-    size_t buf_len;
-    char variable[32] = {
-        0,
-    };
-    char value[32] = {
-        0,
-    };
-
-    buf_len = httpd_req_get_url_query_len(req) + 1;
-    if (buf_len > 1)
-    {
-        buf = (char *)malloc(buf_len);
-        if (!buf)
-        {
-            httpd_resp_send_500(req);
-            return ESP_FAIL;
-        }
-        if (httpd_req_get_url_query_str(req, buf, buf_len) == ESP_OK)
-        {
-            if (httpd_query_key_value(buf, "var", variable, sizeof(variable)) == ESP_OK &&
-                httpd_query_key_value(buf, "val", value, sizeof(value)) == ESP_OK)
-            {
-            }
-            else
-            {
-                free(buf);
-                httpd_resp_send_404(req);
-                return ESP_FAIL;
-            }
-        }
-        else
-        {
-            free(buf);
-            httpd_resp_send_404(req);
-            return ESP_FAIL;
-        }
-        free(buf);
-    }
-    else
-    {
+    if (httpd_req_get_url_query_str(req, buf, BUF_LEN - 1) != ESP_OK) {
         httpd_resp_send_404(req);
         return ESP_FAIL;
     }
 
-    int val = atoi(value);
-    ESP_LOGI(TAG, "%s = %d", variable, val);
-    sensor_t *s = esp_camera_sensor_get();
-    int res = 0;
-
-    if (!strcmp(variable, "framesize"))
-    {
-        if (s->pixformat == PIXFORMAT_JPEG)
-            res = s->set_framesize(s, (framesize_t)val);
-    }
-    else if (!strcmp(variable, "quality"))
-        res = s->set_quality(s, val);
-    else if (!strcmp(variable, "contrast"))
-        res = s->set_contrast(s, val);
-    else if (!strcmp(variable, "brightness"))
-        res = s->set_brightness(s, val);
-    else if (!strcmp(variable, "saturation"))
-        res = s->set_saturation(s, val);
-    else if (!strcmp(variable, "gainceiling"))
-        res = s->set_gainceiling(s, (gainceiling_t)val);
-    else if (!strcmp(variable, "colorbar"))
-        res = s->set_colorbar(s, val);
-    else if (!strcmp(variable, "awb"))
-        res = s->set_whitebal(s, val);
-    else if (!strcmp(variable, "agc"))
-        res = s->set_gain_ctrl(s, val);
-    else if (!strcmp(variable, "aec"))
-        res = s->set_exposure_ctrl(s, val);
-    else if (!strcmp(variable, "hmirror"))
-        res = s->set_hmirror(s, val);
-    else if (!strcmp(variable, "vflip"))
-        res = s->set_vflip(s, val);
-    else if (!strcmp(variable, "awb_gain"))
-        res = s->set_awb_gain(s, val);
-    else if (!strcmp(variable, "agc_gain"))
-        res = s->set_agc_gain(s, val);
-    else if (!strcmp(variable, "aec_value"))
-        res = s->set_aec_value(s, val);
-    else if (!strcmp(variable, "aec2"))
-        res = s->set_aec2(s, val);
-    else if (!strcmp(variable, "dcw"))
-        res = s->set_dcw(s, val);
-    else if (!strcmp(variable, "bpc"))
-        res = s->set_bpc(s, val);
-    else if (!strcmp(variable, "wpc"))
-        res = s->set_wpc(s, val);
-    else if (!strcmp(variable, "raw_gma"))
-        res = s->set_raw_gma(s, val);
-    else if (!strcmp(variable, "lenc"))
-        res = s->set_lenc(s, val);
-    else if (!strcmp(variable, "special_effect"))
-        res = s->set_special_effect(s, val);
-    else if (!strcmp(variable, "wb_mode"))
-        res = s->set_wb_mode(s, val);
-    else if (!strcmp(variable, "ae_level"))
-        res = s->set_ae_level(s, val);
-#ifdef CONFIG_LED_ILLUMINATOR_ENABLED
-    else if (!strcmp(variable, "led_intensity"))
-    {
-        led_duty = val;
-        if (isStreaming)
-            enable_led(true);
-    }
-#endif
-
-#if CONFIG_ESP_FACE_DETECT_ENABLED
-    else if (!strcmp(variable, "face_detect"))
-    {
-        detection_enabled = val;
-#if CONFIG_ESP_FACE_RECOGNITION_ENABLED
-        if (!detection_enabled)
-        {
-            recognition_enabled = 0;
-        }
-#endif
-    }
-#if CONFIG_ESP_FACE_RECOGNITION_ENABLED
-    else if (!strcmp(variable, "face_enroll"))
-        is_enrolling = val;
-    else if (!strcmp(variable, "face_recognize"))
-    {
-        recognition_enabled = val;
-        if (recognition_enabled)
-        {
-            detection_enabled = val;
-        }
-    }
-#endif
-#endif
-    else
-    {
-        res = -1;
-    }
-
-    if (res)
-    {
+    const bool is_color_command = buf[0] == 'C' && strlen(buf) == 13;
+    if (!is_color_command) {
+        ESP_LOGI(TAG, "not color command"); // TODO
         return httpd_resp_send_500(req);
     }
 
-    httpd_resp_set_hdr(req, "Access-Control-Allow-Origin", "*");
+    bool success = evaluate_color_command(buf);
+    if (!success) {
+        return httpd_resp_send_500(req);
+    }
+
     return httpd_resp_send(req, NULL, 0);
 }
 

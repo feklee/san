@@ -428,7 +428,6 @@ static esp_err_t cmd_handler(httpd_req_t *req)
 
     const bool is_color_command = buf[0] == 'C' && strlen(buf) == 13;
     if (!is_color_command) {
-        ESP_LOGI(TAG, "not color command"); // TODO
         return httpd_resp_send_500(req);
     }
 

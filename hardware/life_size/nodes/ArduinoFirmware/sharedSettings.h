@@ -1,5 +1,7 @@
 // These settings shared between nodes (Arduino/C++, ESP32/C) and the web app.
 
+// Fragile, be careful with reformatting!
+
 #pragma once
 
 #include "namedColors.h"

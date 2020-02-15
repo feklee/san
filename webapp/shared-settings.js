@@ -8,19 +8,19 @@ var graphUpdateInterval = 0;
 var connectionExpiryDuration = 0;
 
 try {
-    var cppData = fs.readFileSync(
+    var cData = fs.readFileSync(
         "../hardware/life_size/nodes/ArduinoFirmware/sharedSettings.h",
         "utf8");
-    var assignmentsInCpp =
-        cppData.match(new RegExp(
-            "^\\s*const[^;]+" +
+    var assignmentsInC =
+        cData.match(new RegExp(
+            "^\\s*#define\\s+" +
                 "(graphUpdateInterval|connectionExpiryDuration)" +
-                "\\s+=[^\\;]*;",
-            "gm"
+                ".*",
+            "g"
         ));
-    var assignmentsInJs = assignmentsInCpp.map(
-        function (assignmentInCpp) {
-            return assignmentInCpp.replace(/const\s+[^\s]+/g, "");
+    var assignmentsInJs = assignmentsInC.map(
+        function (assignmentInC) {
+            return assignmentInC.replace(/const\s+[^\s]+/g, "");
         });
     var jsData = assignmentsInJs.join("\n");
     eval(jsData);

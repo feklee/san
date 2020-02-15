@@ -1,18 +1,17 @@
-// These settings shared between nodes and the web app.
+// These settings shared between nodes (Arduino/C++, ESP32/C) and the web app.
 
 #pragma once
 
 #include "namedColors.h"
 
 // How often the entire graph is updated / sent:
-const uint32_t graphUpdateInterval = 500; // ms
+#define graphUpdateInterval 500 // ms
 
 // How long to wait for a connection to be removed after it has been
 // without sign of life:
-const uint32_t connectionExpiryDuration =
-  2.5 * graphUpdateInterval; // ms
+#define connectionExpiryDuration 2.5 * graphUpdateInterval // ms
 
-const byte nodeColorsList[][2] =
+const uint8_t nodeColorsList[][2] =
   {
    {gray, gray},       // ^: {color of top hemisphere, color of bottom hemisph.}
    {red, red},         // A
@@ -43,4 +42,6 @@ const byte nodeColorsList[][2] =
    {white, blue}       // Z
   };
 
-const uint8_t wifiGateway[4] = {192, 168, 4, 1};
+const uint8_t wifiGateway[4] =
+  {192, 168, 4, 1}; // needs to be on separate line, or the current Rollup
+                    // regexp rules don't work

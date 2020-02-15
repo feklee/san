@@ -42,6 +42,7 @@ const uint8_t nodeColorsList[][2] =
    {white, blue}       // Z
   };
 
-const uint8_t wifiGateway[4] =
+// Wi-Fi gateway
+const uint8_t gw[4] =
   {192, 168, 4, 1}; // needs to be on separate line, or the current Rollup
                     // regexp rules don't work

@@ -12,13 +12,14 @@
 #include "lwip/err.h"
 #include "lwip/sys.h"
 
+#include "../../ArduinoFirmware/sharedSettings.h"
+
 #define ESP_WIFI_SSID "SAN"
 #define ESP_WIFI_PASS "c0c0NODE$"
 
 static const char *TAG = "wifi";
 
-static const u8_t gw[] = {192, 168, 4, 1};
-static const u8_t initialLastOctet = 200;
+static const uint8_t initialLastOctet = 200;
 
 static void set_ip(const u8_t lastOctet)
 {

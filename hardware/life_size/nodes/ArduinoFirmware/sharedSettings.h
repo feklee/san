@@ -42,3 +42,5 @@ const byte nodeColorsList[][2] =
    {white, aqua},      // Y
    {white, blue}       // Z
   };
+
+const uint8_t wifiGateway[4] = {192, 168, 4, 1};

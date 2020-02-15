@@ -13,6 +13,11 @@
 // without sign of life:
 #define connectionExpiryDuration 2.5 * graphUpdateInterval // ms
 
+// Wi-Fi gateway
+const uint8_t gw[] =
+  {192, 168, 4, 1}; // needs to be on separate line, or the current Rollup
+                    // regexp rules don't work
+
 const uint8_t nodeColorsList[][2] =
   {
    {gray, gray},       // ^: {color of top hemisphere, color of bottom hemisph.}
@@ -43,8 +48,3 @@ const uint8_t nodeColorsList[][2] =
    {white, aqua},      // Y
    {white, blue}       // Z
   };
-
-// Wi-Fi gateway
-const uint8_t gw[4] =
-  {192, 168, 4, 1}; // needs to be on separate line, or the current Rollup
-                    // regexp rules don't work

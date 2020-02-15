@@ -11,7 +11,7 @@ var replaceSettings = {
             file: "../../../hardware/life_size/nodes/ArduinoFirmware/sharedSettings.h"
         },
         {
-            test: /\/\/.*/g,
+            test: /\/\/.*$/gm,
             replace: ""
         },
         {
@@ -32,10 +32,14 @@ var replaceSettings = {
         },
         {
             test: /^\s*#define\s+(\w+)\s+(.*)$/gm,
-            replace: "var $1 $2;"
+            replace: "var $1 = $2;"
         },
         {
-            test: /^\s*#.*/gm,
+            test: /^\s*#include.*$/gm,
+            replace: ""
+        },
+        {
+            test: /^\s*#pragma.*$/gm,
             replace: ""
         }
     ]
@@ -45,7 +49,8 @@ var legacySettings = {
     "frontend/scripts/shared-settings.mjs": {
         graphUpdateInterval: "graphUpdateInterval",
         connectionExpiryDuration: "connectionExpiryDuration",
-        nodeColorsList: "nodeColorsList"
+        nodeColorsList: "nodeColorsList",
+        gw: "gw"
     }
 };
 

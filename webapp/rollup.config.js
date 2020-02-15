@@ -11,6 +11,10 @@ var replaceSettings = {
             file: "../../../hardware/life_size/nodes/ArduinoFirmware/sharedSettings.h"
         },
         {
+            test: /\/\/.*/g,
+            replace: ""
+        },
+        {
             test: /\}/g,
             replace: "]"
         },
@@ -25,6 +29,10 @@ var replaceSettings = {
         {
             test: /^\s*const[*\w\s]+\s(\w+)[\[\]0-9]*\s*(.*)$/gm,
             replace: "var $1 $2"
+        },
+        {
+            test: /^\s*#define\s+(\w+)\s+(.*)$/gm,
+            replace: "var $1 $2;"
         },
         {
             test: /^\s*#.*/gm,

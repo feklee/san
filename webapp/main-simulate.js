@@ -87,7 +87,7 @@ function angleCommand(parameters) {
 
 setInterval(sendSet, sharedSettings.graphUpdateInterval);
 
-console.log("Add pair, by example:");
+console.log("Add connection:");
 console.log();
 console.log("    +^1A3");
 console.log();
@@ -97,17 +97,21 @@ console.log("  * `^1` is port 1 on node `^` (root node).");
 console.log();
 console.log("  * `A3` is port 3 on node `A`.");
 console.log();
-console.log("Remove pair, by example:");
+console.log("Remove connection A2, B1:");
 console.log();
 console.log("    -A2B1");
 console.log();
-console.log("Set tilt angle, by example (C tilted by 125 degrees):");
+console.log("Set tilt angle of node C to 125 degrees:");
 console.log();
 console.log("    /C125");
 console.log();
-console.log("Unset tilt angle, by example:");
+console.log("Unset tilt angle of node C:");
 console.log();
 console.log("    /C");
+console.log();
+console.log("Set LED colors of node B to white (333), gray, yellow, blue:");
+console.log();
+console.log("    /B333111330003");
 console.log();
 
 startWebServer(function () {

@@ -18,9 +18,10 @@ const uint8_t gw[] =
   {192, 168, 4, 1}; // needs to be on separate line, or the current Rollup
                     // regexp rules don't work
 
+// Values: {color of top hemisphere, color of bottom hemisphere}
 const uint8_t nodeColorsList[][2] =
   {
-   {gray, gray},       // ^: {color of top hemisphere, color of bottom hemisph.}
+   {gray, gray},       // ^
    {red, red},         // A
    {yellow, yellow},   // B
    {lime, lime},       // C

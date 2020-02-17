@@ -111,28 +111,31 @@ console.log();
 console.log("    /C");
 console.log();
 
-startWebServer(function () {
-    cli.enableInput(function (command) {
-        var parameters = command.substr(1);
-        switch (command.charAt(0)) {
-        case "+":
-            if (!addPairCommand(parameters)) {
+startWebServer({
+    onListening: function () {
+        cli.enableInput(function (command) {
+            var parameters = command.substr(1);
+            switch (command.charAt(0)) {
+            case "+":
+                if (!addPairCommand(parameters)) {
+                    return;
+                }
+                break;
+            case "-":
+                if (!removePairCommand(parameters)) {
+                    return;
+                }
+                break;
+            case "/":
+                if (!angleCommand(parameters)) {
+                    return;
+                }
+                break;
+            default:
+                complainAboutMalformedCommand();
                 return;
             }
-            break;
-        case "-":
-            if (!removePairCommand(parameters)) {
-                return;
-            }
-            break;
-        case "/":
-            if (!angleCommand(parameters)) {
-                return;
-            }
-            break;
-        default:
-            complainAboutMalformedCommand();
-            return;
-        }
-    });
+        });
+    },
+    connectionTypeToInject: "simulation"
 });

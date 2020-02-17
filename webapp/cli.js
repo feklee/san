@@ -4,6 +4,7 @@
 
 var readline = require("readline");
 var inputIsEnabled = false;
+const startTime = Date.now(); // ms
 
 var rl = readline.createInterface({
     input: process.stdin,
@@ -11,11 +12,20 @@ var rl = readline.createInterface({
     terminal: false
 });
 
+// s
+var elapsedTime = function () {
+    return (Date.now() - startTime) / 1000;
+};
+
+var timeStamp = function () {
+    return elapsedTime().toFixed(3);
+};
+
 var log = function (text) {
     if (inputIsEnabled) {
         console.log();
     }
-    console.log(text);
+    console.log(timeStamp(), text);
     if (inputIsEnabled) {
         rl.prompt();
     }

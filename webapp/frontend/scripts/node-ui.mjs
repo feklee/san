@@ -422,6 +422,21 @@ var setVideoStream = function () {
     view.src = url;
 };
 
+var unhideVideo = function () {
+    var classList = document.querySelector(".video").classList;
+    if (!classList.contains("hidden")) {
+        return;
+    }
+    classList.remove("hidden");
+    setVideoStream();
+};
+
+var updateVideoVisibility = function (connectionType) {
+    if (connectionType === "wifi") {
+        unhideVideo();
+    }
+};
+
 webSocket.setup({
     onopen: function () {
         connectionLostErrorEl.classList.add("hidden");
@@ -438,6 +453,8 @@ webSocket.setup({
         } else {
             return;
         }
+
+        updateVideoVisibility(message.connectionType);
 
         switch (message.type) {
         case "data":
@@ -474,6 +491,5 @@ document.querySelector("button.reconnect").addEventListener(
 updateGeneratorNumbers();
 updateGenerator();
 updateOutputNumbers();
-setVideoStream();
 
 setInterval(removeExpiredNodes, graphUpdateInterval);

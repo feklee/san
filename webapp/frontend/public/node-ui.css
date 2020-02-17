@@ -80,6 +80,10 @@ ul.all.nodes>li.root.node-icon {
     display: none;
 }
 
+.hidden.video {
+    display: none;
+}
+
 .video img {
     display: block;
     width: 100%;

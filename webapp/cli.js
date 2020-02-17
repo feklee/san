@@ -3,7 +3,6 @@
 "use strict";
 
 var readline = require("readline");
-var inputIsEnabled = false;
 var elapsedTime = require("./elapsed-time");
 
 var rl = readline.createInterface({
@@ -21,7 +20,6 @@ var log = function (text) {
 };
 
 var enableInput = function (onData) {
-    inputIsEnabled = true;
     rl.setPrompt("Enter data: ");
     rl.prompt();
     rl.on("line", function (data) {

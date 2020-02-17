@@ -8,6 +8,7 @@ var cli = require("./cli");
 var set = new Set();
 var sharedSettings = require("./shared-settings");
 var pairIsValid = require("./pair-is-valid");
+var http = require("http");
 
 function sendSet() {
     set.forEach(function (data) {
@@ -85,6 +86,22 @@ function angleCommand(parameters) {
     assignEncodedAngleToPairs(nodeId, encodedAngle);
 }
 
+function colorCommand(parameters) {
+    if (!(/^[a-zA-Z\^][0-3]{12}$/).test(parameters)) {
+        complainAboutMalformedCommand();
+        return false;
+    }
+    const nodeId = parameters.charAt(0);
+    const colors = parameters.substr(1);
+    const query = "C" + colors;
+    const url =
+            "http://" +
+            sharedSettings.gw.slice(0, 3).join(".") + "." +
+            (nodeId.charCodeAt() + 36) +
+            "?" + query;
+    http.get(url, {}, function () { return; });
+}
+
 setInterval(sendSet, sharedSettings.graphUpdateInterval);
 
 console.log("Add connection:");
@@ -111,7 +128,7 @@ console.log("    /C");
 console.log();
 console.log("Set LED colors of node B to white (333), gray, yellow, blue:");
 console.log();
-console.log("    /B333111330003");
+console.log("    CB333111330003");
 console.log();
 
 startWebServer(function () {
@@ -130,6 +147,11 @@ startWebServer(function () {
             break;
         case "/":
             if (!angleCommand(parameters)) {
+                return;
+            }
+            break;
+        case "C":
+            if (!colorCommand(parameters)) {
                 return;
             }
             break;

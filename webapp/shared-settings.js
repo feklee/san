@@ -6,11 +6,9 @@ const fs = require("fs");
 var cli = require("./cli");
 var graphUpdateInterval = 0;
 var connectionExpiryDuration = 0;
+var gw; // WiFi gateway
 
-try {
-    var cData = fs.readFileSync(
-        "../hardware/life_size/nodes/ArduinoFirmware/sharedSettings.h",
-        "utf8");
+var extractDefines = function (cData) {
     var assignmentsInC =
         cData.match(new RegExp(
             "^\\s*#define\\s+" +
@@ -25,7 +23,22 @@ try {
                 .replace(/#define\s+([\w]+)\s+(.*)/g, "$1 = $2;");
         });
     var jsData = assignmentsInJs.join("\n");
-    eval(jsData);
+    return jsData;
+};
+
+var extractGw = function (cData) {
+    var matches = cData.match(new RegExp("\\Wgw[^\\w{]*{([\\d\\s,]+)"));
+    var s = matches[1];
+    var gw = s.split(",").map((x) => parseInt(x.trim()));
+    return gw;
+};
+
+try {
+    var cData = fs.readFileSync(
+        "../hardware/life_size/nodes/ArduinoFirmware/sharedSettings.h",
+        "utf8");
+    eval(extractDefines(cData));
+    gw = extractGw(cData);
 } catch (ignore) {
     cli.logError("Cannot load shared settings");
     process.exit(1);

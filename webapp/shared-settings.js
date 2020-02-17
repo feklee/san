@@ -9,7 +9,7 @@ var connectionExpiryDuration = 0;
 
 var assertPositive = function (setting, value) {
     if (!(value > 0)) {
-        cli.logError("Invalid " + setting);
+        cli.log("Invalid " + setting);
         process.exit(1);
     }
 };
@@ -40,7 +40,7 @@ try {
         "utf8");
     extractDefines(cData);
 } catch (ignore) {
-    cli.logError("Cannot load shared settings");
+    cli.log("Cannot load shared settings");
     process.exit(1);
 }
 

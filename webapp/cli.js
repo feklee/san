@@ -17,23 +17,7 @@ var timeStamp = function () {
 };
 
 var log = function (text) {
-    if (inputIsEnabled) {
-        console.log();
-    }
-    console.log(timeStamp(), text);
-    if (inputIsEnabled) {
-        rl.prompt();
-    }
-};
-
-var logError = function (text) {
-    if (inputIsEnabled) {
-        console.log();
-    }
     console.error(timeStamp(), text);
-    if (inputIsEnabled) {
-        rl.prompt();
-    }
 };
 
 var enableInput = function (onData) {
@@ -48,6 +32,5 @@ var enableInput = function (onData) {
 
 module.exports = {
     enableInput: enableInput,
-    log: log,
-    logError: logError
+    log: log
 };

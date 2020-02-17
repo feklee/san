@@ -12,7 +12,7 @@ program.parse(process.argv);
 var port = program.args[0];
 
 if (port === undefined) {
-    cli.logError("Missing port");
+    cli.log("Missing port");
     process.exit(1);
 }
 

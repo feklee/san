@@ -11,6 +11,7 @@ var latestGraph = "";
 var connectionSet = new Set();
 
 var broadcast = function (message) {
+    cli.log("Broadcasting: " + JSON.stringify(message));
     connectionSet.forEach((c) => c.sendUTF(JSON.stringify(message)));
 };
 

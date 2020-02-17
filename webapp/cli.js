@@ -4,18 +4,13 @@
 
 var readline = require("readline");
 var inputIsEnabled = false;
-const startTime = Date.now(); // ms
+var elapsedTime = require("./elapsed-time");
 
 var rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
     terminal: false
 });
-
-// s
-var elapsedTime = function () {
-    return (Date.now() - startTime) / 1000;
-};
 
 var timeStamp = function () {
     return "[" + elapsedTime().toFixed(3) + "]";

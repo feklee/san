@@ -18,7 +18,7 @@ var elapsedTime = function () {
 };
 
 var timeStamp = function () {
-    return elapsedTime().toFixed(3);
+    return "[" + elapsedTime().toFixed(3) + "]";
 };
 
 var log = function (text) {
@@ -35,7 +35,7 @@ var logError = function (text) {
     if (inputIsEnabled) {
         console.log();
     }
-    console.error(text);
+    console.error(timeStamp(), text);
     if (inputIsEnabled) {
         rl.prompt();
     }

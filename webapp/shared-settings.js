@@ -57,5 +57,3 @@ module.exports = {
     graphUpdateInterval: graphUpdateInterval,
     connectionExpiryDuration: connectionExpiryDuration
 };
-
-console.error(module.exports);

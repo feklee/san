@@ -9,8 +9,13 @@ var cli = require("./cli");
 var audioModules = require("./audio-modules");
 var latestGraph = "";
 var connectionSet = new Set();
+var settings;
 
 var broadcast = function (message) {
+    if (connectionSet.size === 0) {
+        return;
+    }
+    message.connectionType = settings.connectionTypeToInject;
     const json = JSON.stringify(message);
     cli.log("Broadcasting: " + json);
     connectionSet.forEach((c) => c.sendUTF(json));
@@ -59,9 +64,10 @@ var onNewConnection = function (connection) {
     sendLatestGraph(connection);
 };
 
-function create(httpServer) {
+function create(x) {
+    settings = x;
     var wsServer = new WebSocketServer({
-        httpServer: httpServer,
+        httpServer: settings.httpServer,
         autoAcceptConnections: false
     });
 

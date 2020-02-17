@@ -18,5 +18,5 @@ if (port === undefined) {
 
 rootNode.connect({
     comName: port,
-    onConnected: startWebServer
+    onConnected: () => startWebServer({connectionTypeToInject: "serial"})
 });

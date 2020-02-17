@@ -43,6 +43,9 @@ var sendNodeAConnectedToRootNode = function () {
     sendPair("^1A0");
 };
 
-startWebServer(startCommandHttpServer);
+startWebServer({
+    onListening: startCommandHttpServer,
+    connectionTypeToInject: "wifi"
+});
 
 setInterval(sendNodeAConnectedToRootNode, sharedSettings.graphUpdateInterval);

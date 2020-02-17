@@ -8,8 +8,10 @@ var fileServer = new nodeStatic.Server("./frontend/public", {cache: 0});
 var webSocket = require("./web-socket");
 var cli = require("./cli");
 var port = 8080;
+var settings;
 
-module.exports = function (onListening) {
+module.exports = function (x) {
+    settings = x;
     var httpServer = http.createServer(function (request, response) {
         var nodeRegExp = new RegExp("^/[a-z0-9]$", "i");
         if (request.url.match(nodeRegExp)) {
@@ -29,10 +31,13 @@ module.exports = function (onListening) {
 
     httpServer.listen(port, function () {
         cli.log("HTTP server is listening on port " + port);
-        if (onListening !== undefined) {
-            onListening();
+        if (settings.onListening !== undefined) {
+            settings.onListening();
         }
     });
 
-    webSocket.create(httpServer);
+    webSocket.create({
+        httpServer: httpServer,
+        connectionTypeToInject: settings.connectionTypeToInject
+    });
 };

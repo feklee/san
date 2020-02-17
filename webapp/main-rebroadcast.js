@@ -18,14 +18,13 @@ var it = rl[Symbol.asyncIterator]();
 
 var readNextLine;
 
-var broadcastOnceTimeHasElapsed = function (targetTime, json) {
+var broadcastOnceTimeHasElapsed = function (targetTime, message) {
     if (elapsedTime() >= targetTime) {
-        console.log("Broadcasting:", json);
-        // TODO        webSocket.broadcast(message);
+        webSocket.broadcast(message);
         readNextLine();
         return;
     }
-    setTimeout(() => broadcastOnceTimeHasElapsed(targetTime, json), 0);
+    setTimeout(() => broadcastOnceTimeHasElapsed(targetTime, message), 0);
 };
 
 var interpretLine = function (line) {
@@ -35,15 +34,19 @@ var interpretLine = function (line) {
         return;
     }
 
-    var targetTime = parseFloat(matches[1]); // s
-    var json = matches[2];
+    const targetTime = parseFloat(matches[1]); // s
+    const json = matches[2];
+    const message = JSON.parse(json);
 
-    broadcastOnceTimeHasElapsed(targetTime, json);
+    broadcastOnceTimeHasElapsed(targetTime, message);
 };
 
 readNextLine = async function () {
     const result = await it.next();
     var line = result.value;
+    if (result.done) {
+        return;
+    }
     interpretLine(line);
 };
 

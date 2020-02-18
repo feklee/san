@@ -4,11 +4,7 @@ using System.Text;
 using Grasshopper.Kernel;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using System.Drawing;
-using Grasshopper;
-using Grasshopper.Kernel.Types;
 using Newtonsoft.Json;
-using Rhino.Geometry;
 using System.Threading.Tasks;
 using System.Net.WebSockets;
 
@@ -28,7 +24,7 @@ namespace SAN
         public String connectionType;
     };
 
-    public class Graph : GH_Component
+    public class Connect : GH_Component
     {
         private Connection connection;
         private string messageBeingReceived;
@@ -51,7 +47,7 @@ namespace SAN
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public Graph() : base("Graph", "Graph", "3D representation of the network", "SAN", "Graph")
+        public Connect() : base("Connect to Server", "Connect", "Connect to the SAN server via WebSockets", "SAN", "Graph")
         {
             receiveCTSource = new CancellationTokenSource();
             connectCTSource = new CancellationTokenSource();
@@ -73,12 +69,6 @@ namespace SAN
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddTextParameter("State", "S", "WebSocket state", GH_ParamAccess.item);
-            pManager.AddTextParameter("IDs", "I", "Node IDs", GH_ParamAccess.list);
-            pManager.AddPointParameter("Points", "P", "Points at node locations", GH_ParamAccess.list);
-            pManager.AddVectorParameter("Axes", "A", "Axes defining orientation of nodes", GH_ParamAccess.list);
-            pManager.AddLineParameter("Lines", "L", "Lines along edges", GH_ParamAccess.list);
-            pManager.AddColourParameter("Colors", "C", "Four colors for each node", GH_ParamAccess.tree);
-            pManager.AddParameter(new TriStateParameter(), "Test3", "T3", "My test #3", GH_ParamAccess.item);
             pManager.AddParameter(new ConnectionParameter(), "Connection", "Con", "Connection to SAN", GH_ParamAccess.item);
         }
 
@@ -104,39 +94,6 @@ namespace SAN
             };
             var graphMessageData = JsonConvert.DeserializeObject<GraphMessageData>(message, settings);
             connection.graphMessageData = graphMessageData;
-
-            var points = new List<GH_Point>();
-            foreach (var point in graphMessageData.points)
-            {
-                var p = new Point3d(point[0], point[1], point[2]);
-                points.Add(new GH_Point(p));
-            }
-
-            var axes = new List<GH_Vector>();
-            foreach (var axis in graphMessageData.axes)
-            {
-                var v = new Vector3d(axis[0], axis[1], axis[2]);
-                axes.Add(new GH_Vector(v));
-            }
-
-            var colors = new DataTree<GH_Colour>();
-            var pathIndex = 0;
-            foreach (var colorsOfNodeToConvert in graphMessageData.colors)
-            {
-                var colorsOfNode = new List<GH_Colour>();
-                foreach (var colorToConvert in colorsOfNodeToConvert)
-                {
-                    var color = Color.FromArgb(colorToConvert[0], colorToConvert[1], colorToConvert[2]);
-                    colorsOfNode.Add(new GH_Colour(color));
-                }
-                colors.AddRange(colorsOfNode, new Grasshopper.Kernel.Data.GH_Path(pathIndex));
-                pathIndex++;
-            }
-
-            DA.SetDataList(1, graphMessageData.nodeIds);
-            DA.SetDataList(2, points);
-            DA.SetDataList(3, axes);
-            DA.SetDataTree(5, colors);
         }
 
         private void parseLastCompleteMessage(IGH_DataAccess DA)
@@ -286,10 +243,8 @@ namespace SAN
                 }
             }
 
-            var t = new TriStateType(0);
-            DA.SetData(6, t);
             var c = new ConnectionType(connection);
-            DA.SetData(7, c);
+            DA.SetData(1, c);
         }
 
         /// <summary>

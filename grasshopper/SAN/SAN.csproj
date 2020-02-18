@@ -73,7 +73,7 @@
     <Compile Include="TriStateType.cs" />
     <Compile Include="NodeMesh.cs" />
     <Compile Include="SANInfo.cs" />
-    <Compile Include="Graph.cs" />
+    <Compile Include="Connect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

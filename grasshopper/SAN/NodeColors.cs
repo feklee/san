@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
-using Rhino.Geometry;
 
 namespace SAN
 {
-    public class NodePoint : GH_Component
+    public class NodeColors : GH_Component
     {
-        Random rand;
-
-        public NodePoint()
-          : base("Node Point", "NodePoint", "Point at the location of the node", "SAN", "Graph")
+        public NodeColors()
+          : base("Node Colors", "NodeColors", "Colors of the LEDs of the node", "SAN", "Graph")
         {
-            rand = new Random();
         }
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
@@ -24,7 +21,7 @@ namespace SAN
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
-            pManager.AddPointParameter("Point", "P", "Point at node location", GH_ParamAccess.item);
+            pManager.AddColourParameter("Colors", "C", "Four colors of node", GH_ParamAccess.list);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -41,24 +38,28 @@ namespace SAN
             var i = d.nodeIds.FindIndex(a => a == id);
             if (i < 0) { return; }
 
-            var p = d.points[i];
-            var p3d = new Point3d(p[0], p[1], p[2]);
-            DA.SetData(0, new GH_Point(p3d));
+            var colorsOfNodeToConvert = d.colors[i];
+            var colorsOfNode = new List<GH_Colour>();
+            foreach (var colorToConvert in colorsOfNodeToConvert)
+            {
+                var color = Color.FromArgb(colorToConvert[0], colorToConvert[1], colorToConvert[2]);
+                colorsOfNode.Add(new GH_Colour(color));
+            }
+
+            DA.SetDataList(0, colorsOfNode);
         }
 
         protected override System.Drawing.Bitmap Icon
         {
             get
             {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
                 return null;
             }
         }
 
         public override Guid ComponentGuid
         {
-            get { return new Guid("87f5f9f2-ce0e-43a3-abf2-777fc8189460"); }
+            get { return new Guid("2df65473-c508-4dd8-a24e-7f6ab14b521f"); }
         }
     }
 }

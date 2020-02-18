@@ -6,15 +6,15 @@ using Rhino.Geometry;
 
 namespace SAN
 {
-    public class Node3D : GH_Component
+    public class NodeMesh : GH_Component
     {
         Random rand;
 
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public Node3D()
-          : base("Node Mesh", "Node", "3D representation of a network node", "SAN", "Graph")
+        public NodeMesh()
+          : base("Node Mesh", "NodeMesh", "3D representation of a network node", "SAN", "Graph")
         {
             rand = new Random();
         }

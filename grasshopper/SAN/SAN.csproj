@@ -62,7 +62,9 @@
     <Compile Include="Connection.cs" />
     <Compile Include="ConnectionType.cs" />
     <Compile Include="ConnectionParameter.cs" />
+    <Compile Include="NodeIds.cs" />
     <Compile Include="NodeColors.cs" />
+    <Compile Include="NodeAxis.cs" />
     <Compile Include="NodePoint.cs" />
     <Compile Include="TriStateParameter.cs" />
     <Compile Include="TriStateType.cs" />

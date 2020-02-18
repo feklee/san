@@ -5,6 +5,7 @@ import nodeColors from "./node-colors.mjs";
 import edges from "./edges.mjs";
 import colorConvert from "color-convert";
 import webSocket from "./web-socket.mjs";
+import util from "./util.mjs";
 
 var dupElements = function (array) {
     return array.reduce((res, el) => res.concat([el, el]), []);
@@ -28,6 +29,7 @@ var sendGraph = function () {
     var data = {
         type: "graph",
         nodeIds: ns.map((n) => n.id),
+        nodeIps: ns.map((n) => util.ipOfNode(n.id)),
         points: ns.map(point),
         colors: ns.map(colorsOfNode),
         lines: es.map((e) => Array.from(e.nodes).map(point)),

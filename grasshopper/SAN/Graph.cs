@@ -23,7 +23,7 @@ namespace SAN
         public List<List<int>> nodeIps;
         public List<List<double>> points;
         public List<List<double>> axes;
-        public List<List<List<double>>> lines;
+        public List<List<string>> edges;
         public List<List<List<int>>> colors;
         public String connectionType;
     };
@@ -31,7 +31,8 @@ namespace SAN
     public class Graph : GH_Component
     {
         private Connection connection;
-        private string message;
+        private string messageBeingReceived;
+        private string lastCompleteMessage = "";
         private string url;
         private bool messageIsComplete = false;
         private CancellationTokenSource receiveCTSource;
@@ -118,15 +119,6 @@ namespace SAN
                 axes.Add(new GH_Vector(v));
             }
 
-            var lines = new List<GH_Line>();
-            foreach (var edgeLine in graphMessageData.lines)
-            {
-                var pA = new Point3d(edgeLine[0][0], edgeLine[0][1], edgeLine[0][2]);
-                var pB = new Point3d(edgeLine[1][0], edgeLine[1][1], edgeLine[1][2]);
-                var l = new Line(pA, pB);
-                lines.Add(new GH_Line(l));
-            }
-
             var colors = new DataTree<GH_Colour>();
             var pathIndex = 0;
             foreach (var colorsOfNodeToConvert in graphMessageData.colors)
@@ -144,18 +136,14 @@ namespace SAN
             DA.SetDataList(1, graphMessageData.nodeIds);
             DA.SetDataList(2, points);
             DA.SetDataList(3, axes);
-            DA.SetDataList(4, lines);
             DA.SetDataTree(5, colors);
         }
 
-        private void parseMessage(IGH_DataAccess DA)
+        private void parseLastCompleteMessage(IGH_DataAccess DA)
         {
-            if (!messageIsComplete) {
-                return;
-            }
-            if (typeOfMessage(message) == "graph")
+            if (typeOfMessage(lastCompleteMessage) == "graph")
             {
-                parseGraphMessage(message, DA);
+                parseGraphMessage(lastCompleteMessage, DA);
             }
         }
 
@@ -168,20 +156,21 @@ namespace SAN
         private void parseWebSocketBuffer(WebSocketReceiveResult receiveResult, ArraySegment<byte> buffer, IGH_DataAccess DA)
         {
             if (receiveResult.MessageType != WebSocketMessageType.Text) {
-                message = "";
+                messageBeingReceived = "";
                 return;
             }
 
             string messageFragment = Encoding.UTF8.GetString(buffer.Array, 0, receiveResult.Count);
-            message += messageFragment;
+            messageBeingReceived += messageFragment;
             messageIsComplete = receiveResult.EndOfMessage;
             if (messageIsComplete) {
-                if (typeOfMessage(message) == "graph") {
+                lastCompleteMessage = messageBeingReceived;
+                messageBeingReceived = "";
+                if (typeOfMessage(lastCompleteMessage) == "graph") {
                     receivingMessage = false;
                     expireSolution();
                     return;
                 }
-                message = "";
             }
             receiveNextMessage(DA);
         }
@@ -281,8 +270,8 @@ namespace SAN
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             publishState(DA);
-            parseMessage(DA);
-            message = "";
+            parseLastCompleteMessage(DA);
+            messageBeingReceived = "";
             refreshUrl(DA);
 
             if (connection.webSocket == null || connection.webSocket.State != WebSocketState.Open)

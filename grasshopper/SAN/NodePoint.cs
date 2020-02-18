@@ -8,13 +8,9 @@ namespace SAN
 {
     public class NodePoint : GH_Component
     {
-        Random rand;
-
         public NodePoint()
           : base("Node Point", "NodePoint", "Point at the location of the node", "SAN", "Graph")
-        {
-            rand = new Random();
-        }
+        { }
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {

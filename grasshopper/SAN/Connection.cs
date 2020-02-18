@@ -2,7 +2,7 @@
 
 namespace SAN
 {
-    class Connection
+    public class Connection
     {
         public ClientWebSocket webSocket;
     }

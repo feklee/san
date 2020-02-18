@@ -76,6 +76,7 @@ namespace SAN
             pManager.AddLineParameter("Lines", "L", "Lines along edges", GH_ParamAccess.list);
             pManager.AddColourParameter("Colors", "C", "Four colors for each node", GH_ParamAccess.tree);
             pManager.AddParameter(new TriStateParameter(), "Test3", "T3", "My test #3", GH_ParamAccess.item);
+            pManager.AddParameter(new ConnectionParameter(), "Connection", "Con", "Connection to SAN", GH_ParamAccess.item);
         }
 
         private string valueInMessage(string message, string key)
@@ -295,6 +296,8 @@ namespace SAN
 
             var t = new TriStateType(0);
             DA.SetData(6, t);
+            var c = new ConnectionType(connection);
+            DA.SetData(7, c);
         }
 
         /// <summary>

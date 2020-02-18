@@ -2,37 +2,11 @@
 
 namespace SAN
 {
-    public class ConnectionType : GH_Goo<int>
+    public class ConnectionType : GH_Goo<Connection>
     {
-        public ConnectionType()
+        public ConnectionType(Connection connection)
         {
-            this.Value = -1;
-        }
-
-        public ConnectionType(int ConnectionValue)
-        {
-            this.Value = ConnectionValue;
-        }
-
-        public ConnectionType(ConnectionType ConnectionSource)
-        {
-            this.Value = ConnectionSource.Value;
-        }
-
-        public override IGH_Goo Duplicate()
-        {
-            return new ConnectionType(this);
-        }
-
-        public override int Value
-        {
-            get { return base.Value; }
-            set
-            {
-                if (value < -1) { value = -1; }
-                if (value > +1) { value = +1; }
-                base.Value = value;
-            }
+            this.Value = connection;
         }
 
         public override bool IsValid
@@ -47,14 +21,20 @@ namespace SAN
 
         public override string TypeDescription
         {
-            get { return "A Connection Value (True, False or Unknown)"; }
+            get { return "A Connection to SAN"; }
+        }
+
+        public override IGH_Goo Duplicate()
+        {
+            throw new System.NotImplementedException(); // TODO
         }
 
         public override string ToString()
         {
-            if (this.Value == 0) { return "False"; }
-            if (this.Value > 0) { return "True"; }
-            return "Unknown";
+            if (this.Value.webSocket != null) {
+                return this.Value.webSocket.State.ToString();
+            }
+            return "Not connected";
         }
     }
 }

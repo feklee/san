@@ -8,16 +8,12 @@ namespace SAN
 {
     public class NodeMesh : GH_Component
     {
-        Random rand;
-
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
         public NodeMesh()
           : base("Node Mesh", "NodeMesh", "3D representation of a network node", "SAN", "Graph")
-        {
-            rand = new Random();
-        }
+        { }
 
         /// <summary>
         /// Registers all the input parameters for this component.

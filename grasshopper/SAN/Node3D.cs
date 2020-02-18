@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Grasshopper.Kernel;
-using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Rhino.Geometry;
 
@@ -31,6 +30,9 @@ namespace SAN
             pManager[1].Optional = true;
             pManager.AddColourParameter("Colors", "C", "Colors of node", GH_ParamAccess.list);
             pManager[2].Optional = true;
+
+            pManager.AddParameter(new TriStateParameter(), "Test", "T", "My test", GH_ParamAccess.item);
+            pManager[3].Optional = true;
         }
 
         /// <summary>
@@ -39,6 +41,7 @@ namespace SAN
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
         {
             pManager.AddMeshParameter("Mesh", "M", "Mesh representing a node", GH_ParamAccess.item);
+            pManager.AddParameter(new TriStateParameter(), "Test2", "T2", "My test #2", GH_ParamAccess.item);
         }
 
         private void orientMeshAlongAxis(Mesh mesh, GH_Vector axis)
@@ -98,6 +101,10 @@ namespace SAN
             moveMeshToPoint(mesh, point);
 
             DA.SetData(0, mesh);
+
+            var t = new TriStateType();
+            DA.GetData(3, ref t);
+            DA.SetData(1, t);
         }
 
         /// <summary>

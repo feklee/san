@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.WebSockets;
 using System.Threading;
 using System.Text;
 using Grasshopper.Kernel;
@@ -11,6 +10,7 @@ using Grasshopper.Kernel.Types;
 using Newtonsoft.Json;
 using Rhino.Geometry;
 using System.Threading.Tasks;
+using System.Net.WebSockets;
 
 namespace SAN
 {
@@ -28,7 +28,7 @@ namespace SAN
 
     public class Graph : GH_Component
     {
-        private ClientWebSocket webSocket;
+        private Connection connection;
         private string message;
         private string url;
         private bool messageIsComplete = false;
@@ -53,6 +53,7 @@ namespace SAN
             receiveCTSource = new CancellationTokenSource();
             connectCTSource = new CancellationTokenSource();
             closeCTSource = new CancellationTokenSource();
+            connection = new Connection();
         }
 
         /// <summary>
@@ -74,6 +75,7 @@ namespace SAN
             pManager.AddVectorParameter("Axes", "A", "Axes defining orientation of nodes", GH_ParamAccess.list);
             pManager.AddLineParameter("Lines", "L", "Lines along edges", GH_ParamAccess.list);
             pManager.AddColourParameter("Colors", "C", "Four colors for each node", GH_ParamAccess.tree);
+            pManager.AddParameter(new TriStateParameter(), "Test3", "T3", "My test #3", GH_ParamAccess.item);
         }
 
         private string valueInMessage(string message, string key)
@@ -187,7 +189,7 @@ namespace SAN
             receivingMessage = true;
             try
             {
-                receiveTask = webSocket.ReceiveAsync(buffer, receiveCTSource.Token).ContinueWith(res =>
+                receiveTask = connection.webSocket.ReceiveAsync(buffer, receiveCTSource.Token).ContinueWith(res =>
                 {
                     try
                     {
@@ -207,10 +209,10 @@ namespace SAN
 
         private void publishState(IGH_DataAccess DA)
         {
-            string state = (webSocket == null) ? "Not connected" : webSocket.State.ToString();
-            if (webSocket != null &&
-                webSocket.State != WebSocketState.Open &&
-                webSocket.State != WebSocketState.Connecting)
+            string state = (connection.webSocket == null) ? "Not connected" : connection.webSocket.State.ToString();
+            if (connection.webSocket != null &&
+                connection.webSocket.State != WebSocketState.Open &&
+                connection.webSocket.State != WebSocketState.Connecting)
             {
                 state += ": " + lastUnreportedErrorMessage;
             }
@@ -224,8 +226,8 @@ namespace SAN
 
             try
             {
-                webSocket = new ClientWebSocket();
-                await webSocket.ConnectAsync(uri, connectCTSource.Token);
+                connection.webSocket = new ClientWebSocket();
+                await connection.webSocket.ConnectAsync(uri, connectCTSource.Token);
             }
             catch (Exception ex)
             {
@@ -235,7 +237,7 @@ namespace SAN
 
             publishState(DA);
 
-            while (webSocket.State != WebSocketState.Open)
+            while (connection.webSocket.State != WebSocketState.Open)
             {
                 await Task.Delay(500);
             }
@@ -249,7 +251,7 @@ namespace SAN
         {
             try
             {
-                await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Disconnect", closeCTSource.Token);
+                await connection.webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Disconnect", closeCTSource.Token);
             }
             catch (Exception ex)
             {
@@ -279,7 +281,7 @@ namespace SAN
             message = "";
             refreshUrl(DA);
 
-            if (webSocket == null || webSocket.State != WebSocketState.Open)
+            if (connection.webSocket == null || connection.webSocket.State != WebSocketState.Open)
             {
                 connect(DA);
             }
@@ -290,6 +292,9 @@ namespace SAN
                     receiveNextMessage(DA);
                 }
             }
+
+            var t = new TriStateType(0);
+            DA.SetData(6, t);
         }
 
         /// <summary>

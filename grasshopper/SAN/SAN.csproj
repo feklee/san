@@ -69,8 +69,6 @@
     <Compile Include="NodeAxis.cs" />
     <Compile Include="EdgeLine.cs" />
     <Compile Include="NodePoint.cs" />
-    <Compile Include="TriStateParameter.cs" />
-    <Compile Include="TriStateType.cs" />
     <Compile Include="NodeMesh.cs" />
     <Compile Include="SANInfo.cs" />
     <Compile Include="Connect.cs" />

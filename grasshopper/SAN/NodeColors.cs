@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Net.Http;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
 
@@ -43,17 +44,46 @@ namespace SAN
             return colorsOfNode;
         }
 
+        private char colorComponentChar(byte value)
+        {
+            return (char)((value >> 6) + 48); // between 0 and 3
+        }
+
+        private string colorString(GH_Colour color)
+        {
+            var c = color.Value;
+            char[] a = {colorComponentChar(c.R), colorComponentChar(c.G), colorComponentChar(c.B)};
+            return new string(a);
+        }
+
+        private async void sendColorsToNode(int nodeIndex, List<GH_Colour> colors)
+        {
+            string command = "C";
+            foreach (GH_Colour color in colors)
+            {
+                command += colorString(color);
+            }
+            Console.Write(command);
+            try
+            {
+                await Connection.httpClient.GetAsync("http://192.168.4.104?" + command);
+            }
+            catch (HttpRequestException) { }
+        }
+
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var con = new ConnectionType();
-            DA.GetData(0, ref con);
+            var connectionType = new ConnectionType();
+            DA.GetData(0, ref connectionType);
+            var connection = connectionType.Value;
+            var colorHasChanged = false;
 
-            var d = con.Value.graphMessageData;
+            var d = connection.graphMessageData;
             if (d == null) { return; }
 
             string id = "";
             DA.GetData(1, ref id);
-            var nodeIndex = con.Value.indexOfNode(id);
+            var nodeIndex = connection.indexOfNode(id);
             if (nodeIndex < 0) { return; }
             var colorsOfNode = loadColorsFromGraph(d, nodeIndex);
             if (colorsOfNode == null) { return; }
@@ -63,8 +93,17 @@ namespace SAN
                 var color = new GH_Colour();
                 if (DA.GetData(2 + i, ref color))
                 {
-                    colorsOfNode[i] = color;
+                    if (color != colorsOfNode[i])
+                    {
+                        colorsOfNode[i] = color;
+                        colorHasChanged = true;
+                    }
                 }
+            }
+
+            if (colorHasChanged)
+            {
+                sendColorsToNode(nodeIndex, colorsOfNode);
             }
 
             DA.SetDataList(0, colorsOfNode);

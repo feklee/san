@@ -1,6 +1,5 @@
-﻿using Grasshopper.Kernel.Types;
-using System.Collections.Generic;
-using System.Net.WebSockets;
+﻿using System.Net.WebSockets;
+using System.Net.Http;
 
 namespace SAN
 {
@@ -8,6 +7,7 @@ namespace SAN
     {
         public ClientWebSocket webSocket;
         public GraphMessageData graphMessageData;
+        public static readonly HttpClient httpClient = new HttpClient();
 
         // negative, if node ID cannot be found
         public int indexOfNode(string nodeId)

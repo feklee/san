@@ -25,21 +25,13 @@ namespace SAN
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var con = new ConnectionType();
-            DA.GetData(0, ref con);
+            var connectionType = new ConnectionType();
+            DA.GetData(0, ref connectionType);
+            var connection = connectionType.Value;
 
             string id = "";
             DA.GetData(1, ref id);
-
-            var d = con.Value.graphMessageData;
-            if (d == null) { return; }
-
-            var i = con.Value.indexOfNode(id);
-            if (i < 0) { return; }
-
-            var p = d.points[i];
-            var p3d = new Point3d(p[0], p[1], p[2]);
-            DA.SetData(0, new GH_Point(p3d));
+            DA.SetData(0, connection.nodePoint(id));
         }
 
         protected override System.Drawing.Bitmap Icon

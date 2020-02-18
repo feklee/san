@@ -32,7 +32,7 @@ var sendGraph = function () {
         nodeIps: ns.map((n) => util.ipOfNode(n.id)),
         points: ns.map(point),
         colors: ns.map(colorsOfNode),
-        lines: es.map((e) => Array.from(e.nodes).map(point)),
+        edges: es.map((e) => Array.from(e.nodes).map((n) => n.id)),
         axes: ns.map((node) => node.axis.toArray())
     };
 

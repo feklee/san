@@ -56,7 +56,7 @@ var onNewConnection = function (connection) {
     });
 
     connection.on("close", function () {
-        console.log("WebSocket connection closed");
+        cli.log("WebSocket connection closed");
         connectionSet.delete(connection);
     });
 

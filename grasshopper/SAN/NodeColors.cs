@@ -73,7 +73,7 @@ namespace SAN
             {
                 await Connection.httpClient.GetAsync(url + "?" + command);
             }
-            catch (HttpRequestException) { }
+            catch (Exception) { }
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)

@@ -23,10 +23,11 @@ namespace SAN
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
-            var con = new ConnectionType();
-            DA.GetData(0, ref con);
+            var connectionType = new ConnectionType();
+            DA.GetData(0, ref connectionType);
+            var connection = connectionType.Value;
 
-            var d = con.Value.graphMessageData;
+            var d = connection.graphMessageData;
             if (d == null) { return; }
 
             var edgeTree = new DataTree<string>();

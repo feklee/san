@@ -1,7 +1,8 @@
 /*jslint browser: true, maxlen: 80, getset: true */
 
 import {
-    connectionExpiryDuration // ms
+    connectionExpiryDuration, // ms
+    gw
 } from "./shared-settings.mjs";
 
 var connectionExpiryTime = function () { // ms
@@ -80,10 +81,14 @@ var createOscillationSource = function (
     };
 };
 
+var ipOfNode = function (nodeId) {
+    return gw.slice(0, 3).concat([nodeId.charCodeAt() + 36]);
+};
 
 export default {
     connectionExpiryTime: connectionExpiryTime,
     nodeIsRootNode: nodeIsRootNode,
     createNoiseSource: createNoiseSource,
-    createOscillationSource: createOscillationSource
+    createOscillationSource: createOscillationSource,
+    ipOfNode: ipOfNode
 };

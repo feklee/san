@@ -4,8 +4,7 @@ import webSocket from "./web-socket.mjs";
 import util from "./util.mjs";
 import nodeColors from "./node-colors.mjs";
 import {
-    graphUpdateInterval, // ms
-    gw
+    graphUpdateInterval // ms
 } from "./shared-settings.mjs";
 import graphicalAnalyzerSetup from "./graphical-analyzer-setup.mjs";
 
@@ -414,11 +413,7 @@ var connectionLostErrorEl = document.querySelector(".connection-lost-error");
 
 var setVideoStream = function () {
     const view = document.querySelector(".video img.stream");
-    const url =
-            "http://" +
-            gw.slice(0, 3).join(".") + "." +
-            (idOfThisNode.charCodeAt() + 36) +
-            ":81";
+    const url = "http://" + util.ipOfNode(idOfThisNode).join(".") + ":81";
     view.src = url;
 };
 

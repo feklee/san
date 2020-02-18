@@ -20,6 +20,7 @@ namespace SAN
     {
         public string type;
         public List<string> nodeIds;
+        public List<List<int>> nodeIps;
         public List<List<double>> points;
         public List<List<double>> axes;
         public List<List<List<double>>> lines;

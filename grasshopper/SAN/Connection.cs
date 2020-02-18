@@ -8,5 +8,12 @@ namespace SAN
     {
         public ClientWebSocket webSocket;
         public GraphMessageData graphMessageData;
+
+        // negative, if node ID cannot be found
+        public int indexOfNode(string nodeId)
+        {
+            if (graphMessageData == null) { return -1; }
+            return graphMessageData.nodeIds.FindIndex(a => a == nodeId);
+        }
     }
 }

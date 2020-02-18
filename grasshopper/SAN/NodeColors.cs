@@ -35,7 +35,7 @@ namespace SAN
             var d = con.Value.graphMessageData;
             if (d == null) { return; }
 
-            var i = d.nodeIds.FindIndex(a => a == id);
+            var i = con.Value.indexOfNode(id);
             if (i < 0) { return; }
 
             var colorsOfNodeToConvert = d.colors[i];

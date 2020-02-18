@@ -56,7 +56,12 @@ namespace SAN
             return new string(a);
         }
 
-        private async void sendColorsToNodeByWifi(int nodeIndex, List<GH_Colour> colors)
+        private string nodeUrl(GraphMessageData d, int nodeIndex)
+        {
+            return "http://" + string.Join(".", d.nodeIps[nodeIndex]);
+        }
+
+        private async void sendColorsToNodeByWifi(string url, List<GH_Colour> colors)
         {
             string command = "C";
             foreach (GH_Colour color in colors)
@@ -66,7 +71,7 @@ namespace SAN
             Console.Write(command);
             try
             {
-                await Connection.httpClient.GetAsync("http://192.168.4.104?" + command);
+                await Connection.httpClient.GetAsync(url + "?" + command);
             }
             catch (HttpRequestException) { }
         }
@@ -103,7 +108,7 @@ namespace SAN
 
             if (colorHasChanged && d.connectionType == "wifi")
             {
-                sendColorsToNodeByWifi(nodeIndex, colorsOfNode);
+                sendColorsToNodeByWifi(nodeUrl(d, nodeIndex), colorsOfNode);
             }
 
             DA.SetDataList(0, colorsOfNode);

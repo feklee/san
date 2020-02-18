@@ -9,8 +9,8 @@ program
     .command("connect <port>", "Connect to root node on serial port")
     .command("wifi", "Connect to SAN network via WiFi")
     .command(
-        "simulate",
-        "Simulate connection (to hide log, redirect stderr to null device)"
+        "simulate [connection_type]",
+        "Simulate connection (log goes to stderr)"
     )
     .command(
         "rebroadcast",

@@ -8,7 +8,13 @@ var cli = require("./cli");
 var set = new Set();
 var sharedSettings = require("./shared-settings");
 var pairIsValid = require("./pair-is-valid");
-var http = require("http");
+var program = require("commander");
+
+program.parse(process.argv);
+var connectionType = program.args[0];
+if (connectionType === undefined) {
+    connectionType = "simulation";
+}
 
 function sendSet() {
     set.forEach(function (data) {
@@ -137,5 +143,5 @@ startWebServer({
             }
         });
     },
-    connectionTypeToInject: "simulation"
+    connectionTypeToInject: connectionType
 });

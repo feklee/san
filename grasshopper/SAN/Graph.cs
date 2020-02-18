@@ -100,6 +100,7 @@ namespace SAN
                 ObjectCreationHandling = ObjectCreationHandling.Replace
             };
             var graphMessageData = JsonConvert.DeserializeObject<GraphMessageData>(message, settings);
+            connection.graphMessageData = graphMessageData;
 
             var points = new List<GH_Point>();
             foreach (var point in graphMessageData.points)

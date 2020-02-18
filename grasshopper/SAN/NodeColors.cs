@@ -56,7 +56,7 @@ namespace SAN
             return new string(a);
         }
 
-        private async void sendColorsToNode(int nodeIndex, List<GH_Colour> colors)
+        private async void sendColorsToNodeByWifi(int nodeIndex, List<GH_Colour> colors)
         {
             string command = "C";
             foreach (GH_Colour color in colors)
@@ -101,9 +101,9 @@ namespace SAN
                 }
             }
 
-            if (colorHasChanged)
+            if (colorHasChanged && d.connectionType == "wifi")
             {
-                sendColorsToNode(nodeIndex, colorsOfNode);
+                sendColorsToNodeByWifi(nodeIndex, colorsOfNode);
             }
 
             DA.SetDataList(0, colorsOfNode);

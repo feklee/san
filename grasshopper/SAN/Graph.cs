@@ -24,6 +24,7 @@ namespace SAN
         public List<List<double>> axes;
         public List<List<List<double>>> lines;
         public List<List<List<int>>> colors;
+        public String connectionType;
     };
 
     public class Graph : GH_Component

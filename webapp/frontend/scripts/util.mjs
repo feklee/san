@@ -85,10 +85,23 @@ var ipOfNode = function (nodeId) {
     return gw.slice(0, 3).concat([nodeId.charCodeAt() + 36]);
 };
 
+var nodeIconBackgroundStyle = function (colors) {
+    return "conic-gradient(from 45deg, " +
+            colors[0] + " 0%, " +
+            colors[0] + " 25%, " +
+            colors[0] + " 25%, " +
+            colors[0] + " 50%, " +
+            colors[1] + " 50%, " +
+            colors[1] + " 75%, " +
+            colors[1] + " 75%, " +
+            colors[1] + " 100%)";
+};
+
 export default {
     connectionExpiryTime: connectionExpiryTime,
     nodeIsRootNode: nodeIsRootNode,
     createNoiseSource: createNoiseSource,
     createOscillationSource: createOscillationSource,
-    ipOfNode: ipOfNode
+    ipOfNode: ipOfNode,
+    nodeIconBackgroundStyle: nodeIconBackgroundStyle
 };

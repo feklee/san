@@ -3,6 +3,7 @@
 /*jslint browser: true, maxlen: 80 */
 
 import sortedNodes from "./sorted-nodes.mjs";
+import util from "./util.mjs";
 
 var matrixEl = document.querySelector("table.matrix");
 
@@ -16,16 +17,7 @@ var createSpan = function (text, colors) {
     var spanEl = document.createElement("span");
     spanEl.textContent = text;
     if (text !== 0) {
-        spanEl.style.background =
-                "conic-gradient(from 45deg, " +
-                colors[0] + " 0%, " +
-                colors[0] + " 25%, " +
-                colors[0] + " 25%, " +
-                colors[0] + " 50%, " +
-                colors[1] + " 50%, " +
-                colors[1] + " 75%, " +
-                colors[1] + " 75%, " +
-                colors[1] + " 100%)";
+        spanEl.style.background = util.nodeIconBackgroundStyle(colors);
         spanEl.style.color = "black";
     }
     return spanEl;

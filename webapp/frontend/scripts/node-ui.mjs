@@ -288,12 +288,7 @@ var parseModuleMessage = function (message) {
 
 var setNodeIconColors = function (nodeEl, nodeId) {
     var colors = colorsOfNodes[nodeId];
-    nodeEl.style.background =
-            "linear-gradient(to bottom right, " +
-            colors[0] + " 0%, " +
-            colors[0] + " 50%, " +
-            colors[1] + " 50%, " +
-            colors[1] + " 100%)";
+    nodeEl.style.background = util.nodeIconBackgroundStyle(colors);
 };
 
 var setNodeIconLink = function (nodeEl, nodeId) {

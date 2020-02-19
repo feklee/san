@@ -2,7 +2,7 @@
 
 import webSocket from "./web-socket.mjs";
 import util from "./util.mjs";
-import colorsOfNodes from "./colors-of-nodes.mjs";
+import {cssColorsOfNode} from "./colors.mjs";
 import {
     graphUpdateInterval // ms
 } from "./shared-settings.mjs";
@@ -287,7 +287,7 @@ var parseModuleMessage = function (message) {
 };
 
 var setNodeIconColors = function (nodeEl, nodeId) {
-    var colors = colorsOfNodes[nodeId];
+    var colors = cssColorsOfNode(nodeId);
     nodeEl.style.background = util.nodeIconBackgroundStyle(colors);
 };
 

@@ -17,6 +17,7 @@ import {
     Scene,
     WebGLRenderer
 } from "../../node_modules/three/build/three.module.js";
+import {cssColorsOfNode} from "./colors.mjs";
 import THREE from "three";
 
 var vSettings = settings.visualization;
@@ -114,8 +115,9 @@ var createQuarterSphere = function (color, index) {
 
 var createNodeObject3D = function (node) {
     var sphere = new THREE.Group();
+    var colors = cssColorsOfNode(node.id);
     [0, 1, 2, 3].forEach(function (i) {
-        sphere.add(createQuarterSphere(node.colors[i], i));
+        sphere.add(createQuarterSphere(colors[i], i));
     });
     scene.add(sphere);
     node.object3D = sphere;

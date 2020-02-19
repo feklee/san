@@ -7,6 +7,7 @@ import audio from "./audio.mjs";
 import webSocket from "./web-socket.mjs";
 import sendGraph from "./send-graph.mjs";
 import settings from "./settings.mjs";
+import {parseNodeColorsMessage} from "./colors.mjs";
 
 var angleInRad = function ( // rad
     angleInDeg // deg
@@ -67,11 +68,6 @@ var parseData = function (data) {
     }
 };
 
-/* TODO
-var parseNodeColorsMessage(message) {
-};
-*/
-
 webSocket.setup({
     onerror: function () {
         log.append("error", "WebSocket error");
@@ -106,7 +102,7 @@ webSocket.setup({
                 "info",
                 "color update for " + message.nodeId
             );
-// TODO            parseNodeColorsMessage(message);
+            parseNodeColorsMessage(message);
         } else if (message.type !== "graph") {
             log.append(message.type, message.text);
         }

@@ -4,6 +4,7 @@
 
 import sortedNodes from "./sorted-nodes.mjs";
 import util from "./util.mjs";
+import {cssColorsOfNode} from "./colors.mjs";
 
 var matrixEl = document.querySelector("table.matrix");
 
@@ -32,7 +33,7 @@ var renderHead = function () {
     sortedNodes.forEach(function (node) {
         var cellEl = document.createElement("th");
         rowEl.appendChild(cellEl);
-        cellEl.appendChild(createSpan(node.id, node.colors));
+        cellEl.appendChild(createSpan(node.id, cssColorsOfNode(node.id)));
     });
 };
 
@@ -45,11 +46,11 @@ var renderBody = function (matrix) {
         bodyEl.appendChild(rowEl);
         var headerCellEl = document.createElement("th");
         rowEl.appendChild(headerCellEl);
-        headerCellEl.appendChild(createSpan(node.id, node.colors));
+        headerCellEl.appendChild(createSpan(node.id, cssColorsOfNode(node.id)));
         row.forEach(function (x) {
             var cellEl = document.createElement("td");
             rowEl.appendChild(cellEl);
-            cellEl.appendChild(createSpan(x, node.colors));
+            cellEl.appendChild(createSpan(x, cssColorsOfNode(node.id)));
         });
     });
 };

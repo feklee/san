@@ -8,6 +8,7 @@ import webSocket from "./web-socket.mjs";
 import sendGraph from "./send-graph.mjs";
 import settings from "./settings.mjs";
 import {parseNodeColorsMessage} from "./colors.mjs";
+import renderMatrix from "./render-matrix.mjs";
 
 var angleInRad = function ( // rad
     angleInDeg // deg
@@ -103,6 +104,7 @@ webSocket.setup({
                 "color update for " + message.nodeId
             );
             parseNodeColorsMessage(message);
+            renderMatrix();
         } else if (message.type !== "graph") {
             log.append(message.type, message.text);
         }

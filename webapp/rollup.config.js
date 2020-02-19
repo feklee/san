@@ -105,6 +105,7 @@ export default [{
     plugins: [
         replace(replaceSettings),
         legacy(legacySettings),
+        resolve(),
         commonjs()
     ],
     watch: {

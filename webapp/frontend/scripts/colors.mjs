@@ -4,6 +4,7 @@ import {
     nodeColorsList
 } from "./shared-settings.mjs";
 import colorConvert from "color-convert";
+import renderMatrix from "./render-matrix.mjs";
 
 var rgbColorsOfNodes = {};
 
@@ -45,6 +46,7 @@ var cssColorsOfNode = function (nodeId) {
 
 var parseNodeColorsMessage = function (message) {
     rgbColorsOfNodes[message.nodeId] = message.colors;
+    renderMatrix();
 };
 
 initializeWithDefaultValues();

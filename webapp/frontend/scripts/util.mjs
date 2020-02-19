@@ -89,12 +89,12 @@ var nodeIconBackgroundStyle = function (colors) {
     return "conic-gradient(from 45deg, " +
             colors[0] + " 0%, " +
             colors[0] + " 25%, " +
-            colors[0] + " 25%, " +
-            colors[0] + " 50%, " +
+            colors[1] + " 25%, " +
             colors[1] + " 50%, " +
-            colors[1] + " 75%, " +
-            colors[1] + " 75%, " +
-            colors[1] + " 100%)";
+            colors[2] + " 50%, " +
+            colors[2] + " 75%, " +
+            colors[3] + " 75%, " +
+            colors[3] + " 100%)";
 };
 
 export default {

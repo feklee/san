@@ -114,9 +114,8 @@ var createQuarterSphere = function (color, index) {
 
 var createNodeObject3D = function (node) {
     var sphere = new THREE.Group();
-    [0, 1].forEach(function (i) {
-        sphere.add(createQuarterSphere(node.colors[i], 2 * i));
-        sphere.add(createQuarterSphere(node.colors[i], 2 * i + 1));
+    [0, 1, 2, 3].forEach(function (i) {
+        sphere.add(createQuarterSphere(node.colors[i], i));
     });
     scene.add(sphere);
     node.object3D = sphere;

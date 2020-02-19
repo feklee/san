@@ -96,13 +96,17 @@ var updateEdgeObject3Ds = function () {
     });
 };
 
-var createHemisphere = function (color, index) {
+var createQuarterSphere = function (color, index) {
+    var i = index % 2;
+    var j = Math.floor(index / 2);
     var geometry = new SphereGeometry(
         vSettings.nodeDiameter,
         32,
         32,
-        index * Math.PI,
-        Math.PI
+        i * Math.PI + j * (Math.PI / 2),
+        Math.PI,
+        j * (Math.PI / 2),
+        Math.PI / 2
     );
     var material = new MeshBasicMaterial({color: color});
     return new Mesh(geometry, material);
@@ -111,7 +115,8 @@ var createHemisphere = function (color, index) {
 var createNodeObject3D = function (node) {
     var sphere = new THREE.Group();
     [0, 1].forEach(function (i) {
-        sphere.add(createHemisphere(node.colors[i], i));
+        sphere.add(createQuarterSphere(node.colors[i], 2 * i));
+        sphere.add(createQuarterSphere(node.colors[i], 2 * i + 1));
     });
     scene.add(sphere);
     node.object3D = sphere;

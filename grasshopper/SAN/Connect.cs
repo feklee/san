@@ -12,7 +12,7 @@ namespace SAN
 {
     public delegate void ExpireSolutionDelegate(Boolean recompute);
 
-    public class GraphMessageData
+    public class Graph
     {
         public string type;
         public List<string> nodeIds;
@@ -93,8 +93,8 @@ namespace SAN
             {
                 ObjectCreationHandling = ObjectCreationHandling.Replace
             };
-            var graphMessageData = JsonConvert.DeserializeObject<GraphMessageData>(message, settings);
-            connection.graphMessageData = graphMessageData;
+            var graph = JsonConvert.DeserializeObject<Graph>(message, settings);
+            connection.graph = graph;
         }
 
         private void parseLastCompleteMessage(IGH_DataAccess DA)

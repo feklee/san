@@ -31,7 +31,7 @@ namespace SAN
             string id = "";
             DA.GetData(1, ref id);
 
-            var d = con.Value.graphMessageData;
+            var d = con.Value.graph;
             if (d == null) { return; }
 
             var i = con.Value.indexOfNode(id);

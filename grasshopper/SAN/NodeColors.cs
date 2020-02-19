@@ -32,7 +32,7 @@ namespace SAN
             pManager.AddColourParameter("Colors", "C", "Four colors of node", GH_ParamAccess.list);
         }
 
-        private List<GH_Colour> loadColorsFromGraph(GraphMessageData d, int nodeIndex)
+        private List<GH_Colour> loadColorsFromGraph(Graph d, int nodeIndex)
         {
             var colorsOfNodeToConvert = d.colors[nodeIndex];
             var colorsOfNode = new List<GH_Colour>();
@@ -56,7 +56,7 @@ namespace SAN
             return new string(a);
         }
 
-        private string nodeUrl(GraphMessageData d, int nodeIndex)
+        private string nodeUrl(Graph d, int nodeIndex)
         {
             return "http://" + string.Join(".", d.nodeIps[nodeIndex]);
         }
@@ -83,7 +83,7 @@ namespace SAN
             var connection = connectionType.Value;
             var colorHasChanged = false;
 
-            var d = connection.graphMessageData;
+            var d = connection.graph;
             if (d == null) { return; }
 
             string id = "";

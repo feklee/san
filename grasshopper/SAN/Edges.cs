@@ -27,7 +27,7 @@ namespace SAN
             DA.GetData(0, ref connectionType);
             var connection = connectionType.Value;
 
-            var d = connection.graphMessageData;
+            var d = connection.graph;
             if (d == null) { return; }
 
             var edgeTree = new DataTree<string>();

@@ -27,7 +27,7 @@ namespace SAN
             var con = new ConnectionType();
             DA.GetData(0, ref con);
 
-            var d = con.Value.graphMessageData;
+            var d = con.Value.graph;
             if (d == null) { return; }
 
             DA.SetDataList(0, d.nodeIds);

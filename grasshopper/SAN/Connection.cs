@@ -8,14 +8,14 @@ namespace SAN
     public class Connection
     {
         public ClientWebSocket webSocket;
-        public GraphMessageData graphMessageData;
+        public Graph graph;
         public static readonly HttpClient httpClient = new HttpClient();
 
         // negative, if node ID cannot be found
         public int indexOfNode(string nodeId)
         {
-            if (graphMessageData == null) { return -1; }
-            return graphMessageData.nodeIds.FindIndex(a => a == nodeId);
+            if (graph == null) { return -1; }
+            return graph.nodeIds.FindIndex(a => a == nodeId);
         }
 
         public GH_Point nodePoint(string nodeId)
@@ -25,7 +25,7 @@ namespace SAN
                 return null;
             }
 
-            var p = graphMessageData.points[i];
+            var p = graph.points[i];
             var p3d = new Point3d(p[0], p[1], p[2]);
             return new GH_Point(p3d);
         }

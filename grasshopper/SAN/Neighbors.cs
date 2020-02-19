@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Grasshopper.Kernel;
 
 namespace SAN
@@ -31,7 +30,7 @@ namespace SAN
             var nodeIndex = connection.indexOfNode(id);
             if (nodeIndex < 0) { return; }
 
-            var d = connection.graphMessageData;
+            var d = connection.graph;
             if (d == null) { return; }
 
             DA.SetDataList(0, d.neighbors[nodeIndex]);

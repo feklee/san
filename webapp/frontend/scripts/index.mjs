@@ -67,6 +67,11 @@ var parseData = function (data) {
     }
 };
 
+/* TODO
+var parseNodeColorsMessage(message) {
+};
+*/
+
 webSocket.setup({
     onerror: function () {
         log.append("error", "WebSocket error");
@@ -96,6 +101,12 @@ webSocket.setup({
                 "audio module update for " + message.nodeId
             );
             audio.parseModuleMessage(message);
+        } else if (message.type === "node colors") {
+            log.append(
+                "info",
+                "color update for " + message.nodeId
+            );
+// TODO            parseNodeColorsMessage(message);
         } else if (message.type !== "graph") {
             log.append(message.type, message.text);
         }

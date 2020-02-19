@@ -10,7 +10,7 @@ import renderMatrix from "./render-matrix.mjs";
 import locationOptimizer from "./location-optimizer.mjs";
 import vector from "./vector.mjs";
 import visualization from "./visualization.mjs";
-import nodeColors from "./node-colors.mjs";
+import colorsOfNodes from "./colors-of-nodes.mjs";
 import {Vector3} from
         "../../node_modules/three/build/three.module.js";
 import {
@@ -214,7 +214,7 @@ var addNode = function (id, tiltAngle) {
     if (nodeExists(id)) {
         return;
     }
-    var colors = nodeColors(id);
+    var colors = colorsOfNodes[id];
     var node = {
         id: id,
         isVisible: !util.nodeIsRootNode(id),

@@ -1,7 +1,7 @@
 // Graph for easy 3D visualization, e.g. in 3D graphics programs
 
 import visibleNodes from "./visible-nodes.mjs";
-import nodeColors from "./node-colors.mjs";
+import colorsOfNodes from "./colors-of-nodes.mjs";
 import edges from "./edges.mjs";
 import colorConvert from "color-convert";
 import webSocket from "./web-socket.mjs";
@@ -13,7 +13,7 @@ var dupElements = function (array) {
 
 var colorsOfNode = function (node) {
     return dupElements(
-        nodeColors(node.id).map(colorConvert.keyword.rgb)
+        colorsOfNodes[node.id].map(colorConvert.keyword.rgb)
     );
 };
 

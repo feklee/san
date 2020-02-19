@@ -27,14 +27,18 @@ var interpretMessage = function (message) {
     }
 
     var data = JSON.parse(message.utf8Data);
-    if (data.type === "audio module") {
+    switch (data.type) {
+    case "audio module":
         audioModules.store(data);
         broadcast(data);
-    }
-
-    if (data.type === "graph") {
+        break;
+    case "graph":
         latestGraph = data;
         broadcast(data);
+        break;
+    case "node colors":
+        broadcast(data);
+        break;
     }
 };
 

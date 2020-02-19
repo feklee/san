@@ -17,10 +17,14 @@ var createSpan = function (text, colors) {
     spanEl.textContent = text;
     if (text !== 0) {
         spanEl.style.background =
-                "linear-gradient(to bottom right, " +
+                "conic-gradient(from 45deg, " +
                 colors[0] + " 0%, " +
+                colors[0] + " 25%, " +
+                colors[0] + " 25%, " +
                 colors[0] + " 50%, " +
                 colors[1] + " 50%, " +
+                colors[1] + " 75%, " +
+                colors[1] + " 75%, " +
                 colors[1] + " 100%)";
         spanEl.style.color = "black";
     }

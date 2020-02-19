@@ -97,7 +97,7 @@ var updateEdgeObject3Ds = function () {
     });
 };
 
-var createQuarterSphere = function (color, index) {
+var createQuarterSphere = function (index) {
     var i = index % 2;
     var j = Math.floor(index / 2);
     var geometry = new SphereGeometry(
@@ -109,15 +109,14 @@ var createQuarterSphere = function (color, index) {
         j * (Math.PI / 2),
         Math.PI / 2
     );
-    var material = new MeshBasicMaterial({color: color});
+    var material = new MeshBasicMaterial();
     return new Mesh(geometry, material);
 };
 
 var createNodeObject3D = function (node) {
     var sphere = new THREE.Group();
-    var colors = cssColorsOfNode(node.id);
     [0, 1, 2, 3].forEach(function (i) {
-        sphere.add(createQuarterSphere(colors[i], i));
+        sphere.add(createQuarterSphere(i));
     });
     scene.add(sphere);
     node.object3D = sphere;
@@ -149,6 +148,14 @@ var setLocationOfNodeObject3D = function (node) {
     );
 };
 
+var setColorsOfNodeObject3D = function (node) {
+    var colors = cssColorsOfNode(node.id);
+    var meshes = node.object3D.children;
+    meshes.forEach(function (mesh, i) {
+        mesh.material.color.set(colors[i]);
+    });
+};
+
 var rotateNodeObject3D = function (node) {
     node.object3D.lookAt(node.location.clone().add(node.axis));
 };
@@ -157,6 +164,7 @@ var updateNodeObject3D = function (node) {
     updateAnimatedLocation(node);
     setLocationOfNodeObject3D(node);
     rotateNodeObject3D(node);
+    setColorsOfNodeObject3D(node);
 };
 
 var updateNodeObject3Ds = function () {

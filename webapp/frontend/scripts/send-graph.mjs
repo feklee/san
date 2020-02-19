@@ -7,14 +7,8 @@ import colorConvert from "color-convert";
 import webSocket from "./web-socket.mjs";
 import util from "./util.mjs";
 
-var dupElements = function (array) {
-    return array.reduce((res, el) => res.concat([el, el]), []);
-};
-
 var colorsOfNode = function (node) {
-    return dupElements(
-        colorsOfNodes[node.id].map(colorConvert.keyword.rgb)
-    );
+    return colorsOfNodes[node.id].map(colorConvert.keyword.rgb);
 };
 
 var point = function (node) {

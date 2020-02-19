@@ -7,6 +7,7 @@ import {
     graphUpdateInterval // ms
 } from "./shared-settings.mjs";
 import graphicalAnalyzerSetup from "./graphical-analyzer-setup.mjs";
+import {parseNodeColorsMessage} from "./colors.mjs";
 
 var idOfThisNode = window.location.pathname.substr(1, 1);
 var audioCtx = new window.AudioContext();
@@ -321,6 +322,8 @@ var createNodeIconEl = function (nodeId) {
     el.classList.add("node-icon");
     if (util.nodeIsRootNode(nodeId)) {
         el.classList.add("root");
+    } else {
+        el.classList.add(nodeId);
     }
 
     if (nodeId === idOfThisNode) {
@@ -427,6 +430,14 @@ var updateVideoVisibility = function (connectionType) {
     }
 };
 
+var updateColorsOfNodeIcons = function (nodeId) {
+    document.querySelectorAll("." + nodeId + ".node-icon").forEach(
+        function (el) {
+            setNodeIconColors(el, nodeId);
+        }
+    );
+};
+
 webSocket.setup({
     onopen: function () {
         connectionLostErrorEl.classList.add("hidden");
@@ -452,6 +463,10 @@ webSocket.setup({
             break;
         case "audio module":
             parseModuleMessage(message);
+            break;
+        case "node colors":
+            parseNodeColorsMessage(message);
+            updateColorsOfNodeIcons(message.nodeId);
             break;
         }
     }

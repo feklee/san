@@ -21,7 +21,8 @@ namespace SAN
         public List<List<double>> axes;
         public List<List<string>> edges;
         public List<List<List<int>>> colors;
-        public String connectionType;
+        public string connectionType;
+        public List<List<string>> neighbors;
     };
 
     public class Connect : GH_Component

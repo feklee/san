@@ -33,7 +33,10 @@ var sendGraph = function () {
         points: ns.map(point),
         colors: ns.map(colorsOfNode),
         edges: es.map((e) => Array.from(e.nodes).map((n) => n.id)),
-        axes: ns.map((node) => node.axis.toArray())
+        axes: ns.map((node) => node.axis.toArray()),
+        neighbors: ns.map(
+            (n) => n.visibleConnections.map((c) => c.toPort.node.id)
+        )
     };
 
     var json = JSON.stringify(data, function (ignore, val) {

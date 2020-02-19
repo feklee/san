@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Net.Http;
 using Grasshopper.Kernel;
 using Grasshopper.Kernel.Types;
+using Newtonsoft.Json;
 
 namespace SAN
 {
     public class NodeColors : GH_Component
     {
+        class NodeColorMessage
+        {
+            public string type;
+            public string nodeId;
+            public List<List<byte>> colors;
+        };
+
         public NodeColors()
           : base("Node Colors", "NodeColors", "Colors of the LEDs of the node", "SAN", "Graph")
         { }
@@ -71,9 +78,27 @@ namespace SAN
             Console.Write(command);
             try
             {
-                await Connection.httpClient.GetAsync(url + "?" + command);
+                await Connection.httpClient.GetAsync(url + "?" + command); // TODO: await necessary?
             }
             catch (Exception) { }
+        }
+
+        private void sendColorsToServer(Connection connection, string nodeId, List<GH_Colour> colors)
+        {
+            var message = new NodeColorMessage();
+
+            message.nodeId = nodeId;
+            message.type = "node colors";
+            message.colors = new List<List<byte>>();
+            foreach (GH_Colour color in colors)
+            {
+                var c = color.Value;
+                var colorToSend = new List<byte>(new byte[] {c.R, c.G, c.B});
+                message.colors.Add(colorToSend);
+            }
+
+            var json = JsonConvert.SerializeObject(message);
+            connection.send(json);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -81,7 +106,7 @@ namespace SAN
             var connectionType = new ConnectionType();
             DA.GetData(0, ref connectionType);
             var connection = connectionType.Value;
-            var colorHasChanged = false;
+            var colorInput = false;
 
             var d = connection.graph;
             if (d == null) { return; }
@@ -98,17 +123,14 @@ namespace SAN
                 var color = new GH_Colour();
                 if (DA.GetData(2 + i, ref color))
                 {
-                    if (color != colorsOfNode[i])
-                    {
-                        colorsOfNode[i] = color;
-                        colorHasChanged = true;
-                    }
+                    colorsOfNode[i] = color;
+                    colorInput = true;
                 }
             }
 
-            if (colorHasChanged && d.connectionType == "wifi")
+            if (colorInput)
             {
-                sendColorsToNodeByWifi(nodeUrl(d, nodeIndex), colorsOfNode);
+                sendColorsToServer(connection, id, colorsOfNode);
             }
 
             DA.SetDataList(0, colorsOfNode);

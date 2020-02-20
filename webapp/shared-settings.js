@@ -6,12 +6,19 @@ const fs = require("fs");
 var cli = require("./cli");
 var graphUpdateInterval = 0;
 var connectionExpiryDuration = 0;
+var gw = []; // WiFi gateway
 
 var assertPositive = function (setting, value) {
     if (!(value > 0)) {
         cli.log("Invalid " + setting);
         process.exit(1);
     }
+};
+
+var extractGw = function (cData) {
+    var matches = cData.match(new RegExp("\\Wgw[^\\w{]*{([\\d\\s,]+)"));
+    var s = matches[1];
+    gw = s.split(",").map((x) => parseInt(x.trim()));
 };
 
 var extractDefines = function (cData) {
@@ -39,12 +46,14 @@ try {
         "../hardware/life_size/nodes/ArduinoFirmware/sharedSettings.h",
         "utf8");
     extractDefines(cData);
+    extractGw(cData);
 } catch (ignore) {
     cli.log("Cannot load shared settings");
     process.exit(1);
 }
 
 module.exports = {
+    gw: gw,
     graphUpdateInterval: graphUpdateInterval,
     connectionExpiryDuration: connectionExpiryDuration
 };

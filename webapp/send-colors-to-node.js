@@ -2,6 +2,13 @@
 
 "use strict";
 
+const http = require("http");
+var sharedSettings = require("./shared-settings");
+
+var ipOfNode = function (nodeId) {
+    return sharedSettings.gw.slice(0, 3).concat([nodeId.charCodeAt() + 36]);
+};
+
 var compressedColorValue = function (value) {
     return String.fromCharCode(Math.floor(value / 64) + 48); // between 0 and 3
 };
@@ -15,7 +22,9 @@ var colorsCommand = function (colors) {
 };
 
 var sendColorsToNode = function (message) {
-    console.log("sending: ", colorsCommand(message.colors));
+    var url = "http://" + ipOfNode(message.nodeId).join(".") + "?" +
+            colorsCommand(message.colors);
+    http.get(url);
 };
 
 module.exports = sendColorsToNode;

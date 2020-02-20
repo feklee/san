@@ -23,6 +23,7 @@ namespace SAN
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddParameter(new ConnectionParameter(), "Connection", "Con", "Connection to SAN", GH_ParamAccess.item);
+            pManager[0].WireDisplay = GH_ParamWireDisplay.hidden;
             pManager.AddTextParameter("Node ID", "ID", "ID of the node", GH_ParamAccess.item);
             pManager.AddColourParameter("Color 1", "C1", "Color of LED 1", GH_ParamAccess.item);
             pManager[2].Optional = true;

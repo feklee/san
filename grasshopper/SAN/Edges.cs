@@ -14,6 +14,7 @@ namespace SAN
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddParameter(new ConnectionParameter(), "Connection", "Con", "Connection to SAN", GH_ParamAccess.item);
+            pManager[0].WireDisplay = GH_ParamWireDisplay.hidden;
         }
 
         protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)

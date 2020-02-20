@@ -40,7 +40,7 @@ namespace SAN
             pManager.AddColourParameter("Colors", "C", "Four colors of node", GH_ParamAccess.list);
         }
 
-        private List<GH_Colour> loadColorsFromGraph(Graph d, int nodeIndex)
+        private List<GH_Colour> colorsFromGraph(Graph d, int nodeIndex)
         {
             var colorsOfNodeToConvert = d.colors[nodeIndex];
             var colorsOfNode = new List<GH_Colour>();
@@ -50,38 +50,6 @@ namespace SAN
                 colorsOfNode.Add(new GH_Colour(color));
             }
             return colorsOfNode;
-        }
-
-        private char colorComponentChar(byte value)
-        {
-            return (char)((value >> 6) + 48); // between 0 and 3
-        }
-
-        private string colorString(GH_Colour color)
-        {
-            var c = color.Value;
-            char[] a = {colorComponentChar(c.R), colorComponentChar(c.G), colorComponentChar(c.B)};
-            return new string(a);
-        }
-
-        private string nodeUrl(Graph d, int nodeIndex)
-        {
-            return "http://" + string.Join(".", d.nodeIps[nodeIndex]);
-        }
-
-        private async void sendColorsToNodeByWifi(string url, List<GH_Colour> colors)
-        {
-            string command = "C";
-            foreach (GH_Colour color in colors)
-            {
-                command += colorString(color);
-            }
-            Console.Write(command);
-            try
-            {
-                await Connection.httpClient.GetAsync(url + "?" + command); // TODO: await necessary?
-            }
-            catch (Exception) { }
         }
 
         private void sendColorsToServer(Connection connection, string nodeId, List<GH_Colour> colors)
@@ -107,7 +75,7 @@ namespace SAN
             var connectionType = new ConnectionType();
             DA.GetData(0, ref connectionType);
             var connection = connectionType.Value;
-            var colorInput = false;
+            var colorHasChanged = false;
 
             var d = connection.graph;
             if (d == null) { return; }
@@ -116,7 +84,7 @@ namespace SAN
             DA.GetData(1, ref id);
             var nodeIndex = connection.indexOfNode(id);
             if (nodeIndex < 0) { return; }
-            var colorsOfNode = loadColorsFromGraph(d, nodeIndex);
+            var colorsOfNode = colorsFromGraph(d, nodeIndex);
             if (colorsOfNode == null) { return; }
 
             for (int i = 0; i < 4; i++)
@@ -124,12 +92,15 @@ namespace SAN
                 var color = new GH_Colour();
                 if (DA.GetData(2 + i, ref color))
                 {
-                    colorsOfNode[i] = color;
-                    colorInput = true;
+                    if (colorsOfNode[i].Value != color.Value)
+                    {
+                        colorsOfNode[i] = color;
+                        colorHasChanged = true;
+                    }
                 }
             }
 
-            if (colorInput)
+            if (colorHasChanged)
             {
                 sendColorsToServer(connection, id, colorsOfNode);
             }

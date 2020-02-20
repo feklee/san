@@ -8,7 +8,7 @@ namespace SAN
     public class Edges : GH_Component
     {
         public Edges()
-          : base("Edges", "Edges", "Pairs of IDs for all edges in the network", "SAN", "Graph")
+          : base("Edges", "Edges", "All edges in the network", "SAN", "Graph")
         { }
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)

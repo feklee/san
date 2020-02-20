@@ -37,7 +37,6 @@ module.exports = function (x) {
     });
 
     webSocket.create({
-        httpServer: httpServer,
-        connectionTypeToInject: settings.connectionTypeToInject
+        httpServer: httpServer
     });
 };

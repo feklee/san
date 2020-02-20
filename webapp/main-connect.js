@@ -6,6 +6,7 @@ var startWebServer = require("./start-web-server");
 var rootNode = require("./root-node");
 var program = require("commander");
 var cli = require("./cli");
+var physicalConnection = require("./physical-connection");
 
 program.parse(process.argv);
 
@@ -16,7 +17,9 @@ if (port === undefined) {
     process.exit(1);
 }
 
+physicalConnection.type = "serial";
+
 rootNode.connect({
     comName: port,
-    onConnected: () => startWebServer({connectionTypeToInject: "serial"})
+    onConnected: startWebServer
 });

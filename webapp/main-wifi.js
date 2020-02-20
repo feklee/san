@@ -8,6 +8,9 @@ var http = require("http");
 var port = 8081;
 var sharedSettings = require("./shared-settings");
 var pairIsValid = require("./pair-is-valid");
+var physicalConnection = require("./physical-connection");
+
+physicalConnection.type = "wifi";
 
 var logInfo = function () {
     console.log("HTTP server to receive pairs is listening on port " + port);
@@ -44,8 +47,7 @@ var sendNodeAConnectedToRootNode = function () {
 };
 
 startWebServer({
-    onListening: startCommandHttpServer,
-    connectionTypeToInject: "wifi"
+    onListening: startCommandHttpServer
 });
 
 setInterval(sendNodeAConnectedToRootNode, sharedSettings.graphUpdateInterval);

@@ -8,6 +8,7 @@ var WebSocketServer = require("websocket").server;
 var cli = require("./cli");
 var audioModules = require("./audio-modules");
 var sendColorsToNode = require("./send-colors-to-node");
+var physicalConnection = require("./physical-connection");
 var latestGraph = "";
 var connectionSet = new Set();
 var settings;
@@ -16,7 +17,7 @@ var broadcast = function (message) {
     if (connectionSet.size === 0) {
         return;
     }
-    message.connectionType = settings.connectionTypeToInject;
+    message.connectionType = physicalConnection.type;
     const json = JSON.stringify(message);
     cli.log("Broadcasting: " + json);
     connectionSet.forEach((c) => c.sendUTF(json));

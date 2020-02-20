@@ -2,19 +2,17 @@
 
 "use strict";
 
+var program = require("commander");
 var startWebServer = require("./start-web-server");
 var webSocket = require("./web-socket");
 var cli = require("./cli");
-var set = new Set();
 var sharedSettings = require("./shared-settings");
 var pairIsValid = require("./pair-is-valid");
-var program = require("commander");
+var physicalConnection = require("./physical-connection");
+var set = new Set();
 
 program.parse(process.argv);
-var connectionType = program.args[0];
-if (connectionType === undefined) {
-    connectionType = "simulation";
-}
+physicalConnection.type = program.args[0] || "simulation";
 
 function sendSet() {
     set.forEach(function (data) {
@@ -142,6 +140,5 @@ startWebServer({
                 return;
             }
         });
-    },
-    connectionTypeToInject: connectionType
+    }
 });

@@ -7,6 +7,9 @@ var webSocket = require("./web-socket");
 var cli = require("./cli");
 var readline = require("readline");
 var elapsedTime = require("./elapsed-time");
+var physicalConnection = require("./physical-connection");
+
+physicalConnection.type = "simulation";
 
 var rl = readline.createInterface({
     input: process.stdin,

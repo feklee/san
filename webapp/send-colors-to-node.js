@@ -3,6 +3,7 @@
 "use strict";
 
 const http = require("http");
+const physicalConnection = require("./physical-connection");
 var sharedSettings = require("./shared-settings");
 
 var ipOfNode = function (nodeId) {
@@ -22,6 +23,9 @@ var colorsCommand = function (colors) {
 };
 
 var sendColorsToNode = function (message) {
+    if (physicalConnection.type !== "wifi") {
+        return;
+    }
     var url = "http://" + ipOfNode(message.nodeId).join(".") + "?" +
             colorsCommand(message.colors);
     http.get(url);

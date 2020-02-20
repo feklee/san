@@ -7,6 +7,7 @@
 var WebSocketServer = require("websocket").server;
 var cli = require("./cli");
 var audioModules = require("./audio-modules");
+var sendColorsToNode = require("./send-colors-to-node");
 var latestGraph = "";
 var connectionSet = new Set();
 var settings;
@@ -37,6 +38,7 @@ var interpretMessage = function (message) {
         broadcast(data);
         break;
     case "node colors":
+        sendColorsToNode(data);
         broadcast(data);
         break;
     }

@@ -37,7 +37,10 @@ namespace SAN
         {
             var encoded = Encoding.UTF8.GetBytes(json);
             var buffer = new ArraySegment<byte>(encoded, 0, encoded.Length);
-            webSocket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
+            if (webSocket.State == WebSocketState.Open)
+            {
+                webSocket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
+            }
         }
     }
 }

@@ -65,7 +65,7 @@
     <Compile Include="ConnectionParameter.cs" />
     <Compile Include="Edges.cs" />
     <Compile Include="Neighbors.cs" />
-    <Compile Include="NodeIds.cs" />
+    <Compile Include="Nodes.cs" />
     <Compile Include="NodeColors.cs" />
     <Compile Include="NodeAxis.cs" />
     <Compile Include="EdgeLine.cs" />

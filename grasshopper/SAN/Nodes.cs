@@ -6,10 +6,10 @@ using Grasshopper.Kernel.Types;
 
 namespace SAN
 {
-    public class NodeIds : GH_Component
+    public class Nodes : GH_Component
     {
-        public NodeIds()
-          : base("Node IDs", "NodeIds", "IDs of all nodes in the network", "SAN", "Graph")
+        public Nodes()
+          : base("Nodes", "Nodes", "All nodes in the network", "SAN", "Graph")
         { }
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)

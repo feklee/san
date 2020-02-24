@@ -5,11 +5,8 @@ if [ "$#" -ne 2 ]; then
     exit 2
 fi
 
-echo "#define ID $2" >id.h
-
-cp ../../../../sharedSettings.h .
-
-arduino --board arduino:avr:pro:cpu=16MHzatmega328 \
-      --port "$1" --upload ArduinoFirmware.ino
-
-rm sharedSettings.h
+echo "#define ID $2" >id.h && \
+    cp ../../../../sharedSettings.h . && \
+    arduino --board arduino:avr:pro:cpu=16MHzatmega328 \
+            --port "$1" --upload ArduinoFirmware.ino && \
+    rm sharedSettings.h

@@ -42,9 +42,7 @@ var extractDefines = function (cData) {
 };
 
 try {
-    var cData = fs.readFileSync(
-        "../hardware/life_size/nodes/ArduinoFirmware/sharedSettings.h",
-        "utf8");
+    var cData = fs.readFileSync("../sharedSettings.h", "utf8");
     extractDefines(cData);
     extractGw(cData);
 } catch (ignore) {

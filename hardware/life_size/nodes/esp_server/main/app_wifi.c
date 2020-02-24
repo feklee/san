@@ -12,7 +12,7 @@
 #include "lwip/err.h"
 #include "lwip/sys.h"
 
-#include "../../ArduinoFirmware/sharedSettings.h"
+#include "../../../../../sharedSettings.h"
 
 #define ESP_WIFI_SSID "SAN"
 #define ESP_WIFI_PASS "c0c0NODE$"

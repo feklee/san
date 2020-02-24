@@ -8,7 +8,7 @@ var replaceSettings = {
     include: "frontend/scripts/shared-settings.mjs",
     patterns: [
         {
-            file: "../../../hardware/life_size/nodes/ArduinoFirmware/sharedSettings.h"
+            file: "../../../sharedSettings.h"
         },
         {
             test: /\/\/.*$/gm,

@@ -34,10 +34,8 @@ void updateLedColors(byte compressedColors[4]) {
   bool colorsHaveNotChanged =
     memcmp(compressedColors, currentCompressedColors, 4) == 0;
   if (colorsHaveNotChanged) {
-    Serial.println("Colors haven't changed"); // TODO
     return;
   }
-  Serial.println("Colors have changed"); // TODO
   for (uint8_t i = 0; i < 4; i++) {
     neoPixel.setPixelColor(i, colorFromCompressedColor(compressedColors[i]));
   }

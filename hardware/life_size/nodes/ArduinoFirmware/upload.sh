@@ -11,3 +11,5 @@ cp ../../../../sharedSettings.h .
 
 arduino --board arduino:avr:pro:cpu=$2MHzatmega328 \
       --port "$1" --upload ArduinoFirmware.ino
+
+rm sharedSettings.h

@@ -5,11 +5,9 @@
 // announcing node and itself. Pairs are propagated up to the root
 // node.
 
-#include <Adafruit_NeoPixel.h>
-
 #include "id.h" // ID of this node, e.g.: `#define ID A` (no quotes!)
+#include "idUtil.h"
 
-#include "util.h"
 #include "settings.h"
 #include "TransceiverOnPort.h"
 #include "Port.h"
@@ -17,10 +15,8 @@
 #include "message.h"
 #include "pairMessageQueue.h"
 #include "angle.h"
+#include "leds.h"
 
-Adafruit_NeoPixel neoPixel;
-
-constexpr char idOfThisNode = TOSTRING(ID)[0];
 static TransceiverOnPort<pinNumberOfPort1, 1> transceiverOnPort1;
 static TransceiverOnPort<pinNumberOfPort2, 2> transceiverOnPort2;
 static TransceiverOnPort<pinNumberOfPort3, 3> transceiverOnPort3;
@@ -46,48 +42,12 @@ ISR(PCINT0_vect) { // D8-D13
   transceiverOnPort4.transceiver.handlePinChangeInterrupt();
 }
 
-uint8_t adjustForBrightness(uint8_t subColor) {
-  return uint32_t(subColor) * ledBrightness / 0xff;
-}
-
-uint32_t neoPixelColor(const byte * const color) {
-  return neoPixel.Color(
-    adjustForBrightness(color[0]),
-    adjustForBrightness(color[1]),
-    adjustForBrightness(color[2])
-  );
-}
-
-uint8_t listIndexFromIdOfThisNode() {
-  return thisNodeIsRoot()
-    ? 0
-    : (idOfThisNode - 0x40);
-}
-
-void ledSetup() {
-  const uint8_t numberOfLeds = 4;
-  const uint8_t listIndex = listIndexFromIdOfThisNode();
-  const uint8_t dataPin = ledDataPinList[listIndex];
-  const byte * const * const nodeColors = nodeColorsList[listIndex];
-  const uint32_t colorOfTopHemisphere = neoPixelColor(nodeColors[0]);
-  const uint32_t colorOfBottomHemisphere = neoPixelColor(nodeColors[1]);
-
-  neoPixel = Adafruit_NeoPixel(numberOfLeds, dataPin,
-                               NEO_RGB + NEO_KHZ800);
-  neoPixel.begin();
-  neoPixel.setPixelColor(0, colorOfTopHemisphere);
-  neoPixel.setPixelColor(1, colorOfTopHemisphere);
-  neoPixel.setPixelColor(2, colorOfBottomHemisphere);
-  neoPixel.setPixelColor(3, colorOfBottomHemisphere);
-  neoPixel.show();
-}
-
 void accelerometerSetup() {
   analogReference(EXTERNAL);
 }
 
 void setup() {
-  ledSetup();
+  ledsSetup();
   accelerometerSetup(); 
 
   pinMode(ledPin, OUTPUT);
@@ -237,10 +197,6 @@ static void flashLed() {
     digitalWrite(ledPin, LOW);
     delay(50);
   }
-}
-
-static inline bool thisNodeIsRoot() {
-  return idOfThisNode == '^';
 }
 
 template <typename T>

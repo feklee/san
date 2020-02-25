@@ -6,7 +6,7 @@
 
 #include "sharedSettings.h"
 
-constexpr uint32_t bootDelay = 2000; // ms (time to wait for ESP-EYE to boot)
+constexpr uint32_t bootDelay = 3000; // ms (time to wait for ESP-EYE to boot)
 
 const uint8_t maxPairMessageQueueSize = 20;
 constexpr uint8_t ledDataPin = 4;
@@ -18,7 +18,7 @@ constexpr uint8_t rxPinNumberOfPort3 = 8;
 constexpr uint8_t txPinNumberOfPort3 = A2;
 constexpr uint8_t rxPinNumberOfPort4 = 9;
 constexpr uint8_t txPinNumberOfPort4 = A3;
-const uint32_t idSendPeriod = 1000; // ms
+const uint32_t idSendPeriod = 100; // ms
 
 #ifdef DEBUG
 

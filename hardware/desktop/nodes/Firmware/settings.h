@@ -78,6 +78,6 @@ const uint32_t announcementPeriod = graphUpdateInterval; // ms
 const uint32_t parentExpiryDuration = connectionExpiryDuration; // ms
 
 // Avoid exceeding the Arduino's power supply!
-const uint8_t ledBrightness = 150;
+const uint8_t ledBrightness = 50;
 
 #endif

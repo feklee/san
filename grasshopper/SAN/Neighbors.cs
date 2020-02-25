@@ -32,11 +32,7 @@ namespace SAN
             var nodeIndex = connection.indexOfNode(id);
             if (nodeIndex < 0) { return; }
 
-            var d = connection.graph;
-            if (d == null) { return; }
-
-            // TODO: d.neighbors[nodeIndex]
-            DA.SetDataList(0, new List<string>());
+            DA.SetDataList(0, connection.graph.neighbors[nodeIndex]);
         }
 
         protected override System.Drawing.Bitmap Icon

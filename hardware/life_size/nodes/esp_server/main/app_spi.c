@@ -9,6 +9,8 @@
 #include "esp_http_client.h"
 #include "app_wifi.h"
 
+#include "../../../../../sharedSettings.h"
+
 static const char *TAG = "spi";
 
 // ESP-EYE
@@ -25,7 +27,10 @@ WORD_ALIGNED_ATTR char recvbuf[BUF_SIZE];
 static void send_pair_to_server(const char *pair)
 {
     char url[81];
-    sprintf(url, "http://192.168.100.100:8081/%.4s", pair);
+    sprintf(url,
+            "http://%u.%u.%u.%u:8081/%.4s",
+            gw[0], gw[1], gw[2], 100,
+            pair);
 
     esp_http_client_config_t config = { .url = url };
     esp_http_client_handle_t client = esp_http_client_init(&config);

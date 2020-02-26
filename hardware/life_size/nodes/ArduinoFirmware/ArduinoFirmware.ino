@@ -94,12 +94,8 @@ void parseSpiRxBuffer() {
     return;
   }
 
-  char buf[81];
   byte *compressedColors = spiRxBuffer + 1;
-  byte *c = compressedColors;
-  sprintf(buf, "Colors: %d, %d, %d, %d", c[0], c[1], c[2], c[3]);
   updateLedColors(compressedColors);
-  Serial.println(buf);
 }
 
 void sendMyIdViaSpi() {

@@ -14,8 +14,6 @@ void clearSpiTxBuffer() {
 }
 
 void doSpiTransfer() {
-  char printTxBuffer[spiBufferLength + 1]; // TODO: remove
-
   digitalWrite(SS, LOW);
   for (int i = 0; i < spiBufferLength; i++) {
     char txByte = spiTxBuffer[i];
@@ -24,10 +22,4 @@ void doSpiTransfer() {
     printTxBuffer[i] = txByte;
   }
   digitalWrite(SS, HIGH);
-
-#if 1 // TODO: remove this block
-  printTxBuffer[spiBufferLength] = '\0';
-  Serial.print("Transmitted: ");
-  Serial.println(printTxBuffer);
-#endif
 }

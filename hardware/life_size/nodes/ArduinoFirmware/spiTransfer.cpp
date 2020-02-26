@@ -19,7 +19,6 @@ void doSpiTransfer() {
     char txByte = spiTxBuffer[i];
     char rxByte = SPI.transfer(txByte);
     spiRxBuffer[i] = rxByte;
-    printTxBuffer[i] = txByte;
   }
   digitalWrite(SS, HIGH);
 }

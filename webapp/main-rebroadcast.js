@@ -53,6 +53,8 @@ readNextLine = async function () {
     interpretLine(line);
 };
 
-startWebServer(function () {
-    readNextLine();
+startWebServer({
+    onListening: function () {
+        readNextLine();
+    }
 });

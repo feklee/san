@@ -18,7 +18,7 @@ constexpr uint8_t rxPinNumberOfPort3 = 8;
 constexpr uint8_t txPinNumberOfPort3 = A2;
 constexpr uint8_t rxPinNumberOfPort4 = 9;
 constexpr uint8_t txPinNumberOfPort4 = A3;
-const uint32_t idSendPeriod = 100; // ms
+const uint32_t idSendPeriod = 500; // ms
 
 #ifdef DEBUG
 

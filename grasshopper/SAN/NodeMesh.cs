@@ -12,7 +12,7 @@ namespace SAN
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
         public NodeMesh()
-          : base("Node Mesh", "NodeMesh", "3D representation of a network node", "SAN", "Graph")
+          : base("Node Mesh", "NodeMesh", "3D representation of a network node", "SAN", "Visualization")
         { }
 
         /// <summary>
@@ -102,9 +102,7 @@ namespace SAN
         {
             get
             {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.NodeMesh;
             }
         }
 

@@ -9,7 +9,7 @@ namespace SAN
     public class NodeAxis : GH_Component
     {
         public NodeAxis()
-          : base("Node Axis", "NodeAxis", "Axis defining the orientation of the node", "SAN", "Graph")
+          : base("Node Axis", "NodeAxis", "Axis defining the orientation of the node", "SAN", "Visualization")
         { }
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
@@ -47,7 +47,7 @@ namespace SAN
         {
             get
             {
-                return null;
+                return Properties.Resources.NodeAxis;
             }
         }
 

@@ -17,7 +17,7 @@ namespace SAN
         };
 
         public NodeColors()
-          : base("Node Colors", "NodeColors", "Colors of the LEDs of the node", "SAN", "Graph")
+          : base("Node Colors", "NodeColors", "Colors of the LEDs of the node", "SAN", "Visualization")
         { }
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
@@ -112,7 +112,7 @@ namespace SAN
         {
             get
             {
-                return null;
+                return Properties.Resources.NodeColors;
             }
         }
 

@@ -38,7 +38,7 @@ namespace SAN
         {
             get
             {
-                return null;
+                return Properties.Resources.Nodes;
             }
         }
 

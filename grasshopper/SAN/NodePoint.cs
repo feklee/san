@@ -9,7 +9,7 @@ namespace SAN
     public class NodePoint : GH_Component
     {
         public NodePoint()
-          : base("Node Point", "NodePoint", "Point at the location of the node", "SAN", "Graph")
+          : base("Node Point", "NodePoint", "Point at the location of the node", "SAN", "Visualization")
         { }
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
@@ -39,9 +39,7 @@ namespace SAN
         {
             get
             {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.NodePoint;
             }
         }
 

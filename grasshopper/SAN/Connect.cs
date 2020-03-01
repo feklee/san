@@ -48,7 +48,7 @@ namespace SAN
         /// <summary>
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
-        public Connect() : base("Connect to Server", "Connect", "Connect to the SAN server via WebSockets", "SAN", "Graph")
+        public Connect() : base("Connect to Server", "Connect", "Connect to the SAN server via WebSockets", "SAN", "Connection")
         {
             receiveCTSource = new CancellationTokenSource();
             connectCTSource = new CancellationTokenSource();
@@ -255,9 +255,7 @@ namespace SAN
         {
             get
             {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.Connect;
             }
         }
 

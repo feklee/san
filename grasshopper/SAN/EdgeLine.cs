@@ -12,7 +12,7 @@ namespace SAN
         /// Initializes a new instance of the MyComponent1 class.
         /// </summary>
         public EdgeLine()
-          : base("Edge Line", "EdgeLine", "3D representation of an edge", "SAN", "Graph")
+          : base("Edge Line", "EdgeLine", "3D representation of an edge", "SAN", "Visualization")
         { }
 
         /// <summary>
@@ -55,9 +55,7 @@ namespace SAN
         {
             get
             {
-                //You can add image files to your project resources and access them like this:
-                // return Resources.IconForThisComponent;
-                return null;
+                return Properties.Resources.EdgeLine;
             }
         }
 

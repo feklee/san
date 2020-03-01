@@ -50,7 +50,7 @@ namespace SAN
         {
             get
             {
-                return null;
+                return Properties.Resources.Edges;
             }
         }
 

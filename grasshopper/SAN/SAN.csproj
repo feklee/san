@@ -90,19 +90,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Connect.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\EdgeLine.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Edges.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Neighbors.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\NodeAxis.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\NodeColors.png" />
@@ -115,6 +103,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Nodes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Connect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Edges.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Neighbors.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NodeAxis.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

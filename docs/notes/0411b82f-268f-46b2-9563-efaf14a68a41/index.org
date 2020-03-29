@@ -41,16 +41,24 @@ the environment.  It is not a habitable structure however.
 
 * Beyond SAN
 
-- Organic buildings: Just as [[https://en.wikipedia.org/wiki/Full_Grown][chairs]] out of trees or objects out of [[https://en.wikipedia.org/wiki/Ecovative_Design][mycelium]] –
+- /Organic buildings:/ Just as [[https://en.wikipedia.org/wiki/Full_Grown][chairs]] out of trees or objects out of [[https://en.wikipedia.org/wiki/Ecovative_Design][mycelium]] –
   houses could be grown.  Such buildings are literally partaking in their
-  construction.  A start would be models grown over the course of a few weeks or
-  months.
+  construction.  A start would be small scale models grown over the course of a
+  few weeks or months.  Experiment with using electronics, light, and AI to
+  influence growth without human intervention.
 
-- Sustainability and robotics: Robots may be able to construct individualized
+- /Sustainability and robotics:/ Robots may be able to construct individualized
   buildings from scrap found on the ground in way more sophisticated ways than
   humans.  Furthermore, buildings can be reconfigured continuously, preventing
   waste of material and offering endless possibility for play and
   experimentation.
 
-- Let’s invent a portable machine that you can take with you, and that aids with
-  building a shelter for a night.
+- /Portable construction machine:/ Let’s invent a portable machine that you can
+  take with you, and that aids with building a shelter for a night.
+
+- /Open source skyscraper:/ Exercise to build high to make good use of a small
+  footprint.
+
+- /Jungle sound:/ Embed electronic sensors into the jungle that measure features
+  of plants as they grow.  Make the generation of nice sound an objective.
+  Learn about the properties of plants and how they move and grow.

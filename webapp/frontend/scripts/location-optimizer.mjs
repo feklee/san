@@ -7,8 +7,8 @@
 import visibleNodes from "./visible-nodes.mjs";
 import nodes from "./nodes.mjs";
 import settings from "./settings.mjs";
-// TODO: import fitness from "./fitness.mjs";
-import fitness from "./alternative-fitness.mjs";
+import fitness from "./fitness.mjs";
+// TODO: import fitness from "./alternative-fitness.mjs";
 import vector from "./vector.mjs";
 import {
     Vector3
@@ -238,7 +238,7 @@ var update = function () {
 
     var length = (3 * // number of coordinates per 3D point
                   numberOfVisibleNodes);
-/* TODO
+
     var algorithm = jsga({
         length: length,
         radix: loSettings.sideLength * loSettings.resolution,
@@ -248,13 +248,12 @@ var update = function () {
         mutationRate: loSettings.mutationRate,
         crossovers: loSettings.crossovers
     });
-*/
 
-    var algorithm = jspowell({
+/*    var algorithm = jspowell({
         length: length,
         radix: loSettings.sideLength * loSettings.resolution,
         fitness: fitnessOfIndividual
-    });
+    });*/
 
     var iterable = algorithm.run(-1);
     iterator = iterable[Symbol.iterator]();

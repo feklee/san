@@ -22,7 +22,7 @@
     "reset-css": "^3.0.0",
     "serialport": "^8.0.6",
     "source-code-pro": "^2.30.1",
-    "three": "0.91.0",
+    "three": "0.137.0",
     "websocket": "^1.0.29"
   },
   "devDependencies": {
